@@ -1,5 +1,5 @@
 <?php
-
+$startTimedede = microtime();
 //@start upd dark 1.2
 session_start();
 //@end upd dark 1.2
@@ -203,4 +203,6 @@ switch ($p) {
       break;
 }
 
+echo "\n\n".'mem: '.(int)(memory_get_usage()/1024).' ko';
+echo ' - exec time (sec): '.(microtime() - $startTimedede);
 ?>

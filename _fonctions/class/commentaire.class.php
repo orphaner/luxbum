@@ -6,7 +6,7 @@
 include_once (FONCTIONS_DIR.'utils/formulaires.php');
 
 
-class Commentaire {
+class Commentaire /*extends Recordset */{
    var $id;
    var $galerie;
    var $photo;

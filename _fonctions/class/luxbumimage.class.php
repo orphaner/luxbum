@@ -12,7 +12,7 @@ define ('NOT_SET', 'Not Set');
 /**
  *
  */
-class luxBumImage extends luxBum
+class luxBumImage
 {
    var $dir;
    var $img;
@@ -42,10 +42,10 @@ class luxBumImage extends luxBum
       $this->name = $list[count($list) - 1];
 
       $this->img = $img;
-      $this->thumbDir = $this->getThumbPath ($this->dir);
-      $this->previewDir = $this->getPreviewPath ($this->dir);
+      $this->thumbDir = luxbum::getThumbPath ($this->dir);
+      $this->previewDir = luxbum::getPreviewPath ($this->dir);
       $this->setAllDescription ('', '');
-      $this->previewImagePath = $this->getPreviewImage ($this->dir, $this->img);
+      $this->previewImagePath = luxbum::getPreviewImage ($this->dir, $this->img);
       //echo "<strong>$this->dir</strong> : <em>!! $this->photoDir !!</em><br/>";
    }
    
@@ -78,7 +78,7 @@ class luxBumImage extends luxBum
     * @return String Chemin complet de l'image
     */
    function getImagePath () {
-      return $this->getImage ($this->dir, $this->img);
+      return luxbum::getImage ($this->dir, $this->img);
    }
 
    /**
@@ -216,8 +216,8 @@ class luxBumImage extends luxBum
       $trouve = false;
 
       // Recherche de la description dans toutes les descriptions
-      if (is_file ($this->getFsPath ($this->getImageDir()).DESCRIPTION_FILE)) {
-         $fd = fopen ($this->getFsPath ($this->getImageDir()).DESCRIPTION_FILE, 'r+');
+      if (is_file (luxbum::getFsPath ($this->getImageDir()).DESCRIPTION_FILE)) {
+         $fd = fopen (luxbum::getFsPath ($this->getImageDir()).DESCRIPTION_FILE, 'r+');
          while (!$trouve && $line = fgets ($fd)) {
             if (ereg ('^.*\|.*\|.*$', $line)) {
                $tab = explode ('|', $line, 2);
@@ -282,7 +282,7 @@ class luxBumImage extends luxBum
       $this->thumbToolkit = new imagetoolkit ($this->getImagePath ());
       $this->thumbToolkit->setDestSize ($dst_w, $dst_h);
 
-      $final = $this->getThumbImage ($this->dir, $this->img, $dst_w, $dst_h);
+      $final = luxbum::getThumbImage ($this->dir, $this->img, $dst_w, $dst_h);
       if (!is_file ($final)) {
          files::createDir ($this->thumbDir);
          $this->thumbToolkit->createThumb ($final);
@@ -363,7 +363,7 @@ class luxBumImage extends luxBum
    function delete () {
       $this->clearCache ();
       commentaire::deletePhoto ($this->dir, $this->img);
-      return files::deleteFile ($this->getFsPath ($this->dir) . $this->img);
+      return files::deleteFile (luxbum::getFsPath ($this->dir) . $this->img);
    }
 
 

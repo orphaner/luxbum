@@ -1,5 +1,5 @@
 <?php 
-
+include_once(FONCTIONS_DIR.'extinc/class.recordset.php');
 
 //==============================================================================
 // Classe luxBumIndex : Index de toutes les galeries
@@ -8,7 +8,7 @@
 /**
  * Classe contenant l'index de toutes les galeries
  */
-class luxBumIndex extends luxBum
+class luxBumIndex extends Recordset
 {
    var $galleryList = array ();
    var $sortList = array();
@@ -101,12 +101,12 @@ class luxBumIndex extends luxBum
       $this->_loadSort();
       
       // Lecture de tous les dossiers de photos 
-      if ($dir_fd = opendir ($this->getFsPath ($this->dir))) {
+      if ($dir_fd = opendir (luxbum::getFsPath ($this->dir))) {
    
          while ($current_dir = readdir ($dir_fd)) {
             
             // Lecture de tous les dossiers
-            if ($current_dir[0] != '.' && is_dir ($this->getFsPath ($this->dir, $current_dir))
+            if ($current_dir[0] != '.' && is_dir (luxbum::getFsPath ($this->dir, $current_dir))
                 && $current_dir != files::removeTailSlash(THUMB_DIR)
                 && $current_dir != files::removeTailSlash(PREVIEW_DIR)) {
 
@@ -194,8 +194,8 @@ class luxBumIndex extends luxBum
    function saveSort () {
       $list = $this->_sortGalleryArray ($this->galleryList, 'manuel', 'asc');
       //print_r($list);
-      files::deleteFile ($this->photoDir.ORDER_FILE, 'a');
-      if ($fd = fopen ($this->photoDir.ORDER_FILE, 'a')) {
+      files::deleteFile (luxbum::getFsPath($this->dir).ORDER_FILE, 'a');
+      if ($fd = fopen (luxbum::getFsPath($this->dir).ORDER_FILE, 'a')) {
          fputs ($fd, $this->sortType."\n");
          fputs ($fd, $this->sortOrder."\n");
          for ($i = 0 ; $i < count ($list) ; $i++) {
@@ -212,8 +212,8 @@ class luxBumIndex extends luxBum
     * @access private
     */
    function _loadSort () {
-      if (is_file($this->photoDir.ORDER_FILE)) {
-         $fd = fopen ($this->photoDir.ORDER_FILE, 'r+');
+      if (is_file(luxbum::getFsPath($this->dir).ORDER_FILE)) {
+         $fd = fopen (luxbum::getFsPath($this->dir).ORDER_FILE, 'r+');
          $sortType = trim(fgets ($fd));
          $sortOrder = trim(fgets ($fd));
          $this->setSortType($sortType);

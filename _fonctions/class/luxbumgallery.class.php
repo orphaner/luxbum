@@ -9,7 +9,7 @@ include(FONCTIONS_DIR.'/private.php');
 /**
  * Structure représentant une galerie
  */
-class luxBumGallery extends luxBum
+class luxBumGallery /*extends luxBum*/
 {
    /**-----------------------------------------------------------------------**/
    /** Champs de la classe */
@@ -25,6 +25,7 @@ class luxBumGallery extends luxBum
    var $sortPosition = 0;
    var $private = false;
    var $listSubGallery = array();
+   var $dirPath;
 
 
    /**-----------------------------------------------------------------------**/
@@ -40,6 +41,7 @@ class luxBumGallery extends luxBum
       $this->count = 0; 
 
       $this->dir = $dir;
+      $this->dirPath = luxbum::getFsPath($dir);
       $list = split('/', $dir);
       $this->name = $list[count($list) - 1];
 
@@ -55,10 +57,10 @@ class luxBumGallery extends luxBum
     * @access private
     */
    function _completeInfos () {
-      if ($fd = dir ($this->getFsPath($this->dir))) {
+      if ($fd = dir ($this->dirPath)) {
          while ($current_file = $fd->read ()) {
             if (files::isPhotoFile($this->dir, $current_file)) {
-               $the_file = $this->getImage ($this->dir, $current_file);
+               $the_file = luxbum::getImage ($this->dir, $current_file);
                $this->size += filesize ($the_file);
                $this->count++; 
             }
@@ -108,7 +110,7 @@ class luxBumGallery extends luxBum
     * @return String Beau nom de la galerie
     */
    function getNiceName () {
-      return $this->niceName ($this->name);
+      return luxbum::niceName ($this->name);
    }
 
    /**
@@ -132,7 +134,7 @@ class luxBumGallery extends luxBum
     * @return int Taille affichable des photos de la galerie
     */
    function getNiceSize () {
-      return $this->niceSize ($this->size);
+      return luxbum::niceSize ($this->size);
    }
 
    /**
@@ -220,8 +222,8 @@ class luxBumGallery extends luxBum
    function getDescriptions () {
       $desc = array ();
 
-      if (is_file ($this->getFsPath ($this->dir).DESCRIPTION_FILE)) {
-         $fd = fopen ($this->getFsPath ($this->dir).DESCRIPTION_FILE, 'r+');
+      if (is_file ($this->dirPath.DESCRIPTION_FILE)) {
+         $fd = fopen ($this->dirPath.DESCRIPTION_FILE, 'r+');
          while ($line = trim(fgets($fd)))  {
             if ( ereg ('^.*\|.*\|.*$', $line)) {
                list ($imgName, $imgDescription) = explode ('|', $line, 2);
@@ -241,8 +243,8 @@ class luxBumGallery extends luxBum
       $desc = array ();
 
       // Recherche des images présentes dans le fichier de description
-      if (is_file ($this->getFsPath ($this->dir) . DESCRIPTION_FILE)) {
-         if ($fd = fopen ($this->getFsPath ($this->dir) . DESCRIPTION_FILE, 'r')) {
+      if (is_file ($this->dirPath . DESCRIPTION_FILE)) {
+         if ($fd = fopen ($this->dirPath . DESCRIPTION_FILE, 'r')) {
             while ($line = fgets ($fd)) {
                if (ereg ('^.*\|.*\|.*$', $line)) {
                   list($desc[]) = explode ('|', $line, 2);
@@ -253,7 +255,7 @@ class luxBumGallery extends luxBum
       }
 
       // On ajoute les images non présentes dans le fichier de description
-      if ($fd = fopen ($this->getFsPath ($this->dir) . DESCRIPTION_FILE, 'a')) {
+      if ($fd = fopen ($this->dirPath . DESCRIPTION_FILE, 'a')) {
          reset ($this->list);
          while (list (,$img) = each ($this->list)) {
             $name = $img->getImageName ();
@@ -269,9 +271,9 @@ class luxBumGallery extends luxBum
     * Écrit les nouvelles descriptions/dates dans le fichier de description
     */
    function updateDescriptionFile () {
-      files::deleteFile ($this->getFsPath ($this->dir) . DESCRIPTION_FILE, 'a');
+      files::deleteFile ($this->dirPath . DESCRIPTION_FILE, 'a');
       
-      if ($fd = fopen ($this->getFsPath ($this->dir) . DESCRIPTION_FILE, 'a')) {
+      if ($fd = fopen ($this->dirPath . DESCRIPTION_FILE, 'a')) {
          for ($i = 0 ; $i < $this->getCount () ; $i++) {
             $img = $this->list[$i];
             $name = $img->getImageName ();
@@ -291,7 +293,7 @@ class luxBumGallery extends luxBum
     *
     */
    function isSubGallery ($current_file) {
-      if (!is_dir ($this->getFsPath($this->dir).$current_file)) {
+      if (!is_dir ($this->dirPath.$current_file)) {
          return false;
       }
       if ($current_file[0] == '.') {
@@ -319,7 +321,7 @@ class luxBumGallery extends luxBum
     */
    function addSubGalleries() {
       // Ouverture du dossier des photos
-      if ($dir_fd = opendir ($this->getFsPath ($this->dir))) {
+      if ($dir_fd = opendir ($this->dirPath)) {
 
          // Parcours des photos du dossiers
          while ($current_file = readdir ($dir_fd)) {
@@ -344,7 +346,7 @@ class luxBumGallery extends luxBum
       $list = array ();
 
       // Ouverture du dossier des photos
-      if ($dir_fd = opendir ($this->getFsPath ($this->dir))) {
+      if ($dir_fd = opendir ($this->dirPath)) {
         
          // Récupération des descriptions et de l'ordre
          $desc = $this->getDescriptions ();
@@ -478,8 +480,8 @@ class luxBumGallery extends luxBum
    function saveSort () {
       $list = $this->_sortImageArray ($this->list, 'manuel', 'asc');
       //print_r($list);
-      files::deleteFile ($this->getFsPath ($this->dir) . ORDER_FILE, 'a');
-      if ($fd = fopen ($this->getFsPath ($this->dir).ORDER_FILE, 'a')) {
+      files::deleteFile ($this->dirPath . ORDER_FILE, 'a');
+      if ($fd = fopen ($this->dirPath.ORDER_FILE, 'a')) {
          fputs ($fd, $this->sortType."\n");
          fputs ($fd, $this->sortOrder."\n");
          for ($i = 0 ; $i < count ($list) ; $i++) {
@@ -496,8 +498,8 @@ class luxBumGallery extends luxBum
     * @access private
     */
    function _loadSort () {
-      if (is_file ($this->getFsPath ($this->dir).ORDER_FILE)) {
-         $fd = fopen ($this->getFsPath ($this->dir).ORDER_FILE, 'r+');
+      if (is_file ($this->dirPath.ORDER_FILE)) {
+         $fd = fopen ($this->dirPath.ORDER_FILE, 'r+');
          $sortType = trim(fgets ($fd));
          $sortOrder = trim(fgets ($fd));
          $this->setSortType($sortType);
@@ -528,11 +530,11 @@ class luxBumGallery extends luxBum
 
 
       /* Recherche d'une image par défaut définie par l'utilisateur */
-      if (is_file ($this->getFsPath ($this->dir) . DEFAULT_INDEX_FILE)) {
-         $fd = fopen ($this->getFsPath ($this->dir) . DEFAULT_INDEX_FILE, 'r+');
+      if (is_file ($this->dirPath . DEFAULT_INDEX_FILE)) {
+         $fd = fopen ($this->dirPath . DEFAULT_INDEX_FILE, 'r+');
          $line = fgets ($fd);
                
-         if ( is_file ($this->getFsPath ($this->dir) . $line )) {
+         if ( is_file ($this->dirPath . $line )) {
             $default = $line;
          }
          fclose ($fd);
@@ -541,11 +543,11 @@ class luxBumGallery extends luxBum
       /* On cherche la première image du dossier pr faire un aperçu */
       if ($default == '') {
          $trouve = false;
-         $apercu_fd = opendir ($this->getFsPath ($this->dir));
+         $apercu_fd = opendir ($this->dirPath);
 
          while (!$trouve && $current_file = readdir ($apercu_fd)) {
             if ($current_file[0] != '.' 
-                && !is_dir ($this->getImage ($this->dir, $current_file)) 
+                && !is_dir (luxbum::getImage ($this->dir, $current_file)) 
                 && eregi ('^.*(' . ALLOWED_FORMAT . ')$', $current_file)) {
                $default = $current_file;
                $trouve = true;
@@ -591,11 +593,11 @@ class luxBumGallery extends luxBum
     * @return boolean 
     */
    function setNewDefaultImage ($img) {
-      $theFile = $this->getFsPath ($this->dir) . $img;
+      $theFile = $this->dirPath . $img;
       if (!is_file ($theFile)) {
          return false;
       }
-      files::writeFile ($this->getFsPath ($this->dir) . DEFAULT_INDEX_FILE, $img);
+      files::writeFile ($this->dirPath . DEFAULT_INDEX_FILE, $img);
       return true;
    }
    
@@ -609,7 +611,7 @@ class luxBumGallery extends luxBum
     * @return boolean Renomage OK ou KO
     */
    function rename ($newName) {
-      if (files::renameDir (luxbum::getFsPath ($this->dir), luxbum::getFsPath ($newName))) {
+      if (files::renameDir ($this->dirPath, luxbum::getFsPath ($newName))) {
          commentaire::renameGalerie ($this->dir, $newName);
          $this->setName($newName);
          return true;

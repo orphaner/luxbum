@@ -57,12 +57,12 @@ if ($dir == '') {
    exit (0);
 }
 
-else if (!verif_dir ($dir) || !is_dir (luxbum::getDirPath ($dir))) {
-   $page->MxBloc ('main', 'modify', '<span class="erreur">ERREUR: Nom de dossier incorrect !!</span>');
-   $page->MxWrite ();
-   exit (0);
-}
-else if (!files::isWritable (luxbum::getDirPath ($dir))) {
+// else if (!verif_dir ($dir) || !is_dir (luxbum::getDirPath ($dir))) {
+//    $page->MxBloc ('main', 'modify', '<span class="erreur">ERREUR: Nom de dossier incorrect !!</span>');
+//    $page->MxWrite ();
+//    exit (0);
+// }
+else if (!files::isWritable (luxbum::getFsPath ($dir))) {
    $page->MxBloc ('main', 'modify', '<span class="erreur">ERREUR: Le dossier choisit doit être accessible en écriture !!</span>');
    $page->MxWrite ();
    exit (0);
@@ -144,7 +144,7 @@ $page->MxAttribut ('action_ajout_photo', $str_critere.'&amp;f=ajout_photo');
 $upload = new Upload ();
 $upload->MaxFilesize = MAX_FILE_SIZE;
 $upload->InitForm ();
-$upload->DirUpload = luxbum::getDirPath ($dir);
+$upload->DirUpload = luxbum::getFsPath ($dir);
 $upload->WriteMode = 2;
 $upload->Required = true;
 $upload->Extension = '.gif;.jpg;.jpeg;.png';
@@ -152,7 +152,7 @@ $upload->MimeType = 'image/gif;image/pjpeg;image/jpeg;image/x-png;image/png';
 $page->MxAttribut ('max_file_size', $upload->MaxFilesize);
 
 // switch rapide
-$nuxIndex = new luxBumIndex ();
+$nuxIndex = new luxBumIndex ('');
 $nuxIndex->addAllGallery (0);
 while (list (,$gallery) = each ($nuxIndex->galleryList)) {
    $tabSwitch[$gallery->getName ()] = cut_sentence ($gallery->getNiceName (), 20);
