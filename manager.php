@@ -17,7 +17,8 @@ function definir_titre (&$page, $titre_page) {
 // Includes
 //------------------------------------------------------------------------------
 include ('common.php');
-include ('_conf/config_manager.php');
+//include (CONF_FIR.'config_manager.php');
+include (CONF_DIR.'config_manager.php');
 
 
 //------------------------------------------------------------------------------

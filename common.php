@@ -35,4 +35,10 @@ function verif_dir ($dir) {
    return true;
 }
 
+function verif_photo ($dir, $img) {
+   if (!is_file (luxbum::getImage ($dir, $img))) {
+      return false;
+   }
+   return true;
+}
 ?>

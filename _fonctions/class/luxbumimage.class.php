@@ -1,12 +1,14 @@
 <?php 
 
-  //==============================================================================
-  // Classe luxBumImage : Fonctions pour les générations de miniatures
-  //==============================================================================
+include (LIB_DIR.'exifer/exif.php');
 
-  /**
-   *
-   */
+//==============================================================================
+// Classe luxBumImage : Fonctions pour les générations de miniatures
+//==============================================================================
+
+/**
+ *
+ */
 class luxBumImage extends luxBum
 {
    var $dir;
@@ -175,6 +177,148 @@ class luxBumImage extends luxBum
     */
    function clearPreviewCache () {
       files::deleteFile ($this->previewDir . $this->img);
+   }
+
+
+   /**-----------------------------------------------------------------------**/
+   /** Fonctions d'informations exif */
+   /**-----------------------------------------------------------------------**/
+   var $exifResult;
+   var $notSet = 'Not Set';
+
+
+   /**
+    *
+    */
+   function &reduceExif ($exifvalue) {
+      $vals = split ("/",$exifvalue);
+      if (count ($vals) == 2){
+         $exposure = round ($vals[0]/$vals[1],2);
+         if ($exposure < 1) {
+            $exposure = '1/'.round ($vals[1]/$vals[0],0);
+         }
+      }
+      else {
+         $exposure = round ($vals[0]/$vals[1], 2);
+      }
+
+      return $exposure;
+   }
+
+   /**
+    *
+    */
+   function pullout ($str){
+      $str = stripslashes($str);
+      $str = UTF8_decode($str);
+      return $str;
+   }
+
+   /**
+    *
+    */
+   function exifInit () {
+      $verbose = 0;
+      $this->exifResult = read_exif_data_raw ($this->getImagePath (), $verbose); 
+   }
+
+   /**
+    *
+    */
+   function exifExists () {
+      if (array_key_exists ('SubIFD', $this->exifResult) && 
+          array_key_exists ('IFD0', $this->exifResult)) {
+         return true;
+      }
+      return false;
+   }
+
+   /**
+    *
+    */
+   function getExifISO () {
+      if (array_key_exists ('ISOSpeedRatings', $this->exifResult['SubIFD'])) {
+         return $this->pullout ($this->exifResult['SubIFD']['ISOSpeedRatings']);
+      }
+      return $this->notSet;
+   }
+   /**
+    *
+    */
+   function getExifCameraModel () {
+      if (array_key_exists ('Model', $this->exifResult['IFD0'])) {
+         return trim ($this->exifResult['IFD0']['Model']);
+      }
+      return $this->notSet;
+   }
+
+   /**
+    *
+    */
+   function getExifCameraMaker () {
+      if (array_key_exists ('Make', $this->exifResult['IFD0'])) {
+         return trim ($this->exifResult['IFD0']['Make']);
+      }
+      return $this->notSet;
+   }
+
+   /**
+    *
+    */
+   function getExifFocalLength () {
+      if (array_key_exists ('FocalLength', $this->exifResult['SubIFD'])) {
+         return $this->exifResult['SubIFD']['FocalLength'];
+      }
+      return $this->notSet;
+   }
+
+   /**
+    *
+    */
+   function getExifFlash () {
+      if (array_key_exists ('Flash', $this->exifResult['SubIFD'])) {
+         $flash = $this->exifResult['SubIFD']['Flash'];
+         if ($flash == 'No Flash') {
+            $flash = 'Pas enclenché';
+         }
+         return $flash;
+      }
+      return $this->notSet;
+   }
+
+   /**
+    *
+    */
+   function getExifCaptureDate () {
+      if (array_key_exists ('DateTimeOriginal', $this->exifResult['SubIFD'])) {
+         return $this->exifResult['SubIFD']['DateTimeOriginal'];
+      }
+      return $this->notSet;
+   }
+
+   /**
+    *
+    */
+   function getExifAperture () {
+      if (array_key_exists ('FNumber', $this->exifResult['SubIFD'])) {
+         return $this->exifResult['SubIFD']['FNumber'];
+      }
+      return $this->notSet;
+   }
+
+   /**
+    *
+    */
+   function getExifExposureTime () {
+      if (array_key_exists ('ExposureTime', $this->exifResult['SubIFD'])) {
+         $exposure = $this->exifResult['SubIFD']['ExposureTime'];
+         if ($exposure != '') {
+            $exposure = $this->reduceExif ($exposure);
+            $exposure = $exposure.' sec';
+         }
+         return $exposure;
+      }
+      return $this->notSet;
    }
 }
 

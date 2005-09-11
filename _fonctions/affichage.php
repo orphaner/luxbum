@@ -4,12 +4,6 @@
   // Include
   //------------------------------------------------------------------------------
 include (FONCTIONS_DIR.'luxbum.class.php');
-function verif_photo ($dir, $img) {
-   if (!is_file (luxbum::getImage ($dir, $img))) {
-      return false;
-   }
-   return true;
-}
 
 
 //------------------------------------------------------------------------------
@@ -64,6 +58,7 @@ remplir_style ($page);
 //------------------------------------------------------------------------------
 
 $luxAff = new luxBumImage ($dir, $file);
+$luxAff->exifInit ();
 
 
 //----------------
@@ -97,6 +92,13 @@ $page->MxAttribut ('title',  luxbum::niceName ($luxAff -> getImageName()) .' - '
 $lien_redirect = lien_vignette_redirect ($page_courante, $dir, $luxAff->getImageName ());
 $page->MxText ('redirect_script',   $lien_redirect);
 $page->MxUrl  ('redirect_noscript', $lien_redirect);
+
+if ($luxAff->exifExists ()) {
+   $page->MxText ('exif.lien', INDEX_FILE.'?p=infos_exif&amp;d='.$dir.'&amp;photo='.$file);
+}
+else {
+   $page->MxBloc ('exif', 'delete');
+}
 
 
 

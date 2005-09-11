@@ -329,3 +329,22 @@ ol.tree li:before {
 #affichage_photo {
 	text-align:center;
 }
+
+table.clean-table {
+	border-collapse: collapse;
+}
+
+table.clean-table tr {
+}
+
+table.clean-table th {
+	border: 1px solid #000;
+	padding: 0.5em;
+}
+
+table.clean-table td {
+	border: 1px solid #666;
+	padding: 0.5em;
+}
+
+

@@ -80,8 +80,8 @@ switch (TEMPLATE_THEME) {
    case '2COL':
       define ('LIMIT_THUMB_PAGE', 6);
       define ('NB_COL', 2);
-      define ('IMG_W', 125);
-      define ('IMG_H', 125);
+      define ('IMG_W', 300);
+      define ('IMG_H', 300);
       $template = 'vignette_2col.mxt';
       break;
 
@@ -125,6 +125,9 @@ switch ($p) {
       break;
    case 'affichage':
       include (FONCTIONS_DIR.'affichage.php');
+      break;
+   case 'infos_exif':
+      include (FONCTIONS_DIR.'infos_exif.php');
       break;
    default:
       include (FONCTIONS_DIR.'index.php');
