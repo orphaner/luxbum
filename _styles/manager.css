@@ -1,0 +1,379 @@
+
+td {
+	font-size:12px;
+}
+
+
+/*===========================================
+   Zone d'administration
+=============================================*/
+body {
+	font-family: Verdana,Arial,Helevetica,sans-serif;
+	color: #000;
+	font-size: 0.8em;
+	margin:0px;
+	margin-left : 2em;
+	margin-right : 2em;
+	text-align: center; /* pour corriger le bug de centrage IE */
+	background-color : #EEE;
+}
+
+#login {
+	width: 400px;
+	margin: auto;
+	text-align: left;
+	padding: 2em 1em;
+	background: #fff;
+	color: #000;
+	border: 1px solid #999;
+	-moz-border-radius:6px;
+	-border-radius:6px;
+ }
+
+
+/* Titre */
+h1 {
+	text-align:center;
+	background:url('../_images/luxbum_h1.jpg') center no-repeat;
+	height:160px;
+}
+
+h1 span {
+	display:none;
+}
+
+#message_ok {
+	text-align: left;
+	border-top: 1px solid #9c9;
+	border-bottom: 1px solid #9c9;
+	padding-left:25px;
+	font-size: 0.9em;
+	color: #060;
+	background: url("../_images/manager/check_on.png") #E2F9E3 left no-repeat;
+	background-position:7px;
+}
+
+#message_ko {
+	text-align: left;
+	border-top: 1px solid #A10000;
+	border-bottom: 1px solid #A10000;
+	padding-left:25px;
+	font-size: 0.9em;
+	background: url("../_images/manager/check_off.png") #FFBCBC left no-repeat; 
+	background-position:7px;
+	color:#c00;
+}
+
+
+/*===========================================
+FORMULAIRES
+=============================================*/
+input, textarea, option, select {
+	background: #eef3f5;
+	color: #000;
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-size: 1em;
+    margin-top: 2px;
+}
+input, textarea {
+	border: 1px solid #999;
+}
+
+fieldset {
+	border: 1px solid #ccc;
+	padding:0.5em;
+	text-align: left;
+}
+
+
+legend {
+	font-weight: bold;
+}
+
+label, span.label {
+	display: block;
+	position: static;  /* IE n'aime pas relative */
+}
+
+input.submit {
+	border-style: solid;
+	border-color: #999;
+	background: #d2e0e6 url("../_images/manager/degrade_bleu.png") repeat-x 0 100%;
+	font-weight: bold;
+}
+
+input.submit:active {
+	border-style: solid;
+}
+
+input.size-control {
+	border: none;
+	background: none;
+
+}
+span.size-control {
+	display: block;
+	float: right;
+}
+
+p.field {
+	clear: left;
+	margin: 0;
+	padding: 1em 0 0 0;
+}
+
+label.float, span.label {
+	position: relative;
+	float: left;
+	width: 25%;
+	padding-right: 0.5em;
+}
+label.float_login {
+	position: relative;
+	float: left;
+	width: 35%;
+	padding-right: 0.5em;
+}
+
+
+.logo_menu {
+	margin:0px;
+	height:122px;
+	background:none;
+}
+
+.logo_menu span {
+	display:none;
+}
+
+
+/* Switch rapide */
+div.rapid_switch {
+	float: right; 
+	width:250px;
+	position: relative;
+	border: 1px solid #ccc;
+	background: #e7e7e7;
+	margin: 0;
+	padding: 8px;
+	white-space: nowrap;
+    z-index: 2;
+}
+/* input:focus { */
+/* background-color:white; */
+/* } */
+
+/*===========================================
+ONGLETS
+=============================================*/
+#header {
+	margin-top:2em;
+	float : left;
+	width : 100%;
+	line-height : normal;
+	background-image : url(../_images/manager/menu/dot999.png);
+	background-repeat : repeat-x;
+	background-position : 0 100%;
+}
+#header ul {
+    margin : 0;
+    padding : 0;
+    list-style : none;
+}
+#header li {
+	float : left;
+	margin : 0 -1px 0 0;
+	padding : 0 0 0 25px;
+	background-repeat : no-repeat;
+	background-position : 0 -110px;
+}
+#header a {
+	float : left;
+	display : block;
+	background-image : url(../_images/manager/menu/onglet_right.png);
+	background-repeat : no-repeat;
+	background-position : 100% -110px;
+	padding : 10px 10px 5px 3px;
+	font-family : Arial,Helvetica,sans-serif;
+	font-weight : bold;
+	text-decoration : none;
+	color : #000;
+}
+
+/* Commented Backslash Hack
+Cache des règles à IE5-Mac \*/
+#header a {float:none;}
+/* Fin du hack IE5-Mac */
+
+#header li.actif, #header li.actif:hover {
+	background-position : 0 0;
+}
+#header li.actif a, #header li.actif:hover a {
+/* 	padding-bottom : 6px; */
+	background-position : 100% 0;
+}
+#header li:hover {
+	background-position : 0 -220px;
+}
+#header li:hover a {
+	background-position : 100% -220px;
+}
+
+#menuGaleries  {
+	background-image : url(../_images/manager/menu/onglet_cat.png);
+}
+#menuDeconnection  {
+	background-image : url(../_images/manager/menu/onglet_user.png);
+}
+#menuParametres  {
+	background-image : url(../_images/manager/menu/onglet_pref.png);
+}
+#menuOutils {
+	background-image : url(../_images/manager/menu/onglet_tools.png);
+}
+
+
+/* Main */
+#main {
+	background: #fff;
+	color: #000;
+	border-width: 0 1px 1px 1px;
+	border-style: solid;
+	border-color: #999;
+	text-align: left;
+	padding: 1em;
+	clear : left;
+}
+
+#footer_admin {
+	margin-top:10px;
+	text-align:right;
+	margin-bottom:2em;
+}
+
+#liste_apercu {
+	border:0px;
+	padding:10px;
+	border:1px solid green;
+}
+
+#liste_photo_div {
+	margin: auto;
+	text-align: left;
+	width:100%;
+}
+
+table#liste_photo {
+	width:100%;
+	border-collapse: collapse;
+	margin: auto:
+}
+td.description_td {
+	text-align:left;
+	border: 1px solid #ccc;
+	padding:0.5em;
+}
+td.liste_photo_td  {
+	text-align:center;
+	border: 1px solid #ccc;
+	padding:0.5em;
+}
+th {
+	color: #090;
+}
+
+
+a {
+	/* color: #039; */
+	color: #05b;
+	text-decoration:none;
+}
+
+html*a:hover, html*a:focus {
+	text-decoration: none;
+}
+
+h1,h2, h3, h4 {
+	font-family: "Trebuchet MS",Trebuchet,Arial,Helvetica,sans-serif;
+}
+
+h1#h1_admin {
+/*	color: #069; */
+	color: #55728B; /*17d*/
+	position: relative;
+	text-align:left;
+	background:none;
+	height:20px;
+}
+div>h2 {
+	position: static;
+}
+
+h2, h3 {
+/*	color: #f60; */
+	color: #6F96B7; /*05b*/
+}
+
+h4 {
+	color: #090;
+}
+
+p { margin: 1em 0; }
+img { border: 0; }
+
+span.erreur {
+	color:red;
+	font-weight: bold;
+}
+
+p.message {
+	color: #f60;
+	font-weight: bold;
+}
+
+/*===========================================
+   Navigation par pages
+=============================================*/
+#aff_page { 
+	width:300px;
+	text-align:center;
+	margin-top:10px;
+}
+
+.alt1 {
+	background-color: #D6D6D6;
+	color: #000000;
+	text-align:center;
+}
+
+.alt1 {
+	text-align:center;
+	font-weight : bold;
+}
+
+.tborder {
+	background-color: #5A5A5A;
+	color: red;
+	margin: auto;
+}
+  
+.alt2 {
+	background-color: #A9A9A9;
+	color: #000000;
+	text-align:center;
+}
+
+.alt2 a {
+	text-align:center;
+	font-weight : bold;
+	color: #000000;
+}
+
+.affpage {
+	background: #97C6E8;
+	color: #2B3842;
+	font: bold 11px tahoma, verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+	padding: 3px 6px 3px 6px;
+	white-space: nowrap;
+}
+

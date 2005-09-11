@@ -1,0 +1,333 @@
+body { 
+	margin : 0;
+	padding : 0;
+	background-color: #EEE;
+	font-size:10px;
+	font-family:"Trebuchet MS",Verdana,Arial,Helvetica,Sans-serif;
+}
+  
+#body_affichage { 
+	margin : 0;
+	padding : 0;
+	background-color: #FFF;
+	font-size:10px;
+	font-family:"Trebuchet MS",Verdana,Arial,Helvetica,Sans-serif;
+}
+
+a img {
+	border: none;
+}
+
+a {
+	color : #246; 
+	text-decoration:none;
+}
+
+a:visited{
+	color: #666;
+}
+a:hover, a:focus, a:active {
+	color: #333;
+	text-decoration:underline;
+}
+
+td a { 
+	font-size:10px;
+}
+
+#page { 
+	width:100%;
+	height: 540px; 
+	position:absolute;
+	margin-top: 10px;
+}
+  
+#center {
+	position:absolute;
+	height: 540px; 
+	width:1000px;
+	left: 50%;
+	margin-left: -507px; /* moitié de la hauteur */
+}
+
+/*===========================================
+   Copyrights
+=============================================*/
+#footer, #footer2, #footer3 {
+	height:23px;
+	width:100%;
+	border-top:1px solid #838183;
+	border-bottom:1px solid #838183;
+	background:#fff;
+	text-align:center;
+	padding-top:5px;
+	font-weight: bold; 
+}
+
+ 
+#footer2 {
+	text-align:center;
+	margin:50px 20px 0 0;
+	font-size:10px;
+}
+ 
+
+#footer { 
+	position:absolute;
+	top:570px;
+	font-size:10px;
+	color:#BEBEBE;
+}
+ 
+#footer a:link, #footer a:visited { 
+	color:#BEBEBE;
+}
+
+/*===========================================
+   Page d'accueil
+=============================================*/
+
+h1 {
+	text-align:center;
+	background:url('../_images/luxbum_h1.jpg') center no-repeat;
+	height:160px;
+}
+
+h1 span {
+	display:none;
+}
+
+
+#liste_apercu { 
+	text-align: left;
+	width:870px;
+	position: relative;
+	left: 50%; 
+	margin-left: -435px;
+	background: #FFF;
+	border: 1px solid #CFCFCF;
+	-moz-border-radius:6px;
+	-border-radius:6px;
+	padding: 15px 5px 5px 5px;
+ }
+
+#liste_apercu table {
+	width:870px;
+	border:0;
+	text-align: left;
+}  
+
+#liste_apercu table tr td{
+	width:33%;
+}
+
+#liste_apercu img {
+	border:1px solid #DEDEDE;
+	padding:2px;
+}
+
+#liste_apercu a { 
+	font-size:10px;
+	font-family: verdana, helvetica, arial, sans-serif;
+}
+
+#liste_apercu h2 { 
+	font-size:14px;
+	margin-top:0px;
+	padding:0px;
+	color:#000;
+}
+
+.lg {
+	height:100px;
+	width:100px;
+	float:left;
+}
+
+.ld {
+}
+
+span.infos { 
+	font-size:10px;
+	font-family: verdana, helvetica, arial, sans-serif;
+/*	color:#E1E1E1;*/
+}
+
+.gras { 
+	font-weight: bold;
+}
+
+.consulter { 
+/*   	padding-left:200px; */
+/*   	background-image: url('../_images/fleche1.png'); */
+/*   	background-repeat:no-repeat; */
+}
+
+
+
+/*===========================================
+   Les vignettes
+=============================================*/
+
+#apercu {
+	text-align: left;
+	width: 294px;
+	height:520px;
+	margin: 10px 10px 10px 5px;
+	position: relative;
+	background:#FFF;
+	border: 1px solid #cfcfcf;
+	-moz-border-radius:6px;
+	-border-radius:6px;
+	padding: 15px 5px 5px 5px;
+}
+
+.liste_apercu { 
+	height:110px;
+	width:294px;
+}
+
+.view_photo { 
+	height:100%;
+	text-align:center;
+}
+  
+.num_photo { 
+	text-align:center;
+	padding-top:3px;
+	color:#acc3c4;
+	font-size:10px;
+}
+
+.view_photo img { 
+	border:1px solid #DEDEDE;
+	padding:2px;
+}
+
+h1.vig_titre {
+	display:none;	
+}
+
+td.v3col {
+	height:90px;
+	width:33%;
+}
+
+td.v2col {
+	height:130px;
+	width:33%;
+}
+
+
+/*===========================================
+   Navigation par pages
+=============================================*/
+#aff_page { 
+	width:300px;
+	text-align:center;
+	margin-top:10px;
+}
+
+.alt1 {
+	background-color: #D6D6D6;
+	color: #000000;
+	text-align:center;
+}
+
+.alt1 {
+	text-align:center;
+	font-weight : bold;
+}
+
+.tborder {
+	background-color: #5A5A5A;
+	color: red;
+	margin: auto;
+}
+  
+.alt2 {
+	background-color: #A9A9A9;
+	color: #000000;
+	text-align:center;
+}
+
+.alt2 a {
+	text-align:center;
+	font-weight : bold;
+	color: #000000;
+}
+
+.affpage {
+	background: #97C6E8;
+	color: #2B3842;
+	font: bold 11px tahoma, verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+	padding: 3px 6px 3px 6px;
+	white-space: nowrap;
+}
+
+
+
+/*===========================================
+   Barre navigation
+=============================================*/
+#menunav {
+	margin-left:10px;
+	text-align:left;
+	font-size: 12px
+}
+
+#menunav a {
+	font-size: 12px
+}
+ 
+ol.tree {
+	position: relative;
+	margin: 0 0 1em 0;
+	padding: 0;
+	border-bottom: 1px solid #f5f5dc;
+}
+
+ol.tree li {
+	display: inline;
+	list-style-type: none;
+	padding-right: 0.7em;
+	padding-left: 0;
+}
+
+ol.tree li:before {
+	content: '\00bb  ';
+}
+
+
+/*===========================================
+   Affichage des images
+=============================================*/
+
+#iframeaffichage {
+	width:660px;
+	height:530px;
+	text-align: left;
+	margin: 0;
+	background: #FFF;
+	border:1px solid #cfcfcf;
+	-moz-border-radius:6px;
+	-border-radius:6px;
+	padding: 5px 5px 5px 5px;
+}
+
+#iframeaffichage iframe {
+	width:660px;
+	height:520px;
+/* 	border:1px solid red; */
+}
+
+
+#affichage_photo img {
+	border:1px solid #DEDEDE;
+	padding:2px;
+}
+
+#affichage_photo {
+	text-align:center;
+}
+

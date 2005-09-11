@@ -1,0 +1,5 @@
+RewriteEngine on
+
+RewriteRule ^vignette-([0-9]+)-(.+)-(.+)\.html$ index.php?p=vignette&page=$1&d=$2&imgd=$3
+RewriteRule ^vignette-([0-9]+)-(.+)\.html$ index.php?p=vignette&d=$2&page=$1
+RewriteRule ^affichage-([0-9]+)-(.+)-(.+)\.html$ index.php?p=affichage&page=$1&d=$2&photo=$3
