@@ -1,9 +1,9 @@
 <?php
 
 
-//------------------------------------------------------------------------------
-// Includes
-//------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------
+  // Includes
+  //------------------------------------------------------------------------------
 include (FONCTIONS_DIR.'luxbum.class.php');
 include (FONCTIONS_DIR.'utils/aff_page.inc.php');
 include (FONCTIONS_DIR.'utils/formulaires.php');
@@ -54,6 +54,38 @@ $max_file_size = 1024*100;
 
 
 //------------------------------------------------------------------------------
+// Fonctions
+//------------------------------------------------------------------------------
+function jour_select () {
+   $tab = array ();
+   for ($i = 1 ; $i <= 31 ; $i++) {
+      $tab[sprintf("%02d",$i)] = $i;
+   }
+   return $tab;
+}
+function mois_select () {
+   return array ('01' => 'Janvier', 
+                 '02' => 'Février', 
+                 '03' => 'Mars', 
+                 '04' => 'Avril', 
+                 '05' => 'Mai', 
+                 '06' => 'Juin', 
+                 '07' => 'Juillet',
+                 '08' => 'Aout', 
+                 '09' => 'Septembre', 
+                 '10' => 'Octobre', 
+                 '11' => 'Novembre', 
+                 '12' => 'Décembre');
+}
+// function annee_select () {
+//    $tab = array ();
+//    for ($i = date ('Y') ; $i >= 1900 ; $i--) {
+//       $tab[$i] = $i;
+//    }
+//    return $tab;
+// }
+
+//------------------------------------------------------------------------------
 // Objet de la galerie
 //------------------------------------------------------------------------------
 $nuxThumb = new luxBumGalleryList ($dir);
@@ -66,6 +98,7 @@ $nuxThumb->addAllImages ();
 // Page modelixe
 definir_titre ($page, 'Galerie : '.$dir.' - LuxBum Manager');
 $page->MxAttribut ('class_galeries', 'actif');
+$page->MxAttribut ('onload', "addPosition('positionFile');");
 $page->MxBloc ('main', 'modify', ADMIN_STRUCTURE_DIR.'galerie.mxt');
 $page->WithMxPath ('main', 'relative');
 $page->MxAttribut ('action_vider_cache', $str_critere.'&amp;f=vider_cache');
@@ -76,14 +109,15 @@ $page->MxAttribut ('action_ajout_photo', $str_critere.'&amp;f=ajout_photo');
 // Paramètrage de l'upload Photo
 $upload = new Upload ();
 $upload->MaxFilesize = $max_file_size;
-$upload->FieldOptions = 'style="border-color:black;border-width:1px;"';
+// $upload->FieldOptions = 'style="border-color:black;border-width:1px;"';
 $upload->InitForm ();
 $upload->DirUpload = luxbum::getDirPath ($dir);
 $upload->WriteMode = 2;
 $upload->Required = true;
 $upload->Extension = '.gif;.jpg;.jpeg;.png';
 $upload->MimeType = 'image/gif;image/pjpeg;image/jpeg;image/x-png'; 
-$page->MxText ('form_upload', $upload-> Field[0] . $upload-> Field[1]);
+// $page->MxText ('form_upload', $upload-> Field[0] . $upload-> Field[1]);
+//echo $upload-> Field[0] . $upload-> Field[1];
 
 // switch rapide
 $nuxIndex = new  luxBumIndex ();
@@ -96,7 +130,12 @@ unset ($nuxIndex);
 $page->MxAttribut ('action_rapid_switch', $str_critere.'&amp;');
 $page->MxSelect ('rapid_switch', 'd', $dir, $tabSwitch);
 
-
+// Valeur par défaut des select de même date
+if ($f != 'meme_date') {
+   $page->MxSelect ('jour', 'jour', date ('d'), jour_select ());
+   $page->MxSelect ('mois', 'mois', date ('m'), mois_select ());
+   $page->MxAttribut ('val_meme_date', date('Y'));
+}
 
 
 //------------------------------------------------------------------------------
@@ -145,21 +184,31 @@ else if ($f == 'defaut') {
 else if ($f == 'meme_date') {
    $meme_date = '';
    if (isset ($_POST['meme_date'])) {
-      $meme_date = $_POST['meme_date'];
+      $meme_date = protege_input ($_POST['meme_date']);
    }
+   $jour = '';
+   if (isset ($_POST['jour'])) {
+      $jour = $_POST['jour'];
+   }
+   $mois = '';
+   if (isset ($_POST['mois'])) {
+      $mois = $_POST['mois'];
+   }
+   $theDate = $jour.'/'.$mois.'/'.$meme_date;
+
+   $page->MxSelect ('jour', 'jour', $jour, jour_select ());
+   $page->MxSelect ('mois', 'mois', $mois, mois_select ());
+   $page->MxAttribut ('val_meme_date', $meme_date);
 
    if ($meme_date == '') {
-      $page->MxText ('err_meme_date', 'Champ vide !!!');
+      $page->MxText ('err_meme_date', 'Date vide !!!');
    }
-   else if (verif_date ('meme_date', $meme_date)) {
+   else if (verif_date ('meme_date', $theDate)) {
       for ($i = 0 ; $i < $nuxThumb->getCount () ; $i++) {
-         $nuxThumb->list[$i]->setDate ($meme_date);
+         $nuxThumb->list[$i]->setDate ($theDate);
       }
       $nuxThumb->updateDescriptionFile();
-      $page->MxText ('message', 'La date '.$meme_date.' a été attribuée à toutes les photos.');
-   }
-   else {
-      $page->MxAttribut ('val_meme_date', $meme_date);
+      $page->MxText ('message', 'La date '.$theDate.' a été attribuée à toutes les photos.');
    }
 }
 
@@ -169,6 +218,8 @@ else if ($f == 'date_desc') {
    $err_date = '';
    $err_description = '';
    $date = '';
+   $mois = '';
+   $jour = '';
    $description = '';
    $img = '';
 
@@ -178,22 +229,20 @@ else if ($f == 'date_desc') {
 
       // La date
       if (isset ($_POST['date'])) {
-         $date = protege_input ($_POST['date']);
+         $annee = protege_input ($_POST['date']);
+         if (isset ($_POST['jour'])) {
+            $jour = $_POST['jour'];
+         }
+         if (isset ($_POST['mois'])) {
+            $mois = $_POST['mois'];
+         }
+         $theDate = $jour.'/'.$mois.'/'.$annee;
 
-         if ($date != '') {
-            if (!ereg("[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}", $date)) {
-               $err_date = 'Mauvais format de date !!';
-            }
-            else {
-               $tab = explode ('/', $date);
-
-               if ($tab[0] <= 0 || $tab[0] > 31) {
-                  $err_date = 'Le jour doit être comprit entre 1 et 31 !!';
-               }
-               else if ($tab[1] <= 0 || $tab[1] > 12) {
-                  $err_date = 'Le mois doit être comprit entre 1 et 12 !!';
-               }
-            }
+         if ($annee == '') {
+            $err_date = 'Année Vide !!';
+         }
+         else if (!verif_date ('date', $theDate)) {
+            $err_date = 'Mauvais format de date !!';
          }
       }
 
@@ -206,7 +255,7 @@ else if ($f == 'date_desc') {
       if (/*$err_description == '' &&*/ $err_date == '') {
          $where = $nuxThumb->getImageIndex ($img);
          if ($where > -1) {
-            $nuxThumb->list[$where]->setDate (unprotege_input ($date));
+            $nuxThumb->list[$where]->setDate (unprotege_input ($theDate));
             $nuxThumb->list[$where]->setDescription (unprotege_input ($description));
             $nuxThumb->updateDescriptionFile ();
             $page->MxText ('message', 'Date / description mis à jour');
@@ -218,12 +267,13 @@ else if ($f == 'date_desc') {
 // Upload de photo
 else if ($f == 'ajout_photo') {
 
+//   print_r ($_FILES);
    $upload-> Execute();
 
    if ($UploadError) {
-      $errors = $upload->GetError ();
-      list (,$err) = each ($errors[1]);
-      $page->MxText ('err_upload', $err);
+//       $errors = $upload->GetError ();
+//       list (,$err) = each ($errors[1]);
+//       $page->MxText ('err_upload', $err);
    }
    else {
       $page->MxText ('message', 'fichier envoyé');
@@ -269,13 +319,19 @@ else {
 
       if ($f == 'date_desc' && $img == $name) {
          $page->MxAttribut ('liste.val_description', unprotege_input ($description));
-         $page->MxAttribut ('liste.val_date', unprotege_input ($date));
+         $page->MxSelect ('liste.jour', 'jour', $jour, jour_select ());
+         $page->MxSelect ('liste.mois', 'mois', $mois, mois_select ());
+         $page->MxAttribut ('liste.val_date', unprotege_input ($annee));
          $page->MxText ('liste.err_description', $err_description);
          $page->MxText ('liste.err_date', $err_date);
       }
       else {
          $page->MxAttribut ('liste.val_description', $file->getDescription());
-         $page->MxAttribut ('liste.val_date', $file->getDate());
+         $date =  $file->getDate();
+         list ($jour, $mois, $annee) = explode ('/', $file->getDate());
+         $page->MxSelect ('liste.jour', 'jour', $jour, jour_select ());
+         $page->MxSelect ('liste.mois', 'mois', $mois, mois_select ());
+         $page->MxAttribut ('liste.val_date',  $annee);
       }
 
       $page->MxText ('liste.defaut_oui_non', ($name == $nuxThumb->getPreview ()) ? 'Oui': 'Non');

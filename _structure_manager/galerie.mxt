@@ -14,15 +14,44 @@
 
 <p class="message"><mx:text id="message"/></p>
 
+<script language='javascript'>
+  <!--
+      var nbMax=4;
+      var nb=nbMax;
+      function addPosition(divId)
+      {
+      if(nb>0){
+      cree_input = document.createElement('input');
+      cree_input.type = 'file';
+      cree_input.name = 'userfile[]';
+      emplacement = document.getElementById(divId);
+      cree_br = document.createElement('br');
+      champ = emplacement.appendChild(cree_input);
+      champ = emplacement.appendChild(cree_br);
+      nb--;
+     }else{
+     alert('Vous ne pouvez ajouter plus de 5 images.');
+     }
+     }
+     //-->
+         </script>
+
 <h2>Ajouter photo</h2>
 <form enctype="multipart/form-data" mXattribut="action:action_ajout_photo" method="post" name="upload_form" id="upload_form">
+  <input type="hidden" name="MAX_FILE_SIZE" value="104857600" />
   <fieldset><legend>Ajouter une photo à la galerie courante </legend>
     <p>
-      <label for="upload">Choisissez une photo ( taille maximum de 1,95 Mo )</label>
-      <mx:text id="form_upload"/>
-      <span class="erreur"><mx:text id="err_upload"/></span>
+      <div id="positionFile"></div>
+      <noscript>
+        <input type="file" name="userfile[]" /><br />
+        <input type="file" name="userfile[]" /><br />
+        <input type="file" name="userfile[]" /><br />
+        <input type="file" name="userfile[]" /><br />
+        <input type="file" name="userfile[]" /><br />
+      </noscript>
+      <input type="button" value="Ajouter une autre photo" id="etrombi" onclick="addPosition('positionFile');" />
     </p>
-    <p><input class="submit" type="submit" value="Ajouter la photo" /></p>
+    <p><input class="submit" type="submit" value="Valider l'envoi des photos" /></p>
   </fieldset>
 </form>
 
@@ -40,8 +69,9 @@
 <form mXattribut="action:action_meme_date" method="post">
   <fieldset><legend>Attribuer une date à toutes les photos </legend>
     <p>
-      <label for="meme_date" class="float" style="width:35%">Choisissez une date (jj/mm/aaaa): </label>
-      <input type="text" name="meme_date" id="meme_date" mXattribut="value:val_meme_date" />
+      <!-- <label for="meme_date" class="float" style="width:35%"> -->Choisissez une date (jj/mm/aaaa): <!-- </label> -->
+      <mx:select id="jour"/><mx:select id="mois"/>
+      <input type="text" name="meme_date" id="meme_date" mXattribut="value:val_meme_date" style="width:50px;" />
       <span class="erreur"><mx:text id="err_meme_date"/></span>
     </p>
     <p>
@@ -72,12 +102,13 @@
             <form mXattribut="action:action_date_desc" method="post">
               <p>
                 <label for="description" class="float"><strong>Description : </strong></label>
-                <input type="text" name="description" id="description" mXattribut="value:val_description" />
+                <input type="text" name="description" id="description" mXattribut="value:val_description" style="width:340px;"/>
                 <span class="erreur"><mx:text id="err_description"/></span>
               </p>
               <p>
                 <label for="date" class="float"><strong>Date : </strong></label>
-                <input type="text" name="date" id="date" mXattribut="value:val_date" />
+                <mx:select id="jour"/><mx:select id="mois"/>
+                <input type="text" name="date" id="date" mXattribut="value:val_date" style="width:50px;" />
                 <span class="erreur"><mx:text id="err_date"/></span>
               </p>
               <p>
