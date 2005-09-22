@@ -69,14 +69,19 @@ $page->MxUrl      ('lien',  $luxAff->getImagePath ());
 
 
 if ($luxAff -> findDescription () == true) {
-   if ($luxAff -> getDate() != '') {
-      $dateDesc = 'Le '.$luxAff -> getDate();
 
+   $dateDesc = '&nbsp;';
+
+   if ($luxAff -> getDate() != '') {
       if ($luxAff -> getDescription () != '' && $luxAff -> getDescription () != "\n") {
+         list ($jour, $mois, $annee) = explode ('/', $luxAff -> getDate());
+         setlocale(LC_TIME, 'fr_FR');
+         $timeStamp = mktime (0, 0, 0, $mois, $jour, $annee);
+         $dateDesc = 'Le '.strftime (DATE_FORMAT,  $timeStamp);
          $dateDesc .= ' - '. ucfirst ($luxAff -> getDescription ());
       }
    }
-   else if ($luxAff -> getDescription () != '') {
+   else if ($luxAff -> getDescription () != '' && $luxAff -> getDescription () != "\n") {
       $dateDesc = ucfirst ($luxAff -> getDescription ());
    }
 
