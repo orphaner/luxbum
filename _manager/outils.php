@@ -2,7 +2,12 @@
 
 
 if (isset ($_GET['o']) && $_GET['o'] == 'diagnostic') {
-   include '_manager/outils/diagnostic.php';
+   include ADMIN_DIR.'/outils/diagnostic.php';
+}
+
+
+else if (isset ($_GET['o']) && $_GET['o'] == 'renomage') {
+   include ADMIN_DIR.'/outils/renomage.php';
 }
 
 

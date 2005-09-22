@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="_styles/manager.css" />
   </head>
 
-  <body>
+  <body mXattribut="onload:onload">
 
     <div id="header">
       <ul>

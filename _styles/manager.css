@@ -105,7 +105,10 @@ input.submit {
 input.submit:active {
 	border-style: solid;
 }
-
+input.file {
+	border-color:black;
+	border-width:1px;
+}
 input.size-control {
 	border: none;
 	background: none;
