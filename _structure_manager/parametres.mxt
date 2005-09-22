@@ -70,6 +70,11 @@
       <label for="mkdir_safe_mode" class="float">Créations des dossiers en safe mode : </label>
       <mx:select id="mkdir_safe_mode"/>
     </p>
+    <p>
+      <label for="description_file" class="float">Format de la date : </label>
+      <input type="text" name="date_format" id="date_format" mXattribut="value:val_date_format" />
+      <span class="erreur"><mx:text id="err_date_format"/></span>
+    </p>
   </fieldset>
 
 

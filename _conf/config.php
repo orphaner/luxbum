@@ -10,7 +10,8 @@ define ('DEFAULT_INDEX_FILE', 'defaut.txt');
 define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
 define ('USE_REWRITE', 'on');
 define ('MKDIR_SAFE_MODE', 'off');
-define ('IMAGE_BORDER_PIXEL', '3');
+define ('DATE_FORMAT', '%A %e %B %Y');
+define ('IMAGE_BORDER_PIXEL', '5');
 define ('IMAGE_BORDER_MAX_NUANCE', '150');
 define ('IMAGE_BORDER_HEX_COLOR', 'ffffff');
 ?>

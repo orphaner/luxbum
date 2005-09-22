@@ -41,6 +41,7 @@ $param['default_index_file'] = DEFAULT_INDEX_FILE;
 $param['allowed_format']     = ALLOWED_FORMAT;
 $param['use_rewrite']        = USE_REWRITE;
 $param['mkdir_safe_mode']    = MKDIR_SAFE_MODE;
+$param['date_format']        = DATE_FORMAT;
 
 $param['image_border_pixel']      = IMAGE_BORDER_PIXEL;
 $param['image_border_max_nuance'] = IMAGE_BORDER_MAX_NUANCE;
@@ -237,6 +238,7 @@ $page->MxAttribut ('val_allowed_format', $param['allowed_format']);
 
 $page->MxSelect ('use_rewrite', 'use_rewrite', $param['use_rewrite'], on_off_select ());
 $page->MxSelect ('mkdir_safe_mode', 'mkdir_safe_mode', $param['mkdir_safe_mode'], on_off_select ());
+$page->MxAttribut ('val_date_format', $param['date_format']);
 
 $page->MxSelect ('image_border_pixel', 'image_border_pixel', $param['image_border_pixel'], border_pixel_select ());
 $page->MxAttribut ('val_image_border_max_nuance', $param['image_border_max_nuance'] );
