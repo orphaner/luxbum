@@ -34,12 +34,12 @@ if ($dir == '') {
 }
 
 else if (!verif_dir ($dir) || !is_dir (luxbum::getDirPath ($dir))) {
-   $page->MxBloc ('main', 'modify', '<span class="erreur">ERREUR: Nom de dossier incorrect !!');
+   $page->MxBloc ('main', 'modify', '<span class="erreur">ERREUR: Nom de dossier incorrect !!</span>');
    $page->MxWrite ();
    exit (0);
 }
 else if (!files::isWritable (luxbum::getDirPath ($dir))) {
-   $page->MxBloc ('main', 'modify', '<span class="erreur">ERREUR: Le dossier choisit doit être accessible en écriture !!');
+   $page->MxBloc ('main', 'modify', '<span class="erreur">ERREUR: Le dossier choisit doit être accessible en écriture !!</span>');
    $page->MxWrite ();
    exit (0);
 }
@@ -109,15 +109,12 @@ $page->MxAttribut ('action_ajout_photo', $str_critere.'&amp;f=ajout_photo');
 // Paramètrage de l'upload Photo
 $upload = new Upload ();
 $upload->MaxFilesize = $max_file_size;
-// $upload->FieldOptions = 'style="border-color:black;border-width:1px;"';
 $upload->InitForm ();
 $upload->DirUpload = luxbum::getDirPath ($dir);
 $upload->WriteMode = 2;
 $upload->Required = true;
 $upload->Extension = '.gif;.jpg;.jpeg;.png';
-$upload->MimeType = 'image/gif;image/pjpeg;image/jpeg;image/x-png'; 
-// $page->MxText ('form_upload', $upload-> Field[0] . $upload-> Field[1]);
-//echo $upload-> Field[0] . $upload-> Field[1];
+$upload->MimeType = 'image/gif;image/pjpeg;image/jpeg;image/x-png';
 
 // switch rapide
 $nuxIndex = new  luxBumIndex ();
@@ -267,7 +264,6 @@ else if ($f == 'date_desc') {
 // Upload de photo
 else if ($f == 'ajout_photo') {
 
-//   print_r ($_FILES);
    $upload-> Execute();
 
    if ($UploadError) {
@@ -328,7 +324,14 @@ else {
       else {
          $page->MxAttribut ('liste.val_description', $file->getDescription());
          $date =  $file->getDate();
-         list ($jour, $mois, $annee) = explode ('/', $file->getDate());
+         if ($date != '') {
+            list ($jour, $mois, $annee) = explode ('/', $file->getDate());
+         }
+         else {
+            $jour = '';
+            $mois = '';
+            $annee = '';
+         }
          $page->MxSelect ('liste.jour', 'jour', $jour, jour_select ());
          $page->MxSelect ('liste.mois', 'mois', $mois, mois_select ());
          $page->MxAttribut ('liste.val_date',  $annee);

@@ -304,17 +304,20 @@ class Upload {
          $this-> _temp  = $_FILES['userfile']['tmp_name'][$i]; // emplacement temporaire
          $this-> _ext   = strtolower(substr($this-> _name, strrpos($this-> _name, '.'))); // extension du fichier
             
-         // On exécute les vérifications demandées
-         if (is_uploaded_file($_FILES['userfile']['tmp_name'][$i])) {
-            $this-> CheckSecurity();
-            $this-> CheckMimeType();
-            $this-> CheckExtension();
-            $this-> CheckImg();
-         } else $this-> AddError($_FILES['userfile']['error'][$i]); // Le fichier n'a pas été uploadé, on récupère l'erreur
+
+         if ($this-> _name != '') {
+            // On exécute les vérifications demandées
+            if (is_uploaded_file($_FILES['userfile']['tmp_name'][$i])) {
+               $this-> CheckSecurity();
+               $this-> CheckMimeType();
+               $this-> CheckExtension();
+               $this-> CheckImg();
+            } else $this-> AddError($_FILES['userfile']['error'][$i]); // Le fichier n'a pas été uploadé, on récupère l'erreur
             
-         // Si le fichier a passé toutes les vérifications, on procède à l'upload, sinon on positionne la variable globale UploadError à 'true'
-         if (!isset($this-> ArrOfError[$this-> _field])) $this-> WriteFile($this-> _name, $this-> _type, $this-> _temp, $this-> _size, $this-> _ext, $this-> _field);
-         else $UploadError = true;
+            // Si le fichier a passé toutes les vérifications, on procède à l'upload, sinon on positionne la variable globale UploadError à 'true'
+            if (!isset($this-> ArrOfError[$this-> _field])) $this-> WriteFile($this-> _name, $this-> _type, $this-> _temp, $this-> _size, $this-> _ext, $this-> _field);
+            else $UploadError = true;
+         }
       }
    }
         

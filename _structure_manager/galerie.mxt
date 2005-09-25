@@ -14,27 +14,7 @@
 
 <p class="message"><mx:text id="message"/></p>
 
-<script language='javascript'>
-  <!--
-      var nbMax=4;
-      var nb=nbMax;
-      function addPosition(divId)
-      {
-      if(nb>0){
-      cree_input = document.createElement('input');
-      cree_input.type = 'file';
-      cree_input.name = 'userfile[]';
-      emplacement = document.getElementById(divId);
-      cree_br = document.createElement('br');
-      champ = emplacement.appendChild(cree_input);
-      champ = emplacement.appendChild(cree_br);
-      nb--;
-     }else{
-     alert('Vous ne pouvez ajouter plus de 5 images.');
-     }
-     }
-     //-->
-         </script>
+<script  type="text/javascript" src="_javascript/add_upload.js"></script>
 
 <h2>Ajouter photo</h2>
 <form enctype="multipart/form-data" mXattribut="action:action_ajout_photo" method="post" name="upload_form" id="upload_form">

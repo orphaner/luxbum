@@ -39,53 +39,68 @@ $p = '';
 if (isset ($_GET['p'])) {
    $p = $_GET['p'];
 }
-
+$session_timeout = 5 * 60; // TimeOut de 5minutes
 
 
 if ($logued == 1) {
+   if ((time() - $_SESSION['last_access'] ) > $session_timeout) {
+      $page = new ModeliXe ('login.mxt');
+      $page->SetModeliXe ();
+      $_SESSION = array ();
+      session_destroy ();
+      $page->MxAttribut ('action', ADMIN_FILE.'?p=login');
+      $page->MxAttribut ('message_id', 'message_ko');
+      $page->MxText ('message', 'TIMEOUT: Vous êtes désormais déconnecté.');
+   }
 
-   switch ($p) {
+   else if ($_SERVER['REMOTE_ADDR'] != $_SESSION['ipaddr']) {
+      $page = new ModeliXe ('login.mxt');
+      $page->SetModeliXe ();
+      $_SESSION = array ();
+      session_destroy ();
+      $page->MxAttribut ('action', ADMIN_FILE.'?p=login');
+      $page->MxAttribut ('message_id', 'message_ko');
+      $page->MxText ('message', 'IP: Nan mais tu rêve. Tu es désormais déconnecté.');
+   }
 
-      // Déconnexion
-      case 'logout':
-         // Page modelixe
-         $page = new ModeliXe ('login.mxt');
-         $page->SetModeliXe();
-         $_SESSION['logued'] = false;
-         $page->MxAttribut ('action', ADMIN_FILE.'?p=login');
-         $page->MxAttribut ('message_id', 'message_ok');
-         $page->MxText ('message', 'Vous êtes désormais déconnecté.');
-         break;
+   // Déconnexion
+   else if ($p == 'logout') {
+      $page = new ModeliXe ('login.mxt');
+      $page->SetModeliXe ();
+      $_SESSION = array ();
+      session_destroy ();
+      $page->MxAttribut ('action', ADMIN_FILE.'?p=login');
+      $page->MxAttribut ('message_id', 'message_ok');
+      $page->MxText ('message', 'Vous êtes désormais déconnecté.');
+   }
                 
-         // Inclusion du module d'admin
-      default:
+   // Inclusion du module d'admin
+   else {
+      $page = new ModeliXe ('header.mxt');
+      $page->SetModeliXe();
 
-         // Page modelixe
-         $page = new ModeliXe ('header.mxt');
-         $page->SetModeliXe();
-
-         $pages = array(
-            'liste_galeries',
-            'galerie',
-            'parametres',
-            'outils'
-            );
-         $trouve = false;
-         $i = 0;
-         $count = count($pages);
-         while (!$trouve && $i != $count) {
-            if ($p == $pages[$i]) {
-               include ADMIN_DIR.'/'.$p.'.php';
-               $trouve = true;
-            }
-            $i++;
+      $pages = array(
+         'liste_galeries',
+         'galerie',
+         'parametres',
+         'outils'
+         );
+      $trouve = false;
+      $i = 0;
+      $count = count ($pages);
+      while (!$trouve && $i != $count) {
+         if ($p == $pages[$i]) {
+            include ADMIN_DIR.'/'.$p.'.php';
+            $trouve = true;
          }
-         if ($trouve == false) {
-            include ADMIN_DIR.'liste_galeries.php';
-         }
-         break;
+         $i++;
+      }
+      if ($trouve == false) {
+         include ADMIN_DIR.'liste_galeries.php';
+      }
    }
 }
+
 else if ($logued == false) {
 
    // Formulaire de connexion
@@ -105,6 +120,8 @@ else if ($logued == false) {
 
       if (MANAGER_USERNAME == $username && MANAGER_PASSWORD == md5 ($password)) {
          $_SESSION['logued'] = true;
+         $_SESSION['last_access']=time();
+         $_SESSION['ipaddr'] = $_SERVER['REMOTE_ADDR']; 
          header ('location:manager.php');
       }
       else {
