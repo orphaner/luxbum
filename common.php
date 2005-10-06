@@ -7,7 +7,7 @@ error_reporting (E_ALL);
 // Constantes
 //------------------------------------------------------------------------------
 define ('FONCTIONS_DIR',       '_fonctions/');
-define ('ADMIN_DIR',           '_fonctions_manager');
+define ('ADMIN_DIR',           '_fonctions_manager/');
 define ('CONF_DIR',            '_conf/');
 define ('LIB_DIR',             '_librairies/');
 define ('STYLE_DIR',           '_styles/');
