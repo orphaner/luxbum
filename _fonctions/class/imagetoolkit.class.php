@@ -4,6 +4,221 @@
 class imagetoolkit
 {
 
+   /**-----------------------------------------------------------------------**/
+   /** Fonctions de créations d'images */
+   /**-----------------------------------------------------------------------**/
+
+   var $image;
+   var $imageWidth;
+   var $imageHeight;
+   var $imageType;
+
+   var $imagDest;
+   var $imageDestWidth;
+   var $imageDestHeight;
+
+   /**
+    *
+    */
+   function imagetoolkit ($image) {
+      $this->image = $image;
+      $this->setSrcInfos ();
+   }
+
+   /**
+    *
+    */
+   function getImageDestWidth () {
+      return $this->imageDestWidth;
+   }
+
+   /**
+    *
+    */
+   function getImageDestHeight () {
+      return $this->imageDestHeight;
+   }
+
+   /**
+    *
+    * @access private
+    */
+   function setSrcInfos () {
+
+      if ($this->image != "") {         
+         // Lit les dimensions de l'image
+         $size = GetImageSize ($this->image);
+         $this->imageWidth = $size[0];
+         $this->imageHeight = $size[1];
+         $this->imageType = $size[2];
+      }
+   }
+
+   /**
+    *
+    * @access private
+    */
+   function imageCreateFromType () {
+
+      switch ($this->imageType) {
+         case 1 :
+            $imhandler = imageCreateFromGIF ($this->image);
+            break;
+         case 2 :
+            $imhandler = imageCreateFromJPEG ($this->image);
+            break;
+         case 3 :
+            $imhandler = imageCreateFromPNG ($this->image);
+            break;
+      }
+
+      return $imhandler;
+   }
+
+   /**
+    *
+    * @access private
+    */
+   function imageWriteFromType ($image, $quality) {
+
+      switch ($this->imageType){
+         case 1 :
+            imageGIF ($image, $this->imageDest);
+            break;
+
+         case 2 :
+            imageJPEG ($image, $this->imageDest, $quality);
+            break;
+
+         case 3 :
+            imagePNG ($image, $this->imageDest);
+            break;
+      }
+   }
+
+   /**
+    *
+    */
+   function setDestSize ($dst_w, $dst_h) {
+      $this->imageDestWidth = $dst_w;
+      $this->imageDestHeight = $dst_h;
+
+      // Teste les dimensions tenant dans la zone
+      $test_h = round (($this->imageDestWidth / $this->imageWidth) * $this->imageHeight);
+      $test_w = round (($this->imageDestHeight / $this->imageHeight) * $this->imageWidth);
+
+      // Si Height final non précisé (0)
+      if (!$this->imageDestHeight) {
+         $this->imageDestHeight = $test_h;
+      }
+
+      // Sinon si Width final non précisé (0)
+      elseif (!$this->imageDestWidth) {
+         $this->imageDestWidth = $test_w;
+      }
+
+      // Sinon teste quel redimensionnement tient dans la zone
+      elseif ($test_h>$this->imageDestHeight) {
+         $this->imageDestWidth = $test_w;
+      }
+      else {
+         $this->imageDestHeight = $test_h;
+      }
+   }
+
+   /**
+    *
+    * @access private
+    */
+   function canResize () {
+
+      // La vignette existe ?
+      $test = (file_exists ($this->imageDest));
+
+      // L'original a été modifié ?
+      if ($test) {
+         $test = (filemtime ($this->imageDest)>filemtime ($this->image));
+      }
+      
+      // Les dimensions de la vignette sont correctes ?
+      if ($test) {
+         $size2 = GetImageSize ($this->imageDest);
+         $test = ($size2[0] == $this->imageDestWidth);
+         $test = ($size2[1] == $this->imageDestHeight);
+      }
+
+      return $test;
+   }
+
+   /**
+    *
+    */
+   function createThumb ($img_dest) {
+      $this->imageDest = $img_dest;
+
+//       echo $this->imageDestWidth.' => '.$this->imageDestHeight.'<br />';
+
+      // Créer la vignette ?
+      if (!$this->canResize ()) {
+
+
+         // Copie dedans l'image initiale redimensionnée
+         $srcHandler = $this->ImageCreateFromType ($this->image, $this->imageType);
+
+
+         /* GD 2 */
+         if ($this->gdVersion() == 2) {
+
+            // Crée une image vierge aux bonnes dimensions
+            $destHandler = ImageCreateTrueColor ($this->imageDestWidth, $this->imageDestHeight);
+            ImageCopyResampled ($destHandler, $srcHandler, 0, 0, 0, 0, $this->imageDestWidth, $this->imageDestHeight, $this->imageWidth, $this->imageHeight);
+
+            if (IMAGE_BORDER_PIXEL > 0) {
+               $pixels = IMAGE_BORDER_PIXEL;
+               $nuanceMax = IMAGE_BORDER_MAX_NUANCE;
+               $thumbBgColor = $this->hexToDecColor (IMAGE_BORDER_HEX_COLOR);
+               for ($i = 0 ; $i < $pixels ; $i++) {
+                  $nuance = (int)(($nuanceMax/$pixels)*$i);
+                  $color = imagecolorallocatealpha ($destHandler, $thumbBgColor[0], $thumbBgColor[1], $thumbBgColor[2], $nuance);
+                  imagerectangle ($destHandler, $i, $i, $this->imageDestWidth - ($i+1), $this->imageDestHeight - ($i+1), $color);
+               }
+            }
+         }
+
+         /* GD 1 */
+         else {
+            // Crée une image vierge aux bonnes dimensions
+            $destHandler = ImageCreate ($this->imageDestWidth, $this->imageDestHeight);
+            imagecopyresized ($destHandler, $srcHandler, 0, 0, 0, 0, $this->imageDestWidth, $this->imageDestHeight, $this->imageWidth, $this->imageHeight);
+         }
+
+         // Sauve la nouvelle image
+         $this->ImageWriteFromType ($destHandler, 95);
+         @chmod ($this->imageDest, 0777);
+
+         // Détruis les tampons
+         ImageDestroy ($destHandler);
+         ImageDestroy ($srcHandler);
+      }
+   }
+
+   /**
+    * Convert a color defined in hexvalues to corresponding dezimal values
+    *
+    * @access public
+    * @param string $hex color value in hexformat (e.g. 'FF0000')
+    * @return array associative array with color values in dezimal format (fields: 0->'red', 1->'green', 2->'blue')
+    */
+   function hexToDecColor ($hex) {
+      $length = strlen($hex);
+      $color[] = hexdec(substr($hex, $length - 6, 2));
+      $color[] = hexdec(substr($hex, $length - 4, 2));
+      $color[] = hexdec(substr($hex, $length - 2, 2));
+      return $color;
+   }
+
+
+
    function gdVersionExact ()  {
       static $gd_version_number = null;
       if ($gd_version_number === null) {
@@ -79,167 +294,6 @@ class imagetoolkit
       return $match[0];
    } // End gdVersion()
 
-
-   /**-----------------------------------------------------------------------**/
-   /** Fonctions de créations d'images */
-   /**-----------------------------------------------------------------------**/
-
-   /**
-    *
-    * @access private
-    */
-   function imageCreateFromType ($file, $imageType) {
-
-      switch ($imageType) {
-         case 1 :
-            $imhandler = imageCreateFromGIF ($file);
-            break;
-         case 2 :
-            $imhandler = imageCreateFromJPEG ($file);
-            break;
-         case 3 :
-            $imhandler = imageCreateFromPNG ($file);
-            break;
-      }
-
-      return $imhandler;
-   }
-
-   /**
-    *
-    * @access private
-    */
-   function imageWriteFromType ($image, $filename, $quality, $imageType) {
-
-      switch ($imageType){
-         case 1 :
-            imageGIF ($image, $filename);
-            break;
-
-         case 2 :
-            imageJPEG ($image, $filename, $quality);
-            break;
-
-         case 3 :
-            imagePNG ($image, $filename);
-            break;
-      }
-   }
-
-   /**
-    *
-    */
-   function createThumb ($img_src, $img_dest, $dst_w="85", $dst_h="85") {
-
-      // Lit les dimensions de l'image
-      $size = GetImageSize ($img_src);
-      $src_w = $size[0];
-      $src_h = $size[1];
-      $imageType = $size[2];
-
-      // Teste les dimensions tenant dans la zone
-      $test_h = round (($dst_w / $src_w) * $src_h);
-      $test_w = round (($dst_h / $src_h) * $src_w);
-
-      // Si Height final non précisé (0)
-      if (!$dst_h) {
-         $dst_h = $test_h;
-      }
-
-      // Sinon si Width final non précisé (0)
-      elseif (!$dst_w) {
-         $dst_w = $test_w;
-      }
-
-      // Sinon teste quel redimensionnement tient dans la zone
-      elseif ($test_h>$dst_h) {
-         $dst_w = $test_w;
-      }
-      else {
-         $dst_h = $test_h;
-      }
-
-      // La vignette existe ?
-      $test = (file_exists ($img_dest));
-
-      // L'original a été modifié ?
-      if ($test) {
-         $test = (filemtime ($img_dest)>filemtime ($img_src));
-      }
-
-      // Les dimensions de la vignette sont correctes ?
-      if ($test) {
-         $size2 = GetImageSize ($img_dest);
-         $test = ($size2[0] == $dst_w);
-         $test = ($size2[1] == $dst_h);
-      }
-
-      // Créer la vignette ?
-      if (!$test) {
-
-         // Copie dedans l'image initiale redimensionnée
-         $src_im = imageToolkit::ImageCreateFromType ($img_src, $imageType);
-
-
-         /* GD 2 */
-         if (imagetoolkit::gdVersion() == 2) {
-
-            // Crée une image vierge aux bonnes dimensions
-            $dst_im = ImageCreateTrueColor ($dst_w, $dst_h);
-
-//             $text = 'Nico CopyRight';
-//             $font = '_fonts/arial.ttf';
-//             imagettftext ($src_im, 20, 0, 11, 21, $color_bg_alpha_text, $font, $text);
-
-            ImageCopyResampled ($dst_im, $src_im, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
-
-            if (IMAGE_BORDER_PIXEL > 0) {
-               $pixels = IMAGE_BORDER_PIXEL;
-               $nuanceMax = IMAGE_BORDER_MAX_NUANCE;
-               $thumb_bg_color = imagetoolkit::hexToDecColor (IMAGE_BORDER_HEX_COLOR);
-               for ($i = 0 ; $i < $pixels ; $i++) {
-                  $nuance = (int)(($nuanceMax/$pixels)*$i);
-                  $color = imagecolorallocatealpha ($dst_im, $thumb_bg_color[0], $thumb_bg_color[1], $thumb_bg_color[2], $nuance);
-                  imagerectangle ($dst_im, $i, $i, $dst_w - ($i+1), $dst_h - ($i+1), $color);
-               }
-            }
-         }
-
-         /* GD 1 */
-         else {
-            // Crée une image vierge aux bonnes dimensions
-            $dst_im = ImageCreate ($dst_w, $dst_h);
-            imagecopyresized ($dst_im, $src_im, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
-         }
-
-         // Sauve la nouvelle image
-//          ob_start ();
-         imagetoolkit::ImageWriteFromType ($dst_im, $img_dest, 95, $imageType);
-//          $content = ob_get_contents ();
-//          ob_end_clean ();
-         @chmod ($img_dest, 0777);
-//          files::writeFile ($img_dest, $content);
-
-         // Détruis les tampons
-         ImageDestroy ($dst_im);
-         ImageDestroy ($src_im);
-      }
-   }
-
-   /**
-    * Convert a color defined in hexvalues to corresponding dezimal values
-    *
-    * @access public
-    * @param string $hex color value in hexformat (e.g. 'FF0000')
-    * @return array associative array with color values in dezimal format (fields: 0->'red', 1->'green', 2->'blue')
-    */
-   function hexToDecColor ($hex) {
-      $length = strlen($hex);
-      $color[] = hexdec(substr($hex, $length - 6, 2));
-      $color[] = hexdec(substr($hex, $length - 4, 2));
-      $color[] = hexdec(substr($hex, $length - 2, 2));
-      return $color;
-   }
 }
 
 

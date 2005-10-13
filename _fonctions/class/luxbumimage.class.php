@@ -20,6 +20,9 @@ class luxBumImage extends luxBum
    var $description;
    var $date;
 
+   var $thumbToolkit;
+   var $previewToolkit;
+
 
 
    function luxBumImage ($dir, $img) {
@@ -70,6 +73,9 @@ class luxBumImage extends luxBum
       return true;
    }
 
+   function getSize () {
+      return filesize ($this->getImagePath ());
+   }
 
    /**-----------------------------------------------------------------------**/
    /** Fonctions des descriptions d'images */
@@ -115,22 +121,45 @@ class luxBumImage extends luxBum
    /** Fonctions pour créer les thumbs / preview */
    /**-----------------------------------------------------------------------**/
 
+
    function getAsThumb ($dst_w = 85, $dst_h = 85) {
+      $this->thumbToolkit = new imagetoolkit ($this->getImagePath ());
+      $this->thumbToolkit->setDestSize ($dst_w, $dst_h);
+
       $final = $this->getThumbImage ($this->dir, $this->img, $dst_w, $dst_h);
       if (!is_file ($final)) {
          files::createDir ($this->thumbDir);
-         imagetoolkit::createThumb ($this->getImagePath (), $final, $dst_w, $dst_h);
+         $this->thumbToolkit->createThumb ($final);
       }
       return $final;
    }
 
    function getAsPreview ($dst_w = 650, $dst_h = 485) {
+      $this->previewToolkit = new imagetoolkit ($this->getImagePath ());
+      $this->previewToolkit->setDestSize ($dst_w, $dst_h);
+
+      // Pas de génération de preview
+      if ($this->getSize () < MIN_SIZE_FOR_PREVIEW * 1024) {
+         return $this->getImagePath ();
+      }
+
+      // Génération de preview
       $final = $this->getPreviewImage ($this->dir, $this->img);
       if (!is_file ($final)) {
          files::createDir ($this->previewDir);
-         imagetoolkit::createThumb ($this->getImagePath (), $final, $dst_w, $dst_h);
+         $this->previewToolkit->createThumb ($final);
       }
       return $final;
+   }
+
+   function getThumbResizeSize () {
+      return 'width="'.($this->thumbToolkit->getImageDestWidth ())
+         .'" height="'.($this->thumbToolkit->getImageDestHeight ()).'"';
+   }
+
+   function getPreviewResizeSize () {
+      return 'width="'.($this->previewToolkit->imageDestWidth)
+         .'" height="'.($this->previewToolkit->imageDestHeight).'"';
    }
 
 
