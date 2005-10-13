@@ -22,6 +22,7 @@ define ('ADMIN_FILE',          'manager.php');
 // Includes
 //------------------------------------------------------------------------------
 include (CONF_DIR.'config.php');
+include (CONF_DIR.'themes_css.php');
 include (LIB_DIR.'ModeliXe.php');
 
 

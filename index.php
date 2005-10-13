@@ -44,19 +44,15 @@ function lien_apercu ($dir, $image, $page) {
 
 
 function remplir_style (&$page) {
-   $themes = array (
-      'light' =>'Thème Blanc', 
-      'dark' =>'Thème Noir'
-      );
-
-   if (!array_key_exists (COLOR_THEME, $themes)) {
+   global $themes_css;
+   if (!array_key_exists (COLOR_THEME, $themes_css)) {
       $default = 'light';
    } 
    else {
       $default = COLOR_THEME;
    }
 
-   while (list ($theme, $title) = each ($themes)) {
+   while (list ($theme, $title) = each ($themes_css)) {
       if ($theme == $default) {
          $rel = 'stylesheet';
       } 

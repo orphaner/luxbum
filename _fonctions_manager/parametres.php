@@ -15,9 +15,9 @@ $page->WithMxPath ('main', 'relative');
 function template_theme_select () {
    return array ('2COL' => '2 colones','3COL' => '3 colones');
 }
-function color_theme_select () {
-   return array ('light' => 'Thème Blanc','dark' => 'Thème Noir');
-}
+// function color_theme_select () {
+//    return array ('light' => 'Thème Blanc','dark' => 'Thème Noir');
+// }
 function on_off_select () {
    return array ('on' => 'Oui','off' => 'Non');
 }
@@ -240,7 +240,7 @@ while (list ($key, $val) = each ($param)) {
 
 $page->MxAttribut ('val_nom_galerie', $param['nom_galerie']);
 $page->MxSelect ('template_theme', 'template_theme', $param['template_theme'], template_theme_select ());
-$page->MxSelect ('color_theme', 'color_theme', $param['color_theme'], color_theme_select ());
+$page->MxSelect ('color_theme', 'color_theme', $param['color_theme'], $themes_css);
 
 $page->MxAttribut ('val_photos_dir', $param['photos_dir']);
 $page->MxAttribut ('val_thumb_dir', $param['thumb_dir']);
