@@ -9,6 +9,32 @@ include (FONCTIONS_DIR.'utils/aff_page.inc.php');
 include (FONCTIONS_DIR.'utils/formulaires.php');
 include (FONCTIONS_DIR.'class/upload.class.php');
 
+// FIXME : ....
+function cut_sentence ($Texte,$nbcar=0)
+{
+   if ( strlen($Texte) > $nbcar && (0!=$nbcar) )
+   {
+      $Tmp_Tb = explode( ' ', $Texte );
+      $Tmp_Count = 0;
+      $Tmp_O = '';
+
+      while(list(,$v) = each($Tmp_Tb))
+      {
+         if ( strlen($Tmp_O) >= $nbcar )
+            break;
+         $Tmp_O .= $v.' ';
+      }
+      $Tmp_O = chop($Tmp_O);
+      if (count($Tmp_Tb) > 1)
+         $Tmp_O .= '...';
+
+   }
+   else
+      $Tmp_O = $Texte;
+
+   return $Tmp_O;
+}
+
 
 //------------------------------------------------------------------------------
 // Paramètres
@@ -121,7 +147,7 @@ $nuxIndex = new  luxBumIndex ();
 $nuxIndex->addAllGallery (0);
 $nuxIndex->gallerySort ();
 while (list (,$gallery) = each ($nuxIndex->galleryList)) {
-   $tabSwitch[$gallery->getName ()] = $gallery->getNiceName ();
+   $tabSwitch[$gallery->getName ()] = cut_sentence ($gallery->getNiceName (), 20);
 }
 unset ($nuxIndex);
 $page->MxAttribut ('action_rapid_switch', $str_critere.'&amp;');
