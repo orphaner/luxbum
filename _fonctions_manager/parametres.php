@@ -42,6 +42,7 @@ $param['allowed_format']     = ALLOWED_FORMAT;
 $param['use_rewrite']        = USE_REWRITE;
 $param['mkdir_safe_mode']    = MKDIR_SAFE_MODE;
 $param['date_format']        = DATE_FORMAT;
+$param['min_size_for_preview']        = MIN_SIZE_FOR_PREVIEW;
 
 $param['image_border_pixel']      = IMAGE_BORDER_PIXEL;
 $param['image_border_max_nuance'] = IMAGE_BORDER_MAX_NUANCE;
@@ -125,6 +126,18 @@ function verif_parametres () {
    if ($param['image_border_hex_color'] != '' && !is_hex_color ($param['image_border_hex_color'])) {
       $err_vide = true;
       $page->MxText ('err_image_border_hex_color', 'Code hexa non valide !!');
+   }
+
+   // Vérification de la taille minie
+   if (is_numeric ($param['min_size_for_preview'])) {
+      if ($param['min_size_for_preview'] < 0) {
+         $page->MxText ('err_min_size_for_preview', 'Doit être supérieur à zéro !!');
+         $err_vide = true;
+      }
+   }
+   else {
+      $err_vide = true;
+      $page->MxText ('err_min_size_for_preview', 'Non numérique !!');
    }
 
    return !$err_vide;
@@ -244,6 +257,7 @@ $page->MxSelect ('image_border_pixel', 'image_border_pixel', $param['image_borde
 $page->MxAttribut ('val_image_border_max_nuance', $param['image_border_max_nuance'] );
 $page->MxAttribut ('val_image_border_hex_color', $param['image_border_hex_color'] );
 
+$page->MxAttribut ('val_min_size_for_preview', $param['min_size_for_preview'] );
 
 
 $page->MxAttribut ('action_parametres_mdp', $str_critere.'&amp;valid=2#form_mdp');

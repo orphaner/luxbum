@@ -75,6 +75,11 @@
       <input type="text" name="date_format" id="date_format" mXattribut="value:val_date_format" />
       <span class="erreur"><mx:text id="err_date_format"/></span>
     </p>
+    <p>
+      <label for="min_size_for_preview" class="float">Taille minimum pour générer une preview (Ko) : </label>
+      <input type="text" name="min_size_for_preview" id="min_size_for_preview" mXattribut="value:val_min_size_for_preview" />
+      <span class="erreur"><mx:text id="err_min_size_for_preview"/></span>
+    </p>
   </fieldset>
 
 
