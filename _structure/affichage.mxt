@@ -12,11 +12,11 @@
       <link mXattribut="rel:rel;href:href;title:title" type="text/css" />
     </mx:bloc id="stylesheet">
 
-    <script type="text/javascript">if (parent.frames.length < 1){document.location.href = '<mx:text id="redirect_script"/>';}</script> 
-                                                              </head>
+    <script type="text/javascript">if (parent.frames.length < 1 || (parent.frames.length > 0 && parent.frames[0].name!="affichage")){parent.document.location.href = '<mx:text id="redirect_script"/>';}</script> 
+    </head>
   <body id="body_affichage">  
     <div id="affichage_photo">
-      <a mXattribut="href:lien" onclick="window.open(this.href,'',''); return false;" ><img mXattribut="src:photo;alt:alt;title:title" border="0" /></a>
+      <a mXattribut="href:lien" onclick="window.open(this.href,'',''); return false;" ><mx:image id="photo"/></a>
       <br />
       <table width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>

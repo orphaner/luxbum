@@ -41,6 +41,23 @@ else if (!verif_photo ($dir, $file)) {
    exit ('nom de la photo incorrect !!');
 }
 
+function getScriptURL () {
+   $url = '';
+   if ($_SERVER['SERVER_PORT'] == 80) {
+      $url .= 'http://';
+   }
+   elseif ($_SERVER['SERVER_PORT'] == 443) {
+      $url .= 'https://';
+   }
+   $url .= $_SERVER['SERVER_NAME'].'/';
+   $path = explode ('/', $_SERVER['REQUEST_URI']);
+   for ($i=0 ; $i < count ($path)-1 ; $i++) {
+      $url .= $path[$i];
+   }
+   $url .= '/';
+   return $url;
+}
+
 
 //------------------------------------------------------------------------------
 // Init
@@ -63,8 +80,14 @@ $luxAff->exifInit ();
 
 //----------------
 // Affichage de la photo
-$page->MxAttribut ('photo', $luxAff->getAsPreview ());
-$page->MxAttribut ('alt',   $luxAff->getImageName ());
+// $page->MxAttribut ('photo', $luxAff->getAsPreview ());
+// $page->MxAttribut ('alt',   $luxAff->getImageName ());
+
+$altTitle = luxbum::niceName ($luxAff -> getImageName()) .' - '
+   . ucfirst ($luxAff -> getDescription ());
+
+$page->MxImage ('photo', $luxAff->getAsPreview (), $altTitle, 
+                'title="'.$altTitle.'" '. ($luxAff->getPreviewResizeSize ()), true);
 $page->MxUrl      ('lien',  $luxAff->getImagePath ());
 
 
@@ -72,15 +95,20 @@ if ($luxAff -> findDescription () == true) {
 
    $dateDesc = '&nbsp;';
 
+   // Date
    if ($luxAff -> getDate() != '') {
+      list ($jour, $mois, $annee) = explode ('/', $luxAff -> getDate());
+      setlocale (LC_TIME, 'fr_FR');
+      $timeStamp = mktime (0, 0, 0, $mois, $jour, $annee);
+      $dateDesc = 'Le '.strftime (DATE_FORMAT,  $timeStamp);
+ 
+      // date + description
       if ($luxAff -> getDescription () != '' && $luxAff -> getDescription () != "\n") {
-         list ($jour, $mois, $annee) = explode ('/', $luxAff -> getDate());
-         setlocale(LC_TIME, 'fr_FR');
-         $timeStamp = mktime (0, 0, 0, $mois, $jour, $annee);
-         $dateDesc = 'Le '.strftime (DATE_FORMAT,  $timeStamp);
          $dateDesc .= ' - '. ucfirst ($luxAff -> getDescription ());
       }
    }
+
+   // Que description
    else if ($luxAff -> getDescription () != '' && $luxAff -> getDescription () != "\n") {
       $dateDesc = ucfirst ($luxAff -> getDescription ());
    }
@@ -88,23 +116,20 @@ if ($luxAff -> findDescription () == true) {
    $page->MxText ('desc', $dateDesc);
 }
 
-$page->MxAttribut ('title',  luxbum::niceName ($luxAff -> getImageName()) .' - '
-                   . ucfirst ($luxAff -> getDescription ()));
 
 
 //----------------
 // Liens quand la page est hors de sa frame
-$lien_redirect = lien_vignette_redirect ($page_courante, $dir, $luxAff->getImageName ());
+$lien_redirect = (getScriptURL()).lien_vignette_redirect ($page_courante, $dir, $luxAff->getImageName ());
 $page->MxText ('redirect_script',   $lien_redirect);
 $page->MxUrl  ('redirect_noscript', $lien_redirect);
 
-if ($luxAff->exifExists ()) {
+if (SHOW_EXIF == 'on' &&$luxAff->exifExists ()) {
    $page->MxText ('exif.lien', INDEX_FILE.'?p=infos_exif&amp;d='.$dir.'&amp;photo='.$file);
 }
 else {
    $page->MxBloc ('exif', 'delete');
 }
-
 
 
 //----------------
