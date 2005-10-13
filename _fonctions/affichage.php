@@ -49,10 +49,11 @@ function getScriptURL () {
    elseif ($_SERVER['SERVER_PORT'] == 443) {
       $url .= 'https://';
    }
-   $url .= $_SERVER['SERVER_NAME'].'/';
-   $path = explode ('/', $_SERVER['REQUEST_URI']);
+   $url .= $_SERVER['SERVER_NAME'];
+
+   $path = split ($_SERVER['REQUEST_URI'], '/');
    for ($i=0 ; $i < count ($path)-1 ; $i++) {
-      $url .= $path[$i];
+      $url .= '/'.$path[$i];
    }
    $url .= '/';
    return $url;
@@ -83,14 +84,6 @@ $luxAff->exifInit ();
 // $page->MxAttribut ('photo', $luxAff->getAsPreview ());
 // $page->MxAttribut ('alt',   $luxAff->getImageName ());
 
-$altTitle = luxbum::niceName ($luxAff -> getImageName()) .' - '
-   . ucfirst ($luxAff -> getDescription ());
-
-$page->MxImage ('photo', $luxAff->getAsPreview (), $altTitle, 
-                'title="'.$altTitle.'" '. ($luxAff->getPreviewResizeSize ()), true);
-$page->MxUrl      ('lien',  $luxAff->getImagePath ());
-
-
 if ($luxAff -> findDescription () == true) {
 
    $dateDesc = '&nbsp;';
@@ -115,6 +108,14 @@ if ($luxAff -> findDescription () == true) {
 
    $page->MxText ('desc', $dateDesc);
 }
+
+
+$altTitle = luxbum::niceName ($luxAff -> getImageName()) .' - '
+   . ucfirst ($luxAff -> getDescription ());
+
+$page->MxImage ('photo', $luxAff->getAsPreview (), $altTitle, 
+                'title="'.$altTitle.'" '. ($luxAff->getPreviewResizeSize ()), true);
+$page->MxUrl      ('lien',  $luxAff->getImagePath ());
 
 
 
