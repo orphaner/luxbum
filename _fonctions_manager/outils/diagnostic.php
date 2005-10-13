@@ -14,6 +14,7 @@ $page->WithMxPath ('main', 'relative');
 // Includes
 //------------------------------------------------------------------------------
 include (FONCTIONS_DIR.'luxbum.class.php');
+include (CONF_DIR.'version.php');
 
 
 //------------------------------------------------------------------------------
@@ -48,7 +49,7 @@ function performVerifFile ($elt, &$page) {
    $page->MxBloc ('perms', 'loop');
 }
 
-$page->MxText ('luxbum_version', 'XXX');
+$page->MxText ('luxbum_version', $luxbum_version);
 
 $page->MxText ('php_version', phpversion ());
 $page->MxText ('web_server', $_SERVER['SERVER_SOFTWARE']);
