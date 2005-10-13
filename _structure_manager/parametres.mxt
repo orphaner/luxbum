@@ -71,12 +71,16 @@
       <mx:select id="mkdir_safe_mode"/>
     </p>
     <p>
+      <label for="use_rewrite" class="float">Afficher les informations exif : </label>
+      <mx:select id="show_exif"/>
+    </p>
+    <p>
       <label for="description_file" class="float">Format de la date : </label>
       <input type="text" name="date_format" id="date_format" mXattribut="value:val_date_format" />
       <span class="erreur"><mx:text id="err_date_format"/></span>
     </p>
     <p>
-      <label for="min_size_for_preview" class="float">Taille minimum pour générer une preview (Ko) : </label>
+      <label for="min_size_for_preview" class="float">Taille minimum en <strong>Ko</strong> pour générer une preview (Le cadre autour de l'image sera désactivé) : </label>
       <input type="text" name="min_size_for_preview" id="min_size_for_preview" mXattribut="value:val_min_size_for_preview" />
       <span class="erreur"><mx:text id="err_min_size_for_preview"/></span>
     </p>

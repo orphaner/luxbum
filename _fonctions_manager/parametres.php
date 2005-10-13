@@ -30,19 +30,20 @@ function border_pixel_select () {
 }
 
 
-$param['nom_galerie']        = NOM_GALERIE;
-$param['template_theme']     = TEMPLATE_THEME;
-$param['color_theme']        = COLOR_THEME;
-$param['photos_dir']         = PHOTOS_DIR;
-$param['thumb_dir']          = THUMB_DIR;
-$param['preview_dir']        = PREVIEW_DIR;
-$param['description_file']   = DESCRIPTION_FILE;
-$param['default_index_file'] = DEFAULT_INDEX_FILE;
-$param['allowed_format']     = ALLOWED_FORMAT;
-$param['use_rewrite']        = USE_REWRITE;
-$param['mkdir_safe_mode']    = MKDIR_SAFE_MODE;
-$param['date_format']        = DATE_FORMAT;
-$param['min_size_for_preview']        = MIN_SIZE_FOR_PREVIEW;
+$param['nom_galerie']          = NOM_GALERIE;
+$param['template_theme']       = TEMPLATE_THEME;
+$param['color_theme']          = COLOR_THEME;
+$param['photos_dir']           = PHOTOS_DIR;
+$param['thumb_dir']            = THUMB_DIR;
+$param['preview_dir']          = PREVIEW_DIR;
+$param['description_file']     = DESCRIPTION_FILE;
+$param['default_index_file']   = DEFAULT_INDEX_FILE;
+$param['allowed_format']       = ALLOWED_FORMAT;
+$param['use_rewrite']          = USE_REWRITE;
+$param['mkdir_safe_mode']      = MKDIR_SAFE_MODE;
+$param['date_format']          = DATE_FORMAT;
+$param['min_size_for_preview'] = MIN_SIZE_FOR_PREVIEW;
+$param['show_exif']            = SHOW_EXIF;
 
 $param['image_border_pixel']      = IMAGE_BORDER_PIXEL;
 $param['image_border_max_nuance'] = IMAGE_BORDER_MAX_NUANCE;
@@ -258,6 +259,7 @@ $page->MxAttribut ('val_image_border_max_nuance', $param['image_border_max_nuanc
 $page->MxAttribut ('val_image_border_hex_color', $param['image_border_hex_color'] );
 
 $page->MxAttribut ('val_min_size_for_preview', $param['min_size_for_preview'] );
+$page->MxSelect ('show_exif', 'show_exif', $param['show_exif'], on_off_select ());
 
 
 $page->MxAttribut ('action_parametres_mdp', $str_critere.'&amp;valid=2#form_mdp');
