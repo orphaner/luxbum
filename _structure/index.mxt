@@ -68,7 +68,8 @@
         </table>
       </div>
 
-      <div id="footer2"><a href="http://nico.tuxfamily.org/Projets/12-Luxbum-Script-De-Galerie-Photo-En-Php"><img src="_images/luxbum.png" alt="Powered By LuxBum"/></a>&nbsp;Luxbum by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
+      <div id="footer2"><a href="http://nico.tuxfamily.org/Projets/12-Luxbum-Script-De-Galerie-Photo-En-Php"><img src="_images/luxbum.png" alt="Powered By LuxBum"/></a><br />
+        Luxbum by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
       
 
     </body>
