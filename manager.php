@@ -1,4 +1,7 @@
 <?php
+// if (ereg ('free.fr', $_SERVER["HTTP_HOST"]) &&  !@is_dir ('sessions')) {
+//    @mkdir ('sessions');
+// }
 session_start();
 
 if (isset($_SESSION['logued']) && $_SESSION['logued'] == true) {
@@ -17,7 +20,6 @@ function definir_titre (&$page, $titre_page) {
 // Includes
 //------------------------------------------------------------------------------
 include ('common.php');
-//include (CONF_FIR.'config_manager.php');
 include (CONF_DIR.'config_manager.php');
 
 
@@ -39,10 +41,12 @@ $p = '';
 if (isset ($_GET['p'])) {
    $p = $_GET['p'];
 }
-$session_timeout = 5 * 60; // TimeOut de 5minutes
+$session_timeout = 10 * 60; // TimeOut de 10 minutes
 
 
 if ($logued == 1) {
+
+   /* Time out */
    if ((time() - $_SESSION['last_access'] ) > $session_timeout) {
       $page = new ModeliXe ('login.mxt');
       $page->SetModeliXe ();
@@ -53,6 +57,7 @@ if ($logued == 1) {
       $page->MxText ('message', 'TIMEOUT: Vous êtes désormais déconnecté.');
    }
 
+   /* Ip pas bonne */
    else if ($_SERVER['REMOTE_ADDR'] != $_SESSION['ipaddr']) {
       $page = new ModeliXe ('login.mxt');
       $page->SetModeliXe ();

@@ -50,7 +50,7 @@
 
             <td>
               <div id="iframeaffichage">
-                <iframe mXattribut="src:affichage" frameborder="0" scrolling="no" name="affichage"></iframe>
+                <iframe mXattribut="src:affichage" frameborder="0" scrolling="no" name="affichage" name="luxbumaff"></iframe>
               </div>
             </td>
           </tr>
