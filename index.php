@@ -99,7 +99,10 @@ $p = '';
 
 if (USE_REWRITE == 'off') {
    if (isset ($_SERVER['QUERY_STRING'])) {
-      if (ereg ('^/(.*)-(.*)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ||
+      if (isset ($_GET['p']) && $_GET['p'] == 'infos_exif') {
+         $p = $_GET['p'];
+      }
+      else if (ereg ('^/(.*)-(.*)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ||
           ereg ('^/(.*)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv)) {
          $p = $argv[1];
       }
