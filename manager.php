@@ -43,6 +43,34 @@ if (isset ($_GET['p'])) {
 }
 $session_timeout = 10 * 60; // TimeOut de 10 minutes
 
+define ('AUTH_METHOD', 'dotclear');
+define ('DOTCLEAR_PATH', '../dotclear/'); // slash final doit être là
+class auth {
+   var $user;
+   var $pass;
+   
+   function auth ($user, $pass) {
+      $this->user = $user;
+      $this->pass = $pass;
+   }
+
+   function checkUser () {
+      return (MANAGER_USERNAME == $this->user && MANAGER_PASSWORD == md5 ($this->pass));
+   }
+}
+class authDotclear extends auth {
+   function checkUser () {
+      $mysql = new MysqlInc (DB_HOST, DB_USER, DB_PASS, DB_DBASE);
+      $mysql->DbConnect ();
+      $sql_req = "SELECT COUNT(*) FROM ".DB_PREFIX."user "
+         ."WHERE user_id='".$this->user."' AND user_pwd='".(md5($this->pass))."'";
+      //echo $sql_req;
+      $sql_nb = $mysql->DbCount ($sql_req);
+      //mysql_query($sql_req, $db_link);
+      $mysql->DbClose ();
+      return ($sql_nb == 1);
+   }
+}
 
 if ($logued == 1) {
 
@@ -123,7 +151,16 @@ else if ($logued == false) {
          $password = $_POST['password'];
       }
 
-      if (MANAGER_USERNAME == $username && MANAGER_PASSWORD == md5 ($password)) {
+      if (AUTH_METHOD == 'dotclear') {
+         include (DOTCLEAR_PATH.'conf/config.php');
+         include (FONCTIONS_DIR.'mysql.inc.php');
+         $auth = new authDotclear ($username, $password);
+      }
+      else {
+         $auth = new auth ($username, $password);
+      }
+
+      if ($auth->checkUser () == true) {
          $_SESSION['logued'] = true;
          $_SESSION['last_access']=time();
          $_SESSION['ipaddr'] = $_SERVER['REMOTE_ADDR']; 
