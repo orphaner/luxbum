@@ -41,7 +41,7 @@ $p = '';
 if (isset ($_GET['p'])) {
    $p = $_GET['p'];
 }
-$session_timeout = 10 * 60; // TimeOut de 10 minutes
+$session_timeout = 30 * 60; // TimeOut de 10 minutes
 
 define ('AUTH_METHOD', 'dotclear');
 define ('DOTCLEAR_PATH', '../dotclear/'); // slash final doit être là
@@ -64,9 +64,7 @@ class authDotclear extends auth {
       $mysql->DbConnect ();
       $sql_req = "SELECT COUNT(*) FROM ".DB_PREFIX."user "
          ."WHERE user_id='".$this->user."' AND user_pwd='".(md5($this->pass))."'";
-      //echo $sql_req;
       $sql_nb = $mysql->DbCount ($sql_req);
-      //mysql_query($sql_req, $db_link);
       $mysql->DbClose ();
       return ($sql_nb == 1);
    }
