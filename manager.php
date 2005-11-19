@@ -58,15 +58,15 @@ if ($logued == 1) {
    }
 
    /* Ip pas bonne */
-   else if ($_SERVER['REMOTE_ADDR'] != $_SESSION['ipaddr']) {
-      $page = new ModeliXe ('login.mxt');
-      $page->SetModeliXe ();
-      $_SESSION = array ();
-      session_destroy ();
-      $page->MxAttribut ('action', ADMIN_FILE.'?p=login');
-      $page->MxAttribut ('message_id', 'message_ko');
-      $page->MxText ('message', 'IP: Nan mais tu rêve. Tu es désormais déconnecté.');
-   }
+//    else if ($_SERVER['REMOTE_ADDR'] != $_SESSION['ipaddr']) {
+//       $page = new ModeliXe ('login.mxt');
+//       $page->SetModeliXe ();
+//       $_SESSION = array ();
+//       session_destroy ();
+//       $page->MxAttribut ('action', ADMIN_FILE.'?p=login');
+//       $page->MxAttribut ('message_id', 'message_ko');
+//       $page->MxText ('message', 'IP: Nan mais tu rêve. Tu es désormais déconnecté.');
+//    }
 
    // Déconnexion
    else if ($p == 'logout') {
