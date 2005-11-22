@@ -46,6 +46,7 @@ $param['use_rewrite']          = USE_REWRITE;
 $param['mkdir_safe_mode']      = MKDIR_SAFE_MODE;
 $param['date_format']          = DATE_FORMAT;
 $param['min_size_for_preview'] = MIN_SIZE_FOR_PREVIEW;
+$param['max_file_size']        = MAX_FILE_SIZE;
 $param['show_exif']            = SHOW_EXIF;
 
 $param['image_border_pixel']      = IMAGE_BORDER_PIXEL;
@@ -142,6 +143,18 @@ function verif_parametres () {
    else {
       $err_vide = true;
       $page->MxText ('err_min_size_for_preview', 'Non numérique !!');
+   }
+
+   // Vérification de la taille minie
+   if (is_numeric ($param['max_file_size'])) {
+      if ($param['max_file_size'] < 0) {
+         $page->MxText ('err_max_file_size', 'Doit être supérieur à zéro !!');
+         $err_vide = true;
+      }
+   }
+   else {
+      $err_vide = true;
+      $page->MxText ('err_max_file_size', 'Non numérique !!');
    }
 
    return !$err_vide;
@@ -262,6 +275,7 @@ $page->MxAttribut ('val_image_border_max_nuance', $param['image_border_max_nuanc
 $page->MxAttribut ('val_image_border_hex_color', $param['image_border_hex_color'] );
 
 $page->MxAttribut ('val_min_size_for_preview', $param['min_size_for_preview'] );
+$page->MxAttribut ('val_max_file_size', $param['max_file_size'] );
 $page->MxSelect ('show_exif', 'show_exif', $param['show_exif'], on_off_select ());
 
 

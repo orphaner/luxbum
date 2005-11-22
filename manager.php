@@ -82,7 +82,6 @@ class authDotclear extends auth {
          $mysql->DbQuery ($sql_req);
          $row = $mysql->DbNextRow ();
          $this->level = $row['user_level'];
-         echo $this->level;
       }
 
       $mysql->DbClose ();
@@ -193,8 +192,7 @@ else if ($logued == false) {
          $_SESSION['last_access']=time();
          $_SESSION['ipaddr'] = $_SERVER['REMOTE_ADDR'];
          $_SESSION['is_admin'] = $auth->isAdmin ();
-         exit ();
-         //header ('location:manager.php');
+         header ('location:manager.php');
       }
       else {
          $page->MxAttribut ('message_id', 'message_ko');

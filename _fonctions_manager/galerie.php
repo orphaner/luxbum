@@ -76,7 +76,6 @@ else if (!files::isWritable (luxbum::getDirPath ($dir))) {
 //------------------------------------------------------------------------------
 $str_critere = ADMIN_FILE. '?p=galerie&amp;d='.$dir.'&amp;page='.$page_courante;
 $str_critere2 = ADMIN_FILE. '?p=galerie&amp;d='.$dir.'&amp;page=%d';
-$max_file_size = 1024*100;
 
 
 //------------------------------------------------------------------------------
@@ -131,16 +130,18 @@ $page->MxAttribut ('action_vider_cache', $str_critere.'&amp;f=vider_cache');
 $page->MxAttribut ('action_meme_date', $str_critere.'&amp;f=meme_date');
 $page->MxText ('galerie_nom', luxbum::niceName ($dir));
 $page->MxAttribut ('action_ajout_photo', $str_critere.'&amp;f=ajout_photo');
+//$page->MxAttribut ('max_file_size', $max_file_size);
 
 // Paramètrage de l'upload Photo
 $upload = new Upload ();
-$upload->MaxFilesize = $max_file_size;
+$upload->MaxFilesize = MAX_FILE_SIZE;
 $upload->InitForm ();
 $upload->DirUpload = luxbum::getDirPath ($dir);
 $upload->WriteMode = 2;
 $upload->Required = true;
 $upload->Extension = '.gif;.jpg;.jpeg;.png';
 $upload->MimeType = 'image/gif;image/pjpeg;image/jpeg;image/x-png';
+$page->MxAttribut ('max_file_size', $upload->MaxFilesize);
 
 // switch rapide
 $nuxIndex = new  luxBumIndex ();
@@ -293,9 +294,16 @@ else if ($f == 'ajout_photo') {
    $upload-> Execute();
 
    if ($UploadError) {
-//       $errors = $upload->GetError ();
-//       list (,$err) = each ($errors[1]);
-//       $page->MxText ('err_upload', $err);
+      $mess = '';
+      $errors = $upload->GetError ();
+      while (list (,$errFile) = each ($errors)) {
+//         print_r ($errFile);
+         while (list (, $err) = each ($errFile)) {
+//            echo ($err);
+            $mess .= $err.'<br />';
+         }
+      }
+      $page->MxText ('message', $mess);
    }
    else {
       $page->MxText ('message', 'fichier envoyé');

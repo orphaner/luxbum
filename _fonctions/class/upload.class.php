@@ -212,6 +212,7 @@ class Upload {
       $this-> TrackError   = true;
       $this-> ArrOfError   = Array();
       $this-> MaxFilesize  = ereg_replace('M', '', ini_get('upload_max_filesize')) * 1024;
+      echo $this-> MaxFilesize;
    }
         
         
@@ -462,7 +463,7 @@ class Upload {
          case 1 : $msg = 'Le fichier à charger excède la directive upload_max_filesize (php.ini) ('. $this-> _name .')';
             break;
             
-         case 2 : $msg = 'Le fichier excède la directive MAX_FILE_SIZE qui a été spécifiée dans le formulaire ('. $this-> _name .')';
+         case 2 : $msg = 'Le fichier excède la directive MAX_FILE_SIZE de '.($this->MaxFilesize/1024).' ko  qui a été spécifiée dans le formulaire ('. $this-> _name .')';
             break;
             
          case 3 : $msg = 'Le fichier n\'a pu être chargé complètement ('. $this-> _name .')';

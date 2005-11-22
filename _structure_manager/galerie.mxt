@@ -18,7 +18,7 @@
 
 <h2>Ajouter photo</h2>
 <form enctype="multipart/form-data" mXattribut="action:action_ajout_photo" method="post" name="upload_form" id="upload_form">
-  <input type="hidden" name="MAX_FILE_SIZE" value="104857600" />
+  <input type="hidden" name="MAX_FILE_SIZE" mXattribut="value:max_file_size" />
   <fieldset><legend>Ajouter une photo à la galerie courante </legend>
     <p>
       <div id="positionFile"></div>

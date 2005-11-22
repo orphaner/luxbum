@@ -80,6 +80,11 @@
       <span class="erreur"><mx:text id="err_date_format"/></span>
     </p>
     <p>
+      <label for="max_file_size" class="float">Taille maximum en <strong>Ko</strong> d'une photo uploadée : </label>
+      <input type="text" name="max_file_size" id="max_file_size" mXattribut="value:val_max_file_size" />
+      <span class="erreur"><mx:text id="err_max_file_size"/></span>
+    </p>
+    <p>
       <label for="min_size_for_preview" class="float">Taille minimum en <strong>Ko</strong> pour générer une preview (Le cadre autour de l'image sera désactivé) : </label>
       <input type="text" name="min_size_for_preview" id="min_size_for_preview" mXattribut="value:val_min_size_for_preview" />
       <span class="erreur"><mx:text id="err_min_size_for_preview"/></span>
