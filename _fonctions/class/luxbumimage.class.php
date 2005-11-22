@@ -131,6 +131,7 @@ class luxBumImage extends luxBum
          files::createDir ($this->thumbDir);
          $this->thumbToolkit->createThumb ($final);
       }
+      unset ($this->thumbToolkit);
       return $final;
    }
 
@@ -149,6 +150,7 @@ class luxBumImage extends luxBum
          files::createDir ($this->previewDir);
          $this->previewToolkit->createThumb ($final);
       }
+      unset ($this->thumbToolkit);
       return $final;
    }
 

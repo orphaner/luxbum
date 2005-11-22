@@ -43,11 +43,12 @@ if (isset ($_GET['p'])) {
 }
 $session_timeout = 30 * 60; // TimeOut de 10 minutes
 
-define ('AUTH_METHOD', 'dotclear');
+define ('AUTH_METHOD', 'dotclear'); // luxbum ou dotclear
 define ('DOTCLEAR_PATH', '../dotclear/'); // slash final doit être là
 class auth {
    var $user;
    var $pass;
+   var $level;
    
    function auth ($user, $pass) {
       $this->user = $user;
@@ -55,19 +56,45 @@ class auth {
    }
 
    function checkUser () {
+      $this->level = 9;
       return (MANAGER_USERNAME == $this->user && MANAGER_PASSWORD == md5 ($this->pass));
+   }
+
+   function isAdmin () {
+      return $this->level == 9;
    }
 }
 class authDotclear extends auth {
    function checkUser () {
       $mysql = new MysqlInc (DB_HOST, DB_USER, DB_PASS, DB_DBASE);
       $mysql->DbConnect ();
+      
+      // Vérif user enregistré
       $sql_req = "SELECT COUNT(*) FROM ".DB_PREFIX."user "
          ."WHERE user_id='".$this->user."' AND user_pwd='".(md5($this->pass))."'";
       $sql_nb = $mysql->DbCount ($sql_req);
+
+      if ($sql_nb == 1) {
+
+         // Vérif admin ou non
+         $sql_req = "SELECT user_level FROM ".DB_PREFIX."user "
+            ."WHERE user_id='".$this->user."'";
+         $mysql->DbQuery ($sql_req);
+         $row = $mysql->DbNextRow ();
+         $this->level = $row['user_level'];
+         echo $this->level;
+      }
+
       $mysql->DbClose ();
       return ($sql_nb == 1);
    }
+}
+
+function isAdmin () {
+   if (isset ($_SESSION['is_admin'])) {
+      return $_SESSION['is_admin'];
+   }
+   return false;
 }
 
 if ($logued == 1) {
@@ -109,6 +136,9 @@ if ($logued == 1) {
    else {
       $page = new ModeliXe ('header.mxt');
       $page->SetModeliXe();
+      if (!isAdmin ()) {
+         $page->MxBloc ('isadmin', 'delete');
+      }
 
       $pages = array(
          'liste_galeries',
@@ -161,8 +191,10 @@ else if ($logued == false) {
       if ($auth->checkUser () == true) {
          $_SESSION['logued'] = true;
          $_SESSION['last_access']=time();
-         $_SESSION['ipaddr'] = $_SERVER['REMOTE_ADDR']; 
-         header ('location:manager.php');
+         $_SESSION['ipaddr'] = $_SERVER['REMOTE_ADDR'];
+         $_SESSION['is_admin'] = $auth->isAdmin ();
+         exit ();
+         //header ('location:manager.php');
       }
       else {
          $page->MxAttribut ('message_id', 'message_ko');

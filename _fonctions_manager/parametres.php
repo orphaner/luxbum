@@ -1,12 +1,18 @@
 <?php
 
+if (!isAdmin ()) {
+   $_SESSION = array ();
+   session_destroy ();
+   die ("On respecte ses admins");
+}
+
 include FONCTIONS_DIR.'utils/formulaires.php';
 include FONCTIONS_DIR.'luxbum.class.php';
 $str_critere = ADMIN_FILE.'?p=parametres';
 
 // Page modelixe
 definir_titre ($page, 'Paramètres - LuxBum Manager');
-$page->MxAttribut ('class_parametres', 'actif');
+$page->MxAttribut ('isadmin.class_parametres', 'actif');
 $page->MxBloc ('main', 'modify', ADMIN_STRUCTURE_DIR.'parametres.mxt');
 $page->WithMxPath ('main', 'relative');
 
@@ -15,9 +21,6 @@ $page->WithMxPath ('main', 'relative');
 function template_theme_select () {
    return array ('2COL' => '2 colones','3COL' => '3 colones');
 }
-// function color_theme_select () {
-//    return array ('light' => 'Thème Blanc','dark' => 'Thème Noir');
-// }
 function on_off_select () {
    return array ('on' => 'Oui','off' => 'Non');
 }
