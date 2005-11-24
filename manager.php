@@ -43,7 +43,7 @@ if (isset ($_GET['p'])) {
 }
 $session_timeout = 30 * 60; // TimeOut de 10 minutes
 
-define ('AUTH_METHOD', 'dotclear'); // luxbum ou dotclear
+define ('AUTH_METHOD', 'luxbum'); // luxbum ou dotclear
 define ('DOTCLEAR_PATH', '../dotclear/'); // slash final doit être là
 class auth {
    var $user;
