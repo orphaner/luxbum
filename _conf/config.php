@@ -12,7 +12,7 @@ define ('USE_REWRITE', 'off');
 define ('MKDIR_SAFE_MODE', 'off');
 define ('DATE_FORMAT', '%A %e %B %Y');
 define ('MIN_SIZE_FOR_PREVIEW', '0');
-define ('MAX_FILE_SIZE', '400');
+define ('MAX_FILE_SIZE', '2000');
 define ('SHOW_EXIF', 'on');
 define ('IMAGE_BORDER_PIXEL', '5');
 define ('IMAGE_BORDER_MAX_NUANCE', '150');

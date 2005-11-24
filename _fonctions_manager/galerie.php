@@ -297,9 +297,7 @@ else if ($f == 'ajout_photo') {
       $mess = '';
       $errors = $upload->GetError ();
       while (list (,$errFile) = each ($errors)) {
-//         print_r ($errFile);
          while (list (, $err) = each ($errFile)) {
-//            echo ($err);
             $mess .= $err.'<br />';
          }
       }
