@@ -1,9 +1,15 @@
 <h1 id="h1_admin">Gestion des commentaires</h1>
 
-<form action="" method="post">
-  <mx:select id="galerie"/>
-  <input type="submit" value="Valider"/>
-</form>
+<p class="message"><mx:text id="message"/></p>
+
+<mx:bloc id="filtre">
+   <form mXattribut="action:action" method="post">
+     <input type="hidden" name="filtre" value="1"/>
+     <label for="galerie">Filtrer par galerie</label>
+     <mx:select id="galerie"/>
+     <input type="submit" value="Valider"/>
+   </form>
+</mx:bloc id="filtre">
 
 <div class="admcomment">
   <mx:bloc id="comments">
@@ -18,7 +24,11 @@
         <strong>Site</strong> : <a mXattribut="href:site"><mx:text id="site"/></a> - 
       </mx:bloc id="site">
       <strong>Adresse IP</strong> : <mx:text id="ip"/> - 
-      <strong>Date</strong> : <mx:text id="date"/>
+      <strong>Date</strong> : <mx:text id="date"/><br />
+      <strong>
+         Actions : [<a mXattribut="href:supprimer">Supprimer</a>] - 
+         [<a mXattribut="href:editer">Editer</a>]
+      </strong>
     </p>
     <div class="contenu">
       <mx:text id="contenu"/>

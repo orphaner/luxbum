@@ -68,6 +68,23 @@ class Commentaire {
    function isValidForm () {
       return (count ($this->erreurs) == 0);
    }
+   
+   function fillFromId ($id) {
+      global $mysql;
+      $sql = 'SELECT * FROM commentaire WHERE id_comment='.$id;
+      $res = $mysql->DbQuery($sql);
+      $row = $mysql->DbNextRow ($res);
+      $this->setId($id);
+      $this->setGalerie($row['galerie_comment']);
+      $this->setPhoto($row['photo_comment']);
+      $this->setDate($row['date_comment']);
+      $this->setAuteur($row['auteur_comment']);
+      $this->setEmail($row['email_comment']);
+      $this->setSite($row['site_comment']);
+      $this->setContent($row['content_comment']);
+      $this->setIp($row['ip_comment']);
+      $this->setPub($row['pub_comment']);
+   }
 
    function insertRow () {
       global $mysql;
@@ -87,6 +104,51 @@ class Commentaire {
       $this->id = $mysql->DbGetInsertId();
    }
 
+   function updateRow () {
+      global $mysql;
+      $sql = "UPDATE commentaire SET "
+//         ."galerie_comment='".$this->galerie."', "
+//         ."photo_comment='".$this->photo."', "
+//         ."date_comment='".$this->date."', "
+         ."auteur_comment='".$this->auteur."',"
+         ."email_comment='".$this->email."',"
+         ."site_comment='".$this->site."',"
+         ."content_comment='".$this->content."',"
+//         ."ip_comment='".$this->ip."', "
+//         ."pub_comment='1'"
+         ." WHERE id_comment=".$this->id;
+      $mysql->DbQuery ($sql);
+   }
+   
+   function setPublic () {
+      global $mysql;
+      if (!is_empty($this->id)) {
+         $sql = "UPDATE commentaire SET pub_comment='1' WHERE id_comment=".$this->id;
+         $mysql->DbQuery ($sql);
+         return true;
+      }
+      return false;
+   }
+   
+   function setPrivate () {
+      global $mysql;
+      if (!is_empty($this->id)) {
+          $sql = "UPDATE commentaire SET pub_comment='0' WHERE id_comment=".$this->id;
+          $mysql->DbQuery ($sql);
+          return true;
+      }
+      return false;
+   }
+   
+   function deleteRow () {
+      global $mysql;
+      if (!empty($this->id)) {
+          $sql = "DELETE FROM commentaire WHERE id_comment=".$this->id;
+          $mysql->DbQuery ($sql);
+          return true;
+      }
+      return false;
+   }
 
    function getId () {
       return $this->id;
