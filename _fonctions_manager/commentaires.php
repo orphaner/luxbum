@@ -26,6 +26,18 @@ if ($act == 'editer') {
    else {
       $page->MxBloc ('main', 'modify', ADMIN_STRUCTURE_DIR.'commentaires/editer.mxt');
       $page->WithMxPath ('main', 'relative');
+      $com = new Commentaire ();
+      $com->fillFromId($_GET['id']);
+      
+      $page->MxAttribut ('val_auteur', $com->getAuteur());
+      $page->MxAttribut ('val_site', $com->getSite());
+      $page->MxAttribut ('val_email', $com->getEmail());
+      $page->MxText ('val_content', $com->getContent());
+
+      $page->MxText ('err_auteur', $com->getErreur ('auteur'));
+      $page->MxText ('err_site', $com->getErreur ('site'));
+      $page->MxText ('err_email', $com->getErreur ('email'));
+      $page->MxText ('err_content', $com->getErreur ('content'));
    }
 }
 
@@ -54,8 +66,8 @@ if ($act == '') {
    $res = $mysql->DbQuery ($sql);
    if ($mysql->DbNumRows($res) == 0) {
       $page->MxBloc('filtre', 'delete');
-      $page->MxBloc('comments', 'delete');
       $message = 'Il n\'y a aucun commentaire.';
+      $page->MxText('message', $message);
    }
    else {
       // Filtre par galerie
@@ -64,7 +76,7 @@ if ($act == '') {
          $tab[$row['galerie_comment']] = $row['galerie_comment'];
       }
       $page->MxAttribut('filtre.action', $str_critere);
-      $page->MxSelect ('filtregalerie', 'galerie', '', $tab);
+      $page->MxSelect ('filtre.galerie', 'galerie', '', $tab);
    }
    
    // Affichage des commentaires de la base
