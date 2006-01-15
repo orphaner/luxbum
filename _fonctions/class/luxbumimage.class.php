@@ -1,6 +1,7 @@
 <?php 
 
 include (LIB_DIR.'exifer/exif.php');
+include (FONCTIONS_DIR.'mysql.inc.php');
 
 //==============================================================================
 // Classe luxBumImage : Fonctions pour les générations de miniatures
@@ -210,6 +211,16 @@ class luxBumImage extends luxBum
       files::deleteFile ($this->previewDir . $this->img);
    }
 
+
+   /**-----------------------------------------------------------------------**/
+   /** Fonctions pour les commentaires */
+   /**-----------------------------------------------------------------------**/
+   function getNbComment () {
+      global $mysql;
+      $query = "SELECT count(*) FROM commentaire "
+         ."WHERE galerie_comment='".($this->dir)."' AND photo_comment='".($this->img)."'";
+      return $mysql->DbCount ($query);
+   }
 
    /**-----------------------------------------------------------------------**/
    /** Fonctions d'informations exif */

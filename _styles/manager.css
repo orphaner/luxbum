@@ -225,6 +225,9 @@ Cache des règles à IE5-Mac \*/
 #menuGaleries  {
 	background-image : url(../_images/manager/menu/onglet_cat.png);
 }
+#menuCommentaires  {
+    background-image : url(../_images/manager/menu/onglet_comment.png);
+}
 #menuDeconnection  {
 	background-image : url(../_images/manager/menu/onglet_user.png);
 }
@@ -419,5 +422,25 @@ table.clean-table th {
 table.clean-table td {
 	border: 1px solid #666;
 	padding: 0.5em;
+}
+
+/*===========================================
+   Commentaires
+=============================================*/
+div.admcomment {
+}
+div.admcomment p.comment_info {
+    font-size:0.9em;
+    font-style:italic;
+    margin-left:10px;
+}
+div.admcomment div.contenu {
+    font-weight: normal;
+    color: #333;
+    font-size:0.85em;
+    background: #EFF5FF;
+    border: 1px solid #DCE9FF;
+    padding: 5px;
+    margin: 0 0 0 5px;
 }
 

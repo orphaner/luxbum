@@ -12,6 +12,7 @@
     <div id="header">
       <ul>
         <li mXattribut="class:class_galeries" id="menuGaleries"><a href="?p=listegaleries">Galeries</a></li>
+        <li mXattribut="class:class_commentaires" id="menuCommentaires"><a href="?p=commentaires">Commentaires</a></li>
         <mx:bloc id="isadmin">
           <li mXattribut="class:class_parametres" id="menuParametres"><a href="?p=parametres">Paramètres</a></li>
         </mx:bloc id="isadmin">

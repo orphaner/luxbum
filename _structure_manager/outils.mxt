@@ -1,6 +1,6 @@
 <h1 id="h1_admin">Outils</h1>
 
-Voici ce qui va arriver dans les prochaines versions de LuxBum :
+
 
 
 <dl class="plugin-list">

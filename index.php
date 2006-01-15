@@ -99,15 +99,15 @@ $p = '';
 
 if (USE_REWRITE == 'off') {
    if (isset ($_SERVER['QUERY_STRING'])) {
-      if (isset ($_GET['p']) && $_GET['p'] == 'infos_exif') {
+      if (isset ($_GET['p']) && ($_GET['p'] == 'infos_exif' || $_GET['p'] == 'comment')) {
          $p = $_GET['p'];
       }
       else if (ereg ('^/(.*)-(.*)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ||
-          ereg ('^/(.*)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv)) {
+               ereg ('^/(.*)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv)) {
          $p = $argv[1];
       }
    }
-} 
+}
 else {
    if (isset ($_GET['p'])) {
       $p = $_GET['p'];
@@ -127,6 +127,9 @@ switch ($p) {
       break;
    case 'infos_exif':
       include (FONCTIONS_DIR.'infos_exif.php');
+      break;
+   case 'comment':
+      include (FONCTIONS_DIR.'commentaire.php');
       break;
    default:
       include (FONCTIONS_DIR.'index.php');

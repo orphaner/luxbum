@@ -48,6 +48,13 @@ $param['date_format']          = DATE_FORMAT;
 $param['min_size_for_preview'] = MIN_SIZE_FOR_PREVIEW;
 $param['max_file_size']        = MAX_FILE_SIZE;
 $param['show_exif']            = SHOW_EXIF;
+$param['show_commentaire']     = SHOW_COMMENTAIRE;
+
+$param['db_host']              = DB_HOST;
+$param['db_name']              = DB_NAME;
+$param['db_login']             = DB_LOGIN;
+$param['db_password']          = DB_PASSWORD;
+
 
 $param['image_border_pixel']      = IMAGE_BORDER_PIXEL;
 $param['image_border_max_nuance'] = IMAGE_BORDER_MAX_NUANCE;
@@ -84,7 +91,14 @@ function verif_parametres () {
    $cpt = 0;
    while (list ($key, $val) = each ($param)) {
       get_post ($key, $param[$key]);
-      $cpt += verif_non_vide ($key, $param[$key]);
+      if (substr ($key, 0,3) == 'db_') {
+         if ($param['show_commentaire'] == 'on') {
+            $cpt += verif_non_vide ($key, $param[$key]);
+         }
+      }
+      else {
+         $cpt += verif_non_vide ($key, $param[$key]);
+      }
    }
 
    if ($cpt > 0) {
@@ -277,6 +291,12 @@ $page->MxAttribut ('val_image_border_hex_color', $param['image_border_hex_color'
 $page->MxAttribut ('val_min_size_for_preview', $param['min_size_for_preview'] );
 $page->MxAttribut ('val_max_file_size', $param['max_file_size'] );
 $page->MxSelect ('show_exif', 'show_exif', $param['show_exif'], on_off_select ());
+$page->MxSelect ('show_commentaire', 'show_commentaire', $param['show_commentaire'], on_off_select ());
+
+$page->MxAttribut ('val_db_host', $param['db_host'] );
+$page->MxAttribut ('val_db_name', $param['db_name'] );
+$page->MxAttribut ('val_db_login', $param['db_login'] );
+$page->MxAttribut ('val_db_password', $param['db_password'] );
 
 
 $page->MxAttribut ('action_parametres_mdp', $str_critere.'&amp;valid=2#form_mdp');

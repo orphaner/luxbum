@@ -5,7 +5,7 @@ class mysqlInc {
    var $db_link;
    var $nb_sql;
    var $mysqlserveur, $mysqlloggin, $mysqlpassword, $mysqlmaindb;
-   var $result;
+//   var $result;
 
    function mysqlInc ($mysqlserveur, $mysqlloggin, $mysqlpassword, $mysqlmaindb) {
       $this->nb_sql=0;
@@ -29,25 +29,25 @@ class mysqlInc {
    // FONCTION POUR FAIRE UNE REQUETE
    function DbQuery ($query) {
       $this->nb_sql++;
-      $this->result = mysql_query ($query, $this->db_link) 
+      $result = mysql_query ($query, $this->db_link) 
          or die ('<br /><strong>ERREUR</strong> '.(mysql_error()).'<br /><strong>Requete</strong>: '.$query); 
-      return $this->result;
+      return $result;
    }
 
    // FONCTION POUR COMPTER LE NOMBRE D'ENREGISTREMENTS
    function DbCount ($query) {
-      $this->result = $this->DbQuery ($query);
-      return mysql_result ($this->result,0,"COUNT(*)");
+      $result = $this->DbQuery ($query);
+      return mysql_result ($result, 0, "COUNT(*)");
    }
 
    // FONCTION POUR AFFICHER LE RESULTAT SUIVANT
-   function DbNextRow () {
-      return mysql_fetch_array ($this->result);
+   function DbNextRow ($result) {
+      return mysql_fetch_array ($result);
    }
 
    // FONCTION POUR COMPTER LE NOMBRE DE RESULTATS D'UNE REQUETE
-   function DbNumRows () {
-      return mysql_num_rows ($this->result);
+   function DbNumRows ($result) {
+      return mysql_num_rows ($result);
    }
 
    // FONCTION POUR FERMER LA CONNEXION AU SERVEUR

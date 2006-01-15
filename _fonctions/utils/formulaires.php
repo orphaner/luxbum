@@ -5,7 +5,7 @@
    */
 function protege_input ($in) {
    if (!get_magic_quotes_gpc())
-      $in=addslashes($in);
+      $in=addslashes(trim($in));
 //    $in = str_replace ("'", "''", $in);
    //$in=htmlentities($in,ENT_NOQUOTES);
    return $in;
@@ -80,6 +80,20 @@ function verif_date ($var, $val, $write=true) {
  */
 function is_hex_color ($code_hex) {
    return ereg ("[0-9a-fA-F]{6}", $code_hex);
+}
+
+/**
+ * Vérifie si une email est valide syntaxiquement
+ */
+function verifEmail ($email) {
+   return preg_match('/^[a-zA-Z0-9_+-]+(\.[a-zA-Z0-9_+-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/', $email);
+}
+
+/**
+ * Vérifie si un site est correct syntaxiquement
+ */
+function verifSite ($site) {
+   return ereg ("^http[s]?://.*\.(.){2,4}(\/.*)?$", $site);
 }
 
 ?>

@@ -231,6 +231,7 @@ class imagetoolkit
          phpinfo(8);
          $module_info = ob_get_contents();
          ob_end_clean();
+         $matches = array();
          if (preg_match("/\bgd\s+version\b[^\d\n\r]+?([\d\.]+)/i",
                         $module_info,$matches)) {
             $gd_version_number = $matches[1];
@@ -267,6 +268,7 @@ class imagetoolkit
       // Use the gd_info() function if possible.
       if (function_exists('gd_info')) {
          $ver_info = gd_info();
+         $match = array ();
          preg_match('/\d/', $ver_info['GD Version'], $match);
          $gd_ver = $match[0];
          return $match[0];

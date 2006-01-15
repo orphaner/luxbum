@@ -5,10 +5,10 @@
 session_start();
 
 if (isset($_SESSION['logued']) && $_SESSION['logued'] == true) {
-   $logued = true;
+   $logued_check = true;
 }
 else {
-   $logued = false;
+   $logued_check = false;
 }
 
 // Pr définir le titre des pages (un peu concon)
@@ -41,7 +41,7 @@ $p = '';
 if (isset ($_GET['p'])) {
    $p = $_GET['p'];
 }
-$session_timeout = 30 * 60; // TimeOut de 10 minutes
+$session_timeout = 30 * 60; // TimeOut de 30 minutes
 
 define ('AUTH_METHOD', 'luxbum'); // luxbum ou dotclear
 define ('DOTCLEAR_PATH', '../dotclear/'); // slash final doit être là
@@ -96,7 +96,7 @@ function isAdmin () {
    return false;
 }
 
-if ($logued == 1) {
+if ($logued_check == true) {
 
    /* Time out */
    if ((time() - $_SESSION['last_access'] ) > $session_timeout) {
@@ -132,7 +132,8 @@ if ($logued == 1) {
          'liste_galeries',
          'galerie',
          'parametres',
-         'outils'
+         'outils',
+         'commentaires'
          );
       $trouve = false;
       $i = 0;
@@ -150,7 +151,7 @@ if ($logued == 1) {
    }
 }
 
-else if ($logued == false) {
+else if ($logued_check == false) {
 
    // Formulaire de connexion
    $page = new ModeliXe('login.mxt');

@@ -132,6 +132,17 @@ else {
    $page->MxBloc ('exif', 'delete');
 }
 
+if (SHOW_COMMENTAIRE == 'on') {
+   $page->MxText ('commentaire.lien', INDEX_FILE.'?p=comment&amp;d='.$dir.'&amp;photo='.$file);
+   $mysql = new MysqlInc (DB_HOST, DB_LOGIN, DB_PASSWORD, DB_NAME);
+   $mysql->DbConnect ();
+   $page->MxText ('commentaire.nb', $luxAff->getNbComment($mysql));
+   $mysql->DbClose();
+}
+else {
+   $page->MxBloc ('commentaire', 'delete');
+}
+
 
 //----------------
 // Liens suivants et précédents

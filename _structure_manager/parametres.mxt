@@ -92,6 +92,35 @@
   </fieldset>
 
 
+  <h2>Paramètres des Commentaires</h2>
+  <fieldset><legend>Commentaires : </legend>
+    <p>
+      <label for="show_commentaire" class="float">Permettre les commentaires : </label>
+      <mx:select id="show_commentaire"/>
+    </p>
+    <p>
+      <label for="db_host" class="float">Hote MySQL : </label>
+      <input type="text" name="db_host" id="db_host" mXattribut="value:val_db_host" />
+      <span class="erreur"><mx:text id="err_db_host"/></span>
+    </p>
+    <p>
+      <label for="db_name" class="float">Nom de la base MySQL : </label>
+      <input type="text" name="db_name" id="db_name" mXattribut="value:val_db_name" />
+      <span class="erreur"><mx:text id="err_db_name"/></span>
+    </p>
+    <p>
+      <label for="db_login" class="float">Utilisateur MySQL : </label>
+      <input type="text" name="db_login" id="db_login" mXattribut="value:val_db_login" />
+      <span class="erreur"><mx:text id="err_db_login"/></span>
+    </p>
+    <p>
+      <label for="db_password" class="float">Mot de passe MySQL : </label>
+      <input type="password" name="db_password" id="db_password" mXattribut="value:val_db_password" />
+      <span class="erreur"><mx:text id="err_db_password"/></span>
+    </p>
+  </fieldset>
+
+
   <h2>Paramètres du cadre des images</h2>
   <fieldset><legend>Cadres des images : </legend>
     <p>

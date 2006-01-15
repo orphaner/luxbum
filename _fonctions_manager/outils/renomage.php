@@ -19,7 +19,7 @@ class renomage {
    }
 
    function verifImageName ($name) {
-      return ereg ('^[A-Za-z0-9_]+(\.)(.*)$', $name);
+      return ereg ('^([A-Za-z0-9_])+(\.)(.*)$', $name);
    }
 
    function findInvalidDirs () {
