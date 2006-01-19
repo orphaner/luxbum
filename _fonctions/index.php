@@ -50,6 +50,7 @@ else {
       $page->MxAttribut ('dossiers.col'.$cpt.'.title2',   $niceName);
       $page->MxAttribut ('dossiers.col'.$cpt.'.apercu',   $thumb);
       $page->MxUrl      ('dossiers.col'.$cpt.'.lien',     lien_vignette (0, $name));
+      $page->MxText     ('dossiers.col'.$cpt.'.slideshow',lien_slideshow ($name));
       $page->MxText     ('dossiers.col'.$cpt.'.nb_photo', $count);
       $page->MxText     ('dossiers.col'.$cpt.'.taille',   $taille);
 

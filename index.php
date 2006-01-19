@@ -42,6 +42,12 @@ function lien_apercu ($dir, $image, $page) {
    return $prefix_rewrite.'affichage-'.$page.'-'.$dir.'-'.$image.'.html';
 }
 
+// Le lien pour les pages de slideshow
+function lien_slideshow ($page) {
+   global $prefix_rewrite;
+   return $prefix_rewrite."slideshow-$page.html";
+}
+
 
 function remplir_style (&$page) {
    global $themes_css;
@@ -99,11 +105,13 @@ $p = '';
 
 if (USE_REWRITE == 'off') {
    if (isset ($_SERVER['QUERY_STRING'])) {
-      if (isset ($_GET['p']) && ($_GET['p'] == 'infos_exif' || $_GET['p'] == 'comment')) {
+      if (isset ($_GET['p']) && ($_GET['p'] == 'infos_exif' || $_GET['p'] == 'comment'
+      || $_GET['p'] == 'slideshow')) {
          $p = $_GET['p'];
       }
       else if (ereg ('^/(.*)-(.*)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ||
-               ereg ('^/(.*)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv)) {
+               ereg ('^/(.*)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ||
+               ereg ('^/(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv)) {
          $p = $argv[1];
       }
    }
@@ -130,6 +138,9 @@ switch ($p) {
       break;
    case 'comment':
       include (FONCTIONS_DIR.'commentaire.php');
+      break;
+   case 'slideshow':
+      include (FONCTIONS_DIR.'slideshow.php');
       break;
    default:
       include (FONCTIONS_DIR.'index.php');

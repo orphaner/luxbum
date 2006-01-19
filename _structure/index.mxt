@@ -32,7 +32,10 @@
                   <div class="ld">
                     <h2><mx:text id="nom"/></h2>
                     <span class="infos"><mx:text id="nb_photo"/> photos pour <mx:text id="taille"/></span>.<br />
-                    <div class="consulter"><img src="_images/fleche1.png" alt="-" />&nbsp;<a mXattribut="href:lien" mXattribut="title:title2">Consulter</a></div>
+                    <div class="consulter">
+                     <img src="_images/fleche1.png" alt="-" />&nbsp;<a mXattribut="href:lien" mXattribut="title:title2">Consulter</a><br />
+                     <img src="_images/fleche1.png" alt="-" />&nbsp;<a href="#" onclick="window.open('<mx:text id="slideshow"/>','Diaporama','width=670,height=540,scrollbars=yes,resizable=yes');">Diaporama</a>                                       
+                    </div>
                   </div>
                 </mx:bloc id="col1">
               </td>
@@ -45,7 +48,10 @@
                   <div class="ld">
                     <h2><mx:text id="nom"/></h2>
                     <span class="infos"><mx:text id="nb_photo"/> photos pour <mx:text id="taille"/></span>.<br />
-                    <div class="consulter"><img src="_images/fleche1.png" alt="-" />&nbsp;<a mXattribut="href:lien" mXattribut="title:title2">Consulter</a></div>
+                    <div class="consulter">
+                     <img src="_images/fleche1.png" alt="-" />&nbsp;<a mXattribut="href:lien" mXattribut="title:title2">Consulter</a><br />
+                     <img src="_images/fleche1.png" alt="-" />&nbsp;<a href="#" onclick="window.open('<mx:text id="slideshow"/>','Diaporama','width=670,height=540,scrollbars=yes,resizable=yes');">Diaporama</a>                                       
+                    </div>
                   </div>
                 </mx:bloc id="col2">
               </td>
@@ -58,7 +64,10 @@
                   <div class="ld">
                     <h2><mx:text id="nom"/></h2>
                     <span class="infos"><mx:text id="nb_photo"/> photos pour <mx:text id="taille"/></span>.<br />
-                    <div class="consulter"><img src="_images/fleche1.png" alt="-" />&nbsp;<a mXattribut="href:lien" mXattribut="title:title2">Consulter</a></div>
+                    <div class="consulter">
+                     <img src="_images/fleche1.png" alt="-" />&nbsp;<a mXattribut="href:lien" mXattribut="title:title2">Consulter</a><br />
+                     <img src="_images/fleche1.png" alt="-" />&nbsp;<a href="#" onclick="window.open('<mx:text id="slideshow"/>','Diaporama','width=670,height=540,scrollbars=yes,resizable=yes');">Diaporama</a>                                       
+                    </div>
                   </div>
                 </mx:bloc id="col3">
               </td>
