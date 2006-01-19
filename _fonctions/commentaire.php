@@ -63,6 +63,9 @@ if (isset ($_GET['valid']) && $_GET['valid'] == 1) {
       $page->MxText ('err_content', $com->getErreur ('content'));
    }
 }
+else {
+   $page->MxText ('val_content', '');
+}
 
 $page->MxAttribut ('action', INDEX_FILE.'?p=comment&d='.$dir.'&photo='.$file.'&valid=1');
 

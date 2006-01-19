@@ -196,7 +196,7 @@ class Commentaire {
       return $this->content;
    }
    function setContent ($content) {
-      $this->content = $content;
+      $this->content = trim ($content);
    }
    function getIp () {
       return $this->ip;
