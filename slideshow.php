@@ -1,25 +1,34 @@
 <?php
 
 
+include ('common.php');
+include (FONCTIONS_DIR.'luxbum.class.php');
 
 /* XMLHTTPREQUEST code */
-if (isset($_POST['curimg']) && !empty($_POST['curimg'])) {
-//  $_POST['curimg'] = addslashes($_POST['curimg']);
-//  exif($_POST['curimg']);
-//
-//  $pic_title  = basename($_POST['curimg']);
-//  echo '<h2>'.$pic_title.'</h2>';
-//
-//  if (isset($exif_data['Model']) && $exif_data['Model'] != '')
-//    echo '<strong>Camera: </strong> '.$exif_data['Model'].'<br />';
-//
-//  if (isset($exif_data['DateTime']) && $exif_data['DateTime'] != '')
-//    echo '<strong>Date and time: </strong> '.$exif_data['DateTime'].'<br />';
-//
-//  if (isset($exif_data['DateTime']) && $exif_data['DateTime'] != '')
-//    echo '<strong>Size: </strong> '.$exif_data['ImageWidth'].'x'.$exif_data['ImageHeight'].'<br />';
-
-  die();
+if (isset($_POST['action']) && $_POST['action']=='exif') {
+   $dir = $_POST['dir'];
+   $file = $_POST['file'];
+   $lux = new luxBumImage ($dir, $file);
+   $lux->exifInit ();
+   
+   if ($lux->exifExists ()) {
+      if ($lux -> findDescription () == true) {
+         echo "<h2>Date / Description</h2>";
+         echo $lux->getDateDesc ();
+      }
+      echo "<h2>Informations EXIF</h2>";
+      echo "<strong>Appareil photo: </strong>".$lux->getExifCameraMaker ()." ".$lux->getExifCameraModel ()."<br />";
+      echo "<strong>Exposition: </strong>".$lux->getExifExposureTime ()."<br />";
+      echo "<strong>Ouverture: </strong>".$lux->getExifAperture ()."<br />";
+      echo "<strong>Distance focale: </strong>".$lux->getExifFocalLength ()."<br />";
+      echo "<strong>Flash: </strong>".$lux->getExifFlash ()."<br />";
+      echo "<strong>ISO: </strong>".$lux->getExifISO ()."<br />";
+      echo "<strong>Date: </strong>".$lux->getExifCaptureDate ()."<br />";
+   }
+   else {
+      echo "Aucune information exif disponible";
+   }
+   die();
 }
 // Return pictures
 elseif (isset($_GET['base64'])) {
@@ -39,9 +48,7 @@ elseif (isset($_GET['base64'])) {
 }
 
 // Return image path
-else if (isset ($_POST['dir']) && isset ($_POST['file'])) {
-   include ('common.php');
-   include (FONCTIONS_DIR.'luxbum.class.php');
+else if (isset($_POST['action']) && $_POST['action']=='photo') {
    $dir = $_POST['dir'];
    $file = $_POST['file'];
    $luxAff = new luxBumImage ($dir, $file);

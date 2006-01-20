@@ -22,8 +22,8 @@ window.onload = function () {
    document.getElementById(backImage).style.visibility = 'hidden';
    document.getElementById(foreImage).onload = function(){slide_addBinds();return false;}
    document.getElementById(backImage).onload = function(){backImageLoaded=true;return false;}
-   /*document.getElementById(foreImage).src = */getCurrentPhoto(current_fg_index, "fg");// photosURL[current_fg_index];
-   /*document.getElementById(backImage).src = */getCurrentPhoto(current_bg_index, "bg");//photosURL[current_bg_index];
+   getCurrentPhoto(current_fg_index, "fg");
+   getCurrentPhoto(current_bg_index, "bg");
 
    if (smoothtrans==false) {
       smoothtrans = false;
@@ -94,7 +94,7 @@ function slide_changeimage(increment) {
 
       document.getElementById(foreImage).onload = function(){return false;}
       document.getElementById(backImage).onload = function(){backImageLoaded=true;return false;}
-      /*document.getElementById(backImage).src = */getCurrentPhoto(current_bg_index, "bg");
+      getCurrentPhoto(current_bg_index, "bg");
    }
 
    if (backImageLoaded == false) {
@@ -199,7 +199,7 @@ function slide_switchFgBg() {
    	  backImageLoaded=true;
    	  return false;
    } ;
-   /*document.getElementById(backImage).src = */getCurrentPhoto(current_bg_index, "bg");
+   getCurrentPhoto(current_bg_index, "bg");
 
    if (in_slideshow==1) {
       id_slidetimeout = window.setTimeout("slide_play(2)", slide_speed*1000);
@@ -335,7 +335,7 @@ function slide_img_info_doquery() {
    var xmlhttp = getHTTPObject('infos');
    xmlhttp.open("POST", "slideshow.php",true);
    xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-   xmlhttp.send("curimg="+photosURL[current_fg_index]);
+   xmlhttp.send("action=exif&dir="+currentDir+"&file="+photosURL[current_fg_index]);
 }
 
 /* XmlHTTPRequest function to get the next Photo Path */
@@ -343,7 +343,7 @@ function getCurrentPhoto(index, pos) {
    var xmlhttp = getHTTPObject('photo');
    xmlhttp.open("POST", "slideshow.php", true);
    xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-   xmlhttp.send("dir="+currentDir+"&file="+photosURL[index]);
+   xmlhttp.send("action=photo&dir="+currentDir+"&file="+photosURL[index]);
    
    if (xmlhttp) {
       /* we define what should be done once the server has answered */

@@ -77,6 +77,29 @@ class luxBumImage extends luxBum
    function getSize () {
       return filesize ($this->getImagePath ());
    }
+   
+   function getDateDesc () {
+      $dateDesc = '';
+      
+      // Date
+      if ($this -> getDate() != '') {
+         list ($jour, $mois, $annee) = explode ('/', $this -> getDate());
+         setlocale (LC_TIME, 'fr_FR');
+         $timeStamp = mktime (0, 0, 0, $mois, $jour, $annee);
+         $dateDesc = 'Le '.strftime (DATE_FORMAT,  $timeStamp);
+    
+         // date + description
+         if ($this -> getDescription () != '' && $this -> getDescription () != "\n") {
+            $dateDesc .= ' - '. ucfirst ($this -> getDescription ());
+         }
+      }
+   
+      // Que description
+      else if ($this -> getDescription () != '' && $this -> getDescription () != "\n") {
+         $dateDesc = ucfirst ($this -> getDescription ());
+      }
+      return $dateDesc;
+   }
 
    /**-----------------------------------------------------------------------**/
    /** Fonctions des descriptions d'images */

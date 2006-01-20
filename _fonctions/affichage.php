@@ -85,28 +85,7 @@ $luxAff->exifInit ();
 // $page->MxAttribut ('alt',   $luxAff->getImageName ());
 
 if ($luxAff -> findDescription () == true) {
-
-   $dateDesc = '&nbsp;';
-
-   // Date
-   if ($luxAff -> getDate() != '') {
-      list ($jour, $mois, $annee) = explode ('/', $luxAff -> getDate());
-      setlocale (LC_TIME, 'fr_FR');
-      $timeStamp = mktime (0, 0, 0, $mois, $jour, $annee);
-      $dateDesc = 'Le '.strftime (DATE_FORMAT,  $timeStamp);
- 
-      // date + description
-      if ($luxAff -> getDescription () != '' && $luxAff -> getDescription () != "\n") {
-         $dateDesc .= ' - '. ucfirst ($luxAff -> getDescription ());
-      }
-   }
-
-   // Que description
-   else if ($luxAff -> getDescription () != '' && $luxAff -> getDescription () != "\n") {
-      $dateDesc = ucfirst ($luxAff -> getDescription ());
-   }
-
-   $page->MxText ('desc', $dateDesc);
+   $page->MxText ('desc', $luxAff->getDateDesc ());
 }
 
 
