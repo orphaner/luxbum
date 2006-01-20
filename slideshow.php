@@ -38,5 +38,14 @@ elseif (isset($_GET['base64'])) {
   die();
 }
 
+// Return image path
+else if (isset ($_POST['dir']) && isset ($_POST['file'])) {
+   include ('common.php');
+   include (FONCTIONS_DIR.'luxbum.class.php');
+   $dir = $_POST['dir'];
+   $file = $_POST['file'];
+   $luxAff = new luxBumImage ($dir, $file);
+   $luxAff->getAsPreview();
+}
 
 ?>

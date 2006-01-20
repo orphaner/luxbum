@@ -14,7 +14,6 @@ if (USE_REWRITE == 'on') {
    if (!isset($_GET['d'])) {
       exit('manque des paramètres ON');
    }
-
    $dir           = $_GET['d'];
 }
 // Méthode non rewritée
@@ -41,6 +40,8 @@ else if (!is_dir (luxbum::getDirPath ($dir))) {
 // Page modelixe
 $page = new ModeliXe('slideshow.mxt');
 $page->SetModeliXe();
+$page->MxText ('photosDir', PHOTOS_DIR);
+$page->MxText ('dir', $dir);
 $page->MxText ('defaultspeed', 4);
 $page->MxText ('slide_width', '650px');
 $page->MxText ('slide_height_full', '510px');
@@ -54,7 +55,7 @@ $galleryCount = $nuxThumb->getCount ();
 for ($i = 0 ; $i < $nuxThumb->getCount() ; $i++) {
    $file = $nuxThumb->list[$i];
    $page->MxText ('photosSRC.i', $i);
-   $page->MxText ('photosSRC.photo', $file->getAsPreview());
+   $page->MxText ('photosSRC.photo', $file->getImageName());//$file->getAsPreview());
    $page->MxBloc ('photosSRC', 'loop');
 }
 
