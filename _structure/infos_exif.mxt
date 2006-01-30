@@ -15,16 +15,18 @@
   </head>
 
   <body id="body" style="padding:15px;">
-    <h2>Informations EXIF</h2>
-    <table class="clean-table">
-      <tr><td>Appareil photo</td><td><mx:text id="camera_make"/> <mx:text id="camera_model"/></td></tr>
-      <tr><td>Exposition</td><td><mx:text id="exposure_time"/></td></tr>
-      <tr><td>Ouverture</td><td><mx:text id="aperture"/></td></tr>
-      <tr><td>Distance focale</td><td><mx:text id="focal_length"/></td></tr>
-      <tr><td>Flash</td><td><mx:text id="flash"/></td></tr>
-      <tr><td>ISO</td><td><mx:text id="iso"/></td></tr>
-      <tr><td>Date</td><td><mx:text id="date"/></td></tr>
-    </table>
-    <p><a href="javascript:window.close();">Fermer la fenêtre</a></p>
+    <div id="infos_exif">
+      <h2>Informations EXIF</h2>
+      <table class="clean-table">
+        <tr><td>Appareil photo</td><td><mx:text id="camera_make"/> <mx:text id="camera_model"/></td></tr>
+        <tr><td>Exposition</td><td><mx:text id="exposure_time"/></td></tr>
+        <tr><td>Ouverture</td><td><mx:text id="aperture"/></td></tr>
+        <tr><td>Distance focale</td><td><mx:text id="focal_length"/></td></tr>
+        <tr><td>Flash</td><td><mx:text id="flash"/></td></tr>
+        <tr><td>ISO</td><td><mx:text id="iso"/></td></tr>
+        <tr><td>Date</td><td><mx:text id="date"/></td></tr>
+      </table>
+      <p><a href="javascript:window.close();">Fermer la fenêtre</a></p>
+    </div>
   </body>
 </html>

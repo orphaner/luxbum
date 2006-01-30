@@ -52,10 +52,10 @@ if ($act == 'editer') {
             $com->fillFromId($_GET['id']);
          }
          
-         $page->MxAttribut ('val_auteur', $com->getAuteur());
+         $page->MxAttribut ('val_auteur', unprotege_input($com->getAuteur()));
          $page->MxAttribut ('val_site', $com->getSite());
          $page->MxAttribut ('val_email', $com->getEmail());
-         $page->MxText ('val_content', $com->getContent());
+         $page->MxText ('val_content', unprotege_input($com->getContent()));
    
          $page->MxText ('err_auteur', $com->getErreur ('auteur'));
          $page->MxText ('err_site', $com->getErreur ('site'));

@@ -40,7 +40,7 @@ if (USE_REWRITE == 'on') {
    }
    $page_courante = $_GET['page'];
    $dir           = $_GET['d'];
-   $img                   = $_GET['imgd'];
+   $img           = $_GET['imgd'];
 }
 // Méthode non rewritée
 else  {
@@ -83,7 +83,7 @@ else{
 
 //echo lien_apercu($dir, $img, ($page_courante+1));
 //echo getScriptURL();
-header('Location: '.INDEX_FILE.lien_vignette_redirect($page_courante, $dir, $img));
+header('Location: '.lien_vignette_redirect($page_courante, $dir, $img));
 //header('Location: '.INDEX_FILE.lien_apercu($dir, $img, ($page_courante+1)));
 
 //header('Location: http://127.0.0.1/luxbum-0.4.4_upd_dark/index.php?/affichage-0-test-Photo_058.jpg.html');
