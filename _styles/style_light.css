@@ -215,6 +215,17 @@ td.v2col {
 	height:130px;
 	width:33%;
 }
+/** upd dark 1 **/
+.view_photo, .view_photo_selected { 
+	height:100%;
+	text-align:center;
+}
+
+.view_photo_selected  img, .photo_selected  img{ 
+	border:2px solid #ABABAB;
+	padding:1px;
+}
+/**fin  upd dark 1 **/
 
 
 /*===========================================

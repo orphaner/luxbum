@@ -17,6 +17,8 @@ define ('DB_PREFIX', '');
 define ('SHOW_SLIDESHOW', 'on');
 define ('SLIDESHOW_TIME', '4');
 define ('SLIDESHOW_FADING', 'on');
+define ('SHOW_SELECTION', 'on');
+define ('ALLOW_DL_SELECTION', 'off');
 define ('IMAGE_BORDER_PIXEL', '3');
 define ('IMAGE_BORDER_MAX_NUANCE', '150');
 define ('IMAGE_BORDER_HEX_COLOR', 'FAF3EA');

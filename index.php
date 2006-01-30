@@ -1,5 +1,9 @@
 <?php
 
+//@start upd dark 1.2
+session_start();
+//@end upd dark 1.2
+
   //------------------------------------------------------------------------------
   // Includes
   //------------------------------------------------------------------------------
@@ -46,6 +50,26 @@ function lien_apercu ($dir, $image, $page) {
 function lien_slideshow ($page) {
    global $prefix_rewrite;
    return $prefix_rewrite."slideshow-$page.html";
+}
+
+// Lien pour voir la sélection
+function lien_selection ($page) {
+   global $prefix_rewrite;
+   return $prefix_rewrite."selection_list-$page.html";
+}
+
+// Lien pour sélectionner une photo
+function lien_apercu_select ($dir, $image, $page) {
+   global $prefix_rewrite;
+   $page--;
+   return $prefix_rewrite.'select-'.$page.'-'.$dir.'-'.$image.'.html';
+}
+
+// Lien pour désélectionner une photo
+function lien_apercu_unselect ($dir, $image, $page) {
+   global $prefix_rewrite;
+   $page--;
+   return $prefix_rewrite.'unselect-'.$page.'-'.$dir.'-'.$image.'.html';
 }
 
 
@@ -106,7 +130,7 @@ $p = '';
 if (USE_REWRITE == 'off') {
    if (isset ($_SERVER['QUERY_STRING'])) {
       if (isset ($_GET['p']) && ($_GET['p'] == 'infos_exif' || $_GET['p'] == 'comment'
-      || $_GET['p'] == 'slideshow')) {
+      || $_GET['p'] == 'slideshow' || $_GET['p'] == 'selection_list' || $_GET['p'] == 'dl_selection')) {
          $p = $_GET['p'];
       }
       else if (ereg ('^/(.*)-(.*)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ||
@@ -142,6 +166,18 @@ switch ($p) {
    case 'slideshow':
       include (FONCTIONS_DIR.'slideshow.php');
       break;
+/**upd dark 1 **/
+   case 'select': 
+   case 'unselect':
+      include (FONCTIONS_DIR.'select.php');
+      break;
+   case 'selection_list':
+      include (FONCTIONS_DIR.'selection_list.php');
+      break;
+   case 'dl_selection':
+      include (FONCTIONS_DIR.'dl_selection.php');
+      break;
+/** fin upd dark1 **/
    default:
       include (FONCTIONS_DIR.'index.php');
       break;

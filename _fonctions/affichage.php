@@ -96,6 +96,46 @@ $page->MxImage ('photo', $luxAff->getAsPreview (), $altTitle,
                 'title="'.$altTitle.'" '. ($luxAff->getPreviewResizeSize ()), true);
 $page->MxUrl      ('lien',  $luxAff->getImagePath ());
 
+//@start upd dark 1.3 : changement du style dans les vignettes si photo selectionnee
+//@implique : ajout style "view_photo_selected" dans css et attribut "style" dans page modeliXe
+// Si la sélection est désactivée, on dégage le bloc
+if (SHOW_SELECTION == 'off') {
+   $page->MxBloc ('selection', 'delete');
+}
+else {
+   if (isSet($_SESSION['luxbum'][$dir][$file])){
+      $page->MxUrl('selection.lien_selection', lien_apercu_unselect($dir, $file, ($page_courante+1)));
+      $page->MxText('selection.info_selection', 'Désélectionner');
+      $page->MxAttribut('photo_selection', 'photo_selected');
+   }
+   else{
+      $page->MxUrl('selection.lien_selection', lien_apercu_select($dir, $file, ($page_courante+1)));
+      $page->MxText('selection.info_selection', 'Sélectionner');
+      $page->MxAttribut('photo_selection', '');
+   }
+   
+   // Si la sélection est non vide
+   if (isSet($_SESSION['luxbum_selection_size']) && $_SESSION['luxbum_selection_size'] > 0){
+      $page->MxUrl('selection.selection_empty.gestion_selection', INDEX_FILE.'?p=selection_list');
+      $page->MxText('selection.selection_empty.action_selection', 'Voir la sélection ('.$_SESSION['luxbum_selection_size'].')');
+      
+      // Si on ne peut pas télécharger la sélection, on dégage le bloc !
+      if (ALLOW_DL_SELECTION == 'off') {
+         $page->MxBloc('selection.selection_empty.selection_dl_ok', 'delete');
+      }
+      else {
+         $page->MxUrl('selection.selection_empty.selection_dl_ok.dl_selection', INDEX_FILE.'?p=dl_selection');
+         $page->MxText('selection.selection_empty.selection_dl_ok.telecharge_selection', 'Télécharger la selection');
+      }
+   }
+   
+   // La sélection est vide, on dégage le bloc !
+   else{
+      $page->MxBloc ('selection.selection_empty', 'modify', 'La sélection est vide !');
+   }
+}
+//@end upd dark 1.3
+
 
 
 //----------------

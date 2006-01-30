@@ -199,6 +199,21 @@ function swapDiv (divId, selectId) {
   </fieldset>
 
 
+  <h2>Paramètres Sélections</h2>
+  <fieldset><legend>Sélection : </legend>
+    <p>
+      <label for="show_selection" class="float">Permettre les sélections : </label>
+      <mx:select id="show_selection"/>
+    </p>
+    <div id="paramSelection" mXattribut="class:selectionDiv">
+    <p>
+      <label for="allow_dl_selection" class="float">Activer le téléchargement en .zip de la sélection : </label>
+      <mx:select id="allow_dl_selection"/>
+    </p>
+    </div>
+  </fieldset>
+
+
   <!--<h2>Paramètres du cadre des images</h2>-->
 
   <p>

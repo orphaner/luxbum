@@ -196,12 +196,8 @@ span.infos {
 	font-size:10px;
 }
 
-.view_photo img { 
-/*	border:2px solid #ECECEC;*/
-}
-
 .view_photo img {
-/*	border:1px solid #FFF;*/
+	padding:3px;
 }
 
 h1.vig_titre {
@@ -217,6 +213,17 @@ td.v2col {
 	height:130px;
 	width:33%;
 }
+/** upd dark 1 **/
+.view_photo, .view_photo_selected { 
+	height:100%;
+	text-align:center;
+}
+
+.view_photo_selected  img, .photo_selected  img{ 
+	border:2px solid #B6B4B6;
+	padding:1px;
+}
+/**fin  upd dark 1 **/
 
 
 /*===========================================

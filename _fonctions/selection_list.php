@@ -1,8 +1,8 @@
 <?php
 
-  // Indique si il faut chercher une image par défaut ou non
-$first_ok = false;
-
+if (SHOW_SELECTION == 'off') {
+   exit ('Sélection désactivée.');
+}
 
 //------------------------------------------------------------------------------
 // Include
@@ -10,57 +10,29 @@ $first_ok = false;
 include (FONCTIONS_DIR.'luxbum.class.php');
 include (FONCTIONS_DIR.'utils/aff_page.inc.php');
 
-
 //------------------------------------------------------------------------------
 // Parsing des paramètres
 //------------------------------------------------------------------------------
+$page_courante = 0;
 // Méthode rewritée
 if (USE_REWRITE == 'on') {
-   if (!isset($_GET['page']) || !isset($_GET['d'])) {
-      exit ('manque des paramètres');
-   }
-   $page_courante = $_GET['page'];
-   $dir           = $_GET['d'];
-   
-
-   if (isset ($_GET['imgd'])) {
-      $img_defaut = $_GET['imgd'];
-      $first_ok = true;
-   }
+   if (isset($_GET['page'])) {
+       $page_courante = $_GET['page'];
+	}
 }
 // Méthode non rewritée
 else  {
-   if (ereg ('^/vignette-([0-9]+)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
+   if (ereg ('^/selection_list-([0-9]+)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
       $page_courante = $argv[1];
-      $dir           = $argv[2];
-      $img_defaut    = $argv[3];
-      $first_ok = true;
-   }
-   else if (ereg ('^/vignette-([0-9]+)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
-      $page_courante = $argv[1];
-      $dir           = $argv[2];
-   }
-   else {
-      exit ('manque des paramètres.');
    }
 }
 $page_courante++;
 
-if (!verif_dir ($dir)) {
-   exit ('nom de dossier incorrect !!');
-}
-else if (!is_dir (luxbum::getDirPath ($dir))) {
-   exit ('dossier incorrect !!');
-}
-
 // Vérif que la page est bonne
-$nuxThumb = new luxBumGalleryList ($dir);
-$nuxThumb->addAllImages ();
-$galleryCount = $nuxThumb->getCount ();
-
-if (ceil ($galleryCount / LIMIT_THUMB_PAGE) < $page_courante) {
+if (ceil ($_SESSION['luxbum_selection_size'] / LIMIT_THUMB_PAGE) < $page_courante) {
    exit ('page incorrecte !!');
 }
+
 
 
 
@@ -73,10 +45,10 @@ if (ceil ($galleryCount / LIMIT_THUMB_PAGE) < $page_courante) {
 // Page modelixe
 $page = new ModeliXe('vignette.mxt');
 $page->SetModeliXe();
-$niceDir = ucfirst (luxBum::niceName ($dir));
-definir_titre ($page, $niceDir. ' - '. NOM_GALERIE);
+//$niceDir = ucfirst (luxBum::niceName ($dir));
+definir_titre ($page, 'Voici votre selection ('.$_SESSION['luxbum_selection_size'].') : ');
 remplir_style ($page);
-$page->MxText ('nom_dossier', $niceDir);
+$page->MxText ('nom_dossier', 'Ma selection');
 
 
 
@@ -86,9 +58,18 @@ $page->MxText ('nom_dossier', $niceDir);
 $page->MxBloc ('liste', 'modify', STRUCTURE_DIR.$template);
 $page->WithMxPath('liste', 'relative');
 
-$nuxThumb->createOrMajDescriptionFile ();
-$nuxThumb->getDescriptions ();
 
+//on balle toutes la selection dans un tableau contigu
+$tab_selection = array();
+$i = 0;
+
+foreach($_SESSION['luxbum'] as $d=>$s){
+	foreach($_SESSION['luxbum'][$d] as $img=>$ok){
+		$tab_selection[$i]['dir'] = $d;
+		$tab_selection[$i]['img'] = $img;
+		$i++;
+	}
+}
 
 //----------------
 // Affichage des vignettes
@@ -96,37 +77,38 @@ $i = 0;
 $cpt = 1;
 $loop = 0;
 
-
+$first_ok = false;
 // Parcours des vignettes
 for ($i = ($page_courante-1) * LIMIT_THUMB_PAGE  ; 
-     $i < ($page_courante)   * LIMIT_THUMB_PAGE && $i < $galleryCount ; 
+     $i < ($page_courante)   * LIMIT_THUMB_PAGE && $i < $_SESSION['luxbum_selection_size'] ; 
      $i++) {
-   $file     = $nuxThumb->list[$i];
-   $name     = $file->getImageName ();
-   $niceName = luxbum::niceName ($name);
-   $title    = $niceName . ' - ' . ucfirst ($file->getDescription ());
+   $name = $tab_selection[$i]['img'];//$name     = $file->getImageName ();
+   $dir = $tab_selection[$i]['dir'];
+   //$file     = $tab_selection;//$nuxThumb->list[$i];
+   $file = new luxBumImage($dir, $name);
+   $title = $tab_selection[$i]['dir'] .' - ' .$tab_selection[$i]['img'];//$title    = $niceName . ' - ' . ucfirst ($file->getDescription ());
 
    if ($first_ok == false) {
+	  $dir_defaut = $dir;
       $img_defaut = $name;
       $first_ok = true;
    }
-
-   $page->MxText     ('num_photo'.$cpt,              ($i+1).' / '.$galleryCount);
+   $page->MxText     ('num_photo'.$cpt,              ($i+1).' / '.$_SESSION['luxbum_selection_size']);
    $page->MxAttribut ('view_photo'.$cpt.'.vignette', $file->getAsThumb (IMG_W, IMG_H));
    $page->MxAttribut ('view_photo'.$cpt.'.alt',      $title);
    $page->MxAttribut ('view_photo'.$cpt.'.title',    $title);
    $page->MxUrl      ('view_photo'.$cpt.'.lien',     lien_apercu ($dir, $name, $page_courante));
-
+   
    //@start upd dark 1.1 : changement du style dans les vignettes si photo selectionnee
    //@implique : ajout style "view_photo_selected" dans css et attribut "style" dans page modeliXe
-   if (isSet($_SESSION['luxbum'][$dir][$name])){
-      $page->MxAttribut ('view_photo'.$cpt.'.style', 'view_photo_selected');
-   }
-   else{
-      $page->MxAttribut ('view_photo'.$cpt.'.style', 'view_photo');
+   if(isSet($_SESSION['luxbum'][$dir][$name])){
+	 $page->MxAttribut('view_photo'.$cpt.'.style', 'view_photo_selected');
+   }else{
+	 $page->MxAttribut('view_photo'.$cpt.'.style', 'view_photo');
    }
    //@end upd dark 1.1
-   
+  
+	$page->MxAttribut('view_photo'.$cpt.'.style', 'view_photo');
    $cpt++;
    $loop++;
    if ($loop % NB_COL == 0) {
@@ -152,15 +134,15 @@ $page->WithMxPath ('', 'relative');
 
 //----------------
 // Affichage par page
-$link = lien_vignette ("%d", $dir);
+$link = lien_selection("%d"); //lien_vignette ("%d", $dir);
 $start = $page_courante * LIMIT_THUMB_PAGE;
-$AffPage = aff_page2 ($galleryCount, $page_courante-1, LIMIT_THUMB_PAGE, $start, $link);
+$AffPage = aff_page2 ($_SESSION['luxbum_selection_size'], $page_courante-1, LIMIT_THUMB_PAGE, $start, $link);
 $page->MxText ('aff_page', $AffPage);
 
 
 //----------------
 // Photo par défaut
-$page->MxAttribut ('affichage', lien_apercu ($dir, $img_defaut, $page_courante));
+$page->MxAttribut ('affichage', lien_apercu ($dir_defaut, $img_defaut, $page_courante));
 
 
 //----------------

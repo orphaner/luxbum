@@ -60,6 +60,9 @@ $param['show_slideshow']       = SHOW_SLIDESHOW;
 $param['slideshow_time']       = SLIDESHOW_TIME;
 $param['slideshow_fading']     = SLIDESHOW_FADING;
 
+$param['show_selection']       = SHOW_SELECTION;
+$param['allow_dl_selection']   = ALLOW_DL_SELECTION;
+
 $param['image_border_pixel']      = IMAGE_BORDER_PIXEL;
 $param['image_border_max_nuance'] = IMAGE_BORDER_MAX_NUANCE;
 $param['image_border_hex_color']  = IMAGE_BORDER_HEX_COLOR;
@@ -335,6 +338,15 @@ if ($param['show_slideshow'] == 'off') {
 }
 $page->MxAttribut ('val_slideshow_time', $param['slideshow_time'] );
 $page->MxSelect ('slideshow_fading', 'slideshow_fading', $param['slideshow_fading'], on_off_select ());
+
+// Sélection
+$page->MxSelect ('show_selection', 'show_selection', $param['show_selection'],
+                   on_off_select (), '', '', 'onchange="javascript:swapDiv(\'paramSelection\', \'show_selection\')"');
+if ($param['show_selection'] == 'off') {
+   $page->MxAttribut('selectionDiv', 'invisible');
+}
+$page->MxSelect ('allow_dl_selection', 'allow_dl_selection', $param['allow_dl_selection'], on_off_select ());
+
 
 $page->MxAttribut ('action_parametres_mdp', $str_critere.'&amp;valid=2#form_mdp');
 $page->MxAttribut ('val_manager_username', $param2['manager_username']);
