@@ -1,6 +1,6 @@
 <?php
 define ('NOM_GALERIE', 'Galerie d\'images');
-define ('TEMPLATE_THEME', '3COL');
+define ('TEMPLATE_THEME', '2COL');
 define ('COLOR_THEME', 'l62');
 define ('USE_REWRITE', 'off');
 define ('MKDIR_SAFE_MODE', 'off');

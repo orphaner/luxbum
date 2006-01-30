@@ -236,36 +236,31 @@ td.v2col {
 	text-align:center;
 	margin-top:10px;
 }
-
-.alt1 {
-	background-color: #D6D6D6;
-	color: #000000;
-	text-align:center;
-}
-
-.alt1 {
-	text-align:center;
-	font-weight : bold;
-}
-
+/* Ici pour définir la couleur de fond du cadre ! */
 .tborder {
 	background-color: #5A5A5A;
 	color: red;
 	margin: auto;
 }
-  
+/* page non courante */
+.alt1 {
+	background-color: #D6D6D6;
+	color: #000000;
+	text-align:center;
+	font-weight : bold;
+}
+/* page courante */
 .alt2 {
 	background-color: #A9A9A9;
 	color: #000000;
 	text-align:center;
 }
-
 .alt2 a {
 	text-align:center;
 	font-weight : bold;
 	color: #000000;
 }
-
+/* page x sur y */
 .affpage {
 	background: #97C6E8;
 	color: #2B3842;
