@@ -182,7 +182,7 @@ else {
       $page->MxAttribut ('apercu', $thumb);
       $page->MxUrl ('lien', ADMIN_FILE.'?p=galerie&amp;d='.$name.'&amp;page=0');
 
-      $page->MxUrl ('del', "javascript:if(window.confirm('Etes-vous sûr de vouloir supprimer cette galerie ?')) window.location='".$str_critere.'&amp;d='.$name.'&amp;f=del\';');
+      $page->MxUrl ('del', "javascript:if(window.confirm('La suppression de cette galerie entrainera la suppression de tous les commentaires qui lui sont associés. Etes-vous sûr de vouloir supprimer cette galerie ?')) window.location='".$str_critere.'&amp;d='.$name.'&amp;f=del\';');
 
       $page->MxAttribut ('action_modifier_galerie',  $str_critere.'&amp;d='.$name.'&amp;f=modifier_galerie#'.$name);
       $page->MxAttribut ('id_id', 'mg_'.$name);

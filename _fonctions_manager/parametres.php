@@ -193,6 +193,10 @@ function verif_parametres () {
          $page->MxText('err_db_host', $mysql->mysqlErr());
       }
       else {
+         if (commentaire::tableExists($param['db_prefix']) == false) {
+            echo "création table<br>";
+            commentaire::createTable($param['db_prefix']);
+         }
          $mysql->DbClose();
       }
    }

@@ -151,6 +151,15 @@ class mysqlInc {
    }
    
    /**
+    * Retourne la liste des tables de la base sélectionnée
+    * @access public
+    * @return resource
+    */
+   function getTableList () {
+      return $this->DbQuery('SHOW TABLES FROM '.$this->mysqlmaindb);
+   }
+   
+   /**
     * Retourne un message d'erreur plus parlant que celui par défaut de la
     * fonction mysql_error()
     * @access public

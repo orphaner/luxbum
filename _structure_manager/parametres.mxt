@@ -73,46 +73,8 @@ function swapDiv (divId, selectId) {
     </p>
   </fieldset>
 
-<!--
-  <h2>Paramètres des dossiers</h2>
-  <fieldset><legend>Dossiers : </legend>
-    <p>
-      <label for="photos_dir" class="float">Dossier des photos : </label>
-      <input type="text" name="photos_dir" id="photos_dir" mXattribut="value:val_photos_dir" />
-      <span class="erreur"><mx:text id="err_photos_dir"/></span>
-    </p>
-    <p>
-      <label for="thumb_dir" class="float">Dossier des vignettes : </label>
-      <input type="text" name="thumb_dir" id="thumb_dir" mXattribut="value:val_thumb_dir" />
-      <span class="erreur"><mx:text id="err_thumb_dir"/></span>
-    </p>
-    <p>
-      <label for="preview_dir" class="float">Dossier des aperçus : </label>
-      <input type="text" name="preview_dir" id="preview_dir" mXattribut="value:val_preview_dir" />
-      <span class="erreur"><mx:text id="err_preview_dir"/></span>
-    </p>
-  </fieldset>
--->
-
   <h2>Autres paramètres</h2>
   <fieldset><legend>Divers : </legend>
-<!--
-    <p>
-      <label for="description_file" class="float">Fichier des descriptions : </label>
-      <input type="text" name="description_file" id="description_file" mXattribut="value:val_description_file" />
-      <span class="erreur"><mx:text id="err_description_file"/></span>
-    </p>
-    <p>
-      <label for="default_index_file" class="float">Fichier de la vignette par défaut : </label>
-      <input type="text" name="default_index_file" id="default_index_file" mXattribut="value:val_default_index_file" />
-      <span class="erreur"><mx:text id="err_default_index_file"/></span>
-    </p>
-    <p>
-      <label for="allowed_format" class="float">Formats d'images autorisés : </label>
-      <input type="text" name="allowed_format" id="allowed_format" mXattribut="value:val_allowed_format" />
-      <span class="erreur"><mx:text id="err_allowed_format"/></span>
-    </p>
--->
     <p>
       <label for="use_rewrite" class="float">Utiliser des belles urls : </label>
       <mx:select id="use_rewrite"/>
@@ -150,6 +112,9 @@ function swapDiv (divId, selectId) {
       <mx:select id="show_commentaire"/>
     </p>
     <div id="paramCommentaires" mXattribut="class:commentaireDiv">
+    <p><strong>Attention: Si tous les paramètres sont corrects, 
+      la table des commentaires sera automatiquement créée. 
+      Le nom de table sera "prefixe+commentaire".</strong></p>
     <p>
       <label for="db_host" class="float">Hote MySQL : </label>
       <input type="text" name="db_host" id="db_host" mXattribut="value:val_db_host" />
@@ -179,7 +144,7 @@ function swapDiv (divId, selectId) {
   </fieldset>
 
 
-  <h2>Paramètres Diaporamas</h2>
+  <h2>Paramètres des Diaporamas</h2>
   <fieldset><legend>Diaporamas : </legend>
     <p>
       <label for="show_slideshow" class="float">Permettre les diaporamas : </label>
@@ -199,8 +164,8 @@ function swapDiv (divId, selectId) {
   </fieldset>
 
 
-  <h2>Paramètres Sélections</h2>
-  <fieldset><legend>Sélection : </legend>
+  <h2>Paramètres des Sélections</h2>
+  <fieldset><legend>Sélections : </legend>
     <p>
       <label for="show_selection" class="float">Permettre les sélections : </label>
       <mx:select id="show_selection"/>
@@ -212,9 +177,6 @@ function swapDiv (divId, selectId) {
     </p>
     </div>
   </fieldset>
-
-
-  <!--<h2>Paramètres du cadre des images</h2>-->
 
   <p>
     <input class="submit" type="submit" value="Valider les paramètres" />

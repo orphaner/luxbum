@@ -219,6 +219,7 @@ class luxBumImage extends luxBum
     */
    function delete () {
       $this->clearCache ();
+      commentaire::deletePhoto ($this->dir, $this->img);
       return files::deleteFile ($this->getDirPath ($this->dir) . $this->img);
    }
 

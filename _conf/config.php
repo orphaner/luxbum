@@ -13,7 +13,7 @@ define ('DB_HOST', 'localhost');
 define ('DB_NAME', 'luxbum');
 define ('DB_LOGIN', 'luxbum');
 define ('DB_PASSWORD', 'luxbum');
-define ('DB_PREFIX', '');
+define ('DB_PREFIX', 'lux_');
 define ('SHOW_SLIDESHOW', 'on');
 define ('SLIDESHOW_TIME', '4');
 define ('SLIDESHOW_FADING', 'on');

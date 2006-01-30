@@ -377,7 +377,7 @@ else {
       $page->MxText ('liste.defaut_oui_non', ($name == $nuxThumb->getPreview ()) ? 'Oui': 'Non');
 
       $page->MxUrl ('liste.defaut', $str_critere.'&amp;f=defaut&amp;img='.$name.'#'.$name);
-      $page->MxUrl ('liste.del', "javascript:if(window.confirm('Etes-vous sûr de vouloir supprimer cette photo ?')) window.location='".$str_critere.'&amp;f=del&amp;img='.$name."';");
+      $page->MxUrl ('liste.del', "javascript:if(window.confirm('La suppression de cette photo entrainera la suppression de tous les commentaires qui lui sont associés. Etes-vous sûr de vouloir supprimer cette photo ?')) window.location='".$str_critere.'&amp;f=del&amp;img='.$name."';");
       $page->MxBloc ('liste', 'loop');
    }
 

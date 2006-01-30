@@ -17,7 +17,7 @@
           <li mXattribut="class:class_parametres" id="menuParametres"><a href="?p=parametres">Paramètres</a></li>
         </mx:bloc id="isadmin">
         <li mXattribut="class:class_outils" id="menuOutils"><a href="?p=outils">Outils</a></li>
-        <li class="last" id="menuDeconnection"><a href="?p=logout">Déconnection</a></li>
+        <li class="last" id="menuDeconnection"><a href="?p=logout">Déconnexion</a></li>
       </ul>
     </div>
 

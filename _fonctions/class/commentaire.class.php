@@ -164,6 +164,15 @@ class Commentaire {
       }
    }
    
+   function deletePhoto ($galerie, $photo) {
+      global $mysql;
+      if ($mysql->db_link != null) {
+         $query = "DELETE FROM ".DB_PREFIX."commentaire " .
+               "WHERE  galerie_comment='$galerie' AND photo_comment='$photo'";
+         $mysql->DbQuery ($query);
+      }
+   }
+   
    /*function renamePhoto ($galerie, $old, $new) {
       global $mysql;
       $query = "UPDATE ".DB_PREFIX."commentaire " .
@@ -177,6 +186,44 @@ class Commentaire {
       ."FROM ".DB_PREFIX."commentaire "
       ."WHERE galerie_comment='$galerie' AND photo_comment='$photo' AND pub_comment='1'";
       return $query;
+   }
+   
+   function tableExists ($prefix) {
+      global $mysql;
+      $tableName = $prefix.'commentaire';
+      if ($mysql->db_link != null) {
+         $res = $mysql->getTableList();
+         while ($row = $mysql->DbNextRow($res)) {
+            if (in_array ($tableName, $row)) {
+               return true;
+            }
+         }
+      }
+      return false;
+   }
+   
+   function createTable ($prefix) {
+      global $mysql;
+      $tableName = $prefix.'commentaire';
+      if ($mysql->db_link != null) {
+         $mysql->DbQuery (
+         "CREATE TABLE `$tableName` (" .
+         "  `id_comment` int(11) NOT NULL auto_increment," .
+         "  `galerie_comment` varchar(240) NOT NULL default ''," .
+         "  `photo_comment` varchar(240) NOT NULL default ''," .
+         "  `date_comment` datetime NOT NULL default '0000-00-00 00:00:00'," .
+         "  `auteur_comment` varchar(255) NOT NULL default ''," .
+         "  `email_comment` varchar(255) default NULL," .
+         "  `site_comment` varchar(255) default NULL," .
+         "  `content_comment` longtext NOT NULL," .
+         "  `ip_comment` varchar(15) default NULL," .
+         "  `pub_comment` set('0','1') NOT NULL default ''," .
+         "  PRIMARY KEY  (`id_comment`)," .
+         "  KEY `galerie_comment` (`galerie_comment`,`photo_comment`)" .
+         ")");
+         return true;
+      }
+      return false;
    }
 
    function getId () {
