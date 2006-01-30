@@ -69,7 +69,14 @@ class imagetoolkit
             $imhandler = imageCreateFromJPEG ($this->image);
             break;
          case 3 :
+            // TODO: Trouver une meilleure façon de gérer ça :/
             $imhandler = imageCreateFromPNG ($this->image);
+            imageinterlace ($imhandler,0);
+            imagePNG ($imhandler, $this->image.'bis');
+            ImageDestroy($imhandler);
+            $imhandler = imageCreateFromPNG ($this->image.'bis');
+            /*imageAlphaBlending($imhandler, true);
+            imageSaveAlpha($imhandler, true);*/
             break;
       }
 
@@ -93,6 +100,7 @@ class imagetoolkit
 
          case 3 :
             imagePNG ($image, $this->imageDest);
+            files::deleteFile ($this->image.'bis');
             break;
       }
    }
@@ -107,6 +115,12 @@ class imagetoolkit
       // Teste les dimensions tenant dans la zone
       $test_h = round (($this->imageDestWidth / $this->imageWidth) * $this->imageHeight);
       $test_w = round (($this->imageDestHeight / $this->imageHeight) * $this->imageWidth);
+      
+      if ($this->imageWidth < $this->imageDestWidth && $this->imageHeight < $this->imageDestHeight) {
+         $this->imageDestWidth = $this->imageWidth;
+         $this->imageDestHeight = $this->imageHeight;
+         return;
+      }
 
       // Si Height final non précisé (0)
       if (!$this->imageDestHeight) {
@@ -149,6 +163,15 @@ class imagetoolkit
       }
 
       return $test;
+   }
+   
+
+   /**
+    *
+    */
+   function destBiggerThanFrom() {
+      return ($this->imageDestWidth == $this->imageWidth &&
+         $this->imageDestHeight == $this->imageHeight);
    }
 
    /**

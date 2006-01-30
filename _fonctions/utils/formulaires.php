@@ -7,7 +7,7 @@ function protege_input ($in) {
    if (!get_magic_quotes_gpc())
       $in=addslashes(trim($in));
 //    $in = str_replace ("'", "''", $in);
-   //$in=htmlentities($in,ENT_NOQUOTES);
+   $in = htmlentities ($in, ENT_NOQUOTES);
    return $in;
 }
 

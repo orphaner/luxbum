@@ -13,6 +13,10 @@ body {
 	font-size:10px;
 	font-family:"Trebuchet MS",Verdana,Arial,Helvetica,Sans-serif;
 }
+#body_commentaire {
+	padding:15px;
+	background-color: white;
+}
 
 a img {
 	border: none;
@@ -31,8 +35,9 @@ a:hover, a:focus, a:active {
 	text-decoration:underline;
 }
 
-td a { 
+.description_td { 
 	font-size:10px;
+	text-align: center;
 }
 
 #page { 
@@ -66,6 +71,7 @@ td a {
 
  
 #footer2 {
+	height:35px;
 	text-align:center;
 	margin:50px 20px 0 0;
 	font-size:10px;
@@ -156,14 +162,6 @@ span.infos {
 .gras { 
 	font-weight: bold;
 }
-
-.consulter { 
-/*   	padding-left:200px; */
-/*   	background-image: url('../_images/fleche1.png'); */
-/*   	background-repeat:no-repeat; */
-}
-
-
 
 /*===========================================
    Les vignettes
@@ -294,10 +292,6 @@ ol.tree li {
 	padding-left: 0;
 }
 
-ol.tree li:before {
-	content: '\00bb  ';
-}
-
 
 /*===========================================
    Affichage des images
@@ -333,6 +327,9 @@ ol.tree li:before {
 
 
 
+/*===========================================
+   Table des informations EXIF
+=============================================*/
 table.clean-table {
 	border-collapse: collapse;
 }
@@ -348,6 +345,80 @@ table.clean-table th {
 table.clean-table td {
 	border: 1px solid #666;
 	padding: 0.5em;
+	font-size:11px;
 }
 
-
+/*===========================================
+   Commentaires
+=============================================*/
+#addcomment div#ac-content {
+	font-size:12px;
+}
+.comment-post{
+	margin-bottom: 10px;
+}
+.comment-info{
+	font-style: italic;
+	font-size:10px;
+	margin:0.5em 0 0.6em 0;
+	color: #898B89;
+	color: #666;
+	margin: 0 0 0 15px;
+	font-size: 11px;
+}
+.comment-content{
+	font-weight: normal;
+	color: #333;
+	background: #EFF5FF;
+	border: 1px solid #DCE9FF;
+	padding: 5px;
+	margin: 0 0 0 5px;
+	font-size: 12px;
+}
+.comment-content p{
+	padding:0;
+	margin:0;
+}
+input, textarea, option, select {
+	background: #eef3f5;
+	color: #000;
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-size: 1em;
+    margin-top: 2px;
+}
+input, textarea, select {
+	border: 1px solid #999;
+}
+legend {
+	font-weight: bold;
+}
+label, span.label {
+	display: block;
+	position: static;  /* IE n'aime pas relative */
+}
+p.field {
+	clear: left;
+	margin: 0;
+	padding: 1em 0 0 0;
+}
+label.float, span.label {
+	position: relative;
+	float: left;
+	width: 25%;
+	padding-right: 0.5em;
+}
+fieldset {
+	border: 1px solid #999;
+	padding: 10px;
+	margin-top:20px;
+}
+legend {
+  padding: 1px 4px;
+  border-color: #999 #ccc #ccc #999;
+  border-style: solid;
+  border-width: 1px;
+  background: #eee;
+}
+span.erreur {
+	color:red;
+}

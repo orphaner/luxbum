@@ -4,7 +4,6 @@
   // Include
   //------------------------------------------------------------------------------
 include (FONCTIONS_DIR.'luxbum.class.php');
-include (FONCTIONS_DIR.'class/commentaire.class.php');
 
 
 //------------------------------------------------------------------------------
@@ -16,7 +15,10 @@ if (!isset($_GET['photo']) || !isset($_GET['d'])) {
 $file          = $_GET['photo'];
 $dir           = $_GET['d'];
 
-if (!verif_dir ($dir)) {
+if (SHOW_COMMENTAIRE == 'off') {
+   exit ('Les commentaires ne sont pas activés !');
+}
+else if (!verif_dir ($dir)) {
    exit ('nom de dossier incorrect !!');
 }
 else if (!is_dir (luxbum::getDirPath ($dir))) {
@@ -25,7 +27,6 @@ else if (!is_dir (luxbum::getDirPath ($dir))) {
 else if (!verif_photo ($dir, $file)) {
    exit ('nom de la photo incorrect !!');
 }
-
 
 //------------------------------------------------------------------------------
 // Init
@@ -81,7 +82,7 @@ if ($lux->getNbComment() > 0) {
 
    // Sélection des commenaires
    $sql = "SELECT id_comment, date_comment, auteur_comment, email_comment, site_comment, content_comment "
-      ."FROM commentaire "
+      ."FROM ".DB_PREFIX."commentaire "
       ."WHERE galerie_comment='$dir' AND photo_comment='$file' AND pub_comment='1'";
    $res = $mysql->DbQuery ($sql);
    $page->WithMxPath ('comments', 'relative');
@@ -96,7 +97,7 @@ if ($lux->getNbComment() > 0) {
          $page->MxBloc('email', 'delete');
       }
       else {
-         $page->MxUrl ('email.lien', $row['email_comment']);
+         $page->MxUrl ('email.lien', 'mailto:'.$row['email_comment']);
       }
       if ($row['site_comment'] == '') {
          $page->MxBloc('site', 'delete');

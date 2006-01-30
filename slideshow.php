@@ -1,13 +1,22 @@
 <?php
 
+function extractPhotoName ($file) {
+   $tab = array ();
+   $tab = split('/', $file);
+   return $tab[count($tab)-1];
+}
 
 include ('common.php');
 include (FONCTIONS_DIR.'luxbum.class.php');
 
+if (SHOW_SLIDESHOW == 'off') {
+   exit ('Les diaporamas ne sont pas activés');
+}
+
 /* XMLHTTPREQUEST code */
 if (isset($_POST['action']) && $_POST['action']=='exif') {
    $dir = $_POST['dir'];
-   $file = $_POST['file'];
+   $file = extractPhotoName($_POST['file']);
    $lux = new luxBumImage ($dir, $file);
    $lux->exifInit ();
    
@@ -50,7 +59,8 @@ elseif (isset($_GET['base64'])) {
 // Return image path
 else if (isset($_POST['action']) && $_POST['action']=='photo') {
    $dir = $_POST['dir'];
-   $file = $_POST['file'];
+   $file = extractPhotoName($_POST['file']);
+   echo $file;
    $luxAff = new luxBumImage ($dir, $file);
    $luxAff->getAsPreview();
 }

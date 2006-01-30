@@ -1,3 +1,3 @@
 <?php
-$luxbum_version='0.4.1';
+$luxbum_version='0.5-dev';
 ?>

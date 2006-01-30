@@ -1,11 +1,12 @@
 <?php
 
-include(FONCTIONS_DIR.'class/luxbumgallery.class.php');
-include(FONCTIONS_DIR.'class/luxbumgallerylist.class.php');
-include(FONCTIONS_DIR.'class/luxbumimage.class.php');
-include(FONCTIONS_DIR.'class/luxbumindex.class.php');
-include(FONCTIONS_DIR.'class/imagetoolkit.class.php');
-include(FONCTIONS_DIR.'class/files.php');
+include_once(FONCTIONS_DIR.'class/luxbumgallery.class.php');
+include_once(FONCTIONS_DIR.'class/luxbumgallerylist.class.php');
+include_once(FONCTIONS_DIR.'class/luxbumimage.class.php');
+include_once(FONCTIONS_DIR.'class/luxbumindex.class.php');
+include_once(FONCTIONS_DIR.'class/imagetoolkit.class.php');
+include_once(FONCTIONS_DIR.'class/files.php');
+include_once(FONCTIONS_DIR.'class/commentaire.class.php');
 
 
 //==============================================================================

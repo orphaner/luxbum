@@ -49,7 +49,7 @@ class renomage {
                      if (!is_dir ($dir.$file) 
                          && ($this->verifExtension ($file))
                          && !$this->verifImageName ($file)) {
-                        $this->fileList[$f] = $file;
+                        $this->fileList[$file] = $f;
                      }
                   }
                   closedir ($df);
@@ -80,7 +80,7 @@ class renomage {
 
    function renameFiles () {
       $resultTab = array ();
-      while (list ($dir, $file) = each ($this->fileList)) {
+      while (list ($file, $dir) = each ($this->fileList)) {
          $oldFile = luxbum::getImage ($dir, $file);
          $file = strrev ($file);
          list ($ext, $name) = explode ('.', $file, 2);
@@ -181,6 +181,7 @@ else {
          $page->MxImage ('file.img', '_images/manager/check_on.png');
          $page->MxText ('file.message', $oldFile.' =&gt; '.$newFile);
       }
+      $page->MxBloc('file', 'loop');
    }
 }
 

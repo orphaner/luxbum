@@ -34,14 +34,12 @@
 }
 
 #image_slide1 , #image_slide2{
-  height:inherit;
-  height:<mx:text id="slide_height"/>;
-
+  /*height:inherit;
+  height:<mx:text id="slide_height"/>;*/
 }
 
 #image_slide1 {
   z-index:2;
-
 }
 
 #image_slide2 {
@@ -143,7 +141,7 @@ photosURL[<mx:text id="i"/>] = "<mx:text id="photo"/>";
 </mx:bloc id="photosSRC">
 
 // Options
-var smoothtrans = true; // Set this to false to prevent any fading effect
+var smoothtrans = <mx:text id="fading"/>; // Set this to false to prevent any fading effect
 var slide_speed = <mx:text id="defaultspeed"/>;
 -->
 </script>
@@ -168,8 +166,8 @@ var slide_speed = <mx:text id="defaultspeed"/>;
 
   <div id="s_options_box">
     <h2>Options</h2>
-    <input type="checkbox" id="smoothtrans" checked="checked"/> Activate fading<br />
-    <input type="text" id="slide_speed" size="1" maxlength="1"  /> Time between each picture (in seconds) <br />
+    <input type="checkbox" id="smoothtrans" mXattribut="checked:fading"/> Activate fading<br />
+    <input type="text" id="slide_speed" size="1" maxlength="1" mXattribut="value:defaultspeed" /> Time between each picture (in seconds) <br />
   </div>
   <div id="s_exif_info"></div>
   <div id="s_help_box">

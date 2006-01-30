@@ -29,6 +29,13 @@ class luxBumGallery extends luxBum
    /**
     * 
     */
+   function setName ($name) {
+      $this->name = $this->dir = $name;
+   }
+
+   /**
+    * 
+    */
    function getName () {
       return $this->name;
    }
@@ -143,6 +150,26 @@ class luxBumGallery extends luxBum
       }
       files::writeFile ($this->getDirPath ($this->dir) . DEFAULT_INDEX_FILE, $img);
       return true;
+   }
+   
+   /**
+    * 
+    */
+   function rename ($newName) {
+      if (files::renameDir (luxbum::getDirPath ($this->dir), luxbum::getDirPath ($newName))) {
+         commentaire::renameGalerie ($this->dir, $newName);
+         $this->setName($newName);
+         return true;
+      }
+      return false;
+   }
+   
+   /**
+    * 
+    */
+   function delete ($dirName) {
+      files::deltree (luxbum::getDirPath ($dirName));
+      commentaire::deleteGalerie ($dirName);
    }
 }
 

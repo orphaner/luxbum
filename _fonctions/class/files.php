@@ -68,30 +68,35 @@ class files {
     * Suppression récursive d'un répertoire (rm -rf)
     */
    function delTree ($dir)  {
-      $current_dir = opendir ($dir);
-      while ($entryname = readdir ($current_dir)) {
-         if (is_dir ($dir.'/'.$entryname) && ($entryname != '.' && $entryname!='..')) {
-            if (!files::deltree ($dir.'/'.$entryname)) {
-               return false;
+      if ($current_dir = opendir ($dir)) {
+         while ($entryname = readdir ($current_dir)) {
+            if (is_dir ($dir.'/'.$entryname) && ($entryname != '.' && $entryname!='..')) {
+               if (!files::deltree ($dir.'/'.$entryname)) {
+                  return false;
+               }
+            }
+            else if ($entryname != '.' && $entryname!='..') {
+               if (!@unlink ($dir.'/'.$entryname)) {
+                  return false;
+               }
             }
          }
-         else if ($entryname != '.' && $entryname!='..') {
-            if (!@unlink ($dir.'/'.$entryname)) {
-               return false;
-            }
-         }
+         closedir ($current_dir);
+         return @rmdir ($dir);
       }
-      closedir ($current_dir);
-      return @rmdir ($dir);
+      return false;
    }
 
    /**
     *
     */
    function writeFile ($file, $content, $mode = 'wt') {
-      $fd = fopen ($file, 'wt');
-      fwrite ($fd, $content);
-      fclose ($fd);
+      if ($fd = fopen ($file, $mode)) {
+         fwrite ($fd, $content);
+         fclose ($fd);
+         return true;
+      }
+      return false;
    }
 
    /**
@@ -122,7 +127,9 @@ class files {
             mkdir ($path, 0777);
          }
          umask ($old_umask);
+         return true;
       }
+      return false;
    }
 
    /**

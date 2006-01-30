@@ -3,7 +3,7 @@
   //------------------------------------------------------------------------------
   // Include
   //------------------------------------------------------------------------------
-include (FONCTIONS_DIR.'utils/formulaires.php');
+include_once (FONCTIONS_DIR.'utils/formulaires.php');
 
 
 class Commentaire {
@@ -71,7 +71,7 @@ class Commentaire {
    
    function fillFromId ($id) {
       global $mysql;
-      $sql = 'SELECT * FROM commentaire WHERE id_comment='.$id;
+      $sql = 'SELECT * FROM '.DB_PREFIX.'commentaire WHERE id_comment='.$id;
       $res = $mysql->DbQuery($sql);
       $row = $mysql->DbNextRow ($res);
       $this->setId($id);
@@ -88,7 +88,7 @@ class Commentaire {
 
    function insertRow () {
       global $mysql;
-      $sql = "INSERT INTO commentaire (galerie_comment, photo_comment, date_comment, "
+      $sql = "INSERT INTO ".DB_PREFIX."commentaire (galerie_comment, photo_comment, date_comment, "
          ."auteur_comment, email_comment, site_comment, content_comment, ip_comment, pub_comment) "
          ."VALUES ("
          ."'".$this->galerie."', "
@@ -106,16 +106,11 @@ class Commentaire {
 
    function updateRow () {
       global $mysql;
-      $sql = "UPDATE commentaire SET "
-//         ."galerie_comment='".$this->galerie."', "
-//         ."photo_comment='".$this->photo."', "
-//         ."date_comment='".$this->date."', "
+      $sql = "UPDATE ".DB_PREFIX."commentaire SET "
          ."auteur_comment='".$this->auteur."',"
          ."email_comment='".$this->email."',"
          ."site_comment='".$this->site."',"
-         ."content_comment='".$this->content."',"
-//         ."ip_comment='".$this->ip."', "
-//         ."pub_comment='1'"
+         ."content_comment='".$this->content."'"
          ." WHERE id_comment=".$this->id;
       $mysql->DbQuery ($sql);
    }
@@ -123,7 +118,7 @@ class Commentaire {
    function setPublic () {
       global $mysql;
       if (!is_empty($this->id)) {
-         $sql = "UPDATE commentaire SET pub_comment='1' WHERE id_comment=".$this->id;
+         $sql = "UPDATE ".DB_PREFIX."commentaire SET pub_comment='1' WHERE id_comment=".$this->id;
          $mysql->DbQuery ($sql);
          return true;
       }
@@ -133,7 +128,7 @@ class Commentaire {
    function setPrivate () {
       global $mysql;
       if (!is_empty($this->id)) {
-          $sql = "UPDATE commentaire SET pub_comment='0' WHERE id_comment=".$this->id;
+          $sql = "UPDATE ".DB_PREFIX."commentaire SET pub_comment='0' WHERE id_comment=".$this->id;
           $mysql->DbQuery ($sql);
           return true;
       }
@@ -143,11 +138,45 @@ class Commentaire {
    function deleteRow () {
       global $mysql;
       if (!empty($this->id)) {
-          $sql = "DELETE FROM commentaire WHERE id_comment=".$this->id;
+          $sql = "DELETE FROM ".DB_PREFIX."commentaire WHERE id_comment=".$this->id;
           $mysql->DbQuery ($sql);
           return true;
       }
       return false;
+   }
+   
+   function renameGalerie ($old, $new) {
+      global $mysql;
+      if ($mysql->db_link != null) {
+         $query = "UPDATE ".DB_PREFIX."commentaire " .
+               "SET galerie_comment='$new' " .
+               "WHERE  galerie_comment='$old'";
+         $mysql->DbQuery ($query);
+      }
+   }
+   
+   function deleteGalerie ($galerie) {
+      global $mysql;
+      if ($mysql->db_link != null) {
+         $query = "DELETE FROM ".DB_PREFIX."commentaire " .
+               "WHERE  galerie_comment='$galerie'";
+         $mysql->DbQuery ($query);
+      }
+   }
+   
+   /*function renamePhoto ($galerie, $old, $new) {
+      global $mysql;
+      $query = "UPDATE ".DB_PREFIX."commentaire " .
+            "SET photo_comment='$new' " .
+            "WHERE  photo_comment='$old' AND galerie_comment='$galerie'";
+      $mysql->DbQuery ($query);
+   }*/
+   
+   function selectQuery ($galerie, $photo) {
+      $query = "SELECT id_comment, date_comment, auteur_comment, email_comment, site_comment, content_comment "
+      ."FROM ".DB_PREFIX."commentaire "
+      ."WHERE galerie_comment='$galerie' AND photo_comment='$photo' AND pub_comment='1'";
+      return $query;
    }
 
    function getId () {

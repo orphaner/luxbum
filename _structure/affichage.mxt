@@ -21,7 +21,7 @@
       <table width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="30px"><mx:bloc id="back"><a mXattribut="href:lien;target:target"><img src="_images/navig/back.gif" alt="back" border="0"></a></mx:bloc id="back"></td>
-          <td><span class="description"><mx:text id="desc"/></span>
+          <td class="description_td"><span class="description"><mx:text id="desc"/></span>
             <mx:bloc id="exif"> + <a href="#" onclick="window.open('<mx:text id="lien"/>','Exif','width=350,height=400,scrollbars=yes,resizable=yes');">Informations sur l'image</a></mx:bloc id="exif">
             <mx:bloc id="commentaire"> + <a href="#" onclick="window.open('<mx:text id="lien"/>','Comments','width=480,height=540,scrollbars=yes,resizable=yes');">Commentaires 
 (<mx:text id="nb"/>)</a></mx:bloc id="commentaire">

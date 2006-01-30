@@ -6,13 +6,19 @@ body {
 	font-family:"Trebuchet MS",Verdana,Arial,Helvetica,Sans-serif;
 	color:#CBCBCB;
 }
-  
 #body_affichage { 
 	margin : 0;
 	padding : 0;
 	background-color: #2C2C2C;
 	font-size:10px;
 	font-family:"Trebuchet MS",Verdana,Arial,Helvetica,Sans-serif;
+}
+#body_commentaire {
+	padding:15px;
+	background-color: #181818;
+	font-size:10px;
+	font-family:"Trebuchet MS",Verdana,Arial,Helvetica,Sans-serif;
+	color:#CBCBCB;
 }
 
 a img {
@@ -32,8 +38,9 @@ a:hover, a:focus, a:active {
 	text-decoration:underline;
 }
 
-td a { 
+.description_td { 
 	font-size:10px;
+	text-align: center;
 }
 
 #page { 
@@ -121,7 +128,7 @@ h1 span {
 }
 
 #liste_apercu img {
-/* 	border:1px solid #fff; */
+	padding:2px;
 }
 
 #liste_apercu a { 
@@ -131,7 +138,7 @@ h1 span {
 
 #liste_apercu h2 { 
 	font-size:14px;
-	margin-top:0px;
+	margin:0px;
 	padding:0px;
 	color:#FFC600;
 }
@@ -154,13 +161,6 @@ span.infos {
 .gras { 
 	font-weight: bold;
 }
-
-.consulter { 
-/*   	padding-left:200px; */
-/*   	background-image: url('../_images/fleche1.png'); */
-/*   	background-repeat:no-repeat; */
-}
-
 
 
 /*===========================================
@@ -294,11 +294,6 @@ ol.tree li {
 	padding-left: 0;
 }
 
-ol.tree li:before {
-	content: '\00bb  ';
-}
-
-
 /*===========================================
    Affichage des images
 =============================================*/
@@ -330,6 +325,9 @@ ol.tree li:before {
 	text-align:center;
 }
 
+/*===========================================
+   Table des informations EXIF
+=============================================*/
 table.clean-table {
 	border-collapse: collapse;
 }
@@ -345,6 +343,76 @@ table.clean-table th {
 table.clean-table td {
 	border: 1px solid #666;
 	padding: 0.5em;
+	font-size:11px;
 }
 
+
+/*===========================================
+   Commentaires
+=============================================*/
+#addcomment div#ac-content {
+	font-size:12px;
+}
+.comment-post{
+	margin-bottom: 10px;
+}
+.comment-info{
+	font-style: italic;
+	font-size:10px;
+	margin:0.5em 0 0.6em 0;
+	color: #E6E6E6;
+	margin: 0 0 0 15px;
+	font-size: 11px;
+}
+.comment-content{
+	font-weight: normal;
+	color: #F2F2F2;
+	background: #545353;
+	border: 1px solid #CFCFCF;
+	padding: 5px;
+	margin: 0 0 0 5px;
+	font-size: 12px;
+}
+.comment-content p{
+	padding:0;
+	margin:0;
+}
+input, textarea, option, select {
+	background: #eef3f5;
+	color: #000;
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-size: 1em;
+    margin-top: 2px;
+}
+input, textarea, select {
+	border: 1px solid #999;
+}
+legend {
+	font-weight: bold;
+}
+label, span.label {
+	display: block;
+	position: static;  /* IE n'aime pas relative */
+}
+p.field {
+	clear: left;
+	margin: 0;
+	padding: 1em 0 0 0;
+}
+label.float, span.label {
+	position: relative;
+	float: left;
+	width: 25%;
+	padding-right: 0.5em;
+}
+fieldset {
+	background: #545353;
+	border: 1px solid #CFCFCF;
+}
+legend {
+	display:none;
+}
+span.erreur {
+	color:red;
+}
 

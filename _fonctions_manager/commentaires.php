@@ -1,7 +1,7 @@
 <?php
 
-include (FONCTIONS_DIR.'luxbum.class.php');
-include (FONCTIONS_DIR.'class/commentaire.class.php');
+include_once (FONCTIONS_DIR.'luxbum.class.php');
+include_once (FONCTIONS_DIR.'class/commentaire.class.php');
 $str_critere = ADMIN_FILE.'?p=commentaires';
 $message = '';
 
@@ -9,9 +9,12 @@ $message = '';
 definir_titre ($page, 'Commentaires - LuxBum Manager');
 $page->MxAttribut ('class_commentaires', 'actif');
 
-// Connection à la base de données
-$mysql = new MysqlInc (DB_HOST, DB_LOGIN, DB_PASSWORD, DB_NAME);
-$mysql->DbConnect();
+if ($mysql->db_link == null) {
+   $page->MxBloc ('main', 'modify', 'Pas de connection à la base de données. ' .
+         'L\'administration des commentaires est donc impossible');
+   $page->MxWrite ();
+   exit();
+}
 
 $act = '';
 if (isset($_GET['action'])) {
@@ -24,20 +27,41 @@ if ($act == 'editer') {
       $act = '';
    }
    else {
-      $page->MxBloc ('main', 'modify', ADMIN_STRUCTURE_DIR.'commentaires/editer.mxt');
-      $page->WithMxPath ('main', 'relative');
+      $erreur = false;
       $com = new Commentaire ();
-      $com->fillFromId($_GET['id']);
       
-      $page->MxAttribut ('val_auteur', $com->getAuteur());
-      $page->MxAttribut ('val_site', $com->getSite());
-      $page->MxAttribut ('val_email', $com->getEmail());
-      $page->MxText ('val_content', $com->getContent());
-
-      $page->MxText ('err_auteur', $com->getErreur ('auteur'));
-      $page->MxText ('err_site', $com->getErreur ('site'));
-      $page->MxText ('err_email', $com->getErreur ('email'));
-      $page->MxText ('err_content', $com->getErreur ('content'));
+      // Validation du formulaire
+      if (isset($_GET['valid']) && $_GET['valid']==1) {
+         $com->fillFromPost ();
+      
+         if ($com->isValidForm ()) {
+            $com->setId ($_GET['id']);
+            $com->updateRow();
+            $act = '';
+         }
+         else {
+            $erreur = true;
+         }
+      }
+      
+      if ($erreur == true || $act != '') {
+         $page->MxBloc ('main', 'modify', ADMIN_STRUCTURE_DIR.'commentaires/editer.mxt');
+         $page->WithMxPath ('main', 'relative');
+         $page->MxAttribut ('action', $str_critere.'&amp;action=editer&amp;id='.$_GET['id'].'&amp;valid=1');
+         if ($erreur == false) {
+            $com->fillFromId($_GET['id']);
+         }
+         
+         $page->MxAttribut ('val_auteur', $com->getAuteur());
+         $page->MxAttribut ('val_site', $com->getSite());
+         $page->MxAttribut ('val_email', $com->getEmail());
+         $page->MxText ('val_content', $com->getContent());
+   
+         $page->MxText ('err_auteur', $com->getErreur ('auteur'));
+         $page->MxText ('err_site', $com->getErreur ('site'));
+         $page->MxText ('err_email', $com->getErreur ('email'));
+         $page->MxText ('err_content', $com->getErreur ('content'));
+      }
    }
 }
 
@@ -55,6 +79,11 @@ else if ($act == 'supprimer') {
    $act = '';
 }
 
+// Mettre en/hors ligne un commentaire
+else if ($act == 'pub') {
+   
+}
+
 // Affichage des commentaires
 if ($act == '') {
    $page->MxBloc ('main', 'modify', ADMIN_STRUCTURE_DIR.'commentaires.mxt');
@@ -62,7 +91,7 @@ if ($act == '') {
    $page->MxText('message', $message);
    
    // Sélection des galerie à afficher pour le filtre
-   $sql = "SELECT DISTINCT galerie_comment FROM commentaire ORDER BY galerie_comment ASC";
+   $sql = "SELECT DISTINCT galerie_comment FROM ".DB_PREFIX."commentaire ORDER BY galerie_comment ASC";
    $res = $mysql->DbQuery ($sql);
    if ($mysql->DbNumRows($res) == 0) {
       $page->MxBloc('filtre', 'delete');
@@ -80,7 +109,7 @@ if ($act == '') {
    }
    
    // Affichage des commentaires de la base
-   $sql = "SELECT * FROM commentaire ";
+   $sql = "SELECT * FROM ".DB_PREFIX."commentaire ";
    if (isset($_POST['filtre']) && $_POST['filtre'] == 1) {
       $sql .= " WHERE galerie_comment='".$_POST['galerie']."'";
    }

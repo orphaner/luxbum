@@ -1,5 +1,36 @@
 <!-- <script language="JavaScript" src="_javascript/picker.js"></script> -->
+<script type="text/javascript">
+var actif="";
+function afficheDiv (divId) {
+   actif=divId;
+   if (document.getElementById && document.getElementById(divId) != null) {
+      var laDiv = document.getElementById (divId);
+      laDiv.style.visibility='visible';
+      laDiv.style.display='block';
+   }
+}
 
+function cacheDiv (divId) {
+   if (document.getElementById && document.getElementById(divId) != null) {
+      var laDiv = document.getElementById (divId);
+      laDiv.style.visiblity='hidden';
+      laDiv.style.display='none';
+   }
+}
+
+function swapDiv (divId, selectId) {
+   if (document.getElementById && document.getElementById(selectId) != null) {
+      var laDiv = document.getElementById (selectId);
+      if (laDiv.value == 'on') {
+         afficheDiv(divId);
+      }
+      else if (laDiv.value == 'off') {
+         cacheDiv(divId);
+      }
+   }
+}
+</script>
+  
 
 <h1 id="h1_admin">Paramètres de Luxbum</h1>
 
@@ -23,8 +54,26 @@
       <mx:select id="color_theme"/>
     </p>
   </fieldset>
+  <fieldset><legend>Cadres des images : </legend>
+    <p>
+      <label for="image_border_pixel" class="float">Taille du dégradé en pixel : </label>
+      <mx:select id="image_border_pixel"/>
+      <span class="erreur"><mx:text id="err_image_border_pixel"/></span>
+    </p>
+<!--     <p> -->
+<!--       <label for="image_border_max_nuance" class="float">Taille du dégradé en pixel : </label> -->
+<input type="hidden" name="image_border_max_nuance" id="image_border_max_nuance" mXattribut="value:val_image_border_max_nuance" />
+<!--       <span class="erreur"><mx:text id="err_image_border_max_nuance"/></span> -->
+<!--     </p> -->
+    <p>
+      <label for="image_border_hex_color" class="float">Couleur du dégradé en hexa : </label>
+      <input type="text" name="image_border_hex_color" id="image_border_hex_color" mXattribut="value:val_image_border_hex_color" maxlength="6" /><!-- <a href="javascript:TCP.popup(document.forms['parametres_form'].elements['image_border_hex_color'])"> -->
+<!--  <img width="15" height="13" border="0" alt="Click Here to Pick up the color" src="_librairies/img/sel.gif"></a> -->
+      <span class="erreur"><mx:text id="err_image_border_hex_color"/></span>
+    </p>
+  </fieldset>
 
-
+<!--
   <h2>Paramètres des dossiers</h2>
   <fieldset><legend>Dossiers : </legend>
     <p>
@@ -43,10 +92,11 @@
       <span class="erreur"><mx:text id="err_preview_dir"/></span>
     </p>
   </fieldset>
-
+-->
 
   <h2>Autres paramètres</h2>
   <fieldset><legend>Divers : </legend>
+<!--
     <p>
       <label for="description_file" class="float">Fichier des descriptions : </label>
       <input type="text" name="description_file" id="description_file" mXattribut="value:val_description_file" />
@@ -62,6 +112,7 @@
       <input type="text" name="allowed_format" id="allowed_format" mXattribut="value:val_allowed_format" />
       <span class="erreur"><mx:text id="err_allowed_format"/></span>
     </p>
+-->
     <p>
       <label for="use_rewrite" class="float">Utiliser des belles urls : </label>
       <mx:select id="use_rewrite"/>
@@ -98,6 +149,7 @@
       <label for="show_commentaire" class="float">Permettre les commentaires : </label>
       <mx:select id="show_commentaire"/>
     </p>
+    <div id="paramCommentaires" mXattribut="class:commentaireDiv">
     <p>
       <label for="db_host" class="float">Hote MySQL : </label>
       <input type="text" name="db_host" id="db_host" mXattribut="value:val_db_host" />
@@ -118,28 +170,36 @@
       <input type="password" name="db_password" id="db_password" mXattribut="value:val_db_password" />
       <span class="erreur"><mx:text id="err_db_password"/></span>
     </p>
+    <p>
+      <label for="db_login" class="float">Préfixe des tables : </label>
+      <input type="text" name="db_prefix" id="db_prefix" mXattribut="value:val_db_prefix" />
+      <span class="erreur"><mx:text id="err_db_prefix"/></span>
+    </p>
+    </div>
   </fieldset>
 
 
-  <h2>Paramètres du cadre des images</h2>
-  <fieldset><legend>Cadres des images : </legend>
+  <h2>Paramètres Diaporamas</h2>
+  <fieldset><legend>Diaporamas : </legend>
     <p>
-      <label for="image_border_pixel" class="float">Taille du dégradé en pixel : </label>
-      <mx:select id="image_border_pixel"/>
-      <span class="erreur"><mx:text id="err_image_border_pixel"/></span>
+      <label for="show_slideshow" class="float">Permettre les diaporamas : </label>
+      <mx:select id="show_slideshow"/>
     </p>
-<!--     <p> -->
-<!--       <label for="image_border_max_nuance" class="float">Taille du dégradé en pixel : </label> -->
-<input type="hidden" name="image_border_max_nuance" id="image_border_max_nuance" mXattribut="value:val_image_border_max_nuance" />
-<!--       <span class="erreur"><mx:text id="err_image_border_max_nuance"/></span> -->
-<!--     </p> -->
+    <div id="paramSlideshow" mXattribut="class:slideshowDiv">
     <p>
-      <label for="image_border_hex_color" class="float">Couleur du dégradé en hexa : </label>
-      <input type="text" name="image_border_hex_color" id="image_border_hex_color" mXattribut="value:val_image_border_hex_color" maxlength="6" /><!-- <a href="javascript:TCP.popup(document.forms['parametres_form'].elements['image_border_hex_color'])"> -->
-<!-- 	<img width="15" height="13" border="0" alt="Click Here to Pick up the color" src="_librairies/img/sel.gif"></a> -->
-      <span class="erreur"><mx:text id="err_image_border_hex_color"/></span>
+      <label for="slideshow_time" class="float">Temps en secondes entre les images : </label>
+      <input type="text" name="slideshow_time" id="slideshow_time" maxlength="1" mXattribut="value:val_slideshow_time" />
+      <span class="erreur"><mx:text id="err_slideshow_time"/></span>
     </p>
+    <p>
+      <label for="slideshow_fading" class="float">Activer le fondu entre images : </label>
+      <mx:select id="slideshow_fading"/>
+    </p>
+    </div>
   </fieldset>
+
+
+  <!--<h2>Paramètres du cadre des images</h2>-->
 
   <p>
     <input class="submit" type="submit" value="Valider les paramètres" />

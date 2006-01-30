@@ -14,17 +14,17 @@
     </mx:bloc id="stylesheet">
   </head>
 
-  <body id="body" style="padding:15px;">
+  <body id="body_commentaire">
 
 
+    <div id="voircomment">
     <h2>Commentaires</h2>
     <mx:bloc id="comments">
-      
       <div id="c-content">
         <div class="comment-post">
           <div class="comment-info">Le <mx:text id="date"/>, 
             <strong><mx:text id="auteur"/></strong>
-            <mx:bloc id="site">:: <a mXattribut="href:lien">site</a></mx:bloc id="site">
+            <mx:bloc id="site">:: <a mXattribut="href:lien" ref="nofollow" target="_blank">site</a></mx:bloc id="site">
             <mx:bloc id="email">:: <a mXattribut="href:lien">email</a></mx:bloc id="email">
           </div>
           <div id="co1" class="comment-content">
@@ -32,8 +32,8 @@
           </div>
         </div>
       </div>
-
     </mx:bloc id="comments">
+    </div>
 
 
     <div id="addcomment">
@@ -42,7 +42,6 @@
       <div id="ac-content">        
         <form method="post" id="ajout_commentaire" mXattribut="action:action">
 
-          <p><input type="hidden" value="1" id="idLivre" name="idLivre"/></p>
           <fieldset>
             <legend>Ajouter un commentaire</legend>
             <p>
@@ -69,7 +68,7 @@
 
           <p>
             <input type="submit" value="Ajouter"/>
-            <input type="submit" value="Effacer"/>
+            <input type="reset" value="Effacer"/>
           </p>
         </form>
       </div>

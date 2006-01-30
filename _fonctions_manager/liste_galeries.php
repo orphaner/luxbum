@@ -1,7 +1,7 @@
 <?php
 
-include (FONCTIONS_DIR.'luxbum.class.php');
-include (FONCTIONS_DIR.'utils/formulaires.php');
+include_once (FONCTIONS_DIR.'luxbum.class.php');
+include_once (FONCTIONS_DIR.'utils/formulaires.php');
 
 $f = '';
 if (isset($_GET['f'])) {
@@ -104,15 +104,18 @@ else if ($f == 'modifier_galerie') {
       else if (!is_dir ($nuxIndex->getDirPath ($dir))) {
          $err_modifier_galerie = 'Erreur !!';
       }
-      else if (files::renameDir ($nuxIndex->getDirPath ($dir), $nuxIndex->getDirPath ($modifier_galerie)) == false) {
-         $err_modifier_galerie = 'Nom déjà utilisé !!';
-      }
       else {
-         unset ($nuxIndex);
-         $nuxIndex = new  luxBumIndex ();
-         $nuxIndex->addAllGallery (0);
-         $nuxIndex->gallerySort ();
-         $page->MxText ('message', 'La galerie '.unprotege_input ($dir).' a bien été renommée en '.unprotege_input ($modifier_galerie));
+         $galRename = new luxBumGallery ($dir);
+         if ($galRename->rename($modifier_galerie) == false) {
+            $err_modifier_galerie = 'Nom déjà utilisé !!';
+         }
+         else {
+            unset ($nuxIndex);
+            $nuxIndex = new  luxBumIndex ();
+            $nuxIndex->addAllGallery (0);
+            $nuxIndex->gallerySort ();
+            $page->MxText ('message', 'La galerie '.unprotege_input ($dir).' a bien été renommée en '.unprotege_input ($modifier_galerie));
+         }
       }
    }
 }
@@ -125,17 +128,17 @@ else if ($f == 'del') {
          $page->MxText ('message', '<span class="erreur">Nom de dossier incorrect pour la suppression !!</span>');
       }
       else {
-         $dir = $nuxIndex->getDirPath ($dir);
-         if (!files::isDeletable ($dir)) {
+         $dirName = $nuxIndex->getDirPath ($dir);
+         if (!files::isDeletable ($dirName)) {
             $page->MxText ('message', '<span class="erreur">Droits insuffisants pour supprimer le dossier !!</span>');
          }
          else {
-            files::deltree ($dir);
+            luxBumGallery::delete($dir);
             unset ($nuxIndex);
             $nuxIndex = new  luxBumIndex ();
             $nuxIndex->addAllGallery (0);
             $nuxIndex->gallerySort ();
-            $page->MxText ('message', 'La galerie '.unprotege_input ($dir).' a bien été supprimée');
+            $page->MxText ('message', 'La galerie '.unprotege_input ($dirName).' a bien été supprimée');
          }
       }
    }

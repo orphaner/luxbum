@@ -64,6 +64,10 @@ h1 span {
 	color:#c00;
 }
 
+.invisible {
+	visibility: hidden;
+	display: none;
+}
 
 /*===========================================
 FORMULAIRES

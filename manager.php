@@ -19,8 +19,10 @@ function definir_titre (&$page, $titre_page) {
 //------------------------------------------------------------------------------
 // Includes
 //------------------------------------------------------------------------------
-include ('common.php');
-include (CONF_DIR.'config_manager.php');
+include_once ('common.php');
+include_once (CONF_DIR.'config_manager.php');
+include_once (FONCTIONS_DIR.'mysql.inc.php');
+$mysql = new MysqlInc (DB_HOST, DB_LOGIN, DB_PASSWORD, DB_NAME);
 
 
 //------------------------------------------------------------------------------
@@ -122,6 +124,13 @@ if ($logued_check == true) {
                 
    // Inclusion du module d'admin
    else {
+      
+      // Connection à la base de données
+      if (SHOW_COMMENTAIRE == 'on' || (SHOW_COMMENTAIRE == 'off' && $mysql->testDbConnect())) {
+         $mysql->DbConnect();
+      }
+         
+      // Création de la page modelixe
       $page = new ModeliXe ('header.mxt');
       $page->SetModeliXe();
       if (!isAdmin ()) {
@@ -133,7 +142,8 @@ if ($logued_check == true) {
          'galerie',
          'parametres',
          'outils',
-         'commentaires'
+         'commentaires',
+         'cache'
          );
       $trouve = false;
       $i = 0;
@@ -170,7 +180,6 @@ else if ($logued_check == false) {
 
       if (AUTH_METHOD == 'dotclear') {
          include (DOTCLEAR_PATH.'conf/config.php');
-         include (FONCTIONS_DIR.'mysql.inc.php');
          $auth = new authDotclear ($username, $password);
       }
       else {
@@ -197,7 +206,8 @@ else if ($logued_check == false) {
    }
 }
 
-
+if ($mysql)
+$mysql->DbClose();
 $page->MxWrite ();
 
 ?>

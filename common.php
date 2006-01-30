@@ -16,6 +16,13 @@ define ('ADMIN_STRUCTURE_DIR', '_structure_manager/');
 define ('INDEX_FILE',          'index.php');
 define ('ADMIN_FILE',          'manager.php');
 
+define ('PHOTOS_DIR', 'photos/');
+define ('THUMB_DIR', 'vignette/');
+define ('PREVIEW_DIR', 'apercu/');
+define ('DESCRIPTION_FILE', 'description.txt');
+define ('DEFAULT_INDEX_FILE', 'defaut.txt');
+define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
+
 
 
 //------------------------------------------------------------------------------

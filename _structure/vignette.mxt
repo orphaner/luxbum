@@ -27,8 +27,8 @@
               <div id="apercu">
                 <div id="menunav">
                   <ol class="tree">
-                    <li><a href="index.php">Accueil</a></li>
-                    <li><mx:text id="nom_dossier"/></li>
+                    <li>&#187;<a href="index.php">Accueil</a></li>
+                    <li>&#187;<mx:text id="nom_dossier"/></li>
                   </ol>
                 </div>
 
@@ -50,14 +50,14 @@
 
             <td>
               <div id="iframeaffichage">
-                <iframe mXattribut="src:affichage" frameborder="0" scrolling="no" name="affichage" name="luxbumaff"></iframe>
+                <iframe mXattribut="src:affichage" frameborder="0" scrolling="no" name="affichage"></iframe>
               </div>
             </td>
           </tr>
         </table>
       </div>
 
-      <div id="footer"><a href="http://nico.tuxfamily.org/Projets/12-Luxbum-Script-De-Galerie-Photo-En-Php">Luxbum</a> by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
+      <div id="footer"><a href="http://nico.tuxfamily.org/Projets/Support-LuxBum">Luxbum</a> by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
     </div>
   </body>
 </html>

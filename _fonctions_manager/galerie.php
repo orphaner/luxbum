@@ -6,7 +6,7 @@
   //------------------------------------------------------------------------------
 include (FONCTIONS_DIR.'luxbum.class.php');
 include (FONCTIONS_DIR.'utils/aff_page.inc.php');
-include (FONCTIONS_DIR.'utils/formulaires.php');
+//include (FONCTIONS_DIR.'utils/formulaires.php');
 include (FONCTIONS_DIR.'class/upload.class.php');
 
 // FIXME : ....
@@ -140,7 +140,7 @@ $upload->DirUpload = luxbum::getDirPath ($dir);
 $upload->WriteMode = 2;
 $upload->Required = true;
 $upload->Extension = '.gif;.jpg;.jpeg;.png';
-$upload->MimeType = 'image/gif;image/pjpeg;image/jpeg;image/x-png';
+$upload->MimeType = 'image/gif;image/pjpeg;image/jpeg;image/x-png;image/png';
 $page->MxAttribut ('max_file_size', $upload->MaxFilesize);
 
 // switch rapide
@@ -304,7 +304,12 @@ else if ($f == 'ajout_photo') {
       $page->MxText ('message', $mess);
    }
    else {
-      $page->MxText ('message', 'fichier envoyé');
+      if (count($_FILES['userfile']['tmp_name']) == 1) {
+         $page->MxText ('message', 'Le fichier a été correctement envoyé');
+      }
+      else {
+         $page->MxText ('message', 'Les fichiers ont été correctement envoyés');
+      }
 
       unset ($nuxThumb);
       $nuxThumb = new luxBumGalleryList ($dir);

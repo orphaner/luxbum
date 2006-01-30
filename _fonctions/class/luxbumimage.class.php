@@ -1,7 +1,7 @@
 <?php 
 
 include (LIB_DIR.'exifer/exif.php');
-include (FONCTIONS_DIR.'mysql.inc.php');
+include_once (FONCTIONS_DIR.'mysql.inc.php');
 
 //==============================================================================
 // Classe luxBumImage : Fonctions pour les générations de miniatures
@@ -23,6 +23,8 @@ class luxBumImage extends luxBum
 
    var $thumbToolkit;
    var $previewToolkit;
+   
+   var $previewImagePath;
 
 
 
@@ -32,6 +34,11 @@ class luxBumImage extends luxBum
       $this->thumbDir = $this->getThumbPath ($dir);
       $this->previewDir = $this->getPreviewPath ($dir);
       $this->setAllDescription ('', '');
+      $this->previewImagePath = $this->getPreviewImage ($this->dir, $this->img);
+   }
+   
+   function getPreviewImagePath () {
+      return $this->previewImagePath;
    }
 
    function getImageDir () {
@@ -79,7 +86,7 @@ class luxBumImage extends luxBum
    }
    
    function getDateDesc () {
-      $dateDesc = '';
+      $dateDesc = '&nbsp;';
       
       // Date
       if ($this -> getDate() != '') {
@@ -158,24 +165,38 @@ class luxBumImage extends luxBum
       unset ($this->thumbToolkit);
       return $final;
    }
-
-   function getAsPreview ($dst_w = 650, $dst_h = 485) {
+   
+   function needPreview ($dst_w = 650, $dst_h = 485) {
       $this->previewToolkit = new imagetoolkit ($this->getImagePath ());
       $this->previewToolkit->setDestSize ($dst_w, $dst_h);
 
       // Pas de génération de preview
       if ($this->getSize () < MIN_SIZE_FOR_PREVIEW * 1024) {
+         return false;
+      }
+      
+      // Si image de départ plus petite, on ne redimentione pas la photo
+      if ($this->previewToolkit->destBiggerThanFrom()) {
+         return false;
+      }
+      
+      return true;
+   }
+
+   function getAsPreview ($dst_w = 650, $dst_h = 485) {
+      
+      if ($this->needPreview($dst_w, $dst_h) == false) {
          return $this->getImagePath ();
       }
 
       // Génération de preview
-      $final = $this->getPreviewImage ($this->dir, $this->img);
-      if (!is_file ($final)) {
+      //$final = $this->getPreviewImage ($this->dir, $this->img);
+      if (!is_file ($this->previewImagePath)) {
          files::createDir ($this->previewDir);
-         $this->previewToolkit->createThumb ($final);
+         $this->previewToolkit->createThumb ($this->previewImagePath);
       }
       unset ($this->thumbToolkit);
-      return $final;
+      return $this->previewImagePath;
    }
 
    function getThumbResizeSize () {
@@ -240,7 +261,7 @@ class luxBumImage extends luxBum
    /**-----------------------------------------------------------------------**/
    function getNbComment () {
       global $mysql;
-      $query = "SELECT count(*) FROM commentaire "
+      $query = "SELECT count(*) FROM ".DB_PREFIX."commentaire "
          ."WHERE galerie_comment='".($this->dir)."' AND photo_comment='".($this->img)."'";
       return $mysql->DbCount ($query);
    }

@@ -47,7 +47,10 @@
           <p>
             <h4><mx:text id="nom"/></h4>
             <span class="infos"><mx:text id="nb_photo"/> photos pour <mx:text id="taille"/></span>.
-            <div class="consulter"><img src="_images/fleche1.png" alt="-" />&nbsp;<a mXattribut="href:lien">Gérer</a></div>
+            <div class="consulter">
+               <img src="_images/fleche1.png" alt="-" />&nbsp;<a mXattribut="href:lien">Gérer</a><br />
+               <img src="_images/fleche1.png" alt="-" />&nbsp;<a mXattribut="href:cache">Générer le cache</a>
+            </div>
           </p>
         </td>
         <td class="description_td">

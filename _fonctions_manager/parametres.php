@@ -36,25 +36,29 @@ function border_pixel_select () {
 $param['nom_galerie']          = NOM_GALERIE;
 $param['template_theme']       = TEMPLATE_THEME;
 $param['color_theme']          = COLOR_THEME;
-$param['photos_dir']           = PHOTOS_DIR;
+/*$param['photos_dir']           = PHOTOS_DIR;
 $param['thumb_dir']            = THUMB_DIR;
 $param['preview_dir']          = PREVIEW_DIR;
 $param['description_file']     = DESCRIPTION_FILE;
 $param['default_index_file']   = DEFAULT_INDEX_FILE;
-$param['allowed_format']       = ALLOWED_FORMAT;
+$param['allowed_format']       = ALLOWED_FORMAT;*/
 $param['use_rewrite']          = USE_REWRITE;
 $param['mkdir_safe_mode']      = MKDIR_SAFE_MODE;
 $param['date_format']          = DATE_FORMAT;
 $param['min_size_for_preview'] = MIN_SIZE_FOR_PREVIEW;
 $param['max_file_size']        = MAX_FILE_SIZE;
 $param['show_exif']            = SHOW_EXIF;
-$param['show_commentaire']     = SHOW_COMMENTAIRE;
 
+$param['show_commentaire']     = SHOW_COMMENTAIRE;
 $param['db_host']              = DB_HOST;
 $param['db_name']              = DB_NAME;
 $param['db_login']             = DB_LOGIN;
 $param['db_password']          = DB_PASSWORD;
+$param['db_prefix']            = DB_PREFIX;
 
+$param['show_slideshow']       = SHOW_SLIDESHOW;
+$param['slideshow_time']       = SLIDESHOW_TIME;
+$param['slideshow_fading']     = SLIDESHOW_FADING;
 
 $param['image_border_pixel']      = IMAGE_BORDER_PIXEL;
 $param['image_border_max_nuance'] = IMAGE_BORDER_MAX_NUANCE;
@@ -87,13 +91,20 @@ function verif_parametres () {
    global $page;
    global $param;
    $err_vide = false;
+   $errCom = false;
 
    $cpt = 0;
    while (list ($key, $val) = each ($param)) {
       get_post ($key, $param[$key]);
       if (substr ($key, 0,3) == 'db_') {
          if ($param['show_commentaire'] == 'on') {
-            $cpt += verif_non_vide ($key, $param[$key]);
+            if ($key != 'db_prefix') {
+               $testErrCom = verif_non_vide ($key, $param[$key]);
+            }
+            if ($testErrCom > 0) {
+               $cpt++;
+               $errCom = true;
+            }
          }
       }
       else {
@@ -106,7 +117,7 @@ function verif_parametres () {
    }
 
    // Vérification du dossier des photos
-   if ($param['photos_dir'] != '') {
+   /*if ($param['photos_dir'] != '') {
       $param['photos_dir'] = files::addTailSlash ($param['photos_dir']);
 
       if (!verif_dir_slash ($param['photos_dir'])) {
@@ -139,7 +150,7 @@ function verif_parametres () {
          $page->MxText ('err_preview_dir', unprotege_input ($param['preview_dir']).' n\'est pas un nom de dossier correct.');
          $err_vide = true;
       }
-   }
+   }*/
 
    // Vérification de la couleur
    if ($param['image_border_hex_color'] != '' && !is_hex_color ($param['image_border_hex_color'])) {
@@ -169,6 +180,18 @@ function verif_parametres () {
    else {
       $err_vide = true;
       $page->MxText ('err_max_file_size', 'Non numérique !!');
+   }
+   
+   // Vérification de la connection à la base de données
+   if ($param['show_commentaire'] == 'on' && $errCom == false) {
+      $mysql = new mysqlInc($param['db_host'], $param['db_login'], $param['db_password'], $param['db_name']);
+      if (!$mysql->testDbConnect()) {
+         $err_vide = true;
+         $page->MxText('err_db_host', $mysql->mysqlErr());
+      }
+      else {
+         $mysql->DbClose();
+      }
    }
 
    return !$err_vide;
@@ -271,7 +294,7 @@ while (list ($key, $val) = each ($param)) {
 $page->MxAttribut ('val_nom_galerie', $param['nom_galerie']);
 $page->MxSelect ('template_theme', 'template_theme', $param['template_theme'], template_theme_select ());
 $page->MxSelect ('color_theme', 'color_theme', $param['color_theme'], $themes_css);
-
+/*
 $page->MxAttribut ('val_photos_dir', $param['photos_dir']);
 $page->MxAttribut ('val_thumb_dir', $param['thumb_dir']);
 $page->MxAttribut ('val_preview_dir', $param['preview_dir']);
@@ -279,7 +302,7 @@ $page->MxAttribut ('val_preview_dir', $param['preview_dir']);
 $page->MxAttribut ('val_description_file', $param['description_file']);
 $page->MxAttribut ('val_default_index_file', $param['default_index_file']);
 $page->MxAttribut ('val_allowed_format', $param['allowed_format']);
-
+*/
 $page->MxSelect ('use_rewrite', 'use_rewrite', $param['use_rewrite'], on_off_select ());
 $page->MxSelect ('mkdir_safe_mode', 'mkdir_safe_mode', $param['mkdir_safe_mode'], on_off_select ());
 $page->MxAttribut ('val_date_format', $param['date_format']);
@@ -291,13 +314,27 @@ $page->MxAttribut ('val_image_border_hex_color', $param['image_border_hex_color'
 $page->MxAttribut ('val_min_size_for_preview', $param['min_size_for_preview'] );
 $page->MxAttribut ('val_max_file_size', $param['max_file_size'] );
 $page->MxSelect ('show_exif', 'show_exif', $param['show_exif'], on_off_select ());
-$page->MxSelect ('show_commentaire', 'show_commentaire', $param['show_commentaire'], on_off_select ());
 
+// Commentaires
+$page->MxSelect ('show_commentaire', 'show_commentaire', $param['show_commentaire'],
+                   on_off_select (), '', '', 'onchange="javascript:swapDiv(\'paramCommentaires\', \'show_commentaire\')"');
+if ($param['show_commentaire'] == 'off') {
+   $page->MxAttribut('commentaireDiv', 'invisible');
+}
 $page->MxAttribut ('val_db_host', $param['db_host'] );
 $page->MxAttribut ('val_db_name', $param['db_name'] );
 $page->MxAttribut ('val_db_login', $param['db_login'] );
 $page->MxAttribut ('val_db_password', $param['db_password'] );
+$page->MxAttribut ('val_db_prefix', $param['db_prefix'] );
 
+//Diaporamas
+$page->MxSelect ('show_slideshow', 'show_slideshow', $param['show_slideshow'],
+                   on_off_select (), '', '', 'onchange="javascript:swapDiv(\'paramSlideshow\', \'show_slideshow\')"');
+if ($param['show_slideshow'] == 'off') {
+   $page->MxAttribut('slideshowDiv', 'invisible');
+}
+$page->MxAttribut ('val_slideshow_time', $param['slideshow_time'] );
+$page->MxSelect ('slideshow_fading', 'slideshow_fading', $param['slideshow_fading'], on_off_select ());
 
 $page->MxAttribut ('action_parametres_mdp', $str_critere.'&amp;valid=2#form_mdp');
 $page->MxAttribut ('val_manager_username', $param2['manager_username']);

@@ -353,10 +353,10 @@ function getCurrentPhoto(index, pos) {
             /* HTTP Code 200 "Ok" */
             if (xmlhttp.status == 200) {
                if (pos == "fg") {
-                  document.getElementById(foreImage).src = photosDir+currentDir+"/apercu/"+photosURL[index];
+                  document.getElementById(foreImage).src = /*photosDir+currentDir+"/apercu/"+*/photosURL[index];
                }
                else if (pos == "bg") {
-                  document.getElementById(backImage).src = photosDir+currentDir+"/apercu/"+photosURL[index];
+                  document.getElementById(backImage).src = /*photosDir+currentDir+"/apercu/"+*/photosURL[index];
                }
             }
          }

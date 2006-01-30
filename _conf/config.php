@@ -1,13 +1,7 @@
 <?php
 define ('NOM_GALERIE', 'Galerie d\'images');
 define ('TEMPLATE_THEME', '3COL');
-define ('COLOR_THEME', 'light');
-define ('PHOTOS_DIR', 'photos/');
-define ('THUMB_DIR', 'vignette/');
-define ('PREVIEW_DIR', 'apercu/');
-define ('DESCRIPTION_FILE', 'description.txt');
-define ('DEFAULT_INDEX_FILE', 'defaut.txt');
-define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
+define ('COLOR_THEME', 'l62');
 define ('USE_REWRITE', 'off');
 define ('MKDIR_SAFE_MODE', 'off');
 define ('DATE_FORMAT', '%A %e %B %Y');
@@ -19,7 +13,11 @@ define ('DB_HOST', 'localhost');
 define ('DB_NAME', 'luxbum');
 define ('DB_LOGIN', 'luxbum');
 define ('DB_PASSWORD', 'luxbum');
-define ('IMAGE_BORDER_PIXEL', '5');
+define ('DB_PREFIX', '');
+define ('SHOW_SLIDESHOW', 'on');
+define ('SLIDESHOW_TIME', '4');
+define ('SLIDESHOW_FADING', 'on');
+define ('IMAGE_BORDER_PIXEL', '3');
 define ('IMAGE_BORDER_MAX_NUANCE', '150');
-define ('IMAGE_BORDER_HEX_COLOR', 'dedede');
+define ('IMAGE_BORDER_HEX_COLOR', 'FAF3EA');
 ?>
