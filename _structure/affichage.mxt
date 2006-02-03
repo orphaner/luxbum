@@ -16,8 +16,10 @@
     </head>
   <body id="body_affichage">  
     <div id="affichage_photo">
-      <a mXattribut="href:lien" onclick="window.open(this.href,'',''); return false;"  mXattribut="class:photo_selection"><mx:image id="photo"/></a>
-      <br />
+      <div id="laphoto">
+         <a mXattribut="href:lien" onclick="window.open(this.href,'',''); return false;"  mXattribut="class:photo_selection"><mx:image id="photo"/></a>
+      </div>
+      
       <table width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="30px"><mx:bloc id="back"><a mXattribut="href:lien;target:target"><img src="_images/navig/back.gif" alt="back" border="0"></a></mx:bloc id="back"></td>

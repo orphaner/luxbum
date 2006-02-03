@@ -194,7 +194,6 @@ function verif_parametres () {
       }
       else {
          if (commentaire::tableExists($param['db_prefix']) == false) {
-            echo "création table<br>";
             commentaire::createTable($param['db_prefix']);
          }
          $mysql->DbClose();

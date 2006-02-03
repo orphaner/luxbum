@@ -2,10 +2,18 @@
 // if (ereg ('free.fr', $_SERVER["HTTP_HOST"]) &&  !@is_dir ('sessions')) {
 //    @mkdir ('sessions');
 // }
+DEFINE ('PREFIX_SESSION',sha1($_SERVER['SCRIPT_FILENAME']).'_');
+//session_id(md5($_SERVER['SCRIPT_FILENAME']));
 session_start();
-
-if (isset($_SESSION['logued']) && $_SESSION['logued'] == true) {
-   $logued_check = true;
+//echo $_REQUEST["PHPSESSID"].'<br>';
+//echo md5($_SERVER['SCRIPT_FILENAME']);
+if (isset($_SESSION[PREFIX_SESSION.'logued']) && $_SESSION[PREFIX_SESSION.'logued'] == true) {
+   //if ($_SESSION['urlscript'] == $_SERVER['SCRIPT_FILENAME']) {
+      $logued_check = true;
+   /*}
+   else {
+      $logued_check = false;
+   }*/
 }
 else {
    $logued_check = false;
@@ -92,38 +100,45 @@ class authDotclear extends auth {
 }
 
 function isAdmin () {
-   if (isset ($_SESSION['is_admin'])) {
-      return $_SESSION['is_admin'];
+   if (isset ($_SESSION[PREFIX_SESSION.'is_admin'])) {
+      return $_SESSION[PREFIX_SESSION.'is_admin'];
    }
    return false;
+}
+
+function logout ($message, $ok) {
+   $page = new ModeliXe ('login.mxt');
+   $page->SetModeliXe ();
+   while (list ($key,) = each($_SESSION)) {
+      if (strpos ($key, PREFIX_SESSION)===0) {
+         $_SESSION[$key] = '';
+         unset($_SESSION['$key']);
+      }
+   }
+   //$_SESSION = array ();
+   //session_destroy ();
+   $page->MxAttribut ('action', ADMIN_FILE.'?p=login');
+   $page->MxAttribut ('message_id', 'message_'.$ok);
+   $page->MxText ('message', $message);
+   return $page;
 }
 
 if ($logued_check == true) {
 
    /* Time out */
-   if ((time() - $_SESSION['last_access'] ) > $session_timeout) {
-      $page = new ModeliXe ('login.mxt');
-      $page->SetModeliXe ();
-      $_SESSION = array ();
-      session_destroy ();
-      $page->MxAttribut ('action', ADMIN_FILE.'?p=login');
-      $page->MxAttribut ('message_id', 'message_ko');
-      $page->MxText ('message', 'TIMEOUT: Vous êtes désormais déconnecté.');
+   if ((time() - $_SESSION[PREFIX_SESSION.'last_access'] ) > $session_timeout) {
+      $page = logout ('TIMEOUT: Vous êtes désormais déconnecté.', 'ko');
    }
 
    // Déconnexion
    else if ($p == 'logout') {
-      $page = new ModeliXe ('login.mxt');
-      $page->SetModeliXe ();
-      $_SESSION = array ();
-      session_destroy ();
-      $page->MxAttribut ('action', ADMIN_FILE.'?p=login');
-      $page->MxAttribut ('message_id', 'message_ok');
-      $page->MxText ('message', 'Vous êtes désormais déconnecté.');
+      $page = logout ('Vous êtes désormais déconnecté.', 'ok');
    }
-                
+       
    // Inclusion du module d'admin
    else {
+      // Dernier accès de la page
+      $_SESSION[PREFIX_SESSION.'last_access']=time();
       
       // Connection à la base de données
       if (SHOW_COMMENTAIRE == 'on' || (SHOW_COMMENTAIRE == 'off' && $mysql->testDbConnect())) {
@@ -187,10 +202,11 @@ else if ($logued_check == false) {
       }
 
       if ($auth->checkUser () == true) {
-         $_SESSION['logued'] = true;
-         $_SESSION['last_access']=time();
-         $_SESSION['ipaddr'] = $_SERVER['REMOTE_ADDR'];
-         $_SESSION['is_admin'] = $auth->isAdmin ();
+         $_SESSION[PREFIX_SESSION.'logued'] = true;
+         $_SESSION[PREFIX_SESSION.'last_access']=time();
+         $_SESSION[PREFIX_SESSION.'ipaddr'] = $_SERVER['REMOTE_ADDR'];
+         $_SESSION[PREFIX_SESSION.'urlscript'] = $_SERVER['SCRIPT_FILENAME'];
+         $_SESSION[PREFIX_SESSION.'is_admin'] = $auth->isAdmin ();
          header ('location:manager.php');
       }
       else {
@@ -206,8 +222,9 @@ else if ($logued_check == false) {
    }
 }
 
-if ($mysql)
-$mysql->DbClose();
+if ($mysql) {
+   $mysql->DbClose();
+}
 $page->MxWrite ();
 
 ?>

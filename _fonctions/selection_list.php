@@ -28,9 +28,16 @@ else  {
 }
 $page_courante++;
 
+
 // Vérif que la page est bonne
-if (ceil ($_SESSION['luxbum_selection_size'] / LIMIT_THUMB_PAGE) < $page_courante) {
-   exit ('page incorrecte !!');
+if (!isset($_SESSION['luxbum_selection_size'])) {
+   header('Location: '.INDEX_FILE);
+}
+else if ($_SESSION['luxbum_selection_size']==0) {
+   header('Location: '.INDEX_FILE);
+}
+else if (ceil ($_SESSION['luxbum_selection_size'] / LIMIT_THUMB_PAGE) < $page_courante) {
+   header('Location: '.INDEX_FILE);
 }
 
 
@@ -46,9 +53,9 @@ if (ceil ($_SESSION['luxbum_selection_size'] / LIMIT_THUMB_PAGE) < $page_courant
 $page = new ModeliXe('vignette.mxt');
 $page->SetModeliXe();
 //$niceDir = ucfirst (luxBum::niceName ($dir));
-definir_titre ($page, 'Voici votre selection ('.$_SESSION['luxbum_selection_size'].') : ');
+definir_titre ($page, 'Voici votre sélection ('.$_SESSION['luxbum_selection_size'].') : ');
 remplir_style ($page);
-$page->MxText ('nom_dossier', 'Ma selection');
+$page->MxText ('nom_dossier', 'Ma sélection');
 
 
 

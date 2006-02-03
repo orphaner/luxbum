@@ -156,7 +156,7 @@ var slide_speed = <mx:text id="defaultspeed"/>;
   <div id="controle">
     <div id="s_next">&raquo;</div>
     <div id="s_prev">&laquo;</div>
-    <div id="s_play">Play</div>
+    <div id="s_play">Démarrer</div>
     <div id="s_pause">Pause</div>
     <div id="s_info"><img class="myicon" src="slideshow.php?base64=i" alt="Informations about the picture"/></div>
     <div id="s_options"><img class="myicon" src="slideshow.php?base64=o" alt="Options of the slideshow" /></div>
@@ -166,20 +166,20 @@ var slide_speed = <mx:text id="defaultspeed"/>;
 
   <div id="s_options_box">
     <h2>Options</h2>
-    <input type="checkbox" id="smoothtrans" mXattribut="checked:fading"/> Activate fading<br />
-    <input type="text" id="slide_speed" size="1" maxlength="1" mXattribut="value:defaultspeed" /> Time between each picture (in seconds) <br />
+    <input type="checkbox" id="smoothtrans" mXattribut="checked:fading"/> Activer le fondu<br />
+    <input type="text" id="slide_speed" size="1" maxlength="1" mXattribut="value:defaultspeed" /> Temps entre chaque photo (en secondes) <br />
   </div>
   <div id="s_exif_info"></div>
   <div id="s_help_box">
-    <h2>About</h2>
-    <p><strong>ESS</strong> by <strong>Yann HAMON</strong> - December 2005</p>
-    <p id="k_shortcuts">Keyboard Shortcuts:</p>
+    <h2>A propos</h2>
+    <p><strong>ESS</strong> par <strong>Yann HAMON</strong> adapté pour Luxbum</p>
+    <p id="k_shortcuts">Racourcis clavier</p>
     <ul>
-      <li><strong>Space</strong> : Play/Pause the slideshow</li>
-      <li><strong>Arrows, left and right</strong> : Previous, next picture</li>
-      <li><strong>i</strong> : Informations about the picture</li>
+      <li><strong>Espace</strong> : Démarre/met en pause le diaporama</li>
+      <li><strong>Flèches gauches et droites</strong> : Photo précédente, suivante</li>
+      <li><strong>i</strong> : Informations EXIF de la photo</li>
       <li><strong>o</strong> : Options</li>
-      <li><strong>h</strong> : Display this help</li>
+      <li><strong>h</strong> : Afficher cette aide</li>
     </ul>
   </div>
 </div>

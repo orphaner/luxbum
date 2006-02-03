@@ -44,9 +44,9 @@ a:hover, a:focus, a:active {
 	width:100%;
 	height: 540px; 
 	position:absolute;
-	margin-top: 10px;
+	top: 50%;
+	margin-top: -290px;
 }
-  
 #center {
 	position:absolute;
 	height: 540px; 
@@ -68,23 +68,18 @@ a:hover, a:focus, a:active {
 	padding-top:5px;
 	font-weight: bold; 
 }
-
- 
 #footer2 {
 	height:35px;
 	text-align:center;
 	margin:50px 20px 0 0;
 	font-size:10px;
 }
- 
-
 #footer { 
 	position:absolute;
 	top:570px;
 	font-size:10px;
 	color:#BEBEBE;
 }
- 
 #footer a:link, #footer a:visited { 
 	color:#BEBEBE;
 }
@@ -98,12 +93,9 @@ h1 {
 	background:url('../_images/luxbum_h1.jpg') center no-repeat;
 	height:160px;
 }
-
 h1 span {
 	display:none;
 }
-
-
 #liste_apercu { 
 	text-align: left;
 	width:870px;
@@ -116,52 +108,58 @@ h1 span {
 	-border-radius:6px;
 	padding: 15px 5px 5px 5px;
  }
-
 #liste_apercu table {
 	width:870px;
 	border:0;
 	text-align: left;
+	font-size:10px;
 }  
-
 #liste_apercu table tr td{
 	width:33%;
 }
-
 #liste_apercu img {
 	border:1px solid #DEDEDE;
 	padding:2px;
 }
-
 #liste_apercu a { 
 	font-size:10px;
 	font-family: verdana, helvetica, arial, sans-serif;
 }
-
 #liste_apercu h2 { 
 	font-size:14px;
-	margin-top:0px;
+	margin:0 0 5px 0;
 	padding:0px;
 	color:#000;
 }
-
 .lg {
 	height:100px;
 	width:100px;
 	float:left;
 }
-
 .ld {
 }
-
 span.infos { 
 	font-size:10px;
 	font-family: verdana, helvetica, arial, sans-serif;
 /*	color:#E1E1E1;*/
 }
-
 .gras { 
 	font-weight: bold;
 }
+.consulter ul {
+	margin:0px;
+	padding: 5px 4px 16px 6px ;
+}
+.consulter ul li {
+    padding: 1px 0 1px 0;
+    line-height: 120%;
+    list-style: none;
+}
+.consulter ul li a {
+    padding: 0 0 0 12px;
+    background: transparent url('../_images/fleche1.png') no-repeat top left;
+}
+
 
 /*===========================================
    Les vignettes
@@ -170,7 +168,7 @@ span.infos {
 #apercu {
 	text-align: left;
 	width: 294px;
-	height:520px;
+	height:542px;
 	margin: 10px 10px 10px 5px;
 	position: relative;
 	background:#FFF;
@@ -179,38 +177,34 @@ span.infos {
 	-border-radius:6px;
 	padding: 15px 5px 5px 5px;
 }
-
+*> #apercu {
+	height:520px;
+}
 .liste_apercu { 
 	height:110px;
 	width:294px;
 }
-
 .view_photo { 
 	height:100%;
 	text-align:center;
 }
-  
 .num_photo { 
 	text-align:center;
 	padding-top:3px;
 	color:#acc3c4;
 	font-size:10px;
 }
-
 .view_photo img { 
 	border:1px solid #DEDEDE;
 	padding:2px;
 }
-
 h1.vig_titre {
 	display:none;	
 }
-
 td.v3col {
 	height:90px;
 	width:33%;
 }
-
 td.v2col {
 	height:130px;
 	width:33%;
@@ -220,7 +214,6 @@ td.v2col {
 	height:100%;
 	text-align:center;
 }
-
 .view_photo_selected  img, .photo_selected  img{ 
 	border:2px solid #ABABAB;
 	padding:1px;
@@ -239,8 +232,8 @@ td.v2col {
 /* Ici pour définir la couleur de fond du cadre ! */
 .tborder {
 	background-color: #5A5A5A;
-	color: red;
 	margin: auto;
+	font-size:10px;
 }
 /* page non courante */
 .alt1 {
@@ -279,18 +272,15 @@ td.v2col {
 	text-align:left;
 	font-size: 12px
 }
-
 #menunav a {
 	font-size: 12px
 }
- 
 ol.tree {
 	position: relative;
 	margin: 0 0 1em 0;
 	padding: 0;
 	border-bottom: 1px solid #f5f5dc;
 }
-
 ol.tree li {
 	display: inline;
 	list-style-type: none;
@@ -314,40 +304,37 @@ ol.tree li {
 	-border-radius:6px;
 	padding: 5px 5px 5px 5px;
 }
-
 #iframeaffichage iframe {
 	width:660px;
-	height:520px;
-/* 	border:1px solid red; */
+	height:530px;
 }
-
-
-#affichage_photo img {
-	border:1px solid #DEDEDE;
-	padding:2px;
-}
-
 #affichage_photo {
 	text-align:center;
 }
-
+#laphoto {
+	height: 500px;
+}
+#laphoto img {
+	border:1px solid #DEDEDE;
+	padding:2px;
+}
 
 
 /*===========================================
    Table des informations EXIF
 =============================================*/
+#infos_exif h2 {
+	font-size:12px;
+}
 table.clean-table {
 	border-collapse: collapse;
 }
-
 table.clean-table tr {
 }
-
 table.clean-table th {
 	border: 1px solid #000;
 	padding: 0.5em;
 }
-
 table.clean-table td {
 	border: 1px solid #666;
 	padding: 0.5em;
@@ -357,6 +344,9 @@ table.clean-table td {
 /*===========================================
    Commentaires
 =============================================*/
+#addcomment h2, #voircomment h2 {
+	font-size:12px;
+}
 #addcomment div#ac-content {
 	font-size:12px;
 }
@@ -419,11 +409,11 @@ fieldset {
 	margin-top:20px;
 }
 legend {
-  padding: 1px 4px;
-  border-color: #999 #ccc #ccc #999;
-  border-style: solid;
-  border-width: 1px;
-  background: #eee;
+	padding: 1px 4px;
+	border-color: #999 #ccc #ccc #999;
+	border-style: solid;
+	border-width: 1px;
+	background: #eee;
 }
 span.erreur {
 	color:red;

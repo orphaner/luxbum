@@ -89,4 +89,4 @@ function aff_page2 ($nb_total, $courant, $limit_nb,$dede, $action)
    return $pageMxt->MxWrite (true);
 }
 
-?> 
+?>
