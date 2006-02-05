@@ -1,19 +1,28 @@
 <?php
-// if (ereg ('free.fr', $_SERVER["HTTP_HOST"]) &&  !@is_dir ('sessions')) {
-//    @mkdir ('sessions');
-// }
-DEFINE ('PREFIX_SESSION',sha1($_SERVER['SCRIPT_FILENAME']).'_');
-//session_id(md5($_SERVER['SCRIPT_FILENAME']));
+
+//------------------------------------------------------------------------------
+// Includes
+//------------------------------------------------------------------------------
+include_once ('common.php');
+include_once (CONF_DIR.'config_manager.php');
+include_once (CONF_DIR.'config_auth.php');
+include_once (FONCTIONS_DIR.'mysql.inc.php');
+$mysql = new MysqlInc (DBL_HOST, DBL_LOGIN, DBL_PASSWORD, DBL_NAME);
+
+
+//------------------------------------------------------------------------------
+// Constantes
+//------------------------------------------------------------------------------
+// Précise le répertoire de template par défaut.
+define('MX_TEMPLATE_PATH', ADMIN_STRUCTURE_DIR); 
+
+// Le préfixe des variables de session
+define('PREFIX_SESSION',sha1($_SERVER['SCRIPT_FILENAME'].MANAGER_PASSWORD).'_');
+
+
 session_start();
-//echo $_REQUEST["PHPSESSID"].'<br>';
-//echo md5($_SERVER['SCRIPT_FILENAME']);
 if (isset($_SESSION[PREFIX_SESSION.'logued']) && $_SESSION[PREFIX_SESSION.'logued'] == true) {
-   //if ($_SESSION['urlscript'] == $_SERVER['SCRIPT_FILENAME']) {
       $logued_check = true;
-   /*}
-   else {
-      $logued_check = false;
-   }*/
 }
 else {
    $logued_check = false;
@@ -23,20 +32,6 @@ else {
 function definir_titre (&$page, $titre_page) {
    $page->MxText('titre_page', $titre_page);
 }
-
-//------------------------------------------------------------------------------
-// Includes
-//------------------------------------------------------------------------------
-include_once ('common.php');
-include_once (CONF_DIR.'config_manager.php');
-include_once (FONCTIONS_DIR.'mysql.inc.php');
-$mysql = new MysqlInc (DB_HOST, DB_LOGIN, DB_PASSWORD, DB_NAME);
-
-
-//------------------------------------------------------------------------------
-// Constantes
-//------------------------------------------------------------------------------
-define('MX_TEMPLATE_PATH', ADMIN_STRUCTURE_DIR); //Précise le répertoire de template par défaut.
 
 
 //------------------------------------------------------------------------------
@@ -53,52 +48,74 @@ if (isset ($_GET['p'])) {
 }
 $session_timeout = 30 * 60; // TimeOut de 30 minutes
 
-define ('AUTH_METHOD', 'luxbum'); // luxbum ou dotclear
-define ('DOTCLEAR_PATH', '../dotclear/'); // slash final doit être là
+/**
+ * Classe d'authentification Luxbum
+ */
 class auth {
    var $user;
    var $pass;
    var $level;
    
+   /**
+    * Constructeur par défaut
+    * @param string $user Le nom d'utilisateur
+    * @param string $pass Le mot de passe
+    */
    function auth ($user, $pass) {
       $this->user = $user;
       $this->pass = $pass;
    }
 
+   /**
+    * Vérifie que l'utilisateur est correct et défini son niveau d'accès
+    * @return boolean true / false : correct / incorrect
+    */
    function checkUser () {
       $this->level = 9;
       return (MANAGER_USERNAME == $this->user && MANAGER_PASSWORD == md5 ($this->pass));
    }
 
+   /**
+    * Est ce que l'utilsateur courant est administrateur ?
+    * @return boolean true / false : admin / pas admin
+    */
    function isAdmin () {
       return $this->level == 9;
    }
 }
+/**
+ * Classe d'authenfitication par dotclear
+ * Surcharge la fonction checkUser() de la classe auth
+ */
 class authDotclear extends auth {
    function checkUser () {
-      $mysql = new MysqlInc (DB_HOST, DB_USER, DB_PASS, DB_DBASE);
-      $mysql->DbConnect ();
+      $mysqlDC = new MysqlInc (DB_HOST, DB_USER, DB_PASS, DB_DBASE);
+      $mysqlDC->DbConnect ();
       
       // Vérif user enregistré
       $sql_req = "SELECT COUNT(*) FROM ".DB_PREFIX."user "
          ."WHERE user_id='".$this->user."' AND user_pwd='".(md5($this->pass))."'";
-      $sql_nb = $mysql->DbCount ($sql_req);
+      $sql_nb = $mysqlDC->DbCount ($sql_req);
 
       if ($sql_nb == 1) {
 
          // Vérif admin ou non
          $sql_req = "SELECT user_level FROM ".DB_PREFIX."user "
             ."WHERE user_id='".$this->user."'";
-         $mysql->DbQuery ($sql_req);
-         $row = $mysql->DbNextRow ();
+         $res = $mysqlDC->DbQuery ($sql_req);
+         $row = $mysqlDC->DbNextRow ($res);
          $this->level = $row['user_level'];
       }
 
-      $mysql->DbClose ();
+      $mysqlDC->DbClose ();
       return ($sql_nb == 1);
    }
 }
 
+/**
+ * Est  ce que l'utilsateur courant est administrateur ?
+ * @return boolean true / false : admin / pas admin
+ */
 function isAdmin () {
    if (isset ($_SESSION[PREFIX_SESSION.'is_admin'])) {
       return $_SESSION[PREFIX_SESSION.'is_admin'];
@@ -106,6 +123,9 @@ function isAdmin () {
    return false;
 }
 
+/**
+ * Déconnection de la zone d'administration
+ */
 function logout ($message, $ok) {
    $page = new ModeliXe ('login.mxt');
    $page->SetModeliXe ();
@@ -123,6 +143,8 @@ function logout ($message, $ok) {
    return $page;
 }
 
+
+// Si l'utilisateur est connecté
 if ($logued_check == true) {
 
    /* Time out */
@@ -176,6 +198,7 @@ if ($logued_check == true) {
    }
 }
 
+// Si l'utilisateur est déconnecté
 else if ($logued_check == false) {
 
    // Formulaire de connexion

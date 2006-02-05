@@ -116,29 +116,29 @@ function swapDiv (divId, selectId) {
       la table des commentaires sera automatiquement créée. 
       Le nom de table sera "prefixe+commentaire".</strong></p>
     <p>
-      <label for="db_host" class="float">Hote MySQL : </label>
-      <input type="text" name="db_host" id="db_host" mXattribut="value:val_db_host" />
-      <span class="erreur"><mx:text id="err_db_host"/></span>
+      <label for="dbl_host" class="float">Hote MySQL : </label>
+      <input type="text" name="dbl_host" id="dbl_host" mXattribut="value:val_dbl_host" />
+      <span class="erreur"><mx:text id="err_dbl_host"/></span>
     </p>
     <p>
-      <label for="db_name" class="float">Nom de la base MySQL : </label>
-      <input type="text" name="db_name" id="db_name" mXattribut="value:val_db_name" />
-      <span class="erreur"><mx:text id="err_db_name"/></span>
+      <label for="dbl_name" class="float">Nom de la base MySQL : </label>
+      <input type="text" name="dbl_name" id="dbl_name" mXattribut="value:val_dbl_name" />
+      <span class="erreur"><mx:text id="err_dbl_name"/></span>
     </p>
     <p>
-      <label for="db_login" class="float">Utilisateur MySQL : </label>
-      <input type="text" name="db_login" id="db_login" mXattribut="value:val_db_login" />
-      <span class="erreur"><mx:text id="err_db_login"/></span>
+      <label for="dbl_login" class="float">Utilisateur MySQL : </label>
+      <input type="text" name="dbl_login" id="dbl_login" mXattribut="value:val_dbl_login" />
+      <span class="erreur"><mx:text id="err_dbl_login"/></span>
     </p>
     <p>
-      <label for="db_password" class="float">Mot de passe MySQL : </label>
-      <input type="password" name="db_password" id="db_password" mXattribut="value:val_db_password" />
-      <span class="erreur"><mx:text id="err_db_password"/></span>
+      <label for="dbl_password" class="float">Mot de passe MySQL : </label>
+      <input type="password" name="dbl_password" id="dbl_password" mXattribut="value:val_dbl_password" />
+      <span class="erreur"><mx:text id="err_dbl_password"/></span>
     </p>
     <p>
-      <label for="db_login" class="float">Préfixe des tables : </label>
-      <input type="text" name="db_prefix" id="db_prefix" mXattribut="value:val_db_prefix" />
-      <span class="erreur"><mx:text id="err_db_prefix"/></span>
+      <label for="dbl_login" class="float">Préfixe des tables : </label>
+      <input type="text" name="dbl_prefix" id="dbl_prefix" mXattribut="value:val_dbl_prefix" />
+      <span class="erreur"><mx:text id="err_dbl_prefix"/></span>
     </p>
     </div>
   </fieldset>

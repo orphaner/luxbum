@@ -262,7 +262,7 @@ class luxBumImage extends luxBum
    /**-----------------------------------------------------------------------**/
    function getNbComment () {
       global $mysql;
-      $query = "SELECT count(*) FROM ".DB_PREFIX."commentaire "
+      $query = "SELECT count(*) FROM ".DBL_PREFIX."commentaire "
          ."WHERE galerie_comment='".($this->dir)."' AND photo_comment='".($this->img)."'";
       return $mysql->DbCount ($query);
    }

@@ -1,0 +1,86 @@
+Doc : Installation
+Pré-requis
+
+LuxBum a besoin d'un hébergement possédant Apache, PHP et GD1 ou
+GD2. Voir la FAQ pour voir la liste des hébergeurs testés.
+Transfert des fichiers sur votre serveur
+Téléchargement et décompression de LuxBum
+
+    * Télécharger LuxBum.
+    * Décompresser l'archive en local. 
+
+Transfert de LuxBum sur votre serveur
+
+LuxBum peut être installé dans n'importe quel répertoire. Choisissez
+la racine du site si vous souhaitez que votre galerie soit directement
+accessible à l'adresse www.mon_site/.
+
+Pour transférer le contenu décompressé de l'archive, vous pouvez
+utiliser n'importe quel client FTP, par exemple FileZilla pour
+Windows, RBrowser Lite pour Mac, ou Gftp pour Linux. Reportez-vous à
+la documentation fournie par votre hébergement pour connaître :
+
+    * Le nom du serveur FTP (aussi appelé nom d'hôte) ;
+    * Votre nom d'utilisateur (aussi appelé identifiant ou login) ;
+    * Votre mot de passe. 
+
+Paramètrage de LuxBum
+Zone d'administration
+
+La zone d'adminstration est accessible à l'adresse <votre
+site>/manager.php . L'utilisateur par défaut est luxbum. Le mot de
+passe par défaut est luxbum. Il est vivement conseillé de changer
+immédiatement le mot de passe dans l'onglet paramètres de la zone
+d'administration.
+
+Attention pour Free.fr : Vous devez créer un répertoire sessions à la
+racine de votre espace Web. Malheureusement ce répertoire sera visible
+si je tape http://monsite.free.fr/sessions/ . Pour celà il faut créer
+un fichier .htaccess dans le répertoire sessions et y mettre la ligne
+suivante :
+
+Deny from all
+
+
+Utilisation de l'url rewriting
+
+Par défaut les urls n'utilisent pas le mod_rewrite, et ce afin que le
+script fonctionne chez le plus d'hébergeurs possibles (je pense à
+free...).
+
+ Pour activer les urls rewritées :
+
+    * Aller dans l'onglet Paramètres de la zone d'administration. Dans
+      la section Autres paramètres il faut choisir oui dans Utiliser
+      des belles urls.
+    * Renommer le fichier .htaccess.rewrite en .htaccess
+    * Si la galerie est dans un sous dossier, éditer le fichier
+      .htaccess et mettre le nom du dossier avant les lignes contenant
+      /index.php. 
+
+
+Utiliser l'authentification DotClear (v0.4.4 et +)
+
+Je viens de rajouter un petit module qui permet d'utiliser les
+utilisateurs d'une base de données DotClear. Pour l'utiliser, comme ce
+n'est pas encore vraiment officialisé il faut :
+
+    * Editer le fichier _conf/config_auth.php
+    * Remplacer define ('AUTH_METHOD', 'luxbum'); par define
+    * ('AUTH_METHOD', 'dotclear');
+    * Remplacer '../dotclear' par le chemin relatif ou absolu de votre
+    * répertoire d'installation de DotClear 
+
+Normalement c'est bon :)
+Utiliser les commentaires (v0.5 et +)
+
+    * Aller dans l'onglet Paramètres de la zone d'administration. Dans
+      la section Paramètres des Commentaires il faut choisir oui dans
+      Paramètres des Commentaires.
+    * Il faut alors rentrer les paramètres de connection à la base de
+      données MySQL.
+    * A la validation des paramètres, luxbum essaye de se connecter à
+      la base de données. Si la connection est réussie, la table des
+      commentaires est créée et les commentaires sont actifs. Si la
+      connection échoue, les paramètres ne sont pas enregistrés, et le
+      message d'erreur MySQL est affiché. 

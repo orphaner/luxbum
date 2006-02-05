@@ -91,7 +91,7 @@ if ($act == '') {
    $page->MxText('message', $message);
    
    // Sélection des galerie à afficher pour le filtre
-   $sql = "SELECT DISTINCT galerie_comment FROM ".DB_PREFIX."commentaire ORDER BY galerie_comment ASC";
+   $sql = "SELECT DISTINCT galerie_comment FROM ".DBL_PREFIX."commentaire ORDER BY galerie_comment ASC";
    $res = $mysql->DbQuery ($sql);
    if ($mysql->DbNumRows($res) == 0) {
       $page->MxBloc('filtre', 'delete');
@@ -109,7 +109,7 @@ if ($act == '') {
    }
    
    // Affichage des commentaires de la base
-   $sql = "SELECT * FROM ".DB_PREFIX."commentaire ";
+   $sql = "SELECT * FROM ".DBL_PREFIX."commentaire ";
    if (isset($_POST['filtre']) && $_POST['filtre'] == 1) {
       $sql .= " WHERE galerie_comment='".$_POST['galerie']."'";
    }

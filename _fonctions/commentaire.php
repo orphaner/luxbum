@@ -35,7 +35,7 @@ $page = new ModeliXe ('commentaire.mxt');
 $page->SetModeliXe();
 remplir_style ($page);
 definir_titre ($page, 'Commentaires');
-$mysql = new MysqlInc (DB_HOST, DB_LOGIN, DB_PASSWORD, DB_NAME);
+$mysql = new MysqlInc (DBL_HOST, DBL_LOGIN, DBL_PASSWORD, DBL_NAME);
 $mysql->DbConnect ();
 
 
@@ -82,7 +82,7 @@ if ($lux->getNbComment() > 0) {
 
    // Sélection des commenaires
    $sql = "SELECT id_comment, date_comment, auteur_comment, email_comment, site_comment, content_comment "
-      ."FROM ".DB_PREFIX."commentaire "
+      ."FROM ".DBL_PREFIX."commentaire "
       ."WHERE galerie_comment='$dir' AND photo_comment='$file' AND pub_comment='1'";
    $res = $mysql->DbQuery ($sql);
    $page->WithMxPath ('comments', 'relative');

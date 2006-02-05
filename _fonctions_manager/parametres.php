@@ -36,12 +36,6 @@ function border_pixel_select () {
 $param['nom_galerie']          = NOM_GALERIE;
 $param['template_theme']       = TEMPLATE_THEME;
 $param['color_theme']          = COLOR_THEME;
-/*$param['photos_dir']           = PHOTOS_DIR;
-$param['thumb_dir']            = THUMB_DIR;
-$param['preview_dir']          = PREVIEW_DIR;
-$param['description_file']     = DESCRIPTION_FILE;
-$param['default_index_file']   = DEFAULT_INDEX_FILE;
-$param['allowed_format']       = ALLOWED_FORMAT;*/
 $param['use_rewrite']          = USE_REWRITE;
 $param['mkdir_safe_mode']      = MKDIR_SAFE_MODE;
 $param['date_format']          = DATE_FORMAT;
@@ -50,11 +44,11 @@ $param['max_file_size']        = MAX_FILE_SIZE;
 $param['show_exif']            = SHOW_EXIF;
 
 $param['show_commentaire']     = SHOW_COMMENTAIRE;
-$param['db_host']              = DB_HOST;
-$param['db_name']              = DB_NAME;
-$param['db_login']             = DB_LOGIN;
-$param['db_password']          = DB_PASSWORD;
-$param['db_prefix']            = DB_PREFIX;
+$param['dbl_host']             = DBL_HOST;
+$param['dbl_name']             = DBL_NAME;
+$param['dbl_login']            = DBL_LOGIN;
+$param['dbl_password']         = DBL_PASSWORD;
+$param['dbl_prefix']           = DBL_PREFIX;
 
 $param['show_slideshow']       = SHOW_SLIDESHOW;
 $param['slideshow_time']       = SLIDESHOW_TIME;
@@ -99,9 +93,9 @@ function verif_parametres () {
    $cpt = 0;
    while (list ($key, $val) = each ($param)) {
       get_post ($key, $param[$key]);
-      if (substr ($key, 0,3) == 'db_') {
+      if (substr ($key, 0,4) == 'dbl_') {
          if ($param['show_commentaire'] == 'on') {
-            if ($key != 'db_prefix') {
+            if ($key != 'dbl_prefix') {
                $testErrCom = verif_non_vide ($key, $param[$key]);
             }
             if ($testErrCom > 0) {
@@ -118,42 +112,6 @@ function verif_parametres () {
    if ($cpt > 0) {
       $err_vide = true;
    }
-
-   // Vérification du dossier des photos
-   /*if ($param['photos_dir'] != '') {
-      $param['photos_dir'] = files::addTailSlash ($param['photos_dir']);
-
-      if (!verif_dir_slash ($param['photos_dir'])) {
-         $page->MxText ('err_photos_dir', unprotege_input ($param['photos_dir']).' n\'est pas un nom de dossier correct.');
-         $err_vide = true;
-      }
-      else if (!is_dir ($param['photos_dir'])) {
-         $page->MxText ('err_photos_dir', unprotege_input ($param['photos_dir']).' n\'existe pas.');
-         $err_vide = true;
-      }
-      else if (!files::isWritable ($param['photos_dir'])) {
-         $page->MxText ('err_photos_dir', 'Impossible d\'écrire dans '.unprotege_input ($param['photos_dir']));
-         $err_vide = true;
-      }
-   }
-
-   // Vérif du dossier des vignettes
-   if ($param['thumb_dir'] != '') {
-      $param['thumb_dir'] = files::addTailSlash ($param['thumb_dir']);
-      if (!verif_dir_slash ($param['thumb_dir'])) {
-         $page->MxText ('err_thumb_dir', unprotege_input ($param['thumb_dir']).' n\'est pas un nom de dossier correct.');
-         $err_vide = true;
-      }
-   }
-
-   // Vérif du dossier des previews
-   if ($param['preview_dir'] != '') {
-      $param['preview_dir'] = files::addTailSlash ($param['preview_dir']);
-      if (!verif_dir_slash ($param['preview_dir'])) {
-         $page->MxText ('err_preview_dir', unprotege_input ($param['preview_dir']).' n\'est pas un nom de dossier correct.');
-         $err_vide = true;
-      }
-   }*/
 
    // Vérification de la couleur
    if ($param['image_border_hex_color'] != '' && !is_hex_color ($param['image_border_hex_color'])) {
@@ -187,14 +145,14 @@ function verif_parametres () {
    
    // Vérification de la connection à la base de données
    if ($param['show_commentaire'] == 'on' && $errCom == false) {
-      $mysql = new mysqlInc($param['db_host'], $param['db_login'], $param['db_password'], $param['db_name']);
+      $mysql = new mysqlInc($param['dbl_host'], $param['dbl_login'], $param['dbl_password'], $param['dbl_name']);
       if (!$mysql->testDbConnect()) {
          $err_vide = true;
          $page->MxText('err_db_host', $mysql->mysqlErr());
       }
       else {
-         if (commentaire::tableExists($param['db_prefix']) == false) {
-            commentaire::createTable($param['db_prefix']);
+         if (commentaire::tableExists($param['dbl_prefix']) == false) {
+            commentaire::createTable($param['dbl_prefix']);
          }
          $mysql->DbClose();
       }
@@ -300,15 +258,7 @@ while (list ($key, $val) = each ($param)) {
 $page->MxAttribut ('val_nom_galerie', $param['nom_galerie']);
 $page->MxSelect ('template_theme', 'template_theme', $param['template_theme'], template_theme_select ());
 $page->MxSelect ('color_theme', 'color_theme', $param['color_theme'], $themes_css);
-/*
-$page->MxAttribut ('val_photos_dir', $param['photos_dir']);
-$page->MxAttribut ('val_thumb_dir', $param['thumb_dir']);
-$page->MxAttribut ('val_preview_dir', $param['preview_dir']);
 
-$page->MxAttribut ('val_description_file', $param['description_file']);
-$page->MxAttribut ('val_default_index_file', $param['default_index_file']);
-$page->MxAttribut ('val_allowed_format', $param['allowed_format']);
-*/
 $page->MxSelect ('use_rewrite', 'use_rewrite', $param['use_rewrite'], on_off_select ());
 $page->MxSelect ('mkdir_safe_mode', 'mkdir_safe_mode', $param['mkdir_safe_mode'], on_off_select ());
 $page->MxAttribut ('val_date_format', $param['date_format']);
@@ -327,11 +277,11 @@ $page->MxSelect ('show_commentaire', 'show_commentaire', $param['show_commentair
 if ($param['show_commentaire'] == 'off') {
    $page->MxAttribut('commentaireDiv', 'invisible');
 }
-$page->MxAttribut ('val_db_host', $param['db_host'] );
-$page->MxAttribut ('val_db_name', $param['db_name'] );
-$page->MxAttribut ('val_db_login', $param['db_login'] );
-$page->MxAttribut ('val_db_password', $param['db_password'] );
-$page->MxAttribut ('val_db_prefix', $param['db_prefix'] );
+$page->MxAttribut ('val_dbl_host', $param['dbl_host'] );
+$page->MxAttribut ('val_dbl_name', $param['dbl_name'] );
+$page->MxAttribut ('val_dbl_login', $param['dbl_login'] );
+$page->MxAttribut ('val_dbl_password', $param['dbl_password'] );
+$page->MxAttribut ('val_dbl_prefix', $param['dbl_prefix'] );
 
 //Diaporamas
 $page->MxSelect ('show_slideshow', 'show_slideshow', $param['show_slideshow'],
