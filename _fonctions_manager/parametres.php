@@ -145,16 +145,16 @@ function verif_parametres () {
    
    // Vérification de la connection à la base de données
    if ($param['show_commentaire'] == 'on' && $errCom == false) {
-      $mysql = new mysqlInc($param['dbl_host'], $param['dbl_login'], $param['dbl_password'], $param['dbl_name']);
-      if (!$mysql->testDbConnect()) {
+      $mysqlParam = new mysqlInc($param['dbl_host'], $param['dbl_login'], $param['dbl_password'], $param['dbl_name']);
+      if (!$mysqlParam->testDbConnect()) {
          $err_vide = true;
-         $page->MxText('err_db_host', $mysql->mysqlErr());
+         $page->MxText('err_dbl_host', $mysqlParam->mysqlErr());
       }
       else {
          if (commentaire::tableExists($param['dbl_prefix']) == false) {
             commentaire::createTable($param['dbl_prefix']);
          }
-         $mysql->DbClose();
+         $mysqlParam->DbClose();
       }
    }
 

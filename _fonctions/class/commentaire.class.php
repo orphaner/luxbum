@@ -189,12 +189,12 @@ class Commentaire {
    }
    
    function tableExists ($prefix) {
-      global $mysql;
+      global $mysqlParam;
       $tableName = $prefix.'commentaire';
-      if ($mysql->db_link != null) {
-         $res = $mysql->getTableList();
-         while ($row = $mysql->DbNextRow($res)) {
-            if (in_array ($tableName, $row)) {
+      if ($mysqlParam->db_link != null) {
+         $res = $mysqlParam->getTableList();
+         while ($row = $mysqlParam->DbNextRow($res)) {
+            if (in_array ($tableName, $row)) {//print_r($row);echo "$tableName: true";
                return true;
             }
          }
@@ -203,10 +203,10 @@ class Commentaire {
    }
    
    function createTable ($prefix) {
-      global $mysql;
+      global $mysqlParam;
       $tableName = $prefix.'commentaire';
-      if ($mysql->db_link != null) {
-         $mysql->DbQuery (
+      if ($mysqlParam->db_link != null) {
+         $mysqlParam->DbQuery (
          "CREATE TABLE `$tableName` (" .
          "  `id_comment` int(11) NOT NULL auto_increment," .
          "  `galerie_comment` varchar(240) NOT NULL default ''," .

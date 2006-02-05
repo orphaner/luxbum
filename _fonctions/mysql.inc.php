@@ -167,8 +167,7 @@ class mysqlInc {
     */
    function mysqlErr() {
       $partie = explode('\'', mysql_error() ); // On découpe le message d'erreur retourné par mysql_error()   
-      print_r ($partie);
-   
+     
       switch   (mysql_errno() ) { // On cherche quel N° d'erreur SQL à été retouné
          case 1040 : // Too many connections
             return 'Trop de connections simultanées. Merci de revenir dans quelques minutes ou de recharger la page';
