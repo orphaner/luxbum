@@ -9,8 +9,11 @@ if (ereg ('^/ssgal-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
    $photoDir = $argv[1];
 }
 else {
-   exit ('manque des paramètres.');
+   $photoDir = '';
+//   exit ('manque des paramètres.');
 }
+
+
 
 //------------------------------------------------------------------------------
 // Init
@@ -65,7 +68,7 @@ else {
       $page->MxText     ('taille',   $gallery->getNiceSize ());
 
       // Lien pour afficher la page de sous galerie
-      if ($gallery->hasSubGallery()) {echo "ssgal:".$gallery->getName()."<br>";
+      if ($gallery->hasSubGallery()) {
          $page->MxUrl('ssgalerie.lien', lien_sous_galerie($gallery->getName()));
       }
       else {

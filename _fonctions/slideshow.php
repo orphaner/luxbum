@@ -23,9 +23,9 @@ if (SHOW_SLIDESHOW == 'off') {
 else if (!verif_dir ($dir)) {
    exit ('nom de dossier incorrect !!');
 }
-else if (!is_dir (luxbum::getDirPath ($dir))) {
-   exit ('dossier incorrect !!');
-}
+// else if (!is_dir (luxbum::getDirPath ($dir))) {
+//    exit ('dossier incorrect !!');
+// }
 
 //------------------------------------------------------------------------------
 // Init

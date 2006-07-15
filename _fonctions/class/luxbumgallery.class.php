@@ -31,13 +31,16 @@ class luxBumGallery extends luxBum
     * @param String $dir Dossier de la galerie
     */
    function luxBumGallery ($dir, $preview = '') {
-      $list= split('/', $dir);
-      print_r($list);
-      $this->name = $this->dir = $list[count($list)-1];
-      $this->setPhotoDir($list[0]);echo "<strong>$this->dir</strong> : <em>$this->photoDir</em>";
       $this->preview = $preview;
       $this->size = 0;
       $this->count = 0; 
+
+      $this->dir = $dir;
+      $list = split('/', $dir);
+      $this->name = $list[count($list) - 1];
+      //echo "<strong>$this->dir</strong> : <em>!! $this->name !!</em><br/>";
+
+
       $this->_completeInfos ();
       $this->_completeDefaultImage ();
    }
@@ -49,8 +52,8 @@ class luxBumGallery extends luxBum
     * @access private
     */
    function _completeInfos () {
-      if ($fd = dir ($this->getDirPath($this->dir))) {
-         while ($current_file = $fd->read ()) {echo "$current_file<br>";
+      if ($fd = dir ($this->getFsPath($this->dir))) {
+         while ($current_file = $fd->read ()) {
             if (files::isPhotoFile($this->dir, $current_file)) {
                $the_file = $this->getImage ($this->dir, $current_file);
                $this->size += filesize ($the_file);
@@ -77,6 +80,14 @@ class luxBumGallery extends luxBum
     * @return String Nom de la galerie
     */
    function getName () {
+      return $this->name;
+   }
+
+   /**
+    * Retourne le chemin de la galerie
+    * @return String Chemin de la galerie
+    */
+   function getDir () {
       return $this->dir;
    }
 
@@ -85,7 +96,7 @@ class luxBumGallery extends luxBum
     * @return String Beau nom de la galerie
     */
    function getNiceName () {
-      return $this->niceName ($this->dir);
+      return $this->niceName ($this->name);
    }
 
    /**
@@ -250,7 +261,7 @@ class luxBumGallery extends luxBum
    var $listSubGallery = array();
 
    function isSubGallery ($current_file) {
-      if (!is_dir ($this->getDirPath($this->dir).$current_file)) {
+      if (!is_dir ($this->getFsPath($this->dir).$current_file)) {
          return false;
       }
       if ($current_file[0] == '.') {
@@ -272,12 +283,13 @@ class luxBumGallery extends luxBum
    
    function addSubGalleries() {
       // Ouverture du dossier des photos
-      if ($dir_fd = opendir ($this->getDirPath ($this->dir))) {
+      //echo "AjoutSSGAL [path]: ".$this->getFsPath ($this->dir)."<br>";
+      if ($dir_fd = opendir ($this->getFsPath ($this->dir))) {
 
          // Parcours des photos du dossiers
          while ($current_file = readdir ($dir_fd)) {
             if ($this->isSubGallery($current_file)) {
-               $this->listSubGallery[] = $current_file;
+               $this->listSubGallery[] = $this->dir.$current_file;
             }
          }
       }
@@ -304,7 +316,7 @@ class luxBumGallery extends luxBum
          $this->_loadSort();
     
          // Parcours des photos du dossiers
-         while ($current_file = readdir ($dir_fd)) {echo $current_file.' ';
+         while ($current_file = readdir ($dir_fd)) {
             if (files::isPhotoFile ($this->dir, $current_file)) {
                $list[$current_file] = new luxBumImage ($this->dir, $current_file);
                 
@@ -473,13 +485,14 @@ class luxBumGallery extends luxBum
     */
    function _completeDefaultImage () {
       $default = '';
+      //echo "CompleteDefaultImage ".$this->getFsPath ($this->dir)."<br>";
 
       /* Recherche d'une image par défaut définie par l'utilisateur */
-      if (is_file ($this->getDirPath ($this->dir) . DEFAULT_INDEX_FILE)) {
-         $fd = fopen ($this->getDirPath ($this->dir) . DEFAULT_INDEX_FILE, 'r+');
+      if (is_file ($this->getFsPath ($this->dir) . DEFAULT_INDEX_FILE)) {
+         $fd = fopen ($this->getFsPath ($this->dir) . DEFAULT_INDEX_FILE, 'r+');
          $line = fgets ($fd);
                
-         if ( is_file ($this->getDirPath ($this->dir) . $line )) {
+         if ( is_file ($this->getFsPath ($this->dir) . $line )) {
             $default = $line;
          }
          fclose ($fd);
@@ -488,7 +501,7 @@ class luxBumGallery extends luxBum
       /* On cherche la première image du dossier pr faire un aperçu */
       if ($default == '') {
          $trouve = false;
-         $apercu_fd = opendir ($this->getDirPath ($this->dir));
+         $apercu_fd = opendir ($this->getFsPath ($this->dir));
 
          while (!$trouve && $current_file = readdir ($apercu_fd)) {
             if ($current_file[0] != '.' 
@@ -501,6 +514,8 @@ class luxBumGallery extends luxBum
          closedir ($apercu_fd);
       }
 
+      //echo "<br>DEFAULT: $default <br>";
+
       $this->preview = $default;
    }
 
@@ -508,10 +523,11 @@ class luxBumGallery extends luxBum
     * Retourne le chemin vers l'image par défaut. 
     * Celle ci est créée si elle n'existe pas.
     */
-   function getThumbPath () {
-      $nuxImage = new luxBumImage ($this->name, $this->preview);
-      return $nuxImage->getAsThumb ();
-   }
+   //function getThumbPath () {
+      //$nuxImage = new luxBumImage ($this->getDirPath ($this->dir), $this->preview);
+      //return $nuxImage->getAsThumb ();
+   // return "dede";
+   //}
    
    /**
     * Retourne le lien de la vignette de l'image vers le script qui génére
@@ -525,7 +541,7 @@ class luxBumGallery extends luxBum
       else {
          $prefix = 'image.php?';
       }
-      return $prefix.'index-'.$this->dir.'-'.$this->preview;
+      return $prefix.'index-'.($this->dir).'-'.$this->preview;
    }
 
    /**

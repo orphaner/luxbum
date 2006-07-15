@@ -15,12 +15,9 @@ class luxBumIndex extends luxBum
    var $sortOrder;
    var $dir;
    
-   function luxBumIndex ($photoDir = PHOTOS_DIR) {
-      if ($photoDir != PHOTOS_DIR) {
-         $this->dir = $photoDir;//echo "!^^^^  $photoDir<br>";
-      }
-      $this->setPhotoDir($photoDir);
+   function luxBumIndex ($dir) {
       $this->_loadSort ();
+      $this->dir = $dir;
    }
    
    
@@ -77,7 +74,9 @@ class luxBumIndex extends luxBum
     * @param int $sortPosition Position de la galerie dans l'index
     */
    function addGallery ($name) {
-      $this->galleryList[$name] = new luxBumGallery ($this->dir.'/'.$name);
+      $galleryName = files::addTailSlash($this->dir).$name;
+      #echo "AddGallery: $galleryName **<br>";
+      $this->galleryList[$name] = new luxBumGallery ($galleryName);
       $this->galleryList[$name]->addSubGalleries();
 
       // On affecte l'ordre
@@ -94,34 +93,38 @@ class luxBumIndex extends luxBum
     */
    function addAllGallery ($minImage = 1) {
 
-      if (!is_dir ($this->photoDir)) {
-         return ;
-      }
+//       if (!is_dir ($this->photoDir)) {
+//          return ;
+//       }
       $this->_loadSort();
       
       // Lecture de tous les dossiers de photos 
-      if ($dir_fd = opendir ($this->photoDir)) {
+      if ($dir_fd = opendir ($this->getFsPath ($this->dir))) {
          $i = 0;
    
-         while ($current_dir = readdir ($dir_fd)) {echo $this->getDirPath ($current_dir);echo "<br>";
-   
+         #echo "Search gal in :".$this->getFsPath ($this->dir);echo "<br>";
+         while ($current_dir = readdir ($dir_fd)) {
+//            echo "**********".$this->getDirPath ($this->dir, $current_dir).'<br>';
+            
             // Lecture de tous les dossiers
-            echo "**********".$this->getDirPath ($current_dir);
-            if ($current_dir[0] != '.' && is_dir ($this->getDirPath ($current_dir))
+            if ($current_dir[0] != '.' && is_dir ($this->getFsPath ($this->dir, $current_dir))
                 && $current_dir != files::removeTailSlash(THUMB_DIR)
                 && $current_dir != files::removeTailSlash(PREVIEW_DIR)) {
                $trouve = false;
-               $apercu_fd = opendir ($this->getDirPath ($current_dir));
+               $apercu_fd = opendir ($this->getFsPath ($this->dir, $current_dir));
+//               echo "**********".$this->getDirPath ($current_dir).'<br>';
+
    
                // Au moins une image dans la galerie ?
-               while (!$trouve && $current_file = readdir ($apercu_fd)) {
+               while (!$trouve && $current_file = readdir ($apercu_fd)) {//echo $current_file;
                   if (files::isPhotoFile($current_dir, $current_file)) {
                      $trouve = true;
                   }
                }
                closedir ($apercu_fd);
    
-               if ($trouve == true || ($minImage == 0 && $trouve == false)) {echo "<br>ajout galerie : $current_dir<br>";
+               if ($trouve == true || ($minImage == 0 && $trouve == false)) {
+                  //echo "<br>ajout galerie : $current_dir<br>";
                   $this->addGallery ($current_dir);
                }
             }

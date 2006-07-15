@@ -38,11 +38,15 @@ class luxBumImage extends luxBum
     */
    function luxBumImage ($dir, $img) {
       $this->dir = $dir;
+      $list = split('/', $dir);
+      $this->name = $list[count($list) - 1];
+
       $this->img = $img;
-      $this->thumbDir = $this->getThumbPath ($dir);
-      $this->previewDir = $this->getPreviewPath ($dir);
+      $this->thumbDir = $this->getThumbPath ($this->dir);
+      $this->previewDir = $this->getPreviewPath ($this->dir);
       $this->setAllDescription ('', '');
       $this->previewImagePath = $this->getPreviewImage ($this->dir, $this->img);
+      //echo "<strong>$this->dir</strong> : <em>!! $this->photoDir !!</em><br/>";
    }
    
    /**

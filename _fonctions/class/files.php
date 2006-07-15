@@ -6,7 +6,7 @@ class files {
     * Ajoute un slash final si il n'y en a pas
     */
    function addTailSlash ($dir) {
-      if ($dir[strlen ($dir) - 1] != '/') {
+      if (strlen($dir) > 1 && $dir[strlen ($dir) - 1] != '/') {
          $dir = $dir.'/';
       }
       return $dir;
@@ -145,6 +145,7 @@ class files {
     * 
     */
    function isPhotoFile ($dir, $file) {
+//      echo luxbum::getImage ($dir, $file).'<br>';
       return $file[0] != '.' 
                && !is_dir (luxbum::getImage ($dir, $file) )
                && eregi ('^.*(' . ALLOWED_FORMAT . ')$', $file);

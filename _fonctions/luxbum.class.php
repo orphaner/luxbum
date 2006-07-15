@@ -108,6 +108,14 @@ class luxBum {
       return $this->getDirPath ($dir) . PREVIEW_DIR;
    }
 
+   function getFsPath ($dir, $subdir='') {
+      if ($subdir == '') {
+         return PHOTOS_DIR.files::addTailSlash($dir);
+      }
+      else {
+         return PHOTOS_DIR.files::addTailSlash($dir).files::addTailSlash($subdir);
+      }
+   }
 
    /**-----------------------------------------------------------------------**/
    /* Fonctions pr les noms des images */
@@ -117,7 +125,7 @@ class luxBum {
     * Retourne le chemin de l'image $img du dossier $dir d'images
     */
    function getImage ($dir, $img) {
-      return luxbum::getDirPath ($dir) . $img;
+      return luxbum::getFsPath ($dir) . $img;
    }
 
    /**

@@ -18,9 +18,9 @@ $dir           = $_GET['d'];
 if (!verif_dir ($dir)) {
    exit ('nom de dossier incorrect !!');
 }
-else if (!is_dir (luxbum::getDirPath ($dir))) {
-   exit ('dossier incorrect !!');
-}
+// else if (!is_dir (luxbum::getDirPath ($dir))) {
+//    exit ('dossier incorrect !!');
+// }
 else if (!verif_photo ($dir, $file)) {
    exit ('nom de la photo incorrect !!');
 }
