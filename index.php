@@ -4,16 +4,17 @@
 session_start();
 //@end upd dark 1.2
 
-  //------------------------------------------------------------------------------
-  // Includes
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+// Includes
+//------------------------------------------------------------------------------
 include ('common.php');
 
 
 //------------------------------------------------------------------------------
 // Constantes
 //------------------------------------------------------------------------------
-define ('MX_TEMPLATE_PATH', STRUCTURE_DIR);      //Précise le répertoire de template par défaut.
+// Précise le répertoire de template par défaut.
+define ('MX_TEMPLATE_PATH', STRUCTURE_DIR);
 
 
 //------------------------------------------------------------------------------
@@ -23,7 +24,50 @@ define ('MX_TEMPLATE_PATH', STRUCTURE_DIR);      //Précise le répertoire de temp
 function definir_titre (&$page, $titre_page) {
    $page->MxText('titre_page', $titre_page);
 }
-
+/*
+class link {   
+   function prefix () {
+      return (USE_REWRITE == 'on') ? '' : '?/';
+   }
+   
+   // Le lien pour les pages de vignettes
+   function vignette ($page, $dir) {
+      return link::prefix()."vignette-$page-$dir.html";
+   }
+   
+   // Le lien pour les pages de vignettes
+   function vignette_redirect ($page, $dir, $img) {
+      return link::prefix()."vignette-$page-$dir-$img.html";
+   }
+   
+   // Le lien pour les pages des aperçus
+   function apercu ($dir, $image, $page) {
+      $page--;
+      return link::prefix().'affichage-'.$page.'-'.$dir.'-'.$image.'.html';
+   }
+   
+   // Le lien pour les pages de slideshow
+   function slideshow ($page) {
+      return link::prefix()."slideshow-$page.html";
+   }
+   
+   // Lien pour voir la sélection
+   function selection ($page) {
+      return link::prefix()."selection_list-$page.html";
+   }
+   
+   // Lien pour sélectionner une photo
+   function apercu_select ($dir, $image, $page) {
+      $page--;
+      return link::prefix().'select-'.$page.'-'.$dir.'-'.$image.'.html';
+   }
+   
+   // Lien pour désélectionner une photo
+   function apercu_unselect ($dir, $image, $page) {
+      $page--;
+      return link::prefix().'unselect-'.$page.'-'.$dir.'-'.$image.'.html';
+   }
+}*/
 
 $prefix_rewrite = (USE_REWRITE == 'on') ? '' : '?/';
 
@@ -72,6 +116,11 @@ function lien_apercu_unselect ($dir, $image, $page) {
    return $prefix_rewrite.'unselect-'.$page.'-'.$dir.'-'.$image.'.html';
 }
 
+function lien_sous_galerie($dir) {
+   global $prefix_rewrite;
+   return $prefix_rewrite.'ssgal-'.$dir.'.html';
+}
+
 
 function remplir_style (&$page) {
    global $themes_css;
@@ -95,29 +144,13 @@ function remplir_style (&$page) {
       $page->MxAttribut ('stylesheet.title', $title);
       $page->MxBloc ('stylesheet', 'loop');
    }
-}
-
-
-//------------------------------------------------------------------------------
-// Variables pour les différents templates
-//------------------------------------------------------------------------------
-
-switch (TEMPLATE_THEME) {
-   case '2COL':
-      define ('LIMIT_THUMB_PAGE', 6);
-      define ('NB_COL', 2);
-      define ('IMG_W', 125);
-      define ('IMG_H', 125);
-      $template = 'vignette_2col.mxt';
-      break;
-
-   default:
-      define ('LIMIT_THUMB_PAGE', 12);
-      define ('NB_COL', 3);
-      define ('IMG_W', 85);
-      define ('IMG_H', 85);
-      $template = 'vignette_3col.mxt';
-      break;
+   
+   if (is_file(PHOTOS_DIR.'favicon.ico')) {
+      $page->MxAttribut('favicon.favicon', PHOTOS_DIR.'favicon.ico');
+   }
+   else {
+      $page->MxBloc('favicon', 'delete');
+   }
 }
 
 
@@ -126,31 +159,18 @@ switch (TEMPLATE_THEME) {
 //------------------------------------------------------------------------------
 
 $p = '';
-
-if (USE_REWRITE == 'off') {
-   if (isset ($_SERVER['QUERY_STRING'])) {
-      if (isset ($_GET['p']) && ($_GET['p'] == 'infos_exif' || $_GET['p'] == 'comment'
-      || $_GET['p'] == 'slideshow' || $_GET['p'] == 'selection_list' || $_GET['p'] == 'dl_selection')) {
-         $p = $_GET['p'];
-      }
-      else if (ereg ('^/(.*)-(.*)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ||
-               ereg ('^/(.*)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ||
-               ereg ('^/(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv)) {
-         $p = $argv[1];
-      }
-   }
+if (isset ($_GET['p'])) {
+   $p = $_GET['p'];
 }
-else {
-   if (isset ($_GET['p'])) {
-      $p = $_GET['p'];
+else if (isset ($_SERVER['QUERY_STRING'])) {
+   $argv = split("[/-]", $_SERVER['QUERY_STRING']);
+   if (isset ($argv[1])) {
+      $p = $argv[1];
    }
 }
 
 
 switch ($p) {
-//    case '404':
-//       include (FONCTIONS_DIR.'error404.php');
-//       break;
    case 'vignette':
       include (FONCTIONS_DIR.'vignette.php');
       break;

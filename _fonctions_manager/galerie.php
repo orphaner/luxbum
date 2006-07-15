@@ -6,31 +6,29 @@
   //------------------------------------------------------------------------------
 include (FONCTIONS_DIR.'luxbum.class.php');
 include (FONCTIONS_DIR.'utils/aff_page.inc.php');
-//include (FONCTIONS_DIR.'utils/formulaires.php');
 include (FONCTIONS_DIR.'class/upload.class.php');
 
 // FIXME : ....
-function cut_sentence ($Texte,$nbcar=0)
-{
-   if ( strlen($Texte) > $nbcar && (0!=$nbcar) )
-   {
+function cut_sentence ($Texte, $nbcar=0) {
+   if (strlen($Texte) > $nbcar && (0!=$nbcar)) {
       $Tmp_Tb = explode( ' ', $Texte );
       $Tmp_Count = 0;
       $Tmp_O = '';
 
-      while(list(,$v) = each($Tmp_Tb))
-      {
-         if ( strlen($Tmp_O) >= $nbcar )
+      while (list(,$v) = each($Tmp_Tb)) {
+         if (strlen($Tmp_O) >= $nbcar) {
             break;
+         }
          $Tmp_O .= $v.' ';
       }
       $Tmp_O = chop($Tmp_O);
-      if (count($Tmp_Tb) > 1)
+      if (count($Tmp_Tb) > 1) {
          $Tmp_O .= '...';
-
+      }
    }
-   else
+   else {
       $Tmp_O = $Texte;
+   }
 
    return $Tmp_O;
 }
@@ -109,11 +107,20 @@ function mois_select () {
 //    }
 //    return $tab;
 // }
+function tri_select () {
+   return array ('type=nom&order=asc'          => 'Nom (croissant)',
+                 'type=nom&order=desc'         => 'Nom (décroissant)',
+                 'type=date&order=asc'         => 'Date (croissant)',
+                 'type=date&order=desc'        => 'Date (décroissant)',
+                 'type=description&order=asc'  => 'Description (croissant)',
+                 'type=description&order=desc' => 'Description (décroissant)',
+                 'type=manuel&order=asc'       => 'Manuel');
+}
 
 //------------------------------------------------------------------------------
 // Objet de la galerie
 //------------------------------------------------------------------------------
-$nuxThumb = new luxBumGalleryList ($dir);
+$nuxThumb = new luxBumGallery ($dir);
 $nuxThumb->addAllImages ();
 
 
@@ -126,7 +133,8 @@ $page->MxAttribut ('class_galeries', 'actif');
 $page->MxAttribut ('onload', "addPosition('positionFile');");
 $page->MxBloc ('main', 'modify', ADMIN_STRUCTURE_DIR.'galerie.mxt');
 $page->WithMxPath ('main', 'relative');
-$page->MxAttribut ('action_vider_cache', $str_critere.'&amp;f=vider_cache');
+$page->MxUrl ('action_vider_cache', $str_critere.'&amp;f=vider_cache');
+$page->MxUrl ('action_generer_cache', ADMIN_FILE.'?p=generer_cache&amp;d='.$dir);
 $page->MxAttribut ('action_meme_date', $str_critere.'&amp;f=meme_date');
 $page->MxText ('galerie_nom', luxbum::niceName ($dir));
 $page->MxAttribut ('action_ajout_photo', $str_critere.'&amp;f=ajout_photo');
@@ -144,9 +152,8 @@ $upload->MimeType = 'image/gif;image/pjpeg;image/jpeg;image/x-png;image/png';
 $page->MxAttribut ('max_file_size', $upload->MaxFilesize);
 
 // switch rapide
-$nuxIndex = new  luxBumIndex ();
+$nuxIndex = new luxBumIndex ();
 $nuxIndex->addAllGallery (0);
-$nuxIndex->gallerySort ();
 while (list (,$gallery) = each ($nuxIndex->galleryList)) {
    $tabSwitch[$gallery->getName ()] = cut_sentence ($gallery->getNiceName (), 20);
 }
@@ -160,6 +167,17 @@ if ($f != 'meme_date') {
    $page->MxSelect ('mois', 'mois', date ('m'), mois_select ());
    $page->MxAttribut ('val_meme_date', date('Y'));
 }
+
+// Tri
+if (isset ($_POST['sortby'])) {
+   $selectedSortBy = $_POST['sortby'];
+}
+else {
+   $selectedSortBy = 'type='.$nuxThumb->getSortType().'&order='.$nuxThumb->getSortOrder();
+}
+$page->MxSelect('tri', 'sortby', $selectedSortBy, tri_select());
+$page->MxAttribut('action_tri', $str_critere.'&amp;f=tri');
+$page->MxUrl ('triUrl', ADMIN_FILE.'?p=tri_galerie&amp;d='.$dir);
 
 
 //------------------------------------------------------------------------------
@@ -182,7 +200,7 @@ else if ($f == 'del') {
          $page->MxText ('message', 'La photo '.$img.' a été supprimée.');
 
          unset ($nuxThumb);
-         $nuxThumb = new luxBumGalleryList ($dir);
+         $nuxThumb = new luxBumGallery ($dir);
          $nuxThumb->addAllImages ();
       }
    }
@@ -197,7 +215,7 @@ else if ($f == 'defaut') {
          $page->MxText ('message', 'La photo '.$img.' a été définie par défaut.');
 
          unset ($nuxThumb);
-         $nuxThumb = new luxBumGalleryList ($dir);
+         $nuxThumb = new luxBumGallery ($dir);
          $nuxThumb->addAllImages ();
       }
    }
@@ -255,7 +273,7 @@ else if ($f == 'date_desc') {
       if (isset ($_POST['date'])) {
          $annee = protege_input ($_POST['date']);
          if (isset ($_POST['jour'])) {
-            $jour = $_POST['jour'];
+            $jour = $_POST['jour'];echo "==$jour==";
          }
          if (isset ($_POST['mois'])) {
             $mois = $_POST['mois'];
@@ -312,10 +330,25 @@ else if ($f == 'ajout_photo') {
       }
 
       unset ($nuxThumb);
-      $nuxThumb = new luxBumGalleryList ($dir);
+      $nuxThumb = new luxBumGallery ($dir);
       $nuxThumb->addAllImages ();
    }
 }
+
+// Choix du tri
+else if ($f == 'tri') {
+   if (isset($_POST['sortby'])) {
+      parse_str($_POST['sortby'], $order);
+      $nuxThumb->setSortType($order['type']);
+      $nuxThumb->setSortOrder($order['order']);
+      $nuxThumb->saveSort();
+
+      unset ($nuxThumb);
+      $nuxThumb = new luxBumGallery ($dir);
+      $nuxThumb->addAllImages ();
+   }
+}
+//print_r ($nuxThumb->list);
 
 $nuxThumb->createOrMajDescriptionFile ();
 $nuxThumb->getDescriptions ();
@@ -326,8 +359,22 @@ $nuxThumb->getDescriptions ();
 //------------------------------------------------------------------------------
 //----------------
 // Affichage des vignettes
-define ('LIMIT_THUMB_PAGE', '15');
+if (isset($_POST['limitPage']) && is_numeric($_POST['limitPage'])) {
+   $_SESSION[PREFIX_SESSION.'limitThumbPage'] = $_POST['limitPage'];
+   $limitThumbPage = $_POST['limitPage'];
+}
+else if (isset ($_SESSION[PREFIX_SESSION.'limitThumbPage']) 
+         && is_numeric($_SESSION[PREFIX_SESSION.'limitThumbPage'])) {
+   $limitThumbPage = $_SESSION[PREFIX_SESSION.'limitThumbPage'];
+}
+else {
+   $limitThumbPage = 15;
+}
 $galleryCount = $nuxThumb->getCount ();
+
+if (ceil ($galleryCount / $limitThumbPage) < $page_courante) {
+   $page_courante = 0;
+}
 
 if ($galleryCount == 0) {
    $page->MxBloc ('liste_photos', 'modify', 'Aucune photo dans la galerie');
@@ -339,18 +386,20 @@ else {
    $page_walk = $page_courante+1;
 
    // Parcours des vignettes
-   for ($i = ($page_walk-1)   * LIMIT_THUMB_PAGE  ; 
-        $i < ($page_walk) * LIMIT_THUMB_PAGE && $i < $galleryCount ; 
+   for ($i = ($page_walk-1)   * $limitThumbPage  ; 
+        $i < ($page_walk) * $limitThumbPage && $i < $galleryCount ; 
         $i++) {
       $file = $nuxThumb->list[$i];
       $file->findDescription ();
       $name = $file->getImageName ();
 
-      $page->MxImage ('liste.photo', $file->getAsThumb (125,125));
-      $page->MxAttribut ('liste.id_photo', $name);
+      $page->MxImage ('liste.photo', $file->getThumbLink(), $name, 
+                      'id="'.$name.'" onclick="toggleBigImage(\''.$name.'\', \''.$file->getPreviewLink().'\');" ');
+      //$page->MxAttribut ('liste.id_photo', $name);
       $page->MxAttribut ('liste.action_date_desc', $str_critere.'&amp;img='.$name.'&amp;f=date_desc#'.$name);
 
       if ($f == 'date_desc' && $img == $name) {
+         echo "if date_desc $jour/$mois/$annee";
          $page->MxAttribut ('liste.val_description', unprotege_input ($description));
          $page->MxSelect ('liste.jour', 'jour', $jour, jour_select ());
          $page->MxSelect ('liste.mois', 'mois', $mois, mois_select ());
@@ -384,9 +433,12 @@ else {
 
    // Affichage par page
    $link = $str_critere2;
-   $start = $page_courante * LIMIT_THUMB_PAGE;
-   $AffPage = aff_page2 ($galleryCount, $page_courante, LIMIT_THUMB_PAGE, $start, $link);
+   $start = $page_courante * $limitThumbPage;
+   $AffPage = aff_page2 ($galleryCount, $page_courante, $limitThumbPage, $start, $link);
    $page->MxText ('aff_page', $AffPage);
+   
+   $page->MxAttribut('actionLimitPage', $str_critere);
+   $page->MxAttribut('limitPage', $limitThumbPage);
 }
 
 

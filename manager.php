@@ -180,7 +180,10 @@ if ($logued_check == true) {
          'parametres',
          'outils',
          'commentaires',
-         'cache'
+         'cache',
+         'tri_galerie',
+         'tri_index',
+         'generer_cache'
          );
       $trouve = false;
       $i = 0;

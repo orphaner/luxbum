@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
   <head>
-    <meta http-equiv="Content-Type"
-          content="text/html; charset=ISO-8859-1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
     <meta name="MSSmartTagsPreventParsing" content="TRUE" />
-
-
     <title><mx:text id="titre_page"/></title>
+    <mx:bloc id="favicon"><link rel="shortcut icon" mXattribut="href:favicon"/></mx:bloc id="favicon">
     <mx:bloc id="stylesheet">
-      <link mXattribut="rel:rel;href:href;title:title" type="text/css" />
-    </mx:bloc id="stylesheet">
+    <link mXattribut="rel:rel;href:href;title:title" type="text/css" /></mx:bloc id="stylesheet">
   </head>
+
 
   <body id="body_commentaire">
 

@@ -20,29 +20,23 @@ body {
 	font-family:"Trebuchet MS",Verdana,Arial,Helvetica,Sans-serif;
 	color:#CBCBCB;
 }
-
 a img {
 	border: none;
 }
-
 a {
 	color : #E1E1E1; 
 	text-decoration:none;
 }
-
 a:visited{
 }
-
 a:hover, a:focus, a:active {
 	color: #E1E1E1;
 	text-decoration:underline;
 }
-
 .description_td { 
 	font-size:10px;
 	text-align: center;
 }
-
 #page { 
 	width:100%;
 	height: 540px; 
@@ -56,6 +50,14 @@ a:hover, a:focus, a:active {
 	width:1000px;
 	left: 50%;
 	margin-left: -507px; /* moitié de la hauteur */
+}
+#liste_apercu div.galerie {
+	float:left;
+	width:287px;
+	height:100px;
+}
+div.spacer {
+	clear:both;
 }
 
 /*===========================================
@@ -97,7 +99,7 @@ h1 span {
 }
 #liste_apercu { 
 	text-align: left;
-	width:870px;
+	width:880px;
 	position: relative;
 	left: 50%; 
 	margin-left: -435px;
@@ -105,16 +107,12 @@ h1 span {
 	border: 1px solid #CFCFCF;
 	-moz-border-radius:6px;
 	-border-radius:6px;
-	padding: 15px 5px 5px 5px;
- }
-#liste_apercu table {
-	width:870px;
-	border:0;
-	text-align: left;
-	font-size:10px;
+	padding: 15px 10px 5px 10px;
 }
-#liste_apercu table tr td{
-	width:33%;
+#liste_apercu div.galerie {
+	float:left;
+	width:287px;
+	height:100px;
 }
 #liste_apercu img {
 	padding:2px;
@@ -166,13 +164,13 @@ span.infos {
 	text-align: left;
 	width: 294px;
 	height:542px;
-	margin: 10px 10px 10px 5px;
-	position: relative;
+	margin: 0px 10px 10px 0px;
 	background:#2C2C2C;
 	border: 1px solid #838183;
 	-moz-border-radius:6px;
 	-border-radius:6px;
 	padding: 15px 5px 5px 5px;
+	float:left;
 }
 *> #apercu {
 	height:520px;
@@ -197,20 +195,21 @@ span.infos {
 h1.vig_titre {
 	display:none;	
 }
-td.v3col {
+div.vignette3col {
 	height:90px;
-	width:33%;
+	width:98px;
+	float:left;
 }
-td.v2col {
-	height:130px;
-	width:33%;
+div.vignette2col {
+	height:150px;
+	width:145px;
+	float:left;
 }
 /** upd dark 1 **/
 .view_photo, .view_photo_selected { 
 	height:100%;
 	text-align:center;
 }
-
 .view_photo_selected  img, .photo_selected  img{ 
 	border:2px solid #B6B4B6;
 	padding:1px;
@@ -236,7 +235,6 @@ td.v2col {
 .alt1 {
 	background-color: #535353;
 	color: #000000;
-	text-align:center;
 	font-weight : bold;
 }
 /* page courante */
@@ -299,6 +297,7 @@ ol.tree li {
 	-moz-border-radius:6px;
 	-border-radius:6px;
 	padding: 5px 5px 5px 5px;
+	float:left;
 }
 #iframeaffichage iframe {
 	width:660px;

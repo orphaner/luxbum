@@ -2,6 +2,15 @@
 
 include (FONCTIONS_DIR.'luxbum.class.php');
 
+//------------------------------------------------------------------------------
+// Parsing des paramètres
+//------------------------------------------------------------------------------
+if (ereg ('^/ssgal-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
+   $photoDir = $argv[1];
+}
+else {
+   exit ('manque des paramètres.');
+}
 
 //------------------------------------------------------------------------------
 // Init
@@ -22,63 +31,50 @@ remplir_style ($page);
 //------------------------------------------------------------------------------
 
 // Création de l'objet contenant l'index
-$nuxIndex = new  luxBumIndex ();
+$nuxIndex = new  luxBumIndex ($photoDir);
 $nuxIndex->addAllGallery ();
-$nuxIndex->gallerySort ();
 
 // Galerie vide
 if ($nuxIndex->getGalleryCount () == 0) {
-   $page->MxBloc ('dossiers', 'modify', STRUCTURE_DIR.'index_vide.mxt');
+   $page->MxBloc ('dossiers', 'modify', 'Il n\'y a aucune galerie à consulter.');
 }
 
 // Affichage de l'index des galeries
 else {
-   $cpt = 1;
-   $loop = 0;
-
+   $page->WithMxPath('dossiers', 'relative');
+   
    // Parcours des galeries
    while (list (,$gallery) = each ($nuxIndex->galleryList)) {
+
       $niceName = $gallery->getNiceName ();
       $name     = $gallery->getName ();
-      $count    = $gallery->getCount ();
-      $taille   = $gallery->getNiceSize ();
-      $thumb    = $gallery->getThumbPath ();
 
-      $page->MxText     ('dossiers.col'.$cpt.'.nom',      $niceName);
-      $page->MxAttribut ('dossiers.col'.$cpt.'.alt',      $niceName);
-      $page->MxAttribut ('dossiers.col'.$cpt.'.title',    $niceName);
-      $page->MxAttribut ('dossiers.col'.$cpt.'.title2',   $niceName);
-      $page->MxAttribut ('dossiers.col'.$cpt.'.apercu',   $thumb);
-      $page->MxUrl      ('dossiers.col'.$cpt.'.lien',     lien_vignette (0, $name));
+      $page->MxText     ('nom',      $niceName);
+      $page->MxAttribut ('alt',      $niceName);
+      $page->MxAttribut ('title',    $niceName);
+      $page->MxAttribut ('title2',   $niceName);
+      $page->MxAttribut ('apercu',   $gallery->getIndexLink());
+      $page->MxUrl      ('lien',     lien_vignette (0, $name));
       if (SHOW_SLIDESHOW == 'on') {
-         $page->MxText     ('dossiers.col'.$cpt.'.slideshow.slideshow',lien_slideshow ($name));
+         $page->MxText     ('slideshow.slideshow',lien_slideshow ($name));
       }
       else {
-         $page->MxBloc ('dossiers.col'.$cpt.'.slideshow', 'delete');
+         $page->MxBloc ('slideshow', 'delete');
       }
-      $page->MxText     ('dossiers.col'.$cpt.'.nb_photo', $count);
-      $page->MxText     ('dossiers.col'.$cpt.'.taille',   $taille);
+      $page->MxText     ('nb_photo', $gallery->getCount ());
+      $page->MxText     ('taille',   $gallery->getNiceSize ());
 
-      $cpt++;
-      $loop++;
-      if ($loop%3 == 0) {
-         $page->MxBloc ('dossiers', 'loop');
-         $cpt = 1;
+      // Lien pour afficher la page de sous galerie
+      if ($gallery->hasSubGallery()) {echo "ssgal:".$gallery->getName()."<br>";
+         $page->MxUrl('ssgalerie.lien', lien_sous_galerie($gallery->getName()));
       }
-   }
-
-   // On vide les blocs vides
-   while ($cpt <= 3) {
-      $page->MxBloc ('dossiers.col'.$cpt, 'modify',' ');
-      $cpt++;
-   }
-
-   // Loop si 3 blocs
-   if ($loop%3 != 0) {
-      $page->MxBloc ('dossiers', 'loop');
+      else {
+         $page->MxBloc('ssgalerie','delete');
+      }
+      
+      $page->MxBloc ('', 'loop');
    }
 }
-
 
 
 $page->MxWrite();

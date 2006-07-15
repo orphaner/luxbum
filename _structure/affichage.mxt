@@ -3,17 +3,14 @@
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
   <head>
-    <meta http-equiv="Content-Type"
-          content="text/html; charset=ISO-8859-1" />
+    <meta http-equiv="Content-Type"  content="text/html; charset=ISO-8859-1" />
     <meta name="MSSmartTagsPreventParsing" content="TRUE" />
-
     <title>Affichage</title>
+    <mx:bloc id="favicon"><link rel="shortcut icon" mXattribut="href:favicon"/></mx:bloc id="favicon">
     <mx:bloc id="stylesheet">
-      <link mXattribut="rel:rel;href:href;title:title" type="text/css" />
-    </mx:bloc id="stylesheet">
-
+    <link mXattribut="rel:rel;href:href;title:title" type="text/css" /></mx:bloc id="stylesheet">
     <script type="text/javascript">if (parent.frames.length < 1 || (parent.frames.length > 0 && parent.frames[0].name!="affichage")){parent.document.location.href = '<mx:text id="redirect_script"/>';}</script> 
-    </head>
+  </head>
   <body id="body_affichage">  
     <div id="affichage_photo">
       <div id="laphoto">

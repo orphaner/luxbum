@@ -104,8 +104,7 @@ class files {
     */
    function deleteFile ($file) {
       if (files::isDeletable ($file)) {
-         unlink ($file);
-         return true;
+         return unlink ($file);
       }
       return false;
    }
@@ -120,14 +119,13 @@ class files {
             $name = files::removeTailSlash ($path);
             $tab = explode ('/', $name);
             $name = $tab[count($tab) - 1];
-            mkdir ($name, 0777);
-            rename ($name, $path);
+            $return = @mkdir ($name, 0777) && @rename ($name, $path);
          } 
          else {
-            mkdir ($path, 0777);
+            $return = @mkdir ($path, 0777);
          }
-         umask ($old_umask);
-         return true;
+         /*$return = $return && */umask ($old_umask);
+         return $return;
       }
       return false;
    }
@@ -141,6 +139,15 @@ class files {
       }
       rename ($oldPath, $newPath);
       return true;
+   }
+   
+   /**
+    * 
+    */
+   function isPhotoFile ($dir, $file) {
+      return $file[0] != '.' 
+               && !is_dir (luxbum::getImage ($dir, $file) )
+               && eregi ('^.*(' . ALLOWED_FORMAT . ')$', $file);
    }
 }
 

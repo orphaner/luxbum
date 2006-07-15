@@ -9,38 +9,23 @@ if (SHOW_SELECTION == 'off') {
 //------------------------------------------------------------------------------
 // Parsing des paramètres
 //------------------------------------------------------------------------------
-// Méthode rewritée
-if (USE_REWRITE == 'on') {
-   if (!isset($_GET['page']) || !isset($_GET['d'])) {
-      exit ('manque des paramètres');
-   }
-   if( $_GET['p'] == 'select' ){
-      $select = true;
-   }else{
-      $select = false;
-   }
-   $page_courante = $_GET['page'];
-   $dir           = $_GET['d'];
-   $img           = $_GET['imgd'];
+
+if (ereg ('^/select-([0-9]+)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
+   $page_courante = $argv[1];
+   $dir           = $argv[2];
+   $img                   = $argv[3];
+   $select            = true;
 }
-// Méthode non rewritée
-else  {
-   if (ereg ('^/select-([0-9]+)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
-      $page_courante = $argv[1];
-      $dir           = $argv[2];
-      $img                   = $argv[3];
-      $select            = true;
-   }
-   else if (ereg ('^/unselect-([0-9]+)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
-      $page_courante = $argv[1];
-      $dir           = $argv[2];
-      $img                   = $argv[3];
-      $select            = false;
-   }
-   else {
-      exit ('manque des paramètres.');
-   }
+else if (ereg ('^/unselect-([0-9]+)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
+   $page_courante = $argv[1];
+   $dir           = $argv[2];
+   $img                   = $argv[3];
+   $select            = false;
 }
+else {
+   exit ('manque des paramètres.');
+}
+
 
 if ($select == true){
    if(!isSet($_SESSION['luxbum'])){

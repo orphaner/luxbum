@@ -25,6 +25,6 @@
       <mx:bloc id="main"></mx:bloc id="main">
     </div>
 
-    <div id="footer_admin"><a href="http://nico.tuxfamily.org/Projets/12-Luxbum-Galerie-Dimages-En-Php"><img src="_images/luxbum.png" alt="Powered By LuxBum"/></a></div>
+    <div id="footer_admin"><a href="http://nico.tuxfamily.org/Projets/Support-LuxBum"><img src="_images/luxbum.png" alt="Powered By LuxBum"/></a></div>
   </body>
 </html>

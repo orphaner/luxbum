@@ -9,22 +9,13 @@ include (FONCTIONS_DIR.'luxbum.class.php');
 //------------------------------------------------------------------------------
 // Parsing des paramètres
 //------------------------------------------------------------------------------
-// Méthode rewritée
-if (USE_REWRITE == 'on') {
-   if (!isset($_GET['d'])) {
-      exit('manque des paramètres ON');
-   }
-   $dir           = $_GET['d'];
+if (ereg ('^/slideshow-(.+)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
+   $dir = $argv[1];
 }
-// Méthode non rewritée
 else  {
-   if (ereg ('^/slideshow-(.+)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
-      $dir           = $argv[1];
-   }
-   else  {
-      exit ('manque des paramètres OFF');
-   }
+   exit ('manque des paramètres OFF');
 }
+
 
 if (SHOW_SLIDESHOW == 'off') {
    exit ('Les diaporamas ne sont pas activés');
@@ -59,7 +50,7 @@ $page->MxText ('slide_width', '650px');
 $page->MxText ('slide_height_full', '510px');
 $page->MxText ('slide_height', '485px');
 
-$nuxThumb = new luxBumGalleryList ($dir);
+$nuxThumb = new luxBumGallery($dir);
 $nuxThumb->addAllImages ();
 $galleryCount = $nuxThumb->getCount ();
 
@@ -67,12 +58,7 @@ $galleryCount = $nuxThumb->getCount ();
 for ($i = 0 ; $i < $nuxThumb->getCount() ; $i++) {
    $file = $nuxThumb->list[$i];
    $page->MxText ('photosSRC.i', $i);
-   if ($file->needPreview()) {
-      $page->MxText ('photosSRC.photo', $file->getPreviewImagePath());
-   }
-   else {
-      $page->MxText ('photosSRC.photo', $file->getImagePath ());
-   }
+   $page->MxText('photosSRC.photo', $file->getPreviewLink());
    $page->MxBloc ('photosSRC', 'loop');
 }
 

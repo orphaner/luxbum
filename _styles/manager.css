@@ -448,3 +448,35 @@ div.admcomment div.contenu {
     margin: 0 0 0 5px;
 }
 
+/*===========================================
+   Tri index
+=============================================*/
+div#galeries {
+	width:890px;
+}
+div.triIndex {
+	width:290px;
+	height:90px;
+	border:1px solid #DCE9FF;
+    background: #EFF5FF;
+	margin:1px;
+	float:left;
+}
+div.triIndex h2 { 
+	font-size:14px;
+	margin:0 0 5px 0;
+	padding:0px;
+	color:#000;
+}
+.lg {
+	height:100px;
+	width:100px;
+	float:left;
+}
+.ld {
+}
+span.infos { 
+	font-size:10px;
+	font-family: verdana, helvetica, arial, sans-serif;
+/*	color:#E1E1E1;*/
+}

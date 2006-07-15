@@ -185,6 +185,19 @@ function swapDiv (divId, selectId) {
 </form>
 
 
+<form enctype="multipart/form-data" mXattribut="action:action_favicon" method="post" id="form_favicon">
+  <input type="hidden" name="MAX_FILE_SIZE" mXattribut="value:max_file_size" />
+
+  <h2>Ajouter son favicon</h2>
+  <p class="message"><mx:text id="message_favicon"/></p>
+  <fieldset><legend>Favicon : </legend>
+    <p>
+      <input type="file" name="userfile[]" /><br />
+      <input class="submit" type="submit" value="Valider l'envoi du favicon" />
+    </p>
+  </fieldset>
+</form>
+
 <form mXattribut="action:action_parametres_mdp" method="post" id="form_mdp">
   <p class="message"><mx:text id="message_mdp"/></p>
 

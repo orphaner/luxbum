@@ -1,7 +1,6 @@
 <?php
 
 include_once(FONCTIONS_DIR.'class/luxbumgallery.class.php');
-include_once(FONCTIONS_DIR.'class/luxbumgallerylist.class.php');
 include_once(FONCTIONS_DIR.'class/luxbumimage.class.php');
 include_once(FONCTIONS_DIR.'class/luxbumindex.class.php');
 include_once(FONCTIONS_DIR.'class/imagetoolkit.class.php');
@@ -14,6 +13,8 @@ include_once(FONCTIONS_DIR.'class/commentaire.class.php');
 //==============================================================================
 
 class luxBum {
+
+   var $photoDir = PHOTOS_DIR;
 
    /**-----------------------------------------------------------------------**/
    /* Fonctions utilitaires */
@@ -61,6 +62,10 @@ class luxBum {
    /**-----------------------------------------------------------------------**/
    /* Fonctions pr les noms de répertoires */
    /**-----------------------------------------------------------------------**/
+   function setPhotoDir($photoDir) {
+      $this->photoDir = PHOTOS_DIR.files::addTailSlash($photoDir);
+   }
+
 
    /**
     * 
@@ -84,7 +89,7 @@ class luxBum {
     * Avec un / final
     */
    function getDirPath ($dir) {
-      return PHOTOS_DIR. (files::addTailSlash ($dir));
+      return $this->photoDir. (files::addTailSlash ($dir));
    }
 
    /**

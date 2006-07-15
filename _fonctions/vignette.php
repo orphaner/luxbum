@@ -1,6 +1,6 @@
 <?php
 
-  // Indique si il faut chercher une image par défaut ou non
+// Indique si il faut chercher une image par défaut ou non
 $first_ok = false;
 
 
@@ -14,49 +14,33 @@ include (FONCTIONS_DIR.'utils/aff_page.inc.php');
 //------------------------------------------------------------------------------
 // Parsing des paramètres
 //------------------------------------------------------------------------------
-// Méthode rewritée
-if (USE_REWRITE == 'on') {
-   if (!isset($_GET['page']) || !isset($_GET['d'])) {
-      exit ('manque des paramètres');
-   }
-   $page_courante = $_GET['page'];
-   $dir           = $_GET['d'];
-   
+if (ereg ('^/vignette-([0-9]+)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
+   $page_courante = $argv[1];
+   $dir           = $argv[2];
+   $img_defaut    = $argv[3];
+   $first_ok = true;
+}
+else if (ereg ('^/vignette-([0-9]+)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
+   $page_courante = $argv[1];
+   $dir           = $argv[2];
+}
+else {
+   exit ('manque des paramètres.');
+}
 
-   if (isset ($_GET['imgd'])) {
-      $img_defaut = $_GET['imgd'];
-      $first_ok = true;
-   }
-}
-// Méthode non rewritée
-else  {
-   if (ereg ('^/vignette-([0-9]+)-(.*)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
-      $page_courante = $argv[1];
-      $dir           = $argv[2];
-      $img_defaut    = $argv[3];
-      $first_ok = true;
-   }
-   else if (ereg ('^/vignette-([0-9]+)-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
-      $page_courante = $argv[1];
-      $dir           = $argv[2];
-   }
-   else {
-      exit ('manque des paramètres.');
-   }
-}
 $page_courante++;
 
-if (!verif_dir ($dir)) {
+if (!verif::dir ($dir)) {
    exit ('nom de dossier incorrect !!');
 }
-else if (!is_dir (luxbum::getDirPath ($dir))) {
-   exit ('dossier incorrect !!');
-}
+// else if (!is_dir (luxbum::getDirPath ($dir))) {
+//    exit ('dossier incorrect !!');
+// }
 
 // Vérif que la page est bonne
-$nuxThumb = new luxBumGalleryList ($dir);
-$nuxThumb->addAllImages ();
-$galleryCount = $nuxThumb->getCount ();
+$theGallery = new luxBumGallery($dir);
+$theGallery->addAllImages ();
+$galleryCount = $theGallery->getCount ();
 
 if (ceil ($galleryCount / LIMIT_THUMB_PAGE) < $page_courante) {
    exit ('page incorrecte !!');
@@ -83,25 +67,22 @@ $page->MxText ('nom_dossier', $niceDir);
 //------------------------------------------------------------------------------
 // Code principal
 //------------------------------------------------------------------------------
-$page->MxBloc ('liste', 'modify', STRUCTURE_DIR.$template);
 $page->WithMxPath('liste', 'relative');
 
-$nuxThumb->createOrMajDescriptionFile ();
-$nuxThumb->getDescriptions ();
+$theGallery->createOrMajDescriptionFile ();
+$theGallery->getDescriptions ();
 
 
 //----------------
 // Affichage des vignettes
 $i = 0;
-$cpt = 1;
-$loop = 0;
 
 
 // Parcours des vignettes
 for ($i = ($page_courante-1) * LIMIT_THUMB_PAGE  ; 
      $i < ($page_courante)   * LIMIT_THUMB_PAGE && $i < $galleryCount ; 
      $i++) {
-   $file     = $nuxThumb->list[$i];
+   $file     = $theGallery->list[$i];
    $name     = $file->getImageName ();
    $niceName = luxbum::niceName ($name);
    $title    = $niceName . ' - ' . ucfirst ($file->getDescription ());
@@ -111,41 +92,25 @@ for ($i = ($page_courante-1) * LIMIT_THUMB_PAGE  ;
       $first_ok = true;
    }
 
-   $page->MxText     ('num_photo'.$cpt,              ($i+1).' / '.$galleryCount);
-   $page->MxAttribut ('view_photo'.$cpt.'.vignette', $file->getAsThumb (IMG_W, IMG_H));
-   $page->MxAttribut ('view_photo'.$cpt.'.alt',      $title);
-   $page->MxAttribut ('view_photo'.$cpt.'.title',    $title);
-   $page->MxUrl      ('view_photo'.$cpt.'.lien',     lien_apercu ($dir, $name, $page_courante));
+   $page->MxAttribut ('styleCol', VIGNETTE_STYLE);
+   $page->MxText     ('num_photo',($i+1).' / '.$galleryCount);
+   $page->MxAttribut ('vignette', $file->getThumbLink());
+   $page->MxAttribut ('alt',      $title);
+   $page->MxAttribut ('title',    $title);
+   $page->MxUrl      ('lien',     lien_apercu ($dir, $name, $page_courante));
 
    //@start upd dark 1.1 : changement du style dans les vignettes si photo selectionnee
    //@implique : ajout style "view_photo_selected" dans css et attribut "style" dans page modeliXe
-   if (isSet($_SESSION['luxbum'][$dir][$name])){
-      $page->MxAttribut ('view_photo'.$cpt.'.style', 'view_photo_selected');
+   if (isSet($_SESSION['luxbum'][$dir][$name])) {
+      $page->MxAttribut ('style', 'view_photo_selected');
    }
-   else{
-      $page->MxAttribut ('view_photo'.$cpt.'.style', 'view_photo');
+   else {
+      $page->MxAttribut ('style', 'view_photo');
    }
    //@end upd dark 1.1
-   
-   $cpt++;
-   $loop++;
-   if ($loop % NB_COL == 0) {
-      $page->MxBloc ('', 'loop');
-      $cpt = 1;
-   }
-}
-
-
-// On vide les blocs vides
-while ($cpt <= NB_COL) {
-   $page->MxBloc ('view_photo'.$cpt, 'modify',' ');
-   $cpt++;
-}
-
-// Loop si 3 blocs
-if ($loop % NB_COL != 0) {
    $page->MxBloc ('', 'loop');
 }
+
 
 $page->WithMxPath ('', 'relative');
 

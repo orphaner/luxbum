@@ -8,6 +8,17 @@ if (isset($_GET['f'])) {
    $f = $_GET['f'];
 }
 
+function tri_select () {
+   return array ('type=nom&order=asc'    => 'Nom (croissant)',
+                 'type=nom&order=desc'   => 'Nom (décroissant)',
+                 'type=count&order=asc'  => 'Nombre de photos (croissant)',
+                 'type=count&order=desc' => 'Nombre de photos (décroissant)',
+                 'type=size&order=asc'   => 'Taille (croissant)',
+                 'type=size&order=desc'  => 'Taille (décroissant)',
+                 'type=manuel&order=asc' => 'Manuel');
+}
+
+
 //------------------------------------------------------------------------------
 // Init
 //------------------------------------------------------------------------------
@@ -16,7 +27,6 @@ $str_critere = ADMIN_FILE.'?p=liste_galeries';
 // Création de l'objet contenant l'index
 $nuxIndex = new  luxBumIndex ();
 $nuxIndex->addAllGallery (0);
-$nuxIndex->gallerySort ();
 
 
 // Page modelixe
@@ -24,8 +34,20 @@ definir_titre ($page, 'Liste des galeries - LuxBum Manager');
 $page->MxAttribut ('class_galeries', 'actif');
 $page->MxBloc ('main', 'modify', ADMIN_STRUCTURE_DIR.'liste_galeries.mxt');
 $page->WithMxPath ('main', 'relative');
-$page->MxAttribut ('action_vider_cache', $str_critere.'&amp;f=vider_cache');
+$page->MxUrl ('action_vider_cache', $str_critere.'&amp;f=vider_cache');
 $page->MxAttribut ('action_ajout_galerie', $str_critere.'&amp;f=ajout_galerie');
+
+// Tri
+if (isset ($_POST['sortby'])) {
+   $selectedSortBy = $_POST['sortby'];
+}
+else {
+   $selectedSortBy = 'type='.$nuxIndex->getSortType().'&order='.$nuxIndex->getSortOrder();
+}
+$page->MxSelect('tri', 'sortby', $selectedSortBy, tri_select());
+$page->MxAttribut('action_tri', $str_critere.'&amp;f=tri');
+$page->MxUrl ('triUrl', ADMIN_FILE.'?p=tri_index');
+
 
 
 // Titre et h1 de la page 
@@ -42,7 +64,7 @@ $page->MxAttribut ('action_ajout_galerie', $str_critere.'&amp;f=ajout_galerie');
 if ($f == 'vider_cache') {
    while (list (,$gallery) = each ($nuxIndex->galleryList)) {
       $name     = $gallery->getName ();
-      $toDel = new luxBumGalleryList ($name);
+      $toDel = new luxBumGallery($name);
       $toDel->addAllImages ();
       $toDel->clearCache ();
       unset ($todel);
@@ -68,16 +90,21 @@ else if ($f == 'ajout_galerie') {
       }
       else if (is_dir ($path)) {
          $page->MxAttribut ('val_ajout_galerie', unprotege_input ($ajout_galerie));
-         $page->MxText ('err_ajout_galerie', 'La galerie '.unprotege_input ($ajout_galerie).' existe déjà. Veuillez choisir un autre nom.');
+         $page->MxText ('err_ajout_galerie', 'La galerie '.unprotege_input ($ajout_galerie).' existe déjà. ' .
+               'Veuillez choisir un autre nom.');
       }
       else {
-         files::createDir ($path);
-         $page->MxText ('message', 'La galerie '.unprotege_input ($ajout_galerie).' a bien été créée. <br /> Vous pouvez maintenant y rajouter vos photos.');
-
-         unset ($nuxIndex);
-         $nuxIndex = new  luxBumIndex ();
-         $nuxIndex->addAllGallery (0);
-         $nuxIndex->gallerySort ();
+         if (files::createDir ($path)) {
+            $page->MxText ('message', 'La galerie '.unprotege_input ($ajout_galerie).' a bien été créée. ' .
+                  '<br /> Vous pouvez maintenant y rajouter vos photos.');
+            unset ($nuxIndex);
+            $nuxIndex = new  luxBumIndex ();
+            $nuxIndex->addAllGallery (0);
+         }
+         else {
+            $page->MxText ('message', '<span class="erreur">La galerie '.unprotege_input ($ajout_galerie).' n\'a pas été créée. <br /> ' .
+                  'Le répertoire '.PHOTOS_DIR.' n\'est probablement pas accessible en écriture.</span>');
+         }
       }
    }
 }
@@ -113,8 +140,8 @@ else if ($f == 'modifier_galerie') {
             unset ($nuxIndex);
             $nuxIndex = new  luxBumIndex ();
             $nuxIndex->addAllGallery (0);
-            $nuxIndex->gallerySort ();
-            $page->MxText ('message', 'La galerie '.unprotege_input ($dir).' a bien été renommée en '.unprotege_input ($modifier_galerie));
+            $page->MxText ('message', 'La galerie '.unprotege_input ($dir).' a ' .
+                  'bien été renommée en '.unprotege_input ($modifier_galerie));
          }
       }
    }
@@ -137,13 +164,25 @@ else if ($f == 'del') {
             unset ($nuxIndex);
             $nuxIndex = new  luxBumIndex ();
             $nuxIndex->addAllGallery (0);
-            $nuxIndex->gallerySort ();
             $page->MxText ('message', 'La galerie '.unprotege_input ($dirName).' a bien été supprimée');
          }
       }
    }
 }
 
+// Choix du tri
+else if ($f == 'tri') {
+   if (isset($_POST['sortby'])) {
+      parse_str($_POST['sortby'], $order);
+      $nuxIndex->setSortType($order['type']);
+      $nuxIndex->setSortOrder($order['order']);
+      $nuxIndex->saveSort();
+
+      unset ($nuxIndex);
+      $nuxIndex = new  luxBumIndex ();
+      $nuxIndex->addAllGallery (0);
+   }
+}
 
 
 //------------------------------------------------------------------------------
@@ -168,7 +207,7 @@ else {
       $taille   = $gallery->getNiceSize ();
 
       if ($gallery->getCount () > 0) {
-         $thumb    = $gallery->getThumbPath ();
+         $thumb    = $gallery->getIndexLink();
       }
       else {
          $thumb = '_images/manager/vide.png';
@@ -199,8 +238,5 @@ else {
       $page->MxBloc ('', 'loop');
    }
 }
-
-
-
 
 ?>

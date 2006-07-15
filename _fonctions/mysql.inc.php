@@ -217,6 +217,32 @@ class mysqlInc {
    function getNbSql () {
       return $this->nb_sql;
    }
+   
+   /**
+    * Protège les caractères spéciaux d'une commande SQL
+    * @param string $string la chaîne à protéger
+    * @return string la chaîne protégée
+    */
+   function escapeString ($string) {
+      // Stripslashes
+      if (get_magic_quotes_gpc()) {
+         $string = stripslashes($string);
+      }
+      // Protection si ce n'est pas un entier
+      if (!is_numeric($string)) {
+         $string = "'" . mysql_real_escape_string($string) . "'";
+      }
+      return $string;
+   }
+   
+   /**
+    * Protège une valeur d'un champ de type set d'une commande SQL
+    * @param string $set la valeur du champ à protéger
+    * @return string la chaîne protégée
+    */
+   function escapeSet ($set) {
+      return "'" . $set . "'";
+   }
 }
 
 ?>

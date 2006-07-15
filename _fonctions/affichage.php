@@ -9,37 +9,24 @@ include (FONCTIONS_DIR.'luxbum.class.php');
 //------------------------------------------------------------------------------
 // Parsing des paramètres
 //------------------------------------------------------------------------------
-// Méthode rewritée
-if (USE_REWRITE == 'on') {
-   if (!isset($_GET['photo']) || !isset($_GET['d']) || !isset($_GET['page']) ) {
-      exit('manque des paramètres ON');
-   }
-
-   $file          = $_GET['photo'];
-   $dir           = $_GET['d'];
-   $page_courante = $_GET['page'];
+if (ereg ('^/affichage-([0-9]+)-(.+)-(.+)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
+   $page_courante = $argv[1];
+   $dir           = $argv[2];
+   $file          = $argv[3];
 }
-// Méthode non rewritée
 else  {
-   if (ereg ('^/affichage-([0-9]+)-(.+)-(.+)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
-      $page_courante = $argv[1];
-      $dir           = $argv[2];
-      $file          = $argv[3];
-   }
-   else  {
-      exit ('manque des paramètres OFF');
-   }
+   exit ('manque des paramètres OFF');
 }
 
-if (!verif_dir ($dir)) {
-   exit ('nom de dossier incorrect !!');
-}
-else if (!is_dir (luxbum::getDirPath ($dir))) {
-   exit ('dossier incorrect !!');
-}
-else if (!verif_photo ($dir, $file)) {
-   exit ('nom de la photo incorrect !!');
-}
+// if (!verif::dir ($dir)) {
+//    exit ('nom de dossier incorrect !!');
+// }
+// else if (!is_dir (luxbum::getDirPath ($dir))) {
+//    exit ('dossier incorrect !!');
+// }
+// else if (!verif_photo ($dir, $file)) {
+//    exit ('nom de la photo incorrect !!');
+// }
 
 function getScriptURL () {
    $url = '';
@@ -92,7 +79,7 @@ if ($luxAff -> findDescription () == true) {
 $altTitle = luxbum::niceName ($luxAff -> getImageName()) .' - '
    . ucfirst ($luxAff -> getDescription ());
 
-$page->MxImage ('photo', $luxAff->getAsPreview (), $altTitle, 
+$page->MxImage ('photo', $luxAff->getPreviewLink(), $altTitle, 
                 'title="'.$altTitle.'" '. ($luxAff->getPreviewResizeSize ()), true);
 $page->MxUrl      ('lien',  $luxAff->getImagePath ());
 
@@ -144,7 +131,7 @@ $lien_redirect = (getScriptURL()).lien_vignette_redirect ($page_courante, $dir, 
 $page->MxText ('redirect_script',   $lien_redirect);
 $page->MxUrl  ('redirect_noscript', $lien_redirect);
 
-if (SHOW_EXIF == 'on' &&$luxAff->exifExists ()) {
+if (SHOW_EXIF == 'on' && $luxAff->exifExists ()) {
    $page->MxText ('exif.lien', INDEX_FILE.'?p=infos_exif&amp;d='.$dir.'&amp;photo='.$file);
 }
 else {
@@ -166,7 +153,7 @@ else {
 //----------------
 // Liens suivants et précédents
 
-$nuxThumb = new luxBumGalleryList ($dir);
+$nuxThumb = new luxBumGallery($dir);
 $nuxThumb->addAllImages ();
 $galleryCount = $nuxThumb->getCount ();
 $imageIndex = $nuxThumb->getImageIndex ($file);
@@ -183,7 +170,7 @@ if ($imageIndex % LIMIT_THUMB_PAGE == LIMIT_THUMB_PAGE - 1) {
 
 $page_courante++;
 
-// Une seule image dans la gallerie
+// Une seule image dans la galerie
 if ($galleryCount == 1) {
    $page->MxBloc ('back', 'delete');
    $page->MxBloc ('forward', 'delete');

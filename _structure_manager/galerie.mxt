@@ -1,3 +1,22 @@
+<script type="text/javascript">
+function toggleBigImage(id, largepath) {
+  var imageobj = document.getElementById(id);
+  if (!imageobj.sizedlarge) {
+    imageobj.src2 = imageobj.src;
+    imageobj.src = largepath;
+    imageobj.style.position = 'absolute';
+    imageobj.style.zIndex = '1000';
+    imageobj.sizedlarge = true;
+  } else {
+    imageobj.style.position = 'relative';
+    imageobj.style.zIndex = '0';
+    imageobj.src = imageobj.src2;
+    imageobj.sizedlarge = false;
+  }
+}
+
+</script>
+
 <div class="rapid_switch">
   <fieldset><legend>Saut vers galerie : </legend>
     <form mXattribut="action:action_rapid_switch" method="get">
@@ -36,13 +55,11 @@
 </form>
 
 
-<h2>Vider cache</h2>
-<form mXattribut="action:action_vider_cache" method="post">
-  <fieldset><legend>Vider le cache </legend>
-    <p><input class="submit" type="submit" value="Valider la suppression du cache" /></p>
-  </fieldset>
-</form>
-
+<h2>Opérations sur le cache</h2>
+<ul>
+  <li><a mXattribut="href:action_vider_cache">Vider le cache de cette galerie</a></li>
+  <li><a mXattribut="href:action_generer_cache">Générer le cache de cette galerie</a></li>
+</ul>
 
 
 <h2>Attribuer une date pour toutes les photos</h2>
@@ -60,11 +77,27 @@
   </fieldset>
 </form>
 
+<h2>Tri des photos</h2>
+<p><strong>Tri manuel</strong> : <a mXattribut="href:triUrl">Trier manuellement la galerie.</a></p>
+<form mXattribut="action:action_tri" method="post">
+  <fieldset><legend>Choisir un critère de tri pour les photos</legend>
+    <mx:select id="tri"/>
+    <p><input class="submit" type="submit" value="Valider le choix du tri" /></p>
+  </fieldset>
+</form>
 
 
 <h2>Liste des photos</h2>
 
 <mx:bloc id="liste_photos">
+
+    <form method="post" mXattribut="action:actionLimitPage">
+      <label for="limitPage" class="float"><strong>Nombre de photos sur la page</strong></label>
+        <input id="limitPage" name="limitPage" type="text" maxlength="3" style="width:40px;" mXattribut="value:limitPage"/>
+        <input class="submit" type="submit" value=" OK "/>
+      </fieldset>
+    </form>
+    <p>Cliquer sur les images pour les agrandir</p>
   <div id="liste_photo_div">
     <table id="liste_photo" summary="Liste des photos de la galerie">
       <tr>
@@ -75,7 +108,7 @@
       </tr>
       <mx:bloc id="liste">
         <tr mXattribut="class:class_tr">
-          <td class="liste_photo_td"><div mXattribut="id:id_photo"><mx:image id="photo"/></div></td>
+          <td class="liste_photo_td"><div mXattribut="id:id_poto"><mx:image id="photo"/></div></td>
           <td class="description_td">
             <p class="message"><mx:text id="message_date_desc"/></p>
 

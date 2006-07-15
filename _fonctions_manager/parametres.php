@@ -8,6 +8,8 @@ if (!isAdmin ()) {
 
 include FONCTIONS_DIR.'utils/formulaires.php';
 include FONCTIONS_DIR.'luxbum.class.php';
+include (FONCTIONS_DIR.'class/upload.class.php');
+
 $str_critere = ADMIN_FILE.'?p=parametres';
 
 // Page modelixe
@@ -16,6 +18,16 @@ $page->MxAttribut ('isadmin.class_parametres', 'actif');
 $page->MxBloc ('main', 'modify', ADMIN_STRUCTURE_DIR.'parametres.mxt');
 $page->WithMxPath ('main', 'relative');
 
+// Paramètrage de l'upload Photo
+$upload = new Upload ();
+$upload->MaxFilesize = MAX_FILE_SIZE;
+$upload->InitForm ();
+$upload->DirUpload = PHOTOS_DIR;
+$upload->WriteMode = 2;
+$upload->Required = true;
+$upload->Filename = 'favicon';
+$upload->Extension = '.ico';//;.gif;.jpg;.jpeg;.png';
+//$upload->MimeType = 'image/x-icon;image/gif;image/pjpeg;image/jpeg;image/x-png;image/png';
 
 
 function template_theme_select () {
@@ -243,6 +255,29 @@ else if (isset ($_GET['valid']) && $_GET['valid'] == 2) {
    }
 }
 
+/**-----------------------------------------------------------------------**/
+/* Validation du formulaire du favicon */
+/**-----------------------------------------------------------------------**/
+else if (isset ($_GET['valid']) && $_GET['valid'] == 3) {
+   @chmod (PHOTOS_DIR.'favicon.ico', 0777);
+   files::deleteFile(PHOTOS_DIR.'favicon.ico');
+   $upload-> Execute();
+   
+
+   if ($UploadError) {
+      $mess = '';
+      $errors = $upload->GetError (1);
+      print_r($errors);
+      while (list (, $err) = each ($errors)) {
+         $mess .= $err.'<br />';
+      }
+      $page->MxText ('message_favicon', $mess);
+   }
+   else {
+      @chmod (PHOTOS_DIR.'favicon.ico', 0755);
+      $page->MxText ('message_favicon', 'Le fichier a été correctement envoyé');
+   }
+}
 
 
 /**-----------------------------------------------------------------------**/
@@ -301,9 +336,17 @@ if ($param['show_selection'] == 'off') {
 $page->MxSelect ('allow_dl_selection', 'allow_dl_selection', $param['allow_dl_selection'], on_off_select ());
 
 
+//-----------------
+// données pour le changement de mot de passe
 $page->MxAttribut ('action_parametres_mdp', $str_critere.'&amp;valid=2#form_mdp');
 $page->MxAttribut ('val_manager_username', $param2['manager_username']);
 $page->MxAttribut ('val_manager_password_1', $param2['manager_password_1']);
 $page->MxAttribut ('val_manager_password_2', $param2['manager_password_2']);
+
+
+//-----------------
+// Données pour l'upload du favicon
+$page->MxAttribut ('action_favicon', $str_critere.'&amp;valid=3#form_favicon');
+$page->MxAttribut ('max_file_size', $upload->MaxFilesize);
 
 ?>

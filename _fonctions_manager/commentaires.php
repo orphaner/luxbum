@@ -79,9 +79,32 @@ else if ($act == 'supprimer') {
    $act = '';
 }
 
-// Mettre en/hors ligne un commentaire
-else if ($act == 'pub') {
-   
+// Mettre en ligne un commentaire
+else if ($act == 'enligne') {
+   if (!isset($_GET['id']) || (isset($_GET['id']) && empty ($_GET['id']))) {
+      $message = 'Il faut mettre un id de commentaire à mettre en ligne.';
+   }
+   else {
+      $message = 'Le commentaire n°'.$_GET['id'].' à été mis en ligne.';
+      $com = new Commentaire ();
+      $com ->setId($_GET['id']);
+      $com->setPublic();
+   }
+   $act = '';
+}
+
+// Mettre hors ligne un commentaire
+else if ($act == 'horsligne') {
+   if (!isset($_GET['id']) || (isset($_GET['id']) && empty ($_GET['id']))) {
+      $message = 'Il faut mettre un id de commentaire à mettre hors ligne.';
+   }
+   else {
+      $message = 'Le commentaire n°'.$_GET['id'].' à été mis hors ligne.';
+      $com = new Commentaire ();
+      $com ->setId($_GET['id']);
+      $com->setPrivate();
+   }
+   $act = '';
 }
 
 // Affichage des commentaires
@@ -148,9 +171,15 @@ if ($act == '') {
          }
          if ($row['pub_comment'] == 0) {
             $page->MxImage ('status', '_images/manager/check_off.png');
+            $page->MxText ('pub_text', 'Mettre en ligne');
+            $page->MxUrl ('pub', $str_critere.
+                           '&amp;action=enligne&amp;id='.$row['id_comment']);
          }
          else {
             $page->MxImage ('status', '_images/manager/check_on.png');
+            $page->MxText ('pub_text', 'Mettre hors ligne');
+            $page->MxUrl ('pub', $str_critere.
+                           '&amp;action=horsligne&amp;id='.$row['id_comment']);
          }
          $page->MxBloc ('', 'loop');
       }

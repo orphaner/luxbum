@@ -66,7 +66,6 @@ performVerifFile (CONF_DIR.'config_manager.php', $page);
 // Création de l'objet contenant l'index
 $nuxIndex = new  luxBumIndex ();
 $nuxIndex->addAllGallery (0);
-$nuxIndex->gallerySort ();
 
 
 while (list (,$gallery) = each ($nuxIndex->galleryList)) {

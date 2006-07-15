@@ -17,13 +17,20 @@
 </form>
 
 
-<h2>Vider le cache</h2>
-<form mXattribut="action:action_vider_cache" method="post">
-  <fieldset><legend>Vider le cache de toutes les galeries</legend>
-    <p><input class="submit" type="submit" value="Valider la suppression du cache" /></p>
+<h2>Opérations sur le cache</h2>
+<ul>
+  <li><a mXattribut="url:action_vider_cache">Vider le cache de toutes les galeries</a></li>
+  <li><a mXattribut="url:action_generer_cache">Générer le cache de toutes les galeries (à venir)</a></li>
+</ul>
+
+<h2>Tri des galeries</h2>
+<p><strong>Tri manuel</strong> : <a mXattribut="href:triUrl">Trier manuellement les galeries.</a></p>
+<form mXattribut="action:action_tri" method="post">
+  <fieldset><legend>Choisir un critère de tri pour les galeries</legend>
+    <mx:select id="tri"/>
+    <p><input class="submit" type="submit" value="Valider le choix du tri" /></p>
   </fieldset>
 </form>
-
 
 <h2>Liste des galeries</h2>
 <div id="liste_photo_div">
@@ -36,7 +43,7 @@
     </tr>
 
     <mx:bloc id="liste">
-      <tr>
+      <tr id="tdde">
         <td class="liste_photo_td">
           <div mxAttribut="id:galerie_id"></div>
           <p>
@@ -49,7 +56,6 @@
             <span class="infos"><mx:text id="nb_photo"/> photos pour <mx:text id="taille"/></span>.
             <div class="consulter">
                <img src="_images/fleche1.png" alt="-" />&nbsp;<a mXattribut="href:lien">Gérer</a><br />
-               <img src="_images/fleche1.png" alt="-" />&nbsp;<a mXattribut="href:cache">Générer le cache</a>
             </div>
           </p>
         </td>

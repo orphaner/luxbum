@@ -27,7 +27,8 @@
       <strong>Date</strong> : <mx:text id="date"/><br />
       <strong>
          Actions : [<a mXattribut="href:supprimer">Supprimer</a>] - 
-         [<a mXattribut="href:editer">Editer</a>]
+         [<a mXattribut="href:editer">Editer</a>] -
+         [<a mXattribut="href:pub"><mx:text id="pub_text"/></a>]
       </strong>
     </p>
     <div class="contenu">

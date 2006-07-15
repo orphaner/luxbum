@@ -13,13 +13,15 @@ class imagetoolkit
    var $imageWidth;
    var $imageHeight;
    var $imageType;
+   var $typeMime = '';
 
    var $imagDest;
    var $imageDestWidth;
    var $imageDestHeight;
 
    /**
-    *
+    * Constructeur par défaut
+    * @param String $image Chemin complet vers l'image
     */
    function imagetoolkit ($image) {
       $this->image = $image;
@@ -27,37 +29,49 @@ class imagetoolkit
    }
 
    /**
-    *
+    * Retourne la largeur finale de l'image redimensionnée.
+    * @return int Largeur finale de l'image redimensionnée.
     */
    function getImageDestWidth () {
       return $this->imageDestWidth;
    }
 
    /**
-    *
+    * Retourne la hauteur finale de l'image redimensionnée.
+    * @return int Hauteur finale de l'image redimensionnée.
     */
    function getImageDestHeight () {
       return $this->imageDestHeight;
    }
+   
+   /**
+    * Retourne le type Mime de l'image
+    * @return String Type mime de l'image
+    */
+   function getTypeMime () {
+      return $this->typeMime;
+   }
 
    /**
-    *
+    * Remplit les champs principaux de la classe.
+    * Utile ?
     * @access private
     */
    function setSrcInfos () {
-
       if ($this->image != "") {         
          // Lit les dimensions de l'image
          $size = GetImageSize ($this->image);
          $this->imageWidth = $size[0];
          $this->imageHeight = $size[1];
          $this->imageType = $size[2];
+         $this->typeMime = $size['mime'];
       }
    }
 
    /**
-    *
+    * Crée un handler de l'image suivant son type
     * @access private
+    * @return Handler
     */
    function imageCreateFromType () {
 
@@ -84,7 +98,7 @@ class imagetoolkit
    }
 
    /**
-    *
+    * Ecrit l'image redimensionnée.
     * @access private
     */
    function imageWriteFromType ($image, $quality) {
@@ -106,7 +120,9 @@ class imagetoolkit
    }
 
    /**
-    *
+    * Fixe une taille finale maximale de redimensionnement.
+    * @param Int $dst_w Largeur maximale
+    * @param int $dst_h Hauteur maximale
     */
    function setDestSize ($dst_w, $dst_h) {
       $this->imageDestWidth = $dst_w;
@@ -142,8 +158,9 @@ class imagetoolkit
    }
 
    /**
-    *
+    * Est ce qu'il faut redimentionner une image ?
     * @access private
+    * @return boolean
     */
    function canResize () {
 
@@ -152,7 +169,7 @@ class imagetoolkit
 
       // L'original a été modifié ?
       if ($test) {
-         $test = (filemtime ($this->imageDest)>filemtime ($this->image));
+         $test = (filemtime($this->imageDest) > filemtime ($this->image));
       }
       
       // Les dimensions de la vignette sont correctes ?
@@ -175,16 +192,16 @@ class imagetoolkit
    }
 
    /**
-    *
+    * Crée l'image redimentionnée. Il faut préalablement avoir apellé la méthode
+    * setDestSize(...)
+    * @param String $img_dest Chemin où il faut écrire l'image redimensionnée.
     */
    function createThumb ($img_dest) {
       $this->imageDest = $img_dest;
 
-//       echo $this->imageDestWidth.' => '.$this->imageDestHeight.'<br />';
 
       // Créer la vignette ?
       if (!$this->canResize ()) {
-
 
          // Copie dedans l'image initiale redimensionnée
          $srcHandler = $this->ImageCreateFromType ($this->image, $this->imageType);
@@ -243,6 +260,10 @@ class imagetoolkit
 
 
 
+   /**
+    * Retourne la version exacte de GD
+    * @return Version exacte de GD
+    */
    function gdVersionExact ()  {
       static $gd_version_number = null;
       if ($gd_version_number === null) {
@@ -268,6 +289,7 @@ class imagetoolkit
    /**
     * Get which version of GD is installed, if any.
     * Returns the version (1 or 2) of the GD extension.
+    * @return 1 ou 2 pour GD1 ou GD2
     */
    function gdVersion ($user_ver = 0) {
 
