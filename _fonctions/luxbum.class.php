@@ -88,16 +88,16 @@ class luxBum {
     * Retourne le chemin complet du dossier $dir de photos
     * Avec un / final
     */
-   function getDirPath ($dir) {
-      return $this->photoDir. (files::addTailSlash ($dir));
-   }
+//    function getDirPath ($dir) {
+//       return $this->photoDir. (files::addTailSlash ($dir));
+//    }
 
    /**
     * Retourne le chemin complet des vignettes du dossier $dir de photos
     * Avec un / final
     */
    function getThumbPath ($dir) {
-      return $this->getDirPath ($dir) . THUMB_DIR;
+      return $this->getFsPath ($dir) . THUMB_DIR;
    }
 
    /**
@@ -105,7 +105,7 @@ class luxBum {
     * Avec un / final
     */
    function getPreviewPath ($dir) {
-      return $this->getDirPath ($dir) . PREVIEW_DIR;
+      return $this->getFsPath ($dir) . PREVIEW_DIR;
    }
 
    function getFsPath ($dir, $subdir='') {

@@ -216,8 +216,8 @@ class luxBumImage extends luxBum
       $trouve = false;
 
       // Recherche de la description dans toutes les descriptions
-      if (is_file ($this->getDirPath ($this->getImageDir()).DESCRIPTION_FILE)) {
-         $fd = fopen ($this->getDirPath ($this->getImageDir()).DESCRIPTION_FILE, 'r+');
+      if (is_file ($this->getFsPath ($this->getImageDir()).DESCRIPTION_FILE)) {
+         $fd = fopen ($this->getFsPath ($this->getImageDir()).DESCRIPTION_FILE, 'r+');
          while (!$trouve && $line = fgets ($fd)) {
             if (ereg ('^.*\|.*\|.*$', $line)) {
                $tab = explode ('|', $line, 2);
@@ -363,7 +363,7 @@ class luxBumImage extends luxBum
    function delete () {
       $this->clearCache ();
       commentaire::deletePhoto ($this->dir, $this->img);
-      return files::deleteFile ($this->getDirPath ($this->dir) . $this->img);
+      return files::deleteFile ($this->getFsPath ($this->dir) . $this->img);
    }
 
 

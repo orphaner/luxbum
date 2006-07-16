@@ -191,8 +191,8 @@ class luxBumGallery extends luxBum
    function getDescriptions () {
       $desc = array ();
 
-      if (is_file ($this->getDirPath ($this->dir).DESCRIPTION_FILE)) {
-         $fd = fopen ($this->getDirPath ($this->dir).DESCRIPTION_FILE, 'r+');
+      if (is_file ($this->getFsPath ($this->dir).DESCRIPTION_FILE)) {
+         $fd = fopen ($this->getFsPath ($this->dir).DESCRIPTION_FILE, 'r+');
          while ($line = trim(fgets($fd)))  {
             if ( ereg ('^.*\|.*\|.*$', $line)) {
                list ($imgName, $imgDescription) = explode ('|', $line, 2);
@@ -212,8 +212,8 @@ class luxBumGallery extends luxBum
       $desc = array ();
 
       // Recherche des images présentes dans le fichier de description
-      if (is_file ($this->getDirPath ($this->dir) . DESCRIPTION_FILE)) {
-         if ($fd = fopen ($this->getDirPath ($this->dir) . DESCRIPTION_FILE, 'r')) {
+      if (is_file ($this->getFsPath ($this->dir) . DESCRIPTION_FILE)) {
+         if ($fd = fopen ($this->getFsPath ($this->dir) . DESCRIPTION_FILE, 'r')) {
             while ($line = fgets ($fd)) {
                if (ereg ('^.*\|.*\|.*$', $line)) {
                   list($desc[]) = explode ('|', $line, 2);
@@ -224,7 +224,7 @@ class luxBumGallery extends luxBum
       }
 
       // On ajoute les images non présentes dans le fichier de description
-      if ($fd = fopen ($this->getDirPath ($this->dir) . DESCRIPTION_FILE, 'a')) {
+      if ($fd = fopen ($this->getFsPath ($this->dir) . DESCRIPTION_FILE, 'a')) {
          reset ($this->list);
          while (list (,$img) = each ($this->list)) {
             $name = $img->getImageName ();
@@ -240,9 +240,9 @@ class luxBumGallery extends luxBum
     * Écrit les nouvelles descriptions/dates dans le fichier de description
     */
    function updateDescriptionFile () {
-      files::deleteFile ($this->getDirPath ($this->dir) . DESCRIPTION_FILE, 'a');
+      files::deleteFile ($this->getFsPath ($this->dir) . DESCRIPTION_FILE, 'a');
       
-      if ($fd = fopen ($this->getDirPath ($this->dir) . DESCRIPTION_FILE, 'a')) {
+      if ($fd = fopen ($this->getFsPath ($this->dir) . DESCRIPTION_FILE, 'a')) {
          for ($i = 0 ; $i < $this->getCount () ; $i++) {
             $img = $this->list[$i];
             $name = $img->getImageName ();
@@ -260,6 +260,9 @@ class luxBumGallery extends luxBum
 
    var $listSubGallery = array();
 
+   /**
+    *
+    */
    function isSubGallery ($current_file) {
       if (!is_dir ($this->getFsPath($this->dir).$current_file)) {
          return false;
@@ -277,10 +280,16 @@ class luxBumGallery extends luxBum
       return true;
    }
 
+   /**
+    *
+    */
    function hasSubGallery() {
       return count($this->listSubGallery) > 0;
    }
    
+   /**
+    *
+    */
    function addSubGalleries() {
       // Ouverture du dossier des photos
       //echo "AjoutSSGAL [path]: ".$this->getFsPath ($this->dir)."<br>";
@@ -309,7 +318,7 @@ class luxBumGallery extends luxBum
       $list = array ();
 
       // Ouverture du dossier des photos
-      if ($dir_fd = opendir ($this->getDirPath ($this->dir))) {
+      if ($dir_fd = opendir ($this->getFsPath ($this->dir))) {
         
          // Récupération des descriptions et de l'ordre
          $desc = $this->getDescriptions ();
@@ -443,8 +452,8 @@ class luxBumGallery extends luxBum
    function saveSort () {
       $list = $this->_sortImageArray ($this->list, 'manuel', 'asc');
       //print_r($list);
-      files::deleteFile ($this->getDirPath ($this->dir) . ORDER_FILE, 'a');
-      if ($fd = fopen ($this->getDirPath ($this->dir).ORDER_FILE, 'a')) {
+      files::deleteFile ($this->getFsPath ($this->dir) . ORDER_FILE, 'a');
+      if ($fd = fopen ($this->getFsPath ($this->dir).ORDER_FILE, 'a')) {
          fputs ($fd, $this->sortType."\n");
          fputs ($fd, $this->sortOrder."\n");
          for ($i = 0 ; $i < count ($list) ; $i++) {
@@ -461,8 +470,8 @@ class luxBumGallery extends luxBum
     * @access private
     */
    function _loadSort () {
-      if (is_file ($this->getDirPath ($this->dir).ORDER_FILE)) {
-         $fd = fopen ($this->getDirPath ($this->dir).ORDER_FILE, 'r+');
+      if (is_file ($this->getFsPath ($this->dir).ORDER_FILE)) {
+         $fd = fopen ($this->getFsPath ($this->dir).ORDER_FILE, 'r+');
          $sortType = trim(fgets ($fd));
          $sortOrder = trim(fgets ($fd));
          $this->setSortType($sortType);
@@ -485,7 +494,12 @@ class luxBumGallery extends luxBum
     */
    function _completeDefaultImage () {
       $default = '';
-      //echo "CompleteDefaultImage ".$this->getFsPath ($this->dir)."<br>";
+
+      // On est dans une sous galerie sans images
+      if ($this->getCount() == 0) {
+         $this->preview = '';
+      }
+
 
       /* Recherche d'une image par défaut définie par l'utilisateur */
       if (is_file ($this->getFsPath ($this->dir) . DEFAULT_INDEX_FILE)) {
@@ -524,7 +538,7 @@ class luxBumGallery extends luxBum
     * Celle ci est créée si elle n'existe pas.
     */
    //function getThumbPath () {
-      //$nuxImage = new luxBumImage ($this->getDirPath ($this->dir), $this->preview);
+      //$nuxImage = new luxBumImage ($this->getFsPath ($this->dir), $this->preview);
       //return $nuxImage->getAsThumb ();
    // return "dede";
    //}
@@ -535,6 +549,12 @@ class luxBumGallery extends luxBum
     * @return Lien de la vignette de l'image vers le script de génération
     */
    function getIndexLink () {
+      // Sous galerie sans photos
+      if ($this->getCount() == 0) {
+         return '_images/folder_image.png';
+      }
+      
+      // La galerie contient des photos
       if (USE_REWRITE == 'on') {
          $prefix = 'image/';
       }
@@ -550,11 +570,11 @@ class luxBumGallery extends luxBum
     * @return boolean 
     */
    function setNewDefaultImage ($img) {
-      $theFile = $this->getDirPath ($this->dir) . $img;
+      $theFile = $this->getFsPath ($this->dir) . $img;
       if (!is_file ($theFile)) {
          return false;
       }
-      files::writeFile ($this->getDirPath ($this->dir) . DEFAULT_INDEX_FILE, $img);
+      files::writeFile ($this->getFsPath ($this->dir) . DEFAULT_INDEX_FILE, $img);
       return true;
    }
    
@@ -568,7 +588,7 @@ class luxBumGallery extends luxBum
     * @return boolean Renomage OK ou KO
     */
    function rename ($newName) {
-      if (files::renameDir (luxbum::getDirPath ($this->dir), luxbum::getDirPath ($newName))) {
+      if (files::renameDir (luxbum::getFsPath ($this->dir), luxbum::getFsPath ($newName))) {
          commentaire::renameGalerie ($this->dir, $newName);
          $this->setName($newName);
          return true;
@@ -581,7 +601,7 @@ class luxBumGallery extends luxBum
     * @param String $dirName Nom de la galerie à supprimer.
     */
    function delete ($dirName) {
-      files::deltree (luxbum::getDirPath ($dirName));
+      files::deltree (luxbum::getFsPath ($dirName));
       commentaire::deleteGalerie ($dirName);
    }
    

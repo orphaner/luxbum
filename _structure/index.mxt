@@ -8,7 +8,7 @@
     <title><mx:text id="titre_page"/></title>
     <mx:bloc id="favicon"><link rel="shortcut icon" mXattribut="href:favicon"/></mx:bloc id="favicon">
     <mx:bloc id="stylesheet">
-    <link mXattribut="rel:rel;href:href;title:title" type="text/css" /></mx:bloc id="stylesheet">
+      <link mXattribut="rel:rel;href:href;title:title" type="text/css" /></mx:bloc id="stylesheet">
   </head>
 
   <body id="body">  
@@ -22,18 +22,22 @@
           </div>
           <div class="ld">
             <h2><mx:text id="nom"/></h2>
-            <span class="infos"><mx:text id="nb_photo"/> photos pour <mx:text id="taille"/>.</span>
+            <mx:bloc id="infos">
+              <span class="infos"><mx:text id="nb_photo"/> photos pour <mx:text id="taille"/>.</span>
+            </mx:bloc id="infos">            
             <div class="consulter">
-            <ul>
-             <mx:bloc id="ssgalerie">
-             <li><a mXattribut="href:lien" mXattribut="title:title2">Sous galeries</a></li>
-             </mx:bloc id="ssgalerie">
-             <li><a mXattribut="href:lien" mXattribut="title:title2">Consulter</a></li>
-             <mx:bloc id="slideshow">
-             <li><a href="#" onclick="window.open('<mx:text id="slideshow"/>','Diaporama','width=700,height=545,scrollbars=yes,resizable=yes');">Diaporama</a></li>
-             </mx:bloc id="slideshow">
-            </ul>
-           </div>
+              <ul>
+                <mx:bloc id="ssgalerie">
+                  <li><a mXattribut="href:lien" mXattribut="title:title2">Sous galeries</a></li>
+                </mx:bloc id="ssgalerie">
+                <mx:bloc id="consulter">
+                  <li><a mXattribut="href:lien" mXattribut="title:title2">Consulter</a></li>
+                </mx:bloc id="consulter">
+                <mx:bloc id="slideshow">
+                  <li><a href="#" onclick="window.open('<mx:text id="slideshow"/>','Diaporama','width=700,height=545,scrollbars=yes,resizable=yes');">Diaporama</a></li>
+                </mx:bloc id="slideshow">
+              </ul>
+            </div>
           </div>
         </div>
       </mx:bloc id="dossiers">
