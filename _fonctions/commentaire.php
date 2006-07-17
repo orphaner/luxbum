@@ -18,15 +18,9 @@ $dir           = $_GET['d'];
 if (SHOW_COMMENTAIRE == 'off') {
    exit ('Les commentaires ne sont pas activés !');
 }
-else if (!verif::dir ($dir)) {
-   exit ('nom de dossier incorrect !!');
-}
-//else if (!is_dir (luxbum::getDirPath ($dir))) {
-//   exit ('dossier incorrect !!');
-//}
-else if (!verif::photo ($dir, $file)) {
-   exit ('nom de la photo incorrect !!');
-}
+
+verif::photo($dir,$file);
+
 
 //------------------------------------------------------------------------------
 // Init

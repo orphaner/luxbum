@@ -7,10 +7,10 @@ include (FONCTIONS_DIR.'luxbum.class.php');
 //------------------------------------------------------------------------------
 if (ereg ('^/ssgal-(.*)\.html$', $_SERVER['QUERY_STRING'], $argv) ) {
    $photoDir = files::removeTailSlash($argv[1]);
+   verif::isDir($photoDir);
 }
 else {
    $photoDir = '';
-//   exit ('manque des paramètres.');
 }
 
 

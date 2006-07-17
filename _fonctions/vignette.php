@@ -30,12 +30,8 @@ else {
 
 $page_courante++;
 
-if (!verif::dir ($dir)) {
-   exit ('nom de dossier incorrect !!');
-}
-// else if (!is_dir (luxbum::getDirPath ($dir))) {
-//    exit ('dossier incorrect !!');
-// }
+verif::isDir ($dir);
+
 
 // Vérif que la page est bonne
 $theGallery = new luxBumGallery($dir);

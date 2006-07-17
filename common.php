@@ -85,21 +85,26 @@ class verif {
    }
 
    /**
+    * Vérifie si le dossier est correct
+    */
+   function isDir ($dir) {
+      if (!verif::dir ($dir)) {
+         exit ('nom de dossier incorrect !!');
+      }
+      else if (!is_dir (luxbum::getFsPath ($dir))) {
+         exit ('dossier incorrect !!');
+      }
+   }
+
+   /**
     * Vérifie si un couple dossier/image est correct.
     * Exit si erreur !
     * @param String dir Dossier de l'image
     * @param String $file Nom de l'image
     */
    function isImage ($dir, $file) {
-      $lux = new Luxbum();
-      $lux->setPhotoDir($dir);
-      if (!verif::dir ($dir)) {
-         exit ('nom de dossier incorrect !!');
-      }
-      else if (!is_dir ($lux->getDirPath ($dir))) {
-         exit ('dossier incorrect !!');
-      }
-      else if (!verif::photo ($dir, $file)) {
+      verif::isDir ($dir);
+      if (!verif::photo ($dir, $file)) {
          exit ('nom de la photo incorrect !!');
       }
    }

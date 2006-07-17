@@ -23,7 +23,7 @@ else  {
    exit ('manque des paramètres OFF');
 }
 
-//verif::isImage ($dir, $file);
+verif::isImage ($dir, $file);
 
 
 $luxAff = new luxBumImage ($dir, $file);
