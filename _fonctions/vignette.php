@@ -57,7 +57,8 @@ if (ceil ($galleryCount / LIMIT_THUMB_PAGE) < $page_courante) {
 // Page modelixe
 $page = new ModeliXe('vignette.mxt');
 $page->SetModeliXe();
-$niceDir = ucfirst (luxBum::niceName ($dir));
+$name = $theGallery->getName();
+$niceDir = ucfirst (luxBum::niceName ($name));
 definir_titre ($page, $niceDir. ' - '. NOM_GALERIE);
 remplir_style ($page);
 $page->MxText ('nom_dossier', $niceDir);

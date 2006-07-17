@@ -15,6 +15,16 @@
     <h1><span><mx:text id="nom_galerie"/></span></h1>
 
     <div id="liste_apercu">
+      <mx:bloc id="menunav">
+        <div id="menunav">
+          <ol class="tree">
+            <li>&#187; <a href="index.php"><strong>Accueil</strong></a></li>
+            <mx:bloc id="nav">
+              <li>&#187; <a mXattribut="href:lien"><mx:text id="nom_dossier"/></a></li>
+            </mx:bloc id="nav">
+          </ol>
+        </div>
+      </mx:bloc id="menunav">
       <mx:bloc id="dossiers">
         <div class="galerie">
           <div class="lg">

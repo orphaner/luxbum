@@ -58,19 +58,6 @@ switch (TEMPLATE_THEME) {
 //------------------------------------------------------------------------------
 // Fonctions
 //------------------------------------------------------------------------------
-function verif_dir ($dir) {
-   if (! ereg ("^[A-Za-z0-9_]+$", $dir)) {
-      return false;
-   }
-   return true;
-}
-
-function verif_photo ($dir, $img) {
-   if (!is_file (luxbum::getImage ($dir, $img))) {
-      return false;
-   }
-   return true;
-}
 
 class verif {
    

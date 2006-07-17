@@ -25,7 +25,7 @@ function tri_select () {
 $str_critere = ADMIN_FILE.'?p=liste_galeries';
 
 // Création de l'objet contenant l'index
-$nuxIndex = new  luxBumIndex ();
+$nuxIndex = new  luxBumIndex ('');
 $nuxIndex->addAllGallery (0);
 
 

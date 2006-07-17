@@ -24,7 +24,7 @@ else if (!verif::dir ($dir)) {
 //else if (!is_dir (luxbum::getDirPath ($dir))) {
 //   exit ('dossier incorrect !!');
 //}
-else if (!verif_photo ($dir, $file)) {
+else if (!verif::photo ($dir, $file)) {
    exit ('nom de la photo incorrect !!');
 }
 

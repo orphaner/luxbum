@@ -15,13 +15,13 @@ if (!isset($_GET['photo']) || !isset($_GET['d'])) {
 $file          = $_GET['photo'];
 $dir           = $_GET['d'];
 
-if (!verif_dir ($dir)) {
+if (!verif::dir ($dir)) {
    exit ('nom de dossier incorrect !!');
 }
 // else if (!is_dir (luxbum::getDirPath ($dir))) {
 //    exit ('dossier incorrect !!');
 // }
-else if (!verif_photo ($dir, $file)) {
+else if (!verif::photo ($dir, $file)) {
    exit ('nom de la photo incorrect !!');
 }
 
