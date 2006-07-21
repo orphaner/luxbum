@@ -1,8 +1,8 @@
 RewriteEngine on
 
-RewriteRule ^vignette-([0-9]+)-(.+)-(.+)\.html$ index.php?p=vignette&page=$1&d=$2&imgd=$3
-RewriteRule ^vignette-([0-9]+)-(.+)\.html$ index.php?p=vignette&d=$2&page=$1
-RewriteRule ^affichage-([0-9]+)-(.+)-(.+)\.html$ index.php?p=affichage&page=$1&d=$2&photo=$3
-RewriteRule ^select-([0-9]+)-(.+)-(.+)\.html$ index.php?p=select&page=$1&d=$2&imgd=$3
-RewriteRule ^unselect-([0-9]+)-(.+)-(.+)\.html$ index.php?p=unselect&page=$1&d=$2&imgd=$3
-RewriteRule ^slideshow-(.+)\.html$ index.php?p=slideshow&d=$1
+
+RewriteRule ^image.php/(.*)$ image.php?$1
+RewriteRule ^(.+)\.html$ index.php?/$1\.html
+
+RewriteRule ^(.*)/_styles/(.*)$ /_styles/$2 [L]
+RewriteRule ^(.*)/_images/(.*)$ /_images/$2 [L]
