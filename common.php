@@ -23,6 +23,8 @@ define ('DESCRIPTION_FILE', 'description.txt');
 define ('ORDER_FILE', 'ordre.txt');
 define ('DEFAULT_INDEX_FILE', 'defaut.txt');
 define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
+define ('PASS_FILE', 'pass.php');
+
 
 
 //------------------------------------------------------------------------------

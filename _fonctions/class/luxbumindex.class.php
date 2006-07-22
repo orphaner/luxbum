@@ -1,12 +1,13 @@
 <?php 
 
-  //==============================================================================
-  // Classe luxBumIndex : Index de toutes les galeries
-  //==============================================================================
 
-  /**
-   * Classe contenant l'index de toutes les galeries
-   */
+//==============================================================================
+// Classe luxBumIndex : Index de toutes les galeries
+//==============================================================================
+
+/**
+ * Classe contenant l'index de toutes les galeries
+ */
 class luxBumIndex extends luxBum
 {
    var $galleryList = array ();
@@ -16,8 +17,8 @@ class luxBumIndex extends luxBum
    var $dir;
    
    function luxBumIndex ($dir) {
-      $this->_loadSort ();
       $this->dir = $dir;
+      $this->_loadSort ();
    }
    
    
@@ -101,7 +102,6 @@ class luxBumIndex extends luxBum
       
       // Lecture de tous les dossiers de photos 
       if ($dir_fd = opendir ($this->getFsPath ($this->dir))) {
-//         $i = 0;
    
          while ($current_dir = readdir ($dir_fd)) {
             
@@ -109,23 +109,9 @@ class luxBumIndex extends luxBum
             if ($current_dir[0] != '.' && is_dir ($this->getFsPath ($this->dir, $current_dir))
                 && $current_dir != files::removeTailSlash(THUMB_DIR)
                 && $current_dir != files::removeTailSlash(PREVIEW_DIR)) {
-//               $trouve = false;
-//               $apercu_fd = opendir ($this->getFsPath ($this->dir, $current_dir));
 
                $this->addGallery ($current_dir);
-               // Au moins une image dans la galerie ?
-//                while (!$trouve && $current_file = readdir ($apercu_fd)) {
-//                   if (files::isPhotoFile($current_dir, $current_file)) {
-//                      $trouve = true;
-//                   }
-//                }
-//                closedir ($apercu_fd);
-   
-//                if ($trouve == true || ($minImage == 0 && $trouve == false)) {
-//                   $this->addGallery ($current_dir);
-//                }
             }
-//            $i++;
          }
          closedir ($dir_fd);
          $this->galleryList = $this->_sortGalleryArray($this->galleryList, $this->sortType, $this->sortOrder);

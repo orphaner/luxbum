@@ -37,6 +37,9 @@
             </mx:bloc id="infos">            
             <div class="consulter">
               <ul>
+                <mx:bloc id="galerieprivee">
+                  <li><a mXattribut="href:lien" mXattribut="title:title2">Galerie privée</a></li>
+                </mx:bloc id="galerieprivee">
                 <mx:bloc id="ssgalerie">
                   <li><a mXattribut="href:lien" mXattribut="title:title2">Sous galeries</a></li>
                 </mx:bloc id="ssgalerie">

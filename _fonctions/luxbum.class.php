@@ -6,6 +6,7 @@ include_once(FONCTIONS_DIR.'class/luxbumindex.class.php');
 include_once(FONCTIONS_DIR.'class/imagetoolkit.class.php');
 include_once(FONCTIONS_DIR.'class/files.php');
 include_once(FONCTIONS_DIR.'class/commentaire.class.php');
+include_once(FONCTIONS_DIR.'private.php');
 
 
 //==============================================================================

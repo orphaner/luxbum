@@ -33,6 +33,23 @@ remplir_style ($page);
 // Code principal
 //------------------------------------------------------------------------------
 
+function remplirConsulterGalerie(&$page, $gallery, $dir, $niceName) {
+   $page->MxAttribut('consulter.title2', $niceName);
+   $page->MxUrl('consulter.lien', lien_vignette (0, $dir));
+   $page->MxUrl('lien', lien_vignette (0, $dir));
+
+   if (SHOW_SLIDESHOW == 'on') {
+      $page->MxText     ('slideshow.slideshow',lien_slideshow ($dir));
+   }
+   else {
+      $page->MxBloc ('slideshow', 'delete');
+   }
+
+   $page->MxText     ('infos.nb_photo', $gallery->getCount ());
+   $page->MxText     ('infos.taille',   $gallery->getNiceSize ());
+}
+
+
 // Création de l'objet contenant l'index
 $nuxIndex = new  luxBumIndex ($photoDir);
 $nuxIndex->addAllGallery ();
@@ -61,9 +78,6 @@ else {
       }
    }
 
-
-
-
    $page->WithMxPath('dossiers', 'relative');
   
    // Parcours des galeries
@@ -78,41 +92,43 @@ else {
       $page->MxAttribut ('title',    $niceName);
       $page->MxAttribut ('apercu',   $gallery->getIndexLink());
 
-      if ($gallery->getCount () == 0) {
+      // Galerie privée
+      if ($gallery->isPrivate()) {
          $page->MxBloc ('slideshow', 'delete');
          $page->MxBloc ('consulter', 'delete');
          $page->MxBloc ('infos', 'delete');
-      }
-      else {
-         $page->MxAttribut ('consulter.title2',   $niceName);
-         $page->MxUrl      ('consulter.lien',     lien_vignette (0, $dir));
-         $page->MxUrl      ('lien',     lien_vignette (0, $dir));
-
-         if (SHOW_SLIDESHOW == 'on') {
-            $page->MxText     ('slideshow.slideshow',lien_slideshow ($dir));
-         }
-         else {
-            $page->MxBloc ('slideshow', 'delete');
-         }
-
-         $page->MxText     ('infos.nb_photo', $gallery->getCount ());
-         $page->MxText     ('infos.taille',   $gallery->getNiceSize ());
+         $page->MxBloc ('ssgalerie', 'delete');
       }
 
       // Lien pour afficher la page de sous galerie
-      if ($gallery->hasSubGallery()) {
+      else if ($gallery->hasSubGallery()) {
+         $page->MxBloc ('galerieprivee', 'delete');
+
+         // Sous galerie sans photos
+         if ($gallery->getCount () == 0) {
+            $page->MxBloc ('slideshow', 'delete');
+            $page->MxBloc ('consulter', 'delete');
+            $page->MxBloc ('infos', 'delete');
+            $page->MxUrl('lien',lien_sous_galerie($gallery->getName()));
+         }
+         // Sous galerie qui possède des photos
+         else {
+            remplirConsulterGalerie($page, $gallery, $dir, $niceName);
+         }
+
          $page->MxUrl('ssgalerie.lien', lien_sous_galerie($gallery->getName()));
-         $page->MxUrl('lien',lien_sous_galerie($gallery->getName()));
       }
+
+      // Galerie de photos normale (pas privée et sans ss galerie)
       else {
-         $page->MxBloc('ssgalerie','delete');
+         $page->MxBloc ('ssgalerie', 'delete');
+         $page->MxBloc('galerieprivee', 'delete');
+         remplirConsulterGalerie($page, $gallery, $dir, $niceName);
       }
       
       $page->MxBloc ('', 'loop');
    }
 }
-
-
 $page->MxWrite();
 
 ?>

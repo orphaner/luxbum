@@ -1,12 +1,14 @@
 <?php
 
-  //==============================================================================
-  // Classe luxBumGallery : une galerie
-  //==============================================================================
+include(FONCTIONS_DIR.'/private.php');
 
-  /**
-   * Structure représentant une galerie
-   */
+//==============================================================================
+// Classe luxBumGallery : une galerie
+//==============================================================================
+
+/**
+ * Structure représentant une galerie
+ */
 class luxBumGallery extends luxBum
 {
    /**-----------------------------------------------------------------------**/
@@ -21,6 +23,8 @@ class luxBumGallery extends luxBum
    var $list = array ();
    var $sortList = array();
    var $sortPosition = 0;
+   var $private = false;
+   var $listSubGallery = array();
 
 
    /**-----------------------------------------------------------------------**/
@@ -38,10 +42,9 @@ class luxBumGallery extends luxBum
       $this->dir = $dir;
       $list = split('/', $dir);
       $this->name = $list[count($list) - 1];
-      //echo "<strong>$this->dir</strong> : <em>!! $this->name !!</em><br/>";
-
 
       $this->_completeInfos ();
+      $this->_loadPrivate();
       $this->_completeDefaultImage ();
    }
 
@@ -49,6 +52,7 @@ class luxBumGallery extends luxBum
     * Remplit les informations suivantes sur la galerie :
     * - nombre d'images
     * - taille des images en octets
+    * - private : galerie privée ou non
     * @access private
     */
    function _completeInfos () {
@@ -63,6 +67,15 @@ class luxBumGallery extends luxBum
          $fd->close();
       }
    }
+
+   /**
+    *
+    */
+   function _loadPrivate() {
+      $priv = new PrivateManager();
+      $this->private = $priv->isPrivate($this->dir);
+   }
+
 
    /**-----------------------------------------------------------------------**/
    /** Getter et setter */
@@ -179,6 +192,23 @@ class luxBumGallery extends luxBum
       return $this->sortPosition;
    }
 
+   /**
+    * Affecte la galerie en privée
+    * @param Boolean Galerie privée ou non
+    */
+//     function setPrivate ($private) {
+//        $this->private = ($private == true);
+//     }
+
+   /**
+    * Retourne si la galerie est privée ou non
+    * @return Boolean Galerie privée ou non (true / false)
+    */
+   function isPrivate() {
+      return $this->private;
+   }
+
+
    /**-----------------------------------------------------------------------**/
    /** Descriptions / dates */
    /**-----------------------------------------------------------------------**/
@@ -258,8 +288,6 @@ class luxBumGallery extends luxBum
    /** Fonctions des sous galeries */
    /**-----------------------------------------------------------------------**/
 
-   var $listSubGallery = array();
-
    /**
     *
     */
@@ -292,7 +320,6 @@ class luxBumGallery extends luxBum
     */
    function addSubGalleries() {
       // Ouverture du dossier des photos
-      //echo "AjoutSSGAL [path]: ".$this->getFsPath ($this->dir)."<br>";
       if ($dir_fd = opendir ($this->getFsPath ($this->dir))) {
 
          // Parcours des photos du dossiers
@@ -528,20 +555,9 @@ class luxBumGallery extends luxBum
          closedir ($apercu_fd);
       }
 
-      //echo "<br>DEFAULT: $default <br>";
-
       $this->preview = $default;
    }
 
-   /**
-    * Retourne le chemin vers l'image par défaut. 
-    * Celle ci est créée si elle n'existe pas.
-    */
-   //function getThumbPath () {
-      //$nuxImage = new luxBumImage ($this->getFsPath ($this->dir), $this->preview);
-      //return $nuxImage->getAsThumb ();
-   // return "dede";
-   //}
    
    /**
     * Retourne le lien de la vignette de l'image vers le script qui génére
@@ -549,11 +565,17 @@ class luxBumGallery extends luxBum
     * @return Lien de la vignette de l'image vers le script de génération
     */
    function getIndexLink () {
+      // Galerie privée
+      if ($this->isPrivate()) {
+         return '_images/folder_locked.png';
+      }
+
       // Sous galerie sans photos
       if ($this->getCount() == 0) {
          return '_images/folder_image.png';
       }
-      
+
+      $this->_completeDefaultImage ();      
       // La galerie contient des photos
       if (USE_REWRITE == 'on') {
          $prefix = 'image/';

@@ -14,7 +14,7 @@ include (FONCTIONS_DIR.'luxbum.class.php');
 //------------------------------------------------------------------------------
 // Parsing des paramètres
 //------------------------------------------------------------------------------
-if (ereg ('^('.THUMB_DIR.'|'.PREVIEW_DIR.'|index)-(.+)-(.+)$', $_SERVER['QUERY_STRING'], $argv) ) {
+if (ereg ('^('.THUMB_DIR.'|'.PREVIEW_DIR.'|index|full)-(.+)-(.+)$', $_SERVER['QUERY_STRING'], $argv) ) {
    $type = $argv[1];
    $dir  = $argv[2];
    $file = $argv[3];
@@ -32,6 +32,8 @@ if ($type == 'vignette/') {
 }
 else if ($type == 'index') {
        $newfile = $luxAff->getAsThumb(85, 85);
+}
+else if ($type == 'full') {
 }
 else {
     $newfile = $luxAff->getAsPreview();
