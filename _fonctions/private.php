@@ -74,7 +74,7 @@ class PrivateManager
    function &getInstance() {
       static $instance;
       if (!$instance) {
-         $instance = new Private();
+         $instance = new PrivateManager();
       }
       return $instance;
    }

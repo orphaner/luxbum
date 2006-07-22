@@ -71,7 +71,7 @@ class luxBumGallery extends luxBum
     *
     */
    function _loadPrivate() {
-      $priv = new PrivateManager();
+      $priv = PrivateManager::getInstance(); //new PrivateManager();
       $this->private = $priv->isPrivate($this->dir);
    }
 
