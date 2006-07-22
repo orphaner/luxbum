@@ -45,7 +45,6 @@ class luxBumGallery extends luxBum
 
       $this->_completeInfos ();
       $this->_loadPrivate();
-      $this->_completeDefaultImage ();
    }
 
    /**
