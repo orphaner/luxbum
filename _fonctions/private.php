@@ -1,8 +1,6 @@
 <?php
 
 
-
-include (PHOTOS_DIR.'p.php');
 include_once(FONCTIONS_DIR.'class/files.php');
 
 class Pass {
@@ -53,7 +51,7 @@ class Pass {
     * @param X pass
     */
    function setPass ($pass) {
-      $this->pass = $pass;
+      $this->pass = sha1($pass);
    }
 }
 
@@ -65,28 +63,23 @@ class PrivateManager
 
 
    function PrivateManager () {
-      $this->load();
    }
 
    /**
-    *
+    * Singleton permettant de charger un PrivateManager
     */
    function &getInstance() {
       static $instance;
       if (!$instance) {
-         $instance = new PrivateManager();
+         if (is_file (PHOTOS_DIR.PASS_FILE)) {
+            $instanceSerial = implode ("", @file (PHOTOS_DIR.PASS_FILE));
+            $instance = unserialize ($instanceSerial);
+         }
+         else {
+            $instance = new PrivateManager();
+         }
       }
       return $instance;
-   }
-
-   /**
-    *
-    */
-   function load() {
-      if (is_file (PHOTOS_DIR.PASS_FILE)) {
-         $dede = implode ("", @file (PHOTOS_DIR.PASS_FILE));
-         $this = unserialize ($dede);
-      }
    }
 
    /**

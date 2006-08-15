@@ -37,7 +37,6 @@ class Dispatcher
 //      $GLOBALS['_PX_render']['error'] = new CError();
 
       $query = preg_replace('#^(/)+#', '/', '/'.$query);
-
       Dispatcher::loadBuiltinControllers();
 //      Dispatcher::loadControllers();
       Dispatcher::match($query);
@@ -59,21 +58,22 @@ class Dispatcher
 
       $res = 200;
       foreach ($GLOBALS['_PX_control'] as $key => $control) {
-         if (preg_match($control['regex'], $query)) {
+         if (preg_match($control['regex'], $query, $match)) {
             if ($res == 404 and $control['priority'] < 8) {
                continue;
             }
+
             //          config::setVar('action', $control['plugin']);
             $res = call_user_func(array($control['plugin'], 'action'), 
-                                  $query);
-//             if ($res != 301 and $res != 404) {
-//                showDebugInfo();
-//                return;
-//             }
-//             if ($res == 301 and !empty($GLOBALS['_PX_redirect'])) {
-//                header('Location: '.$GLOBALS['_PX_redirect']);
-//                return;
-//             }
+                                  $match);
+            if ($res != 301 and $res != 404) {
+               showDebugInfo();
+               return;
+            }
+            if ($res == 301 and !empty($GLOBALS['_PX_redirect'])) {
+               header('Location: '.$GLOBALS['_PX_redirect']);
+               return;
+            }
          }
       }
    }
@@ -87,21 +87,15 @@ class Dispatcher
     */
    function loadBuiltinControllers()
    {
-      Dispatcher::registerController('Index', '#^/ssgal(.*)\.html$#i', 4);
-//      Dispatcher::registerController('Error404', '#^/error404$#', 4);
-  
-//       Dispatcher::registerController('RSS', '#^/rss([^/]*)$#i', 4);
-//       Dispatcher::registerController('Error404', '#^/error404$#', 4);
-//       Dispatcher::registerController('Search', '#^/search/(.*)$#i', 4);
-//       Dispatcher::registerController('Comment', '#^/comments/(\d+)/*$#i', 4);
-//       Dispatcher::registerController('Category',
-//                                      '#^(.*/)(index)([0-9]*)$|^.*/$|^$#i',
-//                                      6);
-//       Dispatcher::registerController('Article',
-//                                      '#^(.*/)([a-z]|[a-z][a-z0-9\_\-]*[a-z])(\d*)$#i',
-//                                      7);
-//       Dispatcher::registerController('News', '#^(.*/)(\d+)\-([^\.]*)$#i', 7);
-//       Dispatcher::registerController('Error404', '#.*#', 9);
+      Dispatcher::registerController('IndexView', '#^/$#i', 4);
+      Dispatcher::registerController('IndexView', '#^/ssgal-(.*)\.html$#i', 4);
+      Dispatcher::registerController('VignetteView', '#^/vignette\-(.*)\.html$#i', 4);
+      Dispatcher::registerController('VignetteView', '#^/vignette\-(.*)\-(.*)\.html$#i', 4);
+      Dispatcher::registerController('AffichageView', '#^/affichage\-(.*)\-(.*)\.html$#i', 4);
+      Dispatcher::registerController('InfosExifView', '#^/exif\-(.*)\-(.*)\.html$#i', 4);
+      Dispatcher::registerController('CommentaireView', '#^/commentaires\-(.*)\-(.*)\.html$#i', 4);
+      Dispatcher::registerController('SlideShowView', '#^/slideshow\-(.*)\.html$#i', 4);
+      Dispatcher::registerController('SlideShowView', '#^/slideshow\-(.*)\-([0-9]+)\.html$#i', 4);
    }
 
    /**

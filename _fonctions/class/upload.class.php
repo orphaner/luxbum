@@ -211,7 +211,9 @@ class Upload {
       $this-> Required     = false;
       $this-> TrackError   = true;
       $this-> ArrOfError   = Array();
-      $this-> MaxFilesize  = ereg_replace('M', '', ini_get('upload_max_filesize')) * 1024;
+      $upSize =  ereg_replace('M', '',ini_get('upload_max_filesize'));
+      $upSize =  ereg_replace('G', '',$upSize);
+      $this-> MaxFilesize  = $upSize * 1024;
    }
         
         

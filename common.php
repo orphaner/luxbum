@@ -25,6 +25,7 @@ define ('DEFAULT_INDEX_FILE', 'defaut.txt');
 define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
 define ('PASS_FILE', 'pass.php');
 
+define ('TEMPLATE_DIR', 'templates/');
 
 
 //------------------------------------------------------------------------------
@@ -32,7 +33,7 @@ define ('PASS_FILE', 'pass.php');
 //------------------------------------------------------------------------------
 include (CONF_DIR.'config.php');
 include (CONF_DIR.'themes_css.php');
-include (LIB_DIR.'ModeliXe.php');
+//include (LIB_DIR.'ModeliXe.php');
 
 
 //------------------------------------------------------------------------------

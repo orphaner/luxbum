@@ -2,6 +2,7 @@
 
 include(FONCTIONS_DIR.'/private.php');
 
+
 //==============================================================================
 // Classe luxBumGallery : une galerie
 //==============================================================================
@@ -9,7 +10,7 @@ include(FONCTIONS_DIR.'/private.php');
 /**
  * Structure représentant une galerie
  */
-class luxBumGallery /*extends luxBum*/
+class luxBumGallery extends Recordset2
 {
    /**-----------------------------------------------------------------------**/
    /** Champs de la classe */
@@ -20,7 +21,7 @@ class luxBumGallery /*extends luxBum*/
    var $size;
    var $sortType;
    var $sortOrder;
-   var $list = array ();
+   //var $list = array ();
    var $sortList = array();
    var $sortPosition = 0;
    var $private = false;
@@ -36,6 +37,7 @@ class luxBumGallery /*extends luxBum*/
     * @param String $dir Dossier de la galerie
     */
    function luxBumGallery ($dir, $preview = '') {
+      parent::Recordset2();
       $this->preview = $preview;
       $this->size = 0;
       $this->count = 0; 
@@ -256,8 +258,8 @@ class luxBumGallery /*extends luxBum*/
 
       // On ajoute les images non présentes dans le fichier de description
       if ($fd = fopen ($this->dirPath . DESCRIPTION_FILE, 'a')) {
-         reset ($this->list);
-         while (list (,$img) = each ($this->list)) {
+         reset ($this->arrayList);
+         while (list (,$img) = each ($this->arrayList)) {
             $name = $img->getImageName ();
             if (!in_array ($name, $desc)) {
                fputs ($fd, "$name||\n");
@@ -343,7 +345,6 @@ class luxBumGallery /*extends luxBum*/
     * Les images sont triées suivant les options.
     */
    function addAllImages () {
-      $list = array ();
 
       // Ouverture du dossier des photos
       if ($dir_fd = opendir ($this->dirPath)) {
@@ -355,25 +356,26 @@ class luxBumGallery /*extends luxBum*/
          // Parcours des photos du dossiers
          while ($current_file = readdir ($dir_fd)) {
             if (files::isPhotoFile ($this->dir, $current_file)) {
-               $list[$current_file] = new luxBumImage ($this->dir, $current_file);
+               $imageTemp = new luxBumImage ($this->dir, $current_file);
                 
                // On affecte les dates / descriptions
                if (array_key_exists ($current_file, $desc)) {
                   list ($imgDate, $imgDescription) = explode ("|", $desc[$current_file], 2);
-                  $list[$current_file]->setAllDescription ($imgDescription, $imgDate);
+                  $imageTemp->setAllDescription ($imgDescription, $imgDate);
                }
                 
                // On affecte l'ordre
                if (array_key_exists ($current_file, $this->sortList)) {
-                  $list[$current_file]->setSortPosition($this->sortList[$current_file]);
+                  $imageTemp->setSortPosition($this->sortList[$current_file]);
                }
+               $this->addToList($imageTemp);
             }
          }
          closedir ($dir_fd);
       }
       
-      if (count ($list) > 0) {
-         $this->list = $this->_sortImageArray ($list, $this->sortType, $this->sortOrder);
+      if (count ($this->arrayList) > 0) {
+         $this->arrayList = $this->_sortImageArray ($this->arrayList, $this->sortType, $this->sortOrder);
       }
    }
    
@@ -386,8 +388,8 @@ class luxBumGallery /*extends luxBum*/
       $index = 0;
       $trouve = false;
 
-      reset ($this->list);
-      while (!$trouve && list (,$img) = each ($this->list)) {
+      $this->reset();
+      while (!$trouve && list (,$img) = each ($this->arrayList)) {
          $name = $img->getImageName ();
          if ($name == $imgName) {
             $trouve = true;
@@ -396,7 +398,7 @@ class luxBumGallery /*extends luxBum*/
             $index++;
          }
       }
-
+      $this->reset();
       if (!$trouve) {
          return -1;
       }

@@ -1,5 +1,5 @@
 <?php 
-include_once(FONCTIONS_DIR.'extinc/class.recordset.php');
+
 
 //==============================================================================
 // Classe luxBumIndex : Index de toutes les galeries
@@ -8,16 +8,18 @@ include_once(FONCTIONS_DIR.'extinc/class.recordset.php');
 /**
  * Classe contenant l'index de toutes les galeries
  */
-class luxBumIndex extends Recordset
+class luxBumIndex extends Recordset2
 {
-   var $galleryList = array ();
+//   var $galleryList = array ();
    var $sortList = array();
    var $sortType;
    var $sortOrder;
    var $dir;
    
    function luxBumIndex ($dir) {
+      parent::RecordSet2();
       $this->dir = $dir;
+      $this->setField('dir', $dir.'oo');
       $this->_loadSort ();
    }
    
@@ -64,6 +66,13 @@ class luxBumIndex extends Recordset
       return count ($this->galleryList);
    }
 
+   /**
+    * Retourne le dossier de la galerie
+    */
+   function getDir () {
+      return $this->dir;
+   }
+
 
    /**-----------------------------------------------------------------------**/
    /** Remplissage de la liste des galeries */
@@ -81,12 +90,13 @@ class luxBumIndex extends Recordset
 
       if ($galleryTemp->getCount() > 0 
           || $galleryTemp->hasSubGallery()) {
-         $this->galleryList[$name] = $galleryTemp;
          
          // On affecte l'ordre
          if (array_key_exists ($name, $this->sortList)) {
-            $this->galleryList[$name]->setSortPosition($this->sortList[$name]);
+            $galleryTemp->setSortPosition($this->sortList[$name]);
          }
+
+         $this->addToList($galleryTemp);
       }
    }
 
@@ -114,7 +124,9 @@ class luxBumIndex extends Recordset
             }
          }
          closedir ($dir_fd);
-         $this->galleryList = $this->_sortGalleryArray($this->galleryList, $this->sortType, $this->sortOrder);
+         if (count ($this->arrayList) > 0) {
+            $this->arrayList = $this->_sortGalleryArray($this->arrayList, $this->sortType, $this->sortOrder);
+         }
       }
    }
    

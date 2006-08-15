@@ -22,4 +22,5 @@ define ('ALLOW_DL_SELECTION', 'off');
 define ('IMAGE_BORDER_PIXEL', '6');
 define ('IMAGE_BORDER_MAX_NUANCE', '150');
 define ('IMAGE_BORDER_HEX_COLOR', 'FFFFFF');
+define ('TEMPLATE', 'luxbum');
 ?>

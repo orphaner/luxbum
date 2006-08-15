@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?php echo '<?xml version="1.0" encoding="ISO-8859-1"?>'; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
   <head>
@@ -8,31 +8,34 @@
     <meta http-equiv="Content-Style-Type" content="text/css"/>
     <meta http-equiv="Content-Language" content="fr"/>
     <script  type="text/javascript" src="_javascript/slideshow.js"></script>
-    <title>Slideshow</title>
+    <title><?php lbPageTitle(); ?></title>
+
+    <?php lbFavicon();?>
+    <?php lbPageStyle();?>
 
 <style type="text/css">
 #slide {
   /*background-color: black;*/
   margin-left:auto;
   margin-right: auto;
-  height:<mx:text id="slide_height_full"/>;
-  width:<mx:text id="slide_width"/>;
+  height:510px;
+  width:650px;
   position:relative;
 }
 
 #cont_1, #cont_2{
-  height:<mx:text id="slide_height"/>;
+  height:485px;
   position:absolute;
   left:0;
   top:0;
   background:transparent;
   text-align:center;
-  width:<mx:text id="slide_width"/>;
+  width:650px;
 }
 
 #image_slide1 , #image_slide2{
   /*height:inherit;
-  height:<mx:text id="slide_height"/>;*/
+  height:485px;*/
 }
 
 #image_slide1 {
@@ -54,7 +57,7 @@
   bottom:0;
   left:0;
   z-index:1000;
-  width:<mx:text id="slide_width"/>;
+  width:650px;
 }
 
 #s_prev, #s_next, #s_play, #s_pause, #s_info, #s_options, #s_help {
@@ -129,17 +132,15 @@
 
 <script type="text/javascript">
 <!--
-var photosDir = "<mx:text id="photosDir"/>";
-var currentDir = "<mx:text id="dir"/>";
+var photosDir = "<?php lbPhotoDir();?>";
+var currentDir = "<?php lbSlideshowDir();?>";
 var photosURL = new Array();
 
-<mx:bloc id="photosSRC">
-photosURL[<mx:text id="i"/>] = "<mx:text id="photo"/>";
-</mx:bloc id="photosSRC">
+<?php lbSlideshowPhotoList();?>
 
 // Options
-var smoothtrans = <mx:text id="fading"/>; // Set this to false to prevent any fading effect
-var slide_speed = <mx:text id="defaultspeed"/>;
+var smoothtrans = <?php lbSlideshowFadingText();?>; // Set this to false to prevent any fading effect
+var slide_speed = <?php lbSlideshowTime();?>;
 -->
 </script>
 
@@ -163,8 +164,8 @@ var slide_speed = <mx:text id="defaultspeed"/>;
 
   <div id="s_options_box">
     <h2>Options</h2>
-    <input type="checkbox" id="smoothtrans" mXattribut="checked:fading"/> Activer le fondu<br />
-    <input type="text" id="slide_speed" size="1" maxlength="1" mXattribut="value:defaultspeed" /> Temps entre chaque photo (en secondes) <br />
+    <input type="checkbox" id="smoothtrans" checked="<?php lbSlideshowFadingCheckbox();?>"/> Activer le fondu<br />
+    <input type="text" id="slide_speed" size="1" maxlength="1" value="<?php lbSlideshowTime();?>" /> Temps entre chaque photo (en secondes) <br />
   </div>
   <div id="s_exif_info"></div>
   <div id="s_help_box">

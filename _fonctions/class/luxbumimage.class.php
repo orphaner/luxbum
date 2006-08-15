@@ -409,12 +409,15 @@ class luxBumImage
     */
    function getNbComment () {
       global $mysql;
-      $query = sprintf ("SELECT count(*) FROM ".DBL_PREFIX."commentaire "
-         ."WHERE galerie_comment=%s AND photo_comment=%s AND pub_comment=%s",
-         $mysql->escapeString($this->dir),
-         $mysql->escapeString($this->img),
-         $mysql->escapeSet(1));
-      return $mysql->DbCount ($query);
+      if ($mysql != null) {
+         $query = sprintf ("SELECT count(*) FROM ".DBL_PREFIX."commentaire "
+                           ."WHERE galerie_comment=%s AND photo_comment=%s AND pub_comment=%s",
+                           $mysql->escapeString($this->dir),
+                           $mysql->escapeString($this->img),
+                           $mysql->escapeSet(1));
+         return $mysql->DbCount ($query);
+      }
+      return 0;
    }
 
    /**-----------------------------------------------------------------------**/
