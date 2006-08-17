@@ -26,7 +26,7 @@ define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
 define ('PASS_FILE', 'pass.php');
 
 define ('TEMPLATE_DIR', 'templates/');
-define ('TEMPLATE', 'photoblog');
+define ('TEMPLATE', 'luxbum');
 
 include (TEMPLATE_DIR.TEMPLATE.'/css/themes_css.php');
 include (TEMPLATE_DIR.TEMPLATE.'/conf_'.TEMPLATE.'.php');

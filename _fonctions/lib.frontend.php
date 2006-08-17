@@ -115,7 +115,7 @@ function lbHasPhotos() {
    $img = $GLOBALS['_LB_render']['res']->f();   
    return ($img->getCount() > 0);
 }
-function lbGalleryLinkPrivate($s, $return = false) {
+function lbGalleryLinkPrivate($s, $text, $return = false) {
    $res = $GLOBALS['_LB_render']['res']->f();
    if (!$res->isPrivate()) {
       return ;
@@ -193,7 +193,7 @@ function lbDefaultImage($return = false) {
    if ($return) return $result;
    echo $result;
 }
-function lbGalleryLinkSlideshow($s, $return = false) {   
+function lbGalleryLinkSlideshow($s, $text, $return = false) {   
    if (SHOW_SLIDESHOW == 'off') {
       return ;
    }
@@ -202,7 +202,7 @@ function lbGalleryLinkSlideshow($s, $return = false) {
    }
    $img = $GLOBALS['_LB_render']['res']->f();
    $dir = $img->getDir();
-   $link = sprintf('<a href="#" onclick="window.open(\'%s\',\'Diaporama\',\'width=700,height=545,scrollbars=yes,resizable=yes\');">%s</a>', link::slideshow($dir), _('Diaporama'));
+   $link = sprintf('<a href="#" onclick="window.open(\'%s\',\'Diaporama\',\'width=700,height=545,scrollbars=yes,resizable=yes\');">%s</a>', link::slideshow($dir), $text);
    $result = sprintf($s, $link);
    if ($return) return $result;
    echo $result;
@@ -211,7 +211,7 @@ function lbGalleryLinkSlideshow($s, $return = false) {
 function lbPageStyle ($return = false) {
    global $themes_css;
    if (!array_key_exists (COLOR_THEME, $themes_css)) {
-      $default = 'photoblog';
+      $default = DEFAULT_CSS;
    } 
    else {
       $default = COLOR_THEME;

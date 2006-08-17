@@ -36,10 +36,10 @@
           
           <div class="consulter">
             <ul>
-              <?php lbGalleryLinkPrivate("<li>%s</li>");?>
-              <?php lbGalleryLinkSubGallery("<li>%s</li>");?>
-              <?php lbGalleryLinkConsult("<li>%s</li>");?>
-              <?php lbGalleryLinkSlideshow("<li>%s</li>");?>
+              <?php lbGalleryLinkPrivate("<li>%s</li>", _('Private gallery'));?>
+              <?php lbGalleryLinkSubGallery("<li>%s</li>", _('Sub gallery'));?>
+              <?php lbGalleryLinkConsult("<li>%s</li>", _('Consult'));?>
+              <?php lbGalleryLinkSlideshow("<li>%s</li>", _('Slideshow'));?>
             </ul>
           </div>
 

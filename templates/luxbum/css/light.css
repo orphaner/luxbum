@@ -88,7 +88,7 @@ div.spacer {
 
 h1 {
 	text-align:center;
-	background:url('../_images/luxbum_h1.jpg') center no-repeat;
+	background:url('../images/luxbum_h1_light.jpg') center no-repeat;
 	height:160px;
 }
 h1 span {
@@ -151,7 +151,7 @@ span.infos {
 }
 .consulter ul li a {
     padding: 0 0 0 12px;
-    background: transparent url('../_images/fleche1.png') no-repeat top left;
+    background: transparent url('../images/fleche_light.png') no-repeat top left;
 }
 
 
@@ -300,10 +300,6 @@ ol.tree li {
 	-border-radius:6px;
 	padding: 5px 5px 5px 5px;
 	float:left;
-}
-#iframeaffichage iframe {
-	width:660px;
-	height:530px;
 }
 #affichage_photo {
 	text-align:center;
