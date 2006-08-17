@@ -28,7 +28,7 @@
           <?php lbDefaultImage(); ?>
           
           <div class="albumdesc">
-            <?php lbGalleryLinkPrivate("<h3>%s</h3>");?>
+            <?php lbGalleryLinkPrivate("<h3>%s</h3>", _('Private gallery'));?>
             <?php echo  ; 
                   lbGalleryLinkSubGallery('<h3>'._('Sub gallery').'&nbsp;:&nbsp;'."%s</h3>",lbGalleryNiceName(true));?>
             <?php lbGalleryLinkConsult("<h3>%s</h3>", lbGalleryNiceName(true));?>

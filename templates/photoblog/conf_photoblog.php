@@ -7,4 +7,5 @@ define ('INDEX_THUMB_H', 85);
 define ('PREVIEW_W', 595);
 define ('PREVIEW_H', 444);
 define ('VIGNETTE_STYLE', 'vignette3col');
+define ('DEFAULT_CSS', 'photoblog');
 ?>
