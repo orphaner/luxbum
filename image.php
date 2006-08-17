@@ -28,15 +28,15 @@ verif::isImage ($dir, $file);
 
 $luxAff = new luxBumImage ($dir, $file);
 if ($type == 'vignette/') {
-    $newfile = $luxAff->getAsThumb(IMG_W, IMG_H);
+    $newfile = $luxAff->getAsThumb(VIGNETTE_THUMB_W, VIGNETTE_THUMB_H);
 }
 else if ($type == 'index') {
-       $newfile = $luxAff->getAsThumb(85, 85);
+       $newfile = $luxAff->getAsThumb(INDEX_THUMB_W, INDEX_THUMB_H);
 }
 else if ($type == 'full') {
 }
 else {
-    $newfile = $luxAff->getAsPreview();
+    $newfile = $luxAff->getAsPreview(PREVIEW_W, PREVIEW_H);
 }
 
 

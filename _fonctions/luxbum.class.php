@@ -114,8 +114,8 @@ class luxBum {
    /**
     * Retourne le chemin de l'image prévisualisation $img du dossier $dir d'images
     */
-   function getPreviewImage ($dir, $img) {
-      return luxbum::getPreviewPath ($dir) . $img;
+   function getPreviewImage ($dir, $img, $w, $h) {
+      return luxbum::getPreviewPath ($dir) . $w . '_' . $h . $img;
    }
 }
 

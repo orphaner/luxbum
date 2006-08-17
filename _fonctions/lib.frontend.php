@@ -61,6 +61,9 @@ class link {
    function exif($dir, $img) {
       return  link::prefix().'exif-'.$dir.'-'.$img.'.html';
    }
+   function affichage($dir, $img) {
+      return  link::prefix().'affichage-'.$dir.'-'.$img.'.html';
+   }
 }
 
 
@@ -73,41 +76,47 @@ function lbPageTitle($return = false) {
  Functions to display the index page
  -----------------------------------------------------------------------------*/
 function lbGalleryH1($return = false) {
-   $result = $GLOBALS['_LB_render']['res']->fg('dir');
+   $result = $GLOBALS['LB']['title'];
    if ($return) return $result;
    echo $result;
 }
 
 function lbGalleryNiceName($return = false) {
-   $result = $GLOBALS['_LB_render']['res']->f()->getNiceName();
+   $img = $GLOBALS['_LB_render']['res']->f();
+   $result = $img->getNiceName();
    if ($return) return $result;
    echo $result;
 }
 function lbGalleryName($return = false) {
-   $result = $GLOBALS['_LB_render']['res']->f()->getName();
+   $img = $GLOBALS['_LB_render']['res']->f();
+   $result = $img->getName();
    if ($return) return $result;
    echo $result;
 }
 function lbGallerySize($return = false) {
-   $result = $GLOBALS['_LB_render']['res']->f()->getSize();
+   $img = $GLOBALS['_LB_render']['res']->f();
+   $result = $img->getSize();
    if ($return) return $result;
    echo $result;
 }
 function lbGalleryNiceSize($return = false) {
-   $result = $GLOBALS['_LB_render']['res']->f()->getNiceSize();
+   $img = $GLOBALS['_LB_render']['res']->f();
+   $result = $img->getNiceSize();
    if ($return) return $result;
    echo $result;
 }
 function lbGalleryNbPhotos($return = false) {
-   $result = $GLOBALS['_LB_render']['res']->f()->getCount();
+   $img = $GLOBALS['_LB_render']['res']->f();
+   $result = $img->getCount();
    if ($return) return $result;
    echo $result;
 }
 function lbHasPhotos() {
-   return ($GLOBALS['_LB_render']['res']->f()->getCount() > 0);
+   $img = $GLOBALS['_LB_render']['res']->f();   
+   return ($img->getCount() > 0);
 }
 function lbGalleryLinkPrivate($s, $return = false) {
-   $res =& $GLOBALS['_LB_render']['res']->f();
+   $res = $GLOBALS['_LB_render']['res']->f();
    if (!$res->isPrivate()) {
       return ;
    }
@@ -115,30 +124,33 @@ function lbGalleryLinkPrivate($s, $return = false) {
    if ($return) return $result;
    echo $result;
 }
-function lbGalleryLinkSubGallery($s, $return = false) {
-   $res =& $GLOBALS['_LB_render']['res']->f();
+function lbGalleryLinkSubGallery($s, $text, $return = false) {
+   $res = $GLOBALS['_LB_render']['res']->f();
    if (!$res->hasSubGallery()) {
       return ;
    }
    $link =  link::subGallery($res->getName());
-   $link = sprintf('<a href="%s">%s</a>', $link, _('Sous galeries'));
+   $link = sprintf('<a href="%s">%s</a>', $link, $text);
    $result = sprintf($s, $link);
    if ($return) return $result;
    echo $result;
 }
-function lbGalleryLinkConsult($s, $return = false) {
+function lbGalleryLinkConsult($s, $text, $return = false) {
    if (!lbHasPhotos()) {
       return ;
    }
-   $l =  link::vignette ($GLOBALS['_LB_render']['res']->f()->getDir());
-   $link = sprintf('<a href="%s">%s</a>', $l, _('consulter'));
+
+   $img = $GLOBALS['_LB_render']['res']->f(); 
+   $l =  link::vignette ($img->getDir());
+   $link = sprintf('<a href="%s">%s</a>', $l, $text);
    $result = sprintf($s, $link);
    if ($return) return $result;
    echo $result;
 }
-function lbMenuNav($s, $elt, $return = false) {
-   $res =& $GLOBALS['_LB_render']['res'];
-   $list = explode('/',  $res->getDir());
+function lbMenuNav($s, $elt, $sep = '&#187', $return = false) {
+   $res = $GLOBALS['_LB_render']['res'];
+   $dir = files::removeTailSlash($res->getDir());
+   $list = explode('/', $dir);
    $count = count($list);
    if ($list[0] === '') {
       return;
@@ -146,25 +158,27 @@ function lbMenuNav($s, $elt, $return = false) {
    $result = '';
    $concat = '';
    for ($i = 0 ; $i < $count ; $i++) {
-      $concat .= $list[$i].'/';
-      $link = link::subGallery($concat);
       $name = luxbum::niceName($list[$i]);
       if ($i == $count-1) {
-         $result .= sprintf($elt,  sprintf('&#187; %s', $name));
+         $concat .= $list[$i];
+         $link = link::vignette($concat);
+//         $result .= sprintf($elt,  sprintf($sep.' %s', $name));
       }
       else {
-         $result .= sprintf($elt, 
-                            sprintf('&#187; <a href="%s">%s</a>', 
-                                    $link, $name)
-            );
+         $concat .= $list[$i].'/';
+         $link = link::subGallery($concat);
       }
+      $result .= sprintf($elt, 
+                         sprintf($sep.' <a href="%s">%s</a>', 
+                                 $link, $name)
+         );
    }
    $result = sprintf($s, $result);
    if ($return) return $result;
    echo $result;
 }
 function lbDefaultImage($return = false) {
-   $res =& $GLOBALS['_LB_render']['res']->f();
+   $res = $GLOBALS['_LB_render']['res']->f();
    $img = $res->getIndexLink();
    if ($res->isPrivate()) {
       $link = 'private';
@@ -186,7 +200,8 @@ function lbGalleryLinkSlideshow($s, $return = false) {
    if (!lbHasPhotos()) {
       return ;
    }
-   $dir =  $GLOBALS['_LB_render']['res']->f()->getDir();
+   $img = $GLOBALS['_LB_render']['res']->f();
+   $dir = $img->getDir();
    $link = sprintf('<a href="#" onclick="window.open(\'%s\',\'Diaporama\',\'width=700,height=545,scrollbars=yes,resizable=yes\');">%s</a>', link::slideshow($dir), _('Diaporama'));
    $result = sprintf($s, $link);
    if ($return) return $result;
@@ -196,7 +211,7 @@ function lbGalleryLinkSlideshow($s, $return = false) {
 function lbPageStyle ($return = false) {
    global $themes_css;
    if (!array_key_exists (COLOR_THEME, $themes_css)) {
-      $default = 'light';
+      $default = 'photoblog';
    } 
    else {
       $default = COLOR_THEME;
@@ -211,7 +226,7 @@ function lbPageStyle ($return = false) {
          $rel = 'alternate stylesheet';
       }
       $result .= sprintf('<link rel="%s" href="%s" title="%s" type="text/css"/>',
-                         $rel,  STYLE_DIR.'style_'.$theme.'.css', $title);
+                         $rel,  TEMPLATE_DIR. TEMPLATE.'/css/'.$theme.'.css', $title);
    }
    if ($return) return $result;
    echo $result;
@@ -240,7 +255,7 @@ function lbResTotal($return = false) {
  
  -----------------------------------------------------------------------------*/
 function lbVignetteStyle($return = false) {
-   $img =& $GLOBALS['_LB_render']['res']->f();
+   $img = $GLOBALS['_LB_render']['res']->f();
    $dir = $img->getImageDir();
    $name = $img->getImageName();
    if (isSet($_SESSION['luxbum'][$dir][$name])) {
@@ -258,8 +273,16 @@ function lbColStyle($return = false) {
    echo $result;
 }
 function lbLinkVignette($return = false) {
+   $img = $GLOBALS['_LB_render']['res']->f();
    $result = link::vignette($GLOBALS['_LB_render']['res']->getDir(),
-                            $GLOBALS['_LB_render']['res']->f()->getImageName());
+                            $img->getImageName());
+   if ($return) return $result;
+   echo $result;
+}
+function lbLinkAffichage($return = false) {
+   $img = $GLOBALS['_LB_render']['res']->f();
+   $result = link::affichage($GLOBALS['_LB_render']['res']->getDir(),
+                             $img->getImageName());
    if ($return) return $result;
    echo $result;
 }
@@ -269,7 +292,7 @@ function lbPathPhoto($return = false) {
    echo $result;
 }
 function lbDisplayVignette($return = false) {
-   $img =& $GLOBALS['_LB_render']['res']->f();
+   $img = $GLOBALS['_LB_render']['res']->f();
    $path = $img->getThumbLink();
    $dimensions = $img->getThumbResizeSize();
    $result = sprintf ('<img src="%s" %s/>', $path, $dimensions);
@@ -277,7 +300,7 @@ function lbDisplayVignette($return = false) {
    echo $result;
 }
 function lbDisplayApercu($return = false) {
-   $img =& $GLOBALS['_LB_render']['img'];
+   $img = $GLOBALS['_LB_render']['img'];
    $path = $img->getPreviewLink();
    $dimensions = $img->getPreviewResizeSize();
    $result = sprintf ('<img src="%s" %s/>', $path, $dimensions);
@@ -285,14 +308,14 @@ function lbDisplayApercu($return = false) {
    echo $result;
 }
 function lbPhotoDescription($return = false) {
-   $img =& $GLOBALS['_LB_render']['img'];
+   $img = $GLOBALS['_LB_render']['img'];
    $img->findDescription();
    $result = $img->getDateDesc();
    if ($return) return $result;
    echo $result;
 }
-function lbImagePrev($return = false) {
-   $res =& $GLOBALS['_LB_render']['res'];
+function lbVignettePrev($s, $return = false) {
+   $res = $GLOBALS['_LB_render']['res'];
    if ($res->isFirst()) {
       $result =  '&nbsp;';
    }
@@ -300,14 +323,14 @@ function lbImagePrev($return = false) {
       $dir = $res->getDir();
       $res->move($res->getDefaultIndex());
       $res->movePrev();
-      $img = $res->f()->getImageName();
-      $result = sprintf('<a href="%s"><img src="_images/navig/back.gif" alt="back" border="0"/></a>', link::vignette($dir, $img));
+      $img = $res->f();
+      $result = sprintf('<a href="%s">%s</a>', link::vignette($dir, $img->getImageName()), $s);
    }
    if ($return) return $result;
    echo $result;
 }
-function lbImageNext($return = false) {
-   $res =& $GLOBALS['_LB_render']['res'];
+function lbVignetteNext($s, $return = false) {
+   $res = $GLOBALS['_LB_render']['res'];
    if ($res->isLast()) {
       $result =  '&nbsp;';
    }
@@ -315,20 +338,50 @@ function lbImageNext($return = false) {
       $dir = $res->getDir();
       $res->move($res->getDefaultIndex());
       $res->moveNext();
-      $img = $res->f()->getImageName();
-      $result = sprintf('<a href="%s"><img src="_images/navig/forward.gif" alt="forward" border="0"/></a>', link::vignette($dir, $img));
+      $img = $res->f();
+      $result = sprintf('<a href="%s">%s</a>', link::vignette($dir, $img->getImageName()), $s);
+   }
+   if ($return) return $result;
+   echo $result;
+}
+function lbAffichagePrev($s, $first='&nbsp;', $return = false) {
+   $res = $GLOBALS['_LB_render']['res'];
+   if ($res->isFirst()) {
+      $result =  $first;
+   }
+   else {
+      $dir = $res->getDir();
+      $res->move($res->getDefaultIndex());
+      $res->movePrev();
+      $img = $res->f();
+      $result = sprintf('<a href="%s">%s</a>', link::affichage($dir, $img->getImageName()), $s);
+   }
+   if ($return) return $result;
+   echo $result;
+}
+function lbAffichageNext($s, $last = '&nbsp;', $return = false) {
+   $res = $GLOBALS['_LB_render']['res'];
+   if ($res->isLast()) {
+      $result =  $last;
+   }
+   else {
+      $dir = $res->getDir();
+      $res->move($res->getDefaultIndex());
+      $res->moveNext();
+      $img = $res->f();
+      $result = sprintf('<a href="%s">%s</a>', link::affichage($dir, $img->getImageName()), $s);
    }
    if ($return) return $result;
    echo $result;
 }
 function lbLinkExif($return = false) {
-   $img =&  $GLOBALS['_LB_render']['img'];
+   $img =  $GLOBALS['_LB_render']['img'];
    $result = link::exif($img->getImageDir(), $img->getImageName());
    if ($return) return $result;
    echo $result;
 }
 function lbLinkComment($return = false) {
-   $img =&  $GLOBALS['_LB_render']['img'];
+   $img =  $GLOBALS['_LB_render']['img'];
    $result = link::commentaire($img->getImageDir(), $img->getImageName());
    if ($return) return $result;
    echo $result;
@@ -338,7 +391,11 @@ function lbCommentCount($return = false) {
    if ($return) return $result;
    echo $result;
 }
-
+function lbImageName($return = false) {
+   $result =  $GLOBALS['_LB_render']['img']->getImageName();
+   if ($return) return $result;
+   echo $result;
+}
 
 /*------------------------------------------------------------------------------
  EXIF DATA
@@ -451,7 +508,8 @@ function lbSlideshowPhotoList($return = false) {
    $i = 0;
    $result = '';
    while (!$list->EOF()) {
-      $result .= 'photosURL['.$i.'] = "'.$list->f()->getPreviewLink().'";'."\n";
+      $img = $list->f();
+      $result .= 'photosURL['.$i.'] = "'.$img->getPreviewLink().'";'."\n";
       $list->moveNext();
       $i++;
    }

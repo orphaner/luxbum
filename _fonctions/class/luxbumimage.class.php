@@ -25,9 +25,7 @@ class luxBumImage
 
    var $thumbToolkit = NULL;
    var $previewToolkit = NULL;
-   
-   var $previewImagePath;
-   
+
    var $sortPosition = 0;
 
 
@@ -45,16 +43,6 @@ class luxBumImage
       $this->thumbDir = luxbum::getThumbPath ($this->dir);
       $this->previewDir = luxbum::getPreviewPath ($this->dir);
       $this->setAllDescription ('', '');
-      $this->previewImagePath = luxbum::getPreviewImage ($this->dir, $this->img);
-      //echo "<strong>$this->dir</strong> : <em>!! $this->photoDir !!</em><br/>";
-   }
-   
-   /**
-    * Retourne le chemin de l'image d'aperçu
-    * @return String Chemin de l'image d'aperçu
-    */
-   function getPreviewImagePath () {
-      return $this->previewImagePath;
    }
 
    /**
@@ -317,12 +305,13 @@ class luxBumImage
          return $this->getImagePath ();
       }
 
+      $final = luxbum::getPreviewImage ($this->dir, $this->img, $dst_w, $dst_h);
       // Génération de preview
-      if (!is_file ($this->previewImagePath)) {
+      if (!is_file ($final)) {
          files::createDir ($this->previewDir);
-         $this->previewToolkit->createThumb ($this->previewImagePath);
+         $this->previewToolkit->createThumb ($final);
       }
-      return $this->previewImagePath;
+      return $final;
    }
 
    /**
@@ -478,7 +467,8 @@ class luxBumImage
     * @return String Valeur ISO
     */
    function getExifISO () {
-      if (array_key_exists ('ISOSpeedRatings', $this->exifResult['SubIFD'])) {
+      if (array_key_exists('SubIFD', $this->exifResult)
+            && array_key_exists ('ISOSpeedRatings', $this->exifResult['SubIFD'])) {
          return $this->pullout ($this->exifResult['SubIFD']['ISOSpeedRatings']);
       }
       return NOT_SET;
@@ -489,7 +479,8 @@ class luxBumImage
     * @return Modèle de l'appareil photo
     */
    function getExifCameraModel () {
-      if (array_key_exists ('Model', $this->exifResult['IFD0'])) {
+      if (array_key_exists('IFD0', $this->exifResult)
+            && array_key_exists ('Model', $this->exifResult['IFD0'])) {
          return trim ($this->exifResult['IFD0']['Model']);
       }
       return NOT_SET;
@@ -500,7 +491,8 @@ class luxBumImage
     * @return String Marque de l'appareil photo
     */
    function getExifCameraMaker () {
-      if (array_key_exists ('Make', $this->exifResult['IFD0'])) {
+      if (array_key_exists('IFD0', $this->exifResult)
+            && array_key_exists ('Make', $this->exifResult['IFD0'])) {
          return trim ($this->exifResult['IFD0']['Make']);
       }
       return NOT_SET;
@@ -511,7 +503,8 @@ class luxBumImage
     * @return String Distance focale
     */
    function getExifFocalLength () {
-      if (array_key_exists ('FocalLength', $this->exifResult['SubIFD'])) {
+      if (array_key_exists('SubIFD', $this->exifResult)
+            && array_key_exists ('FocalLength', $this->exifResult['SubIFD'])) {
          return $this->exifResult['SubIFD']['FocalLength'];
       }
       return NOT_SET;
@@ -522,7 +515,8 @@ class luxBumImage
     * @return Boolean Flash déclenché ou non
     */
    function getExifFlash () {
-      if (array_key_exists ('Flash', $this->exifResult['SubIFD'])) {
+      if (array_key_exists('SubIFD', $this->exifResult)
+            && array_key_exists ('Flash', $this->exifResult['SubIFD'])) {
          $flash = $this->exifResult['SubIFD']['Flash'];
          if ($flash == 'No Flash') {
             $flash = 'Pas enclenché';
@@ -537,7 +531,8 @@ class luxBumImage
     * @return Date de prise de la photo
     */
    function getExifCaptureDate () {
-      if (array_key_exists ('DateTimeOriginal', $this->exifResult['SubIFD'])) {
+      if (array_key_exists('SubIFD', $this->exifResult)
+            && array_key_exists ('DateTimeOriginal', $this->exifResult['SubIFD'])) {
          return $this->exifResult['SubIFD']['DateTimeOriginal'];
       }
       return NOT_SET;
@@ -548,7 +543,8 @@ class luxBumImage
     * @return String Temps d'ouverture
     */
    function getExifAperture () {
-      if (array_key_exists ('FNumber', $this->exifResult['SubIFD'])) {
+      if (array_key_exists('SubIFD', $this->exifResult)
+            && array_key_exists ('FNumber', $this->exifResult['SubIFD'])) {
          return $this->exifResult['SubIFD']['FNumber'];
       }
       return NOT_SET;
@@ -559,7 +555,8 @@ class luxBumImage
     * @return String Temps d'exposition
     */
    function getExifExposureTime () {
-      if (array_key_exists ('ExposureTime', $this->exifResult['SubIFD'])) {
+      if (array_key_exists('SubIFD', $this->exifResult)
+            && array_key_exists ('ExposureTime', $this->exifResult['SubIFD'])) {
          $exposure = $this->exifResult['SubIFD']['ExposureTime'];
          if ($exposure != '') {
             $exposure = $this->reduceExif ($exposure);

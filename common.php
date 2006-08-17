@@ -26,36 +26,16 @@ define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
 define ('PASS_FILE', 'pass.php');
 
 define ('TEMPLATE_DIR', 'templates/');
+define ('TEMPLATE', 'photoblog');
+
+include (TEMPLATE_DIR.TEMPLATE.'/css/themes_css.php');
+include (TEMPLATE_DIR.TEMPLATE.'/conf_'.TEMPLATE.'.php');
 
 
 //------------------------------------------------------------------------------
 // Includes
 //------------------------------------------------------------------------------
 include (CONF_DIR.'config.php');
-include (CONF_DIR.'themes_css.php');
-//include (LIB_DIR.'ModeliXe.php');
-
-
-//------------------------------------------------------------------------------
-// Variables pour les différents templates
-//------------------------------------------------------------------------------
-switch (TEMPLATE_THEME) {
-   case '2COL':
-      define ('LIMIT_THUMB_PAGE', 6);
-      define ('NB_COL', 2);
-      define ('IMG_W', 125);
-      define ('IMG_H', 125);
-      define ('VIGNETTE_STYLE', 'vignette2col');
-      break;
-
-   default:
-      define ('LIMIT_THUMB_PAGE', 12);
-      define ('NB_COL', 3);
-      define ('IMG_W', 85);
-      define ('IMG_H', 85);
-      define ('VIGNETTE_STYLE', 'vignette3col');
-      break;
-}
 
 
 //------------------------------------------------------------------------------

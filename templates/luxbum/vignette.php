@@ -47,7 +47,7 @@
             
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
               <tr>
-                <td width="30px"><?php lbImagePrev();?></td>
+                <td width="30px"><?php lbVignettePrev('<img src="_images/navig/back.gif" alt="back" border="0"/>');?></td>
                 <td class="description_td">
                   <?php lbPhotoDescription('<span class="description">%s</span>');?><br />
 
@@ -73,7 +73,7 @@
                   <!--                   </mx:bloc id="selection"> -->
                   <!-- end upd dark 1 -->
                 </td>
-                <td width="30px"><?php lbImageNext();?></td>
+                <td width="30px"><?php lbVignetteNext('<img src="_images/navig/forward.gif" alt="forward" border="0"/>');?></td>
               </tr>
             </table>
           </div>

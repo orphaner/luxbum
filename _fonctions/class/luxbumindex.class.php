@@ -19,7 +19,6 @@ class luxBumIndex extends Recordset2
    function luxBumIndex ($dir) {
       parent::RecordSet2();
       $this->dir = $dir;
-      $this->setField('dir', $dir.'oo');
       $this->_loadSort ();
    }
    

@@ -5,6 +5,8 @@ $GLOBALS['startTime'] = microtime();
 session_start();
 //@end upd dark 1.2
 
+
+
 function showDebugInfo() {
    echo "\n\n".'mem: '.(int)(memory_get_usage()/1024).' ko';
    echo ' - exec time (sec): '.((microtime() - $GLOBALS['startTime'])*1000).' ms';

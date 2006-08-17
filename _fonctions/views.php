@@ -1,4 +1,5 @@
 <?php
+
 class IndexView {
    function action ($match) {
       IndexView::initTemplate();
@@ -65,7 +66,6 @@ class VignetteView {
          $imgIndex = $res->getImageIndex($defaultImage);
          $res->setDefaultIndex($imgIndex);
          $currentPage = (int)($imgIndex / LIMIT_THUMB_PAGE)+1;
-         echo $currentPage. ' - ' .$imgIndex;
       }
       else {
          $res->setDefaultIndex(($currentPage * LIMIT_THUMB_PAGE) - LIMIT_THUMB_PAGE);
@@ -102,12 +102,20 @@ class CommentaireView {
 
 class AffichageView {
    function action ($match) {
-      $page = $match[1];
-      $dir = $match[2];
-      $photo = $match[3];
+      $dir = $match[1];
+      $photo = $match[2];
+      verif::photo($dir, $photo);
       
-      $GLOBALS['LB_aff']  = new luxBumImage ($dir, $photo);
-      $GLOBALS['LB_aff']->exifInit();
+      $GLOBALS['_LB_render']['img'] = new luxBumImage ($dir, $photo);
+      $GLOBALS['_LB_render']['img']->exifInit();
+
+      $GLOBALS['_LB_render']['res'] = new luxBumGallery($dir);
+      $res =& $GLOBALS['_LB_render']['res']; 
+      $res->addAllImages ();
+      $imgIndex = $res->getImageIndex($photo);
+      $res->setDefaultIndex($imgIndex);
+
+      $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
       
       include (TEMPLATE_DIR.TEMPLATE.'/affichage.php');
       return 200;

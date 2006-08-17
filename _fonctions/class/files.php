@@ -16,6 +16,9 @@ class files {
     * Ajoute le slash final si il n'y en a un
     */
    function removeTailSlash ($dir) {
+      if (strlen ($dir) == 0) {
+         return $dir;
+      }
       if ($dir[strlen ($dir) - 1] == '/') {
          $dir = substr ($dir, 0, strlen ($dir) - 1);
       }
