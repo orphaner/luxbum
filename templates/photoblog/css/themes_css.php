@@ -1,7 +1,7 @@
 <?php
 
 $themes_css = array (
-   'photoblog' =>'Thème Blanc'
+   'photoblog' =>'ThÃ¨me Blanc'
    );
 
 ?>

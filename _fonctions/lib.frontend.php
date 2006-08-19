@@ -160,7 +160,7 @@ function lbGalleryLinkConsult($s, $text, $return = false) {
  * @param string $sep = '&#187'
  * @param boolean return Type of return : true return result as a string, false (default) print in stdout
  */
-function lbMenuNav($s, $elt, $sep = '&#187', $return = false) {
+function lbMenuNav($s, $elt, $sep = '&#187;', $return = false) {
    $res = $GLOBALS['_LB_render']['res'];
    $dir = files::removeTailSlash($res->getDir());
    $list = explode('/', $dir);
@@ -208,7 +208,7 @@ function lbDefaultImage($return = false) {
    else {
       $link = link::vignette ($res->getDir());
    }
-   $result = sprintf('<a href="%s"><img src="%s"/></a>', $link, $img);
+   $result = sprintf('<a href="%s"><img src="%s" alt=""/></a>', $link, $img);
    if ($return) return $result;
    echo $result;
 }
@@ -273,7 +273,7 @@ function lbPageStyle ($return = false) {
 function lbFavicon($return = false) {
    if (is_file(PHOTOS_DIR.'favicon.ico')) {
       $favicon = PHOTOS_DIR.'favicon.ico';
-      $result = sprintf('<link rel="shortcut icon" mXattribut="%s"/>', $favicon);
+      $result = sprintf('<link rel="shortcut icon" href="%s"/>', $favicon);
       if ($return) return $result;
       echo $result;
    }
@@ -382,7 +382,7 @@ function lbDisplayVignette($return = false) {
    $img = $GLOBALS['_LB_render']['res']->f();
    $path = $img->getThumbLink();
    $dimensions = $img->getThumbResizeSize();
-   $result = sprintf ('<img src="%s" %s/>', $path, $dimensions);
+   $result = sprintf ('<img src="%s" %s alt=""/>', $path, $dimensions);
    if ($return) return $result;
    echo $result;
 }
@@ -396,7 +396,7 @@ function lbDisplayApercu($return = false) {
    $img = $GLOBALS['_LB_render']['img'];
    $path = $img->getPreviewLink();
    $dimensions = $img->getPreviewResizeSize();
-   $result = sprintf ('<img src="%s" %s/>', $path, $dimensions);
+   $result = sprintf ('<img src="%s" %s alt=""/>', $path, $dimensions);
    if ($return) return $result;
    echo $result;
 }

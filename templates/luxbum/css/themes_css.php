@@ -1,9 +1,9 @@
 <?php
 define ('DEFAULT_CSS', 'light');
 $themes_css = array (
-   'light' =>'Thème Blanc', 
-   'dark' =>'Thème Noir',
-   'l62' =>'Thème Linux 62'
+   'light' =>'ThÃ¨me Blanc',
+   'dark' =>'ThÃ¨me Noir',
+   'l62' =>'ThÃ¨me Linux 62'
    );
 
 ?>

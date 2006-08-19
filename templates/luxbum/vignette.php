@@ -2,10 +2,10 @@
 <body id="body">  
   <div id="page">
     <div id="center"> 
-      <h1 class="vig_titre"><mx:text id="nom_dossier"/></h1>
+      <h1 class="vig_titre"><?php lbGalleryH1();?></h1>
       <div id="apercu">
 
-        <?php lbMenuNav('<div id="menunav"><ol class="tree"><li>&#187; <a href="index.php"><strong>Accueil</strong></a></li>%s</ol></div>', 
+        <?php lbMenuNav('<div id="menunav"><ol class="tree"><li>&#187; <a href="index.php"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
               '<li>%s</li>'); ?>
 
         <div class="liste_apercu">
@@ -23,7 +23,7 @@
 
           <div class="spacer"></div>
           <div id="aff_page">
-            <mx:text id="aff_page"/>
+<!--             <mx:text id="aff_page"/> -->
           </div>
         </div>
       </div>
@@ -31,12 +31,12 @@
       <div id="iframeaffichage">
         <div id="affichage_photo">
           <div id="laphoto">
-            <a href="<?php lbPathPhoto();?>" onclick="window.open(this.href,'',''); return false;"  mXattribut="class:photo_selection"><?php lbDisplayApercu();?></a>
+            <a href="<?php lbPathPhoto();?>" onclick="window.open(this.href,'',''); return false;"><?php lbDisplayApercu();?></a>
           </div>
           
           <table width="100%" border="0" cellpadding="0" cellspacing="0">
             <tr>
-              <td width="30px"><?php lbVignettePrev('<img src="_images/navig/back.gif" alt="back" border="0"/>');?></td>
+              <td width="30"><?php lbVignettePrev('<img src="_images/navig/back.gif" alt="back" border="0"/>');?></td>
               <td class="description_td">
                 <?php lbPhotoDescription('<span class="description">%s</span>');?><br />
 
@@ -62,7 +62,7 @@
                 <!--                   </mx:bloc id="selection"> -->
                 <!-- end upd dark 1 -->
               </td>
-              <td width="30px"><?php lbVignetteNext('<img src="_images/navig/forward.gif" alt="forward" border="0"/>');?></td>
+              <td width="30"><?php lbVignetteNext('<img src="_images/navig/forward.gif" alt="forward" border="0"/>');?></td>
             </tr>
           </table>
         </div>
@@ -72,4 +72,4 @@
     <div id="footer"><a href="http://nico.tuxfamily.org/Projets/Support-LuxBum">Luxbum</a> by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
   </div>
 </body>
-<?php include ('header.php');?>
+<?php include ('footer.php');?>

@@ -43,4 +43,4 @@
     Luxbum by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
   
 </body>
-<?php include ('header.php');?>
+<?php include ('footer.php');?>

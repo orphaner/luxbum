@@ -3,7 +3,7 @@
 include (LIB_DIR.'exifer/exif.php');
 include_once (FONCTIONS_DIR.'mysql.inc.php');
 
-define ('NOT_SET', 'Not Set');
+define ('NOT_SET', __('Not Set'));
 
 //==============================================================================
 // Classe luxBumImage : Fonctions pour les générations de miniatures
@@ -519,7 +519,7 @@ class luxBumImage
             && array_key_exists ('Flash', $this->exifResult['SubIFD'])) {
          $flash = $this->exifResult['SubIFD']['Flash'];
          if ($flash == 'No Flash') {
-            $flash = 'Pas enclenché';
+            $flash = __('Flash did not fire');
          }
          return $flash;
       }
