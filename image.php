@@ -9,6 +9,9 @@
 //------------------------------------------------------------------------------
 include ('common.php');
 include (FONCTIONS_DIR.'luxbum.class.php');
+include_once(FONCTIONS_DIR.'class/luxbumimage.class.php');
+include_once(FONCTIONS_DIR.'class/files.php');
+include_once(FONCTIONS_DIR.'class/imagetoolkit.class.php');
 
 
 //------------------------------------------------------------------------------

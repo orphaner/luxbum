@@ -1,8 +1,8 @@
-<?php echo '<?xml version="1.0" encoding="ISO-8859-1"?>'; ?>
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="MSSmartTagsPreventParsing" content="TRUE" />
     <meta http-equiv="Content-Script-Type" content="text/javascript"/>
     <meta http-equiv="Content-Style-Type" content="text/css"/>
@@ -148,36 +148,36 @@ var slide_speed = <?php lbSlideshowTime();?>;
   
 
 <div id="slide">
-  <div id="cont_1"><img src="" id="image_slide1" alt="Chargement de l'image en cours..." /></div>
+  <div id="cont_1"><img src="" id="image_slide1" alt="<?php ___('Picture is loading');?>" /></div>
   <div id="cont_2"><img src="" id="image_slide2" alt="Picture buffer 2" /></div>
 
   <div id="controle">
     <div id="s_next">&raquo;</div>
     <div id="s_prev">&laquo;</div>
-    <div id="s_play">Démarrer</div>
-    <div id="s_pause">Pause</div>
-    <div id="s_info"><img class="myicon" src="slideshow.php?base64=i" alt="Informations about the picture"/></div>
-    <div id="s_options"><img class="myicon" src="slideshow.php?base64=o" alt="Options of the slideshow" /></div>
-    <div id="s_help"><img class="myicon" src="slideshow.php?base64=h" alt="About / Keyboard shortcuts"/></div>
+    <div id="s_play"><?php ___('Start');?></div>
+    <div id="s_pause"><?php ___('Pause');?></div>
+    <div id="s_info"><img class="myicon" src="slideshow.php?base64=i" alt="<?php ___('Informations about the picture');?>"/></div>
+    <div id="s_options"><img class="myicon" src="slideshow.php?base64=o" alt="<?php ___('Options of the slideshow');?>" /></div>
+    <div id="s_help"><img class="myicon" src="slideshow.php?base64=h" alt="<?php ___('About / Keyboard shortcuts');?>"/></div>
     <br />
   </div>
 
   <div id="s_options_box">
-    <h2>Options</h2>
-    <input type="checkbox" id="smoothtrans" checked="<?php lbSlideshowFadingCheckbox();?>"/> Activer le fondu<br />
-    <input type="text" id="slide_speed" size="1" maxlength="1" value="<?php lbSlideshowTime();?>" /> Temps entre chaque photo (en secondes) <br />
+    <h2><?php ___('Options');?></h2>
+    <input type="checkbox" id="smoothtrans" checked="<?php lbSlideshowFadingCheckbox();?>"/> <?php ___('Enable fading');?><br />
+    <input type="text" id="slide_speed" size="1" maxlength="1" value="<?php lbSlideshowTime();?>" /> <?php ___('Time between each picture (sec)');?><br />
   </div>
   <div id="s_exif_info"></div>
   <div id="s_help_box">
-    <h2>A propos</h2>
-    <p><strong>ESS</strong> par <strong>Yann HAMON</strong> adapté pour Luxbum</p>
-    <p id="k_shortcuts">Racourcis clavier</p>
+    <h2><?php ___('About');?></h2>
+    <p><strong>ESS</strong> par <strong>Yann HAMON</strong> adaptÃ© pour Luxbum</p>
+    <p id="k_shortcuts"><?php ___('Keyboard shortcuts');?></p>
     <ul>
-      <li><strong>Espace</strong> : Démarre/met en pause le diaporama</li>
-      <li><strong>Flèches gauches et droites</strong> : Photo précédente, suivante</li>
-      <li><strong>i</strong> : Informations EXIF de la photo</li>
-      <li><strong>o</strong> : Options</li>
-      <li><strong>h</strong> : Afficher cette aide</li>
+      <li><strong><?php ___('Space');?></strong> : <?php ___('Start/pause the slideshow');?></li>
+      <li><strong><?php ___('Left/right arrows');?></strong> : <?php ___('Previous pictures, next');?></li>
+      <li><strong>i</strong> : <?php ___('Exif Data about the picture');?></li>
+      <li><strong>o</strong> : <?php ___('Options');?></li>
+      <li><strong>h</strong> : <?php ___('Show this help');?></li>
     </ul>
   </div>
 </div>

@@ -26,7 +26,11 @@ define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
 define ('PASS_FILE', 'pass.php');
 
 define ('TEMPLATE_DIR', 'templates/');
-define ('TEMPLATE', 'luxbum');
+define ('TEMPLATE', 'photoblog');
+define('LOCALE_DIR', 'locale/');
+
+$GLOBALS['debug'] = true;
+
 
 include (TEMPLATE_DIR.TEMPLATE.'/css/themes_css.php');
 include (TEMPLATE_DIR.TEMPLATE.'/conf_'.TEMPLATE.'.php');
@@ -36,60 +40,23 @@ include (TEMPLATE_DIR.TEMPLATE.'/conf_'.TEMPLATE.'.php');
 // Includes
 //------------------------------------------------------------------------------
 include (CONF_DIR.'config.php');
+include_once(FONCTIONS_DIR.'views.php');
+include_once(FONCTIONS_DIR.'class/verif.php');
 
+include_once(FONCTIONS_DIR.'extinc/class.l10n.php');
 
-//------------------------------------------------------------------------------
-// Fonctions
-//------------------------------------------------------------------------------
+$locales = l10n::getAvailableLocales();
 
-class verif {
-   
-   /**
-    * Vérifie si le format du nom du dossier est correct
-    * @param String dir Dossier de l'image
-    */
-   function dir ($dir) {
-      if (! ereg ("^[A-Za-z0-9_/]+$", $dir)) {
-         return false;
-      }
-      return true;
-   }
-   
-   /**
-    * Vérifie si l'image existe
-    * @param String dir Dossier de l'image
-    * @param String $img Nom de l'image
-    */
-   function photo ($dir, $img) {
-      if (!is_file (luxbum::getImage ($dir, $img))) {
-         return false;
-      }
-      return true;
-   }
-
-   /**
-    * Vérifie si le dossier est correct
-    */
-   function isDir ($dir) {
-      if (!verif::dir ($dir)) {
-         exit ('nom de dossier incorrect !!');
-      }
-      else if (!is_dir (luxbum::getFsPath ($dir))) {
-         exit ('dossier incorrect !!');
-      }
-   }
-
-   /**
-    * Vérifie si un couple dossier/image est correct.
-    * Exit si erreur !
-    * @param String dir Dossier de l'image
-    * @param String $file Nom de l'image
-    */
-   function isImage ($dir, $file) {
-      verif::isDir ($dir);
-      if (!verif::photo ($dir, $file)) {
-         exit ('nom de la photo incorrect !!');
-      }
-   }
+if (!empty($_COOKIE['lang']) && in_array($_COOKIE['lang'], $locales)) {
+   $lang = $_COOKIE['lang'];
 }
+else {
+   $lang = l10n::getAcceptedLanguage($locales);
+}
+
+
+$l = new l10n($lang);
+
+
+
 ?>

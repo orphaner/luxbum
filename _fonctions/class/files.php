@@ -53,7 +53,11 @@ class files {
     */
    function isDeletable ($file) {
       if (is_file ($file)) {
-         return is_writable (dirname ($file));
+         if ($fd = fopen($file, 'a')) {
+            close ($fd);
+            return true;
+         }
+         return false;
       } 
       else if (is_dir ($file)) {
          return (is_writable (dirname ($file)));// && count (files::scandir ($file)) <= 2);

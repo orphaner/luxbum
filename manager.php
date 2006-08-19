@@ -7,6 +7,7 @@ include_once ('common.php');
 include_once (CONF_DIR.'config_manager.php');
 include_once (CONF_DIR.'config_auth.php');
 include_once (FONCTIONS_DIR.'mysql.inc.php');
+include_once (LIB_DIR.'ModeliXe.php');
 $mysql = new MysqlInc (DBL_HOST, DBL_LOGIN, DBL_PASSWORD, DBL_NAME);
 
 
