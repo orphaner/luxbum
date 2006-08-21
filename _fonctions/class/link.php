@@ -10,7 +10,7 @@ class link {
          $prefix = URL_BASE.'image/';
       }
       else {
-         $prefix = URL_BASE.'image.php?';
+         $prefix = URL_BASE.'img.php?';
       }
       return $prefix.THUMB_DIR.'/'.$dir.'/'.$img;
    }
@@ -20,7 +20,7 @@ class link {
          $prefix = URL_BASE.'image/';
       }
       else {
-         $prefix = URL_BASE.'image.php?';
+         $prefix = URL_BASE.'img.php?';
       }
       return $prefix.PREVIEW_DIR.'/'.$dir.'/'.$img;
    }
@@ -30,7 +30,7 @@ class link {
          $prefix = URL_BASE.'image/';
       }
       else {
-         $prefix = URL_BASE.'image.php?';
+         $prefix = URL_BASE.'img.php?';
       }
       return $prefix.'index/'.$dir.'/'.$img;
    }
