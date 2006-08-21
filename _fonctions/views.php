@@ -26,11 +26,11 @@ class IndexView {
       return 200;
    }
 
+
    function initTemplate() {
       $GLOBALS['LB']['title'] = NOM_GALERIE;
    }
-}
-
+  }
 
 class VignetteView {
    function action ($match) {
@@ -76,6 +76,12 @@ class VignetteView {
       
       $GLOBALS['LB']['currentPage'] = $currentPage;
       $GLOBALS['_LB_render']['img'] = $res->getDefault();
+
+//      echo '<pre>';
+      $GLOBALS['LB_render']['affpage'] = new LbPaginator($currentPage, $res->getIntRowCount(), LIMIT_THUMB_PAGE, MAX_NAVIGATION_ELEMENTS);
+//       print_r($GLOBALS['LB_render']['affpage']);
+//       echo '</pre>';
+      $affpage =& $GLOBALS['LB_render']['affpage'];
 
       include (TEMPLATE_DIR.TEMPLATE.'/vignette.php');
       return 200;

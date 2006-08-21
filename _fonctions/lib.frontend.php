@@ -2,14 +2,14 @@
 
 
 
-/**
- *
- *
- * @param boolean return Type of return : true return result as a string, false (default) print in stdout
- */
+  /**
+   *
+   *
+   * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+   */
 function lbPageTitle($return = false) {
    echo  $GLOBALS['LB']['title'];
-}
+  }
 
 /*------------------------------------------------------------------------------
  Functions to display the index page
@@ -93,7 +93,7 @@ function lbGalleryNbPhotos($return = false) {
  * @param boolean return Type of return : true return result as a string, false (default) print in stdout
  */
 function lbHasPhotos() {
-   $img = $GLOBALS['_LB_render']['res']->f();   
+   $img = $GLOBALS['_LB_render']['res']->f();
    return ($img->getCount() > 0);
 }
 
@@ -145,7 +145,7 @@ function lbGalleryLinkConsult($s, $text, $return = false) {
       return ;
    }
 
-   $img = $GLOBALS['_LB_render']['res']->f(); 
+   $img = $GLOBALS['_LB_render']['res']->f();
    $l =  link::vignette ($img->getDir());
    $link = sprintf('<a href="%s">%s</a>', $l, $text);
    $result = sprintf($s, $link);
@@ -181,8 +181,8 @@ function lbMenuNav($s, $elt, $sep = '&#187;', $return = false) {
          $concat .= $list[$i].'/';
          $link = link::subGallery($concat);
       }
-      $result .= sprintf($elt, 
-                         sprintf($sep.' <a href="%s">%s</a>', 
+      $result .= sprintf($elt,
+                         sprintf($sep.' <a href="%s">%s</a>',
                                  $link, $name)
          );
    }
@@ -220,7 +220,7 @@ function lbDefaultImage($return = false) {
  * @param string $text
  * @param boolean return Type of return : true return result as a string, false (default) print in stdout
  */
-function lbGalleryLinkSlideshow($s, $text, $return = false) {   
+function lbGalleryLinkSlideshow($s, $text, $return = false) {
    if (SHOW_SLIDESHOW == 'off') {
       return ;
    }
@@ -245,22 +245,35 @@ function lbPageStyle ($return = false) {
    global $themes_css;
    if (!array_key_exists (COLOR_THEME, $themes_css)) {
       $default = DEFAULT_CSS;
-   } 
+   }
    else {
       $default = COLOR_THEME;
    }
 
    $result = '';
+   $result .= sprintf('<link rel="stylesheet" href="%s" title="%s" type="text/css"/>',
+                      TEMPLATE_DIR. TEMPLATE.'/themes/'.$default.'/'.$default.'.css', '$title');
    while (list ($theme, $title) = each ($themes_css)) {
-      if ($theme == $default) {
-         $rel = 'stylesheet';
-      } 
-      else {
-         $rel = 'alternate stylesheet';
+      if ($theme != $default) {
+         $result .= sprintf('<link rel="alternate stylesheet" href="%s" title="%s" type="text/css"/>',
+                            TEMPLATE_DIR. TEMPLATE.'/themes/'.$theme.'/'.$theme.'.css', $title);
       }
-      $result .= sprintf('<link rel="%s" href="%s" title="%s" type="text/css"/>',
-                         $rel,  TEMPLATE_DIR. TEMPLATE.'/css/'.$theme.'.css', $title);
+      else {
+         $result .= sprintf('<link rel="stylesheet" href="%s" title="%s" type="text/css"/>',
+                      TEMPLATE_DIR. TEMPLATE.'/themes/'.$default.'/'.$default.'.css', $title);
+      }
    }
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbColorThemePath ($return = false) {
+   $result = TEMPLATE_DIR. TEMPLATE.'/themes/'.DEFAULT_CSS;
    if ($return) return $result;
    echo $result;
 }
@@ -303,7 +316,7 @@ function lbResTotal($return = false) {
    echo $result;
 }
 /*------------------------------------------------------------------------------
- 
+
  -----------------------------------------------------------------------------*/
 
 /**
@@ -321,17 +334,6 @@ function lbVignetteStyle($return = false) {
    else {
       $result = 'view_photo';
    }
-   if ($return) return $result;
-   echo $result;
-}
-
-/**
- *
- *
- * @param boolean return Type of return : true return result as a string, false (default) print in stdout
- */
-function lbColStyle($return = false) {
-   $result = VIGNETTE_STYLE;
    if ($return) return $result;
    echo $result;
 }
@@ -410,152 +412,6 @@ function lbPhotoDescription($return = false) {
    $img = $GLOBALS['_LB_render']['img'];
    $img->findDescription();
    $result = $img->getDateDesc();
-   if ($return) return $result;
-   echo $result;
-}
-
-/**
- *
- *
- * @param boolean return Type of return : true return result as a string, false (default) print in stdout
- */
-function lbVignettePrev($s, $return = false) {
-   $res = $GLOBALS['_LB_render']['res'];
-   if ($res->isFirst()) {
-      $result =  '&nbsp;';
-   }
-   else {
-      $dir = $res->getDir();
-      $res->move($res->getDefaultIndex());
-      $res->movePrev();
-      $img = $res->f();
-      $result = sprintf('<a href="%s">%s</a>', link::vignette($dir, $img->getImageName()), $s);
-   }
-   if ($return) return $result;
-   echo $result;
-}
-
-/**
- *
- *
- * @param boolean return Type of return : true return result as a string, false (default) print in stdout
- */
-function lbVignetteLinkPrev($s, $return = false) {
-   $res = $GLOBALS['_LB_render']['res'];
-   if ($res->isFirst()) {
-      $result =  '';
-   }
-   else {
-      $dir = $res->getDir();
-      $res->move($res->getDefaultIndex());
-      $res->movePrev();
-      $img = $res->f();
-      $result = link::vignette($dir, $img->getImageName());
-   }
-   if ($return) return $result;
-   echo $result;
-}
-
-/**
- *
- *
- * @param boolean return Type of return : true return result as a string, false (default) print in stdout
- */
-function lbVignetteNext($s, $return = false) {
-   $res = $GLOBALS['_LB_render']['res'];
-   if ($res->isLast()) {
-      $result =  '&nbsp;';
-   }
-   else {
-      $dir = $res->getDir();
-      $res->move($res->getDefaultIndex());
-      $res->moveNext();
-      $img = $res->f();
-      $result = sprintf('<a href="%s">%s</a>', link::vignette($dir, $img->getImageName()), $s);
-   }
-   if ($return) return $result;
-   echo $result;
-}
-
-/**
- *
- *
- * @param boolean return Type of return : true return result as a string, false (default) print in stdout
- */
-function lbVignetteLinkNext($s, $return = false) {
-   $res = $GLOBALS['_LB_render']['res'];
-   if ($res->isLast()) {
-      $result =  '';
-   }
-   else {
-      $dir = $res->getDir();
-      $res->move($res->getDefaultIndex());
-      $res->moveNext();
-      $img = $res->f();
-      $result = link::vignette($dir, $img->getImageName());
-   }
-   if ($return) return $result;
-   echo $result;
-}
-
-/**
- *
- */
-function lbIsLast() {
-  $res = $GLOBALS['_LB_render']['res'];
-  return $res->isLast();
-}
-
-/**
- *
- */
-function lbIsFirst() {
-  $res = $GLOBALS['_LB_render']['res'];
-  return $res->isFirst();
-}
-
-/**
- *
- *
- * @param string $s
- * @param string $first='&nbsp;'
- * @param boolean return Type of return : true return result as a string, false (default) print in stdout
- */
-function lbAffichagePrev($s, $first='&nbsp;', $return = false) {
-   $res = $GLOBALS['_LB_render']['res'];
-   if ($res->isFirst()) {
-      $result =  $first;
-   }
-   else {
-      $dir = $res->getDir();
-      $res->move($res->getDefaultIndex());
-      $res->movePrev();
-      $img = $res->f();
-      $result = sprintf('<a href="%s">%s</a>', link::affichage($dir, $img->getImageName()), $s);
-   }
-   if ($return) return $result;
-   echo $result;
-}
-
-/**
- *
- *
- * @param string $s
- * @param string $last = '&nbsp;'
- * @param boolean return Type of return : true return result as a string, false (default) print in stdout
- */
-function lbAffichageNext($s, $last = '&nbsp;', $return = false) {
-   $res = $GLOBALS['_LB_render']['res'];
-   if ($res->isLast()) {
-      $result =  $last;
-   }
-   else {
-      $dir = $res->getDir();
-      $res->move($res->getDefaultIndex());
-      $res->moveNext();
-      $img = $res->f();
-      $result = sprintf('<a href="%s">%s</a>', link::affichage($dir, $img->getImageName()), $s);
-   }
    if ($return) return $result;
    echo $result;
 }
@@ -835,4 +691,412 @@ function lbSlideshowPhotoList($return = false) {
    echo $result;
 }
 
+
+
+/*------------------------------------------------------------------------------
+ PAGINATOR
+ -----------------------------------------------------------------------------*/
+
+/**
+ *
+ *
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbVignettePrev($s, $return = false) {
+   $res = $GLOBALS['_LB_render']['res'];
+   if ($res->isFirst()) {
+      $result =  '&nbsp;';
+   }
+   else {
+      $dir = $res->getDir();
+      $res->move($res->getDefaultIndex());
+      $res->movePrev();
+      $img = $res->f();
+      $result = sprintf('<a href="%s">%s</a>', link::vignette($dir, $img->getImageName()), $s);
+   }
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbVignetteNext($s, $return = false) {
+   $res = $GLOBALS['_LB_render']['res'];
+   if ($res->isLast()) {
+      $result =  '&nbsp;';
+   }
+   else {
+      $dir = $res->getDir();
+      $res->move($res->getDefaultIndex());
+      $res->moveNext();
+      $img = $res->f();
+      $result = sprintf('<a href="%s">%s</a>', link::vignette($dir, $img->getImageName()), $s);
+   }
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbVignettePrevLink($s, $return = false) {
+   $res = $GLOBALS['_LB_render']['res'];
+   if ($res->isFirst()) {
+      $result =  '';
+   }
+   else {
+      $dir = $res->getDir();
+      $res->move($res->getDefaultIndex());
+      $res->movePrev();
+      $img = $res->f();
+      $result = link::vignette($dir, $img->getImageName());
+   }
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbVignetteNextLink($s, $return = false) {
+   $res = $GLOBALS['_LB_render']['res'];
+   if ($res->isLast()) {
+      $result =  '';
+   }
+   else {
+      $dir = $res->getDir();
+      $res->move($res->getDefaultIndex());
+      $res->moveNext();
+      $img = $res->f();
+      $result = link::vignette($dir, $img->getImageName());
+   }
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ */
+function lbIsLast() {
+   $res = $GLOBALS['_LB_render']['res'];
+   return $res->isLast();
+}
+
+/**
+ *
+ */
+function lbIsFirst() {
+   $res = $GLOBALS['_LB_render']['res'];
+   return $res->isFirst();
+}
+
+/**
+ *
+ *
+ * @param string $s
+ * @param string $first='&nbsp;'
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbAffichagePrev($s, $first='&nbsp;', $return = false) {
+   $res = $GLOBALS['_LB_render']['res'];
+   if ($res->isFirst()) {
+      $result =  $first;
+   }
+   else {
+      $dir = $res->getDir();
+      $res->move($res->getDefaultIndex());
+      $res->movePrev();
+      $img = $res->f();
+      $result = sprintf('<a href="%s">%s</a>', link::affichage($dir, $img->getImageName()), $s);
+   }
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param string $s
+ * @param string $last = '&nbsp;'
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbAffichageNext($s, $last = '&nbsp;', $return = false) {
+   $res = $GLOBALS['_LB_render']['res'];
+   if ($res->isLast()) {
+      $result =  $last;
+   }
+   else {
+      $dir = $res->getDir();
+      $res->move($res->getDefaultIndex());
+      $res->moveNext();
+      $img = $res->f();
+      $result = sprintf('<a href="%s">%s</a>', link::affichage($dir, $img->getImageName()), $s);
+   }
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param string $s
+ * @param string $first='&nbsp;'
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbAffichagePrevLink($return = false) {
+   $res = $GLOBALS['_LB_render']['res'];
+   if ($res->isFirst()) {
+      $result =  '';
+   }
+   else {
+      $dir = $res->getDir();
+      $res->move($res->getDefaultIndex());
+      $res->movePrev();
+      $img = $res->f();
+      $result = link::affichage($dir, $img->getImageName());
+   }
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param string $s
+ * @param string $last = '&nbsp;'
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbAffichageNextLink($return = false) {
+   $res = $GLOBALS['_LB_render']['res'];
+   if ($res->isLast()) {
+      $result =  '';
+   }
+   else {
+      $dir = $res->getDir();
+      $res->move($res->getDefaultIndex());
+      $res->moveNext();
+      $img = $res->f();
+      $result = link::affichage($dir, $img->getImageName());
+   }
+   if ($return) return $result;
+   echo $result;
+}
+
+
+/*------------------------------------------------------------------------------
+ PAGINATOR
+ -----------------------------------------------------------------------------*/
+
+/**
+ *
+ *
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbPaginatorCurrentPage($return = false) {
+   $result = $GLOBALS['LB_render']['affpage']->getCurrentPage();
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbPaginatorTotalPages($return = false) {
+   $result = $GLOBALS['LB_render']['affpage']->getTotalPages();
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbPaginatorLinkVignette($return = false) {
+   $affpage = $GLOBALS['LB_render']['affpage']->f();
+   $res = $GLOBALS['_LB_render']['res'];
+
+   $dir = $res->getDir();
+   $res->move($affpage[1]);
+   $img = $res->f();
+   $result = link::vignette($dir, $img->getImageName());
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbPaginatorLinkAffichage($return = false) {
+   $affpage = $GLOBALS['LB_render']['affpage']->f();
+   $res = $GLOBALS['_LB_render']['res'];
+
+   $dir = $res->getDir();
+   $res->move($affpage[1]);
+   $img = $res->f();
+   $result = link::affichage($dir, $img->getImageName());
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbPaginatorElementText($return = false) {
+   $affpage = $GLOBALS['LB_render']['affpage']->f();
+   $result = $affpage[0];
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbPaginatorElementImage($return = false) {
+   $affpage = $GLOBALS['LB_render']['affpage']->f();
+   $res = $GLOBALS['_LB_render']['res'];
+
+   if ($affpage[0][0] == '&') {
+      $result = $affpage[0];
+   }
+   else {
+      $res->move($affpage[1]);
+      $img = $res->f();
+
+      $path = $img->getThumbLink();
+      $dimensions = $img->getThumbResizeSize();
+      $result = sprintf ('<img src="%s" %s alt=""/>', $path, $dimensions);
+   }
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbPaginatorAltClass($return = false) {
+   $affpage = $GLOBALS['LB_render']['affpage']->f();
+   $paginatorPage = $affpage[2];
+   if ($paginatorPage == $GLOBALS['LB_render']['affpage']->getCurrentPage()) {
+      $result = 'alt2';
+   }
+   else {
+      $result = 'alt1';
+   }
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ */
+function lbPaginatorIsCurrent() {
+   $affpage = $GLOBALS['LB_render']['affpage']->f();
+   $paginatorPage = $affpage[2];
+   return ($paginatorPage == $GLOBALS['LB_render']['affpage']->getCurrentPage());
+}
+
+/**
+ *
+ */
+function lbIsFirstPage() {
+   return ($GLOBALS['LB_render']['affpage']->getCurrentPage() == 1);
+}
+
+/**
+ *
+ */
+function lbIsLastPage() {
+   $affpage = $GLOBALS['LB_render']['affpage'];
+   $paginatorPage = $affpage->getCurrentPage();
+   return ($paginatorPage == $affpage->getTotalPages());
+}
+
+/**
+ *
+ *
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbVignettePrevPageLink($return = false) {
+   $affpage = $GLOBALS['LB_render']['affpage'];
+   $res = $GLOBALS['_LB_render']['res'];
+
+   $dir = $res->getDir();
+   $res->move($affpage->prevPage());
+   $img = $res->f();
+   $result = link::vignette($dir, $img->getImageName());
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbVignetteNextPageLink($return = false) {
+   $affpage = $GLOBALS['LB_render']['affpage'];
+   $res = $GLOBALS['_LB_render']['res'];
+
+   $dir = $res->getDir();
+   $res->move($affpage->nextPage());
+   $img = $res->f();
+   $result = link::vignette($dir, $img->getImageName());
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param string $s
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbVignettePrevPage($s, $return = false) {
+   $affpage = $GLOBALS['LB_render']['affpage'];
+   $res = $GLOBALS['_LB_render']['res'];
+
+   $dir = $res->getDir();
+   $res->move($affpage->prevPage());
+   $img = $res->f();
+   $result = sprintf('<a href="%s">%s</a>', link::vignette($dir, $img->getImageName()), $s);
+   if ($return) return $result;
+   echo $result;
+}
+
+/**
+ *
+ *
+ * @param string $s
+ * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+ */
+function lbVignetteNextPage($s, $return = false) {
+   $affpage = $GLOBALS['LB_render']['affpage'];
+   $res = $GLOBALS['_LB_render']['res'];
+
+   $dir = $res->getDir();
+   $res->move($affpage->nextPage());
+   $img = $res->f();
+   $result = sprintf('<a href="%s">%s</a>', link::vignette($dir, $img->getImageName()), $s);
+   if ($return) return $result;
+   echo $result;
+}
 ?>

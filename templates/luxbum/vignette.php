@@ -10,7 +10,7 @@
 
         <div class="liste_apercu">
           <?php while (!$res->EOP()):?>
-          <div class="<?php lbColStyle();?>">
+          <div class="vignette2col">
             <div class="num_photo">
               <?php lbResPosition();?> / <?php lbResTotal();?>
             </div>
@@ -23,7 +23,22 @@
 
           <div class="spacer"></div>
           <div id="aff_page">
-<!--             <mx:text id="aff_page"/> -->
+            <table class="tborder" cellpadding="3" cellspacing="1" border="0">
+              <tr>
+                <td class="affpage">
+                  <?php ___('Page'); ?>
+                  <?php lbPaginatorCurrentPage(); ?>
+                  <?php ___('on');?>
+                  <?php lbPaginatorTotalPages(); ?>
+                </td>
+                <?php while (!$affpage->EOF()):?>
+                <td class="<?php lbPaginatorAltClass();?>">
+                  <a href="<?php lbPaginatorLinkVignette();?>"><?php lbPaginatorElementText();?></a>
+                </td>
+                <?php $affpage->moveNext();
+                endwhile;?>
+              </tr>
+            </table>
           </div>
         </div>
       </div>
@@ -36,7 +51,7 @@
           
           <table width="100%" border="0" cellpadding="0" cellspacing="0">
             <tr>
-              <td width="30"><?php lbVignettePrev('<img src="_images/navig/back.gif" alt="back" border="0"/>');?></td>
+              <td width="30"><?php lbVignettePrev('<img src="'. lbColorThemePath(true).'/images/back.gif" alt="back" border="0"/>');?></td>
               <td class="description_td">
                 <?php lbPhotoDescription('<span class="description">%s</span>');?><br />
 
@@ -62,7 +77,7 @@
                 <!--                   </mx:bloc id="selection"> -->
                 <!-- end upd dark 1 -->
               </td>
-              <td width="30"><?php lbVignetteNext('<img src="_images/navig/forward.gif" alt="forward" border="0"/>');?></td>
+              <td width="30"><?php lbVignetteNext('<img src="'. lbColorThemePath(true).'/images/forward.gif" alt="forward" border="0"/>');?></td>
             </tr>
           </table>
         </div>

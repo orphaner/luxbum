@@ -16,6 +16,13 @@
       <?php echo  ; 
             lbGalleryLinkSubGallery('<h3>'.__('Sub galleries').'&nbsp;:&nbsp;'."%s</h3>",lbGalleryNiceName(true));?>
       <?php lbGalleryLinkConsult("<h3>%s</h3>", lbGalleryNiceName(true));?>
+      <?php if (lbHasPhotos()):?>
+      <span class="infos">
+        <?php lbGalleryNbPhotos();?>
+        <?php ___(' pictures - ');?>
+        <?php lbGalleryNiceSize();?>.
+      </span> 
+      <?php endif;?>
     </div>
     <p style="clear:both;"></p>
 

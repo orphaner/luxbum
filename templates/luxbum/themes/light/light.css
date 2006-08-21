@@ -88,7 +88,7 @@ div.spacer {
 
 h1 {
 	text-align:center;
-	background:url('../images/luxbum_h1_light.jpg') center no-repeat;
+	background:url('images/luxbum_h1_light.jpg') center no-repeat;
 	height:160px;
 }
 h1 span {
@@ -151,7 +151,7 @@ span.infos {
 }
 .consulter ul li a {
     padding: 0 0 0 12px;
-    background: transparent url('../images/fleche_light.png') no-repeat top left;
+    background: transparent url('images/fleche_light.png') no-repeat top left;
 }
 
 

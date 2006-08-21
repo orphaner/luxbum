@@ -32,7 +32,6 @@ define('LOCALE_DIR', 'locale/');
 $GLOBALS['debug'] = true;
 
 
-include (TEMPLATE_DIR.TEMPLATE.'/css/themes_css.php');
 include (TEMPLATE_DIR.TEMPLATE.'/conf_'.TEMPLATE.'.php');
 
 
@@ -40,6 +39,8 @@ include (TEMPLATE_DIR.TEMPLATE.'/conf_'.TEMPLATE.'.php');
 // Includes
 //------------------------------------------------------------------------------
 include (CONF_DIR.'config.php');
+include_once('_fonctions/extinc/class.recordset.php');
+include_once('_fonctions/class/paginator.php');
 include_once(FONCTIONS_DIR.'views.php');
 include_once(FONCTIONS_DIR.'class/verif.php');
 

@@ -68,6 +68,14 @@ class imagetoolkit
       }
    }
 
+   function getImageDimensions($path) {
+      if (is_file ($path)) {
+         $size = GetImageSize ($path);
+         return sprintf ('width="%s" height="%s"', $size[0], $size[1]);
+      }
+      return '';
+   }
+
    /**
     * Crée un handler de l'image suivant son type
     * @access private

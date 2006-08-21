@@ -321,6 +321,7 @@ class luxBumImage
    function getThumbResizeSize () {
       if ($this->thumbToolkit == null) {
          return '';
+         return imagetoolkit::getImageDimensions($this->getAsThumb ());
       }
       return sprintf ('width="%s" height="%s"',
                       $this->thumbToolkit->getImageDestWidth(),
@@ -334,6 +335,7 @@ class luxBumImage
    function getPreviewResizeSize () {
       if ($this->previewToolkit == null) {
          return '';
+         return imagetoolkit::getImageDimensions($this->getAsPreview ());
       }
       return sprintf ('width="%s" height="%s"',
                       $this->previewToolkit->getImageDestWidth(),
