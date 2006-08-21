@@ -6,7 +6,7 @@
 </div>
 <div id="gallerytitle">
   <h2>
-    <a href="index.php"><strong><?php ___('Home');?></strong></a> 
+    <a href="<?php echo lbIndexLink(); ?>"><strong><?php ___('Home');?></strong></a> 
     <?php lbMenuNav('%s', '%s', ' | '); ?>
     | <?php lbImageName();?>
   </h2>

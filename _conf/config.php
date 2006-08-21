@@ -2,7 +2,7 @@
 define ('NOM_GALERIE', 'Galerie d\'images');
 define ('TEMPLATE_THEME', '2COL');
 define ('COLOR_THEME', 'white');
-define ('USE_REWRITE', 'off');
+define ('USE_REWRITE', 'on');
 define ('MKDIR_SAFE_MODE', 'off');
 define ('DATE_FORMAT', '%A %e %B %Y');
 define ('MIN_SIZE_FOR_PREVIEW', '0');

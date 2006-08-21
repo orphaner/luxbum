@@ -2,7 +2,7 @@
 
 function extractPhotoName ($file) {
    $tab = array ();
-   $tab = split('-', $file);
+   $tab = split('/', $file);
    return $tab[count($tab)-1];
   }
 

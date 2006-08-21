@@ -2,7 +2,7 @@
 <div id="gallerytitle"><h1><?php lbGalleryH1();?></h1></div>
 
 <h2>
-  <a href="index.php"><strong><?php ___('Home');?></strong></a> 
+  <a href="<?php echo lbIndexLink();?>"><strong><?php ___('Home');?></strong></a> 
   <?php lbMenuNav('%s', '%s', ' | '); ?>
 </h2>
 

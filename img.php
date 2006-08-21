@@ -17,7 +17,8 @@ include_once(FONCTIONS_DIR.'class/imagetoolkit.class.php');
 //------------------------------------------------------------------------------
 // Parsing des paramètres
 //------------------------------------------------------------------------------
-if (ereg ('^('.THUMB_DIR.'|'.PREVIEW_DIR.'|index|full)-(.+)-(.+)$', $_SERVER['QUERY_STRING'], $argv) ) {
+
+if (ereg ('^('.files::removeTailSlash(THUMB_DIR).'|'.files::removeTailSlash(PREVIEW_DIR).'|index|full)/(.+)/(.+)$', $_SERVER['QUERY_STRING'], $argv) ) {
    $type = $argv[1];
    $dir  = $argv[2];
    $file = $argv[3];
@@ -30,7 +31,7 @@ verif::isImage ($dir, $file);
 
 
 $luxAff = new luxBumImage ($dir, $file);
-if ($type == 'vignette/') {
+if ($type == 'vignette') {
     $newfile = $luxAff->getAsThumb(VIGNETTE_THUMB_W, VIGNETTE_THUMB_H);
 }
 else if ($type == 'index') {

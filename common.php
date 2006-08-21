@@ -26,8 +26,9 @@ define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
 define ('PASS_FILE', 'pass.php');
 
 define ('TEMPLATE_DIR', 'templates/');
-define ('TEMPLATE', 'photoblog');
+define ('TEMPLATE', 'luxbum');
 define('LOCALE_DIR', 'locale/');
+define('URL_BASE', 'http://localhost/luxbum/trunk/');
 
 $GLOBALS['debug'] = true;
 

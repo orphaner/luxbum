@@ -88,14 +88,14 @@ class Dispatcher
    function loadBuiltinControllers()
    {
       Dispatcher::registerController('IndexView', '#^/$#i', 4);
-      Dispatcher::registerController('IndexView', '#^/ssgal-(.*)\.html$#i', 4);
-      Dispatcher::registerController('VignetteView', '#^/vignette\-(.*)\.html$#i', 4);
-      Dispatcher::registerController('VignetteView', '#^/vignette\-(.*)\-(.*)\.html$#i', 4);
-      Dispatcher::registerController('AffichageView', '#^/affichage\-(.*)\-(.*)\.html$#i', 4);
-      Dispatcher::registerController('InfosExifView', '#^/exif\-(.*)\-(.*)\.html$#i', 4);
-      Dispatcher::registerController('CommentaireView', '#^/commentaires\-(.*)\-(.*)\.html$#i', 4);
-      Dispatcher::registerController('SlideShowView', '#^/slideshow\-(.*)\.html$#i', 4);
-      Dispatcher::registerController('SlideShowView', '#^/slideshow\-(.*)\-([0-9]+)\.html$#i', 4);
+      Dispatcher::registerController('IndexView', '#^/ssgal/(.*)\.html$#i', 4);
+      Dispatcher::registerController('VignetteView', '#^/vignette/(.*)\.html$#i', 4);
+      Dispatcher::registerController('VignetteView', '#^/vignettei/(.*)/(.*)\.html$#i', 4);
+      Dispatcher::registerController('AffichageView', '#^/affichage/(.*)/(.*)\.html$#i', 4);
+      Dispatcher::registerController('InfosExifView', '#^/exif/(.*)/(.*)\.html$#i', 4);
+      Dispatcher::registerController('CommentaireView', '#^/commentaires/(.*)/(.*)\.html$#i', 4);
+      Dispatcher::registerController('SlideShowView', '#^/slide\-show/(.*)\.html$#i', 4);
+      Dispatcher::registerController('SlideShowView', '#^/slide\-show/(.*)/([0-9]+)\.html$#i', 4);
    }
 
    /**

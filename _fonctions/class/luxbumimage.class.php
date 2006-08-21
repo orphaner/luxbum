@@ -239,13 +239,7 @@ class luxBumImage
     * @return Lien de la vignette de l'image vers le script de génération
     */
    function getThumbLink () {
-      if (USE_REWRITE == 'on') {
-         $prefix = 'image/';
-      }
-      else {
-         $prefix = 'image.php?';
-      }
-      return $prefix.THUMB_DIR.'-'.$this->dir.'-'.$this->img;
+      return link::thumb($this->dir, $this->img);
    }
    
    /**
@@ -253,13 +247,7 @@ class luxBumImage
     * @return Lien de l'aperçu de l'image vers le script de génération
     */
    function getPreviewLink () {
-      if (USE_REWRITE == 'on') {
-         $prefix = 'image/';
-      }
-      else {
-         $prefix = 'image.php?';
-      }
-      return $prefix.PREVIEW_DIR.'-'.$this->dir.'-'.$this->img;
+      return link::preview($this->dir, $this->img);
    }
 
    /**

@@ -5,7 +5,7 @@
 
   <div id="liste_apercu">
 
-    <?php lbMenuNav('<div id="menunav"><ol class="tree"><li>&#187; <a href="index.php"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
+    <?php lbMenuNav('<div id="menunav"><ol class="tree"><li>&#187; <a href="'.lbIndexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
           '<li>%s</li>'); ?>
 
     <?php while (!$res->EOF()):?>

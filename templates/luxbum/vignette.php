@@ -5,7 +5,7 @@
       <h1 class="vig_titre"><?php lbGalleryH1();?></h1>
       <div id="apercu">
 
-        <?php lbMenuNav('<div id="menunav"><ol class="tree"><li>&#187; <a href="index.php"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
+        <?php lbMenuNav('<div id="menunav"><ol class="tree"><li>&#187; <a href="'.lbIndexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
               '<li>%s</li>'); ?>
 
         <div class="liste_apercu">

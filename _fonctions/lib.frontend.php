@@ -1,5 +1,8 @@
 <?php
 
+function lbIndexLink() {
+   return URL_BASE.INDEX_FILE;
+  }
 
 
   /**
@@ -1095,6 +1098,7 @@ function lbVignetteNextPage($s, $return = false) {
    $dir = $res->getDir();
    $res->move($affpage->nextPage());
    $img = $res->f();
+   print_r($res);
    $result = sprintf('<a href="%s">%s</a>', link::vignette($dir, $img->getImageName()), $s);
    if ($return) return $result;
    echo $result;

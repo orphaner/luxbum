@@ -580,13 +580,13 @@ class luxBumGallery extends Recordset2
 
       $this->_completeDefaultImage ();      
       // La galerie contient des photos
-      if (USE_REWRITE == 'on') {
-         $prefix = 'image/';
-      }
-      else {
-         $prefix = 'image.php?';
-      }
-      return $prefix.'index-'.($this->dir).'-'.$this->preview;
+//       if (USE_REWRITE == 'on') {
+//          $prefix = 'image/';
+//       }
+//       else {
+//          $prefix = 'image.php?';
+//       }
+      return link::index($this->dir, $this->preview);
    }
 
    /**
