@@ -4,6 +4,21 @@
 // Includes
 //------------------------------------------------------------------------------
 include_once ('common.php');
+include_once(FONCTIONS_DIR.'lib.frontend.php');
+include_once(FONCTIONS_DIR.'class/link.php');
+include_once(FONCTIONS_DIR.'extinc/class.dispatcher.php');
+include_once(FONCTIONS_DIR.'luxbum.class.php');
+
+include_once(FONCTIONS_DIR.'extinc/class.recordset.php');
+include_once(FONCTIONS_DIR.'class/luxbumgallery.class.php');
+include_once(FONCTIONS_DIR.'class/luxbumimage.class.php');
+include_once(FONCTIONS_DIR.'class/imagetoolkit.class.php');
+include_once(FONCTIONS_DIR.'class/luxbumindex.class.php');
+include_once(FONCTIONS_DIR.'class/files.php');
+include_once(FONCTIONS_DIR.'class/commentaire.class.php');
+include_once(FONCTIONS_DIR.'private.php');
+
+
 include_once (CONF_DIR.'config_manager.php');
 include_once (CONF_DIR.'config_auth.php');
 include_once (FONCTIONS_DIR.'mysql.inc.php');

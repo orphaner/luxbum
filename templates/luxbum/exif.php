@@ -5,31 +5,31 @@
     <table class="clean-table">
       <tr>
         <td><?php ___('Camera');?></td>
-        <td><?php lbExifCameraMaker();?> <?php lbExifCameraModel();?></td>
+        <td><?php lb::exifCameraMaker();?> <?php lb::exifCameraModel();?></td>
       </tr>
       <tr>
         <td><?php ___('Exposure');?></td>
-        <td><?php lbExifExposureTime();?></td>
+        <td><?php lb::exifExposureTime();?></td>
       </tr>
       <tr>
         <td><?php ___('Aperture');?></td>
-        <td><?php lbExifAperture();?></td>
+        <td><?php lb::exifAperture();?></td>
       </tr>
       <tr>
         <td><?php ___('Focal length');?></td>
-        <td><?php lbExifFocalLength();?></td>
+        <td><?php lb::exifFocalLength();?></td>
       </tr>
       <tr>
         <td><?php ___('Flash');?></td>
-        <td><?php lbExifFlash();?></td>
+        <td><?php lb::exifFlash();?></td>
       </tr>
       <tr>
         <td><?php ___('ISO');?></td>
-        <td><?php lbExifISO();?></td>
+        <td><?php lb::exifISO();?></td>
       </tr>
       <tr>
         <td><?php ___('Date');?></td>
-        <td><?php lbExifCaptureDate();?></td>
+        <td><?php lb::exifCaptureDate();?></td>
       </tr>
     </table>
     <p><a href="javascript:window.close();"><?php echo __('Close the window');?></a></p>

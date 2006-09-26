@@ -1,9 +1,9 @@
 <?php include('header.php');?>
 
-<div id="gallerytitle"><h1><?php lbGalleryH1();?></h1></div>
+<div id="gallerytitle"><h1><?php lb::galleryH1();?></h1></div>
 <h2>
-  <a href="<?php echo lbIndexLink();?>"><strong><?php ___('Home');?></strong></a> 
-  <?php lbMenuNav('%s', '%s', ' | '); ?>
+  <a href="<?php echo lb::indexLink();?>"><strong><?php ___('Home');?></strong></a> 
+  <?php lb::menuNav('%s', '%s', ' | '); ?>
 </h2>
 
 
@@ -12,7 +12,7 @@
   <div>
     <div class="image">
       <div class="imagethumb">
-        <a href="<?php lbLinkAffichage();?>"><?php lbDisplayVignette();?></a>
+        <a href="<?php lb::linkAffichage();?>"><?php lb::displayVignette();?></a>
       </div>
     </div>
   </div>
@@ -24,25 +24,25 @@
 <div class="pagelist">
 
   <ul class="pagelist">
-    <?php if (lbIsFirstPage()): ?>
+    <?php if (lb::isFirstPage()): ?>
     <li class="prev"><span class="disabledlink"><?php echo '&laquo; '.__('prev');?></span></li>  
     <?php else: ?>
-    <li class="prev"><?php lbVignettePrevPage('&laquo; '.__('prev'));?></li>
+    <li class="prev"><?php lb::vignettePrevPage('&laquo; '.__('prev'));?></li>
     <?php endif; ?>
 
     <?php while (!$affpage->EOF()): ?>
-    <?php if (lbPaginatorIsCurrent()): ?>
-    <li class="current"><a href="<?php lbPaginatorLinkVignette();?>" title="<?php ___('Page');lbPaginatorCurrentPage(); ?>"><?php lbPaginatorElementText();?></a></li>
+    <?php if (lb::paginatorIsCurrent()): ?>
+    <li class="current"><a href="<?php lb::paginatorLinkVignette();?>" title="<?php ___('Page');lb::paginatorCurrentPage(); ?>"><?php lb::paginatorElementText();?></a></li>
     <?php else: ?>
-    <li><a href="<?php lbPaginatorLinkVignette();?>" title="<?php ___('Page');lbPaginatorCurrentPage(); ?>"><?php lbPaginatorElementText();?></a></li>
+    <li><a href="<?php lb::paginatorLinkVignette();?>" title="<?php ___('Page');lb::paginatorCurrentPage(); ?>"><?php lb::paginatorElementText();?></a></li>
     <?php endif;?>
     <?php $affpage->moveNext();
     endwhile;?>
 
-    <?php if (lbIsLastPage()): ?>
+    <?php if (lb::isLastPage()): ?>
     <li class="next"><span class="disabledlink"><?php echo __('next').' &raquo;';?></span></li>  
     <?php else: ?>
-    <li class="next"><?php  lbVignetteNextPage(__('next').' &raquo;','');?><li>
+    <li class="next"><?php  lb::vignetteNextPage(__('next').' &raquo;','');?><li>
     <?php endif; ?>
 
   </ul>

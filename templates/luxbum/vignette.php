@@ -2,20 +2,20 @@
 <body id="body">  
   <div id="page">
     <div id="center"> 
-      <h1 class="vig_titre"><?php lbGalleryH1();?></h1>
+      <h1 class="vig_titre"><?php lb::galleryH1();?></h1>
       <div id="apercu">
 
-        <?php lbMenuNav('<div id="menunav"><ol class="tree"><li>&#187; <a href="'.lbIndexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
+        <?php lb::menuNav('<div id="menunav"><ol class="tree"><li>&#187; <a href="'.lb::indexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
               '<li>%s</li>'); ?>
 
         <div class="liste_apercu">
           <?php while (!$res->EOP()):?>
           <div class="vignette2col">
             <div class="num_photo">
-              <?php lbResPosition();?> / <?php lbResTotal();?>
+              <?php lb::resPosition();?> / <?php lb::resTotal();?>
             </div>
-            <div class="<?php lbVignetteStyle();?>">
-              <a href="<?php lbLinkVignette();?>"><?php lbDisplayVignette();?></a>
+            <div class="<?php lb::vignetteStyle();?>">
+              <a href="<?php lb::linkVignette();?>"><?php lb::displayVignette();?></a>
             </div>
           </div>
           <?php $res->moveNext();
@@ -27,13 +27,13 @@
               <tr>
                 <td class="affpage">
                   <?php ___('Page'); ?>
-                  <?php lbPaginatorCurrentPage(); ?>
+                  <?php lb::paginatorCurrentPage(); ?>
                   <?php ___('on');?>
-                  <?php lbPaginatorTotalPages(); ?>
+                  <?php lb::paginatorTotalPages(); ?>
                 </td>
                 <?php while (!$affpage->EOF()):?>
-                <td class="<?php lbPaginatorAltClass();?>">
-                  <a href="<?php lbPaginatorLinkVignette();?>"><?php lbPaginatorElementText();?></a>
+                <td class="<?php lb::paginatorAltClass();?>">
+                  <a href="<?php lb::paginatorLinkVignette();?>"><?php lb::paginatorElementText();?></a>
                 </td>
                 <?php $affpage->moveNext();
                 endwhile;?>
@@ -46,22 +46,22 @@
       <div id="iframeaffichage">
         <div id="affichage_photo">
           <div id="laphoto">
-            <a href="<?php lbPathPhoto();?>" onclick="window.open(this.href,'',''); return false;"><?php lbDisplayApercu();?></a>
+            <a href="<?php lb::pathPhoto();?>" onclick="window.open(this.href,'',''); return false;"><?php lb::displayApercu();?></a>
           </div>
           
           <table width="100%" border="0" cellpadding="0" cellspacing="0">
             <tr>
-              <td width="30"><?php lbVignettePrev('<img src="'. lbColorThemePath(true).'/images/back.gif" alt="back" border="0"/>');?></td>
+              <td width="30"><?php lb::vignettePrev('<img src="'. lb::colorThemePath(true).'/images/back.gif" alt="back" border="0"/>');?></td>
               <td class="description_td">
-                <?php lbPhotoDescription('<span class="description">%s</span>');?><br />
+                <?php lb::photoDescription('<span class="description">%s</span>');?><br />
 
-                <?php if (lbExifEnabled()):?>
-                + <a href="javascript:void(0);" onclick="window.open('<?php lbLinkExif();?>','Exif','width=350,height=400,scrollbars=yes,resizable=yes');"><?php echo __('EXIF data');?></a>
+                <?php if (lb::exifEnabled()):?>
+                + <a href="javascript:void(0);" onclick="window.open('<?php lb::linkExif();?>','Exif','width=350,height=400,scrollbars=yes,resizable=yes');"><?php echo __('EXIF data');?></a>
                 <?php endif;?>
 
-                <?php if (lbExifEnabled()):?>
-                + <a href="javascript:void(0);" onclick="window.open('<?php lbLinkComment();?>','Comments','width=480,height=540,scrollbars=yes,resizable=yes');"><?php echo __('Comments');?> 
-                  (<?php lbCommentCount();?>)</a>
+                <?php if (lb::exifEnabled()):?>
+                + <a href="javascript:void(0);" onclick="window.open('<?php lb::linkComment();?>','Comments','width=480,height=540,scrollbars=yes,resizable=yes');"><?php echo __('Comments');?> 
+                  (<?php lb::commentCount();?>)</a>
                 <?php endif;?>
 
                 <!-- start upd dark 1 -->
@@ -77,7 +77,7 @@
                 <!--                   </mx:bloc id="selection"> -->
                 <!-- end upd dark 1 -->
               </td>
-              <td width="30"><?php lbVignetteNext('<img src="'. lbColorThemePath(true).'/images/forward.gif" alt="forward" border="0"/>');?></td>
+              <td width="30"><?php lb::vignetteNext('<img src="'. lb::colorThemePath(true).'/images/forward.gif" alt="forward" border="0"/>');?></td>
             </tr>
           </table>
         </div>

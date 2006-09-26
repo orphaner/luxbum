@@ -3,6 +3,7 @@ RewriteEngine on
 
 RewriteRule ^image/(.*)$ /img.php?$1 [L]
 RewriteRule ^(.+)\.html$ /index.php?/$1\.html
+RewriteRule ^album/(.*)$ /index.php?/$1
 
 RewriteCond %{REQUEST_URI} !^/slideshow.php
 RewriteRule ^(.*)slideshow.php(.*)$ /slideshow.php

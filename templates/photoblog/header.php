@@ -5,10 +5,10 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="MSSmartTagsPreventParsing" content="TRUE" />
-    <title><?php lbPageTitle(); ?></title>
+    <title><?php lb::pageTitle(); ?></title>
 
-    <?php lbFavicon();?>
-    <?php lbPageStyle();?>
+    <?php lb::favicon();?>
+    <?php lb::pageStyle();?>
 
   </head>
 

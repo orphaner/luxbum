@@ -1,34 +1,34 @@
 <?php include ('header.php');?>
 
 <body id="body">  
-  <h1><span><?php lbGalleryH1();?></span></h1>
+  <h1><span><?php lb::galleryH1();?></span></h1>
 
   <div id="liste_apercu">
 
-    <?php lbMenuNav('<div id="menunav"><ol class="tree"><li>&#187; <a href="'.lbIndexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
+    <?php lb::menuNav('<div id="menunav"><ol class="tree"><li>&#187; <a href="'.lb::indexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
           '<li>%s</li>'); ?>
 
     <?php while (!$res->EOF()):?>
     <div class="galerie">
       <div class="lg">
-        <?php lbDefaultImage(); ?>
+        <?php lb::defaultImage(); ?>
       </div>
       <div class="ld">
-        <h2><?php lbGalleryNiceName();?></h2>
-        <?php if (lbHasPhotos()):?>
+        <h2><?php lb::galleryNiceName();?></h2>
+        <?php if (lb::hasPhotos()):?>
         <span class="infos">
-          <?php lbGalleryNbPhotos();?>
+          <?php lb::galleryNbPhotos();?>
           <?php ___(' pictures - ');?>
-          <?php lbGalleryNiceSize();?>.
+          <?php lb::galleryNiceSize();?>.
         </span> 
         <?php endif;?>
         
         <div class="consulter">
           <ul>
-            <?php lbGalleryLinkPrivate("<li>%s</li>", __('Private gallery'));?>
-            <?php lbGalleryLinkSubGallery("<li>%s</li>", __('Sub galleries'));?>
-            <?php lbGalleryLinkConsult("<li>%s</li>", __('Consult'));?>
-            <?php lbGalleryLinkSlideshow("<li>%s</li>", __('Slideshow'));?>
+            <?php lb::galleryLinkPrivate("<li>%s</li>", __('Private gallery'));?>
+            <?php lb::galleryLinkSubGallery("<li>%s</li>", __('Sub galleries'));?>
+            <?php lb::galleryLinkConsult("<li>%s</li>", __('Consult'));?>
+            <?php lb::galleryLinkSlideshow("<li>%s</li>", __('Slideshow'));?>
           </ul>
         </div>
 

@@ -53,7 +53,7 @@ if (!empty($_COOKIE['lang']) && in_array($_COOKIE['lang'], $locales)) {
    $lang = $_COOKIE['lang'];
 }
 else {
-   $lang = l10n::getAcceptedLanguage($locales, 'en');
+   $lang = l10n::getAcceptedLanguage($locales);
 }
 
 $l = new l10n($lang);

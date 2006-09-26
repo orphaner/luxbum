@@ -1,52 +1,52 @@
 <?php include('header.php');?>
 
 <div class="imgnav">
-  <div class="imgprevious"><?php lbAffichagePrev('&laquo; '.__('prev'),'<a></a>');?></div>
-  <div class="imgnext"><?php lbAffichageNext(__('next').' &raquo;','');?></div>
+  <div class="imgprevious"><?php lb::affichagePrev('&laquo; '.__('prev'),'<a></a>');?></div>
+  <div class="imgnext"><?php lb::affichageNext(__('next').' &raquo;','');?></div>
 </div>
 <div id="gallerytitle">
   <h2>
-    <a href="<?php echo lbIndexLink(); ?>"><strong><?php ___('Home');?></strong></a> 
-    <?php lbMenuNav('%s', '%s', ' | '); ?>
-    | <?php lbImageName();?>
+    <a href="<?php echo lb::indexLink(); ?>"><strong><?php ___('Home');?></strong></a> 
+    <?php lb::menuNav('%s', '%s', ' | '); ?>
+    | <?php lb::imageName();?>
   </h2>
 </div>
 
 <div id="image">
-  <a href="<?php lbPathPhoto();?>" onclick="window.open(this.href,'',''); return false;"><?php lbDisplayApercu();?></a>
+  <a href="<?php lb::pathPhoto();?>" onclick="window.open(this.href,'',''); return false;"><?php lb::displayApercu();?></a>
 </div>
 
 
 <div id="narrow">
-  <?php lbPhotoDescription('<span class="description">%s</span>');?><br />
-  <?php if (lbExifEnabled()):?>
+  <?php lb::photoDescription('<span class="description">%s</span>');?><br />
+  <?php if (lb::exifEnabled()):?>
   <div id="exif">
     <strong><?php echo __('Camera');?></strong> :
-    <?php lbExifCameraMaker();?> <?php lbExifCameraModel();?><br />
+    <?php lb::exifCameraMaker();?> <?php lb::exifCameraModel();?><br />
     
     <strong><?php echo __('Exposure');?></strong> :
-    <?php lbExifExposureTime();?><br />
+    <?php lb::exifExposureTime();?><br />
     
     <strong><?php echo __('Aperture');?></strong> :
-    <?php lbExifAperture();?><br />
+    <?php lb::exifAperture();?><br />
     
     <strong><?php echo __('Focal length');?></strong> :
-    <?php lbExifFocalLength();?><br />
+    <?php lb::exifFocalLength();?><br />
     
     <strong><?php echo __('Flash');?></strong> :
-    <?php lbExifFlash();?><br />
+    <?php lb::exifFlash();?><br />
     
     <strong><?php echo __('ISO');?></strong> :
-    <?php lbExifISO();?><br />
+    <?php lb::exifISO();?><br />
     
     <strong><?php echo __('Date');?></strong> :
-    <?php lbExifCaptureDate();?><br />
+    <?php lb::exifCaptureDate();?><br />
   </div>
   <?php endif;?>
   
-  <?php if (!lbExifEnabled()):?>
-  + <a href="javascript:void(0);" onclick="window.open('<?php lbLinkComment();?>','Comments','width=480,height=540,scrollbars=yes,resizable=yes');"><?php echo __('Comments');?> 
-    (<?php lbCommentCount();?>)</a>
+  <?php if (!lb::exifEnabled()):?>
+  + <a href="javascript:void(0);" onclick="window.open('<?php lb::linkComment();?>','Comments','width=480,height=540,scrollbars=yes,resizable=yes');"><?php echo __('Comments');?> 
+    (<?php lb::commentCount();?>)</a>
   <?php endif;?>
 </div>
 <?php include('footer.php');?>

@@ -38,26 +38,21 @@ class link {
    // Le lien pour les pages de vignettes
    function vignette ($dir, $img = '') {
       if ($img == '') {
-         return link::prefix()."vignette/$dir.html";
+         return link::prefix()."album/$dir/";
       }
       else {
-         return link::prefix()."vignettei/$dir/$img.html";
+         return link::prefix()."album/$dir/$img";
       }
    }
    
-//    // Le lien pour les pages des aperçus
-//    function apercu ($dir, $image, $page) {
-//       $page--;
-//       return link::prefix().'affichage-'.$page.'-'.$dir.'-'.$image.'.html';
-//    }
    
    // Le lien pour les pages de slideshow
    function slideshow ($dir, $start='') {
       if ($start == '') {
-         return link::prefix().'slide-show/'.$dir.'.html';
+         return link::prefix().'slide-show/'.$dir;
       }
       else {
-         return link::prefix().'slide-show/'.$dir.'/'.$start.'.html';
+         return link::prefix().'slide-show/'.$dir.'/'.$start;
       }
    }
    
@@ -80,18 +75,19 @@ class link {
  
    // Lien pour une sous galerie
    function subGallery($dir) {
-      return  link::prefix().'ssgal/'.$dir.'.html';
+      $dir = files::addTailSlash($dir);
+      return  link::prefix().'folder/'.$dir;
    }
 
    function commentaire($dir, $img) {
-      return  link::prefix().'commentaires/'.$dir.'/'.$img.'.html';
+      return  link::prefix().'comments/'.$dir.'/'.$img;
    }
 
    function exif($dir, $img) {
-      return  link::prefix().'exif/'.$dir.'/'.$img.'.html';
+      return  link::prefix().'exif/'.$dir.'/'.$img;
    }
    function affichage($dir, $img) {
-      return  link::prefix().'affichage/'.$dir.'/'.$img.'.html';
+      return  link::prefix().'photo/'.$dir.'/'.$img;
    }
 }
 

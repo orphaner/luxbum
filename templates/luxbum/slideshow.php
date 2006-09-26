@@ -8,10 +8,10 @@
     <meta http-equiv="Content-Style-Type" content="text/css"/>
     <meta http-equiv="Content-Language" content="fr"/>
     <script  type="text/javascript" src="_javascript/slideshow.js"></script>
-    <title><?php lbPageTitle(); ?></title>
+    <title><?php lb::pageTitle(); ?></title>
 
-    <?php lbFavicon();?>
-    <?php lbPageStyle();?>
+    <?php lb::favicon();?>
+    <?php lb::pageStyle();?>
 
 <style type="text/css">
 #slide {
@@ -132,15 +132,15 @@
 
 <script type="text/javascript">
 <!--
-var photosDir = "<?php lbPhotoDir();?>";
-var currentDir = "<?php lbSlideshowDir();?>";
+var photosDir = "<?php lb::photoDir();?>";
+var currentDir = "<?php lb::slideshowDir();?>";
 var photosURL = new Array();
 
-<?php lbSlideshowPhotoList();?>
+<?php lb::slideshowPhotoList();?>
 
 // Options
-var smoothtrans = <?php lbSlideshowFadingText();?>; // Set this to false to prevent any fading effect
-var slide_speed = <?php lbSlideshowTime();?>;
+var smoothtrans = <?php lb::slideshowFadingText();?>; // Set this to false to prevent any fading effect
+var slide_speed = <?php lb::slideshowTime();?>;
 -->
 </script>
 
@@ -164,8 +164,8 @@ var slide_speed = <?php lbSlideshowTime();?>;
 
   <div id="s_options_box">
     <h2><?php ___('Options');?></h2>
-    <input type="checkbox" id="smoothtrans" checked="<?php lbSlideshowFadingCheckbox();?>"/> <?php ___('Enable fading');?><br />
-    <input type="text" id="slide_speed" size="1" maxlength="1" value="<?php lbSlideshowTime();?>" /> <?php ___('Time between each picture (sec)');?><br />
+    <input type="checkbox" id="smoothtrans" checked="<?php lb::slideshowFadingCheckbox();?>"/> <?php ___('Enable fading');?><br />
+    <input type="text" id="slide_speed" size="1" maxlength="1" value="<?php lb::slideshowTime();?>" /> <?php ___('Time between each picture (sec)');?><br />
   </div>
   <div id="s_exif_info"></div>
   <div id="s_help_box">
