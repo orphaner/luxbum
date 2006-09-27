@@ -54,7 +54,7 @@ class files {
    function isDeletable ($file) {
       if (is_file ($file)) {
          if ($fd = fopen($file, 'a')) {
-            close ($fd);
+            fclose ($fd);
             return true;
          }
          return false;

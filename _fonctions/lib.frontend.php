@@ -1104,5 +1104,127 @@ class lb {
       if ($return) return $result;
       echo $result;
    }
+
+
+/*------------------------------------------------------------------------------
+ COMMENTS
+ -----------------------------------------------------------------------------*/
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function ctPostAuthor($return = false) {
+      $result = $GLOBALS['_LB_render']['ctPost']->getAuthor();
+      $result = unprotege_input($result);
+      if ($return) return $result;
+      echo $result;
+   } 
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function ctPostEmail($return = false) {
+      $result = $GLOBALS['_LB_render']['ctPost']->getEmail();
+      $result = unprotege_input($result);
+      if ($return) return $result;
+      echo $result;
+   } 
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function ctPostWebsite($return = false) {
+      $result = $GLOBALS['_LB_render']['ctPost']->getWebsite();
+      $result = unprotege_input($result);
+      if ($return) return $result;
+      echo $result;
+   } 
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function ctPostContent($return = false) {
+      $result = $GLOBALS['_LB_render']['ctPost']->getContent();
+      $result = unprotege_input($result);
+      $result = unprotege_input($result);
+      if ($return) return $result;
+      echo $result;
+   } 
+
+   /**
+    *
+    *
+    * @param string $key
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function ctPostError($key, $return = false) {
+      $result = $GLOBALS['_LB_render']['ctPost']->getError($key);
+      if ($return) return $result;
+      echo $result;
+   }
+
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function ctAuthor($s='%s', $return = false) {
+      $ct = $GLOBALS['_LB_render']['ct']->f();
+      $result = sprintf($s, unprotege_input($ct->getAuthor()));
+      if ($return) return $result;
+      echo $result;
+   } 
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function ctEmail($s='%s', $return = false) {
+      $ct = $GLOBALS['_LB_render']['ct']->f();
+      $email = $ct->getEmail();
+      $result = '';
+      if (strlen($email) > 0) {
+         $result = sprintf($s, unprotege_input($email));
+      }
+      if ($return) return $result;
+      echo $result;
+   } 
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function ctWebsite($s='%s', $return = false) {
+      $ct = $GLOBALS['_LB_render']['ct']->f();
+      $website = $ct->getWebsite();
+      $result = '';
+      if (strlen($website) > 0) {
+         $result = sprintf($s, unprotege_input($website));
+      }
+      if ($return) return $result;
+      echo $result;
+   } 
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function ctContent($s='%s', $return = false) {
+      $ct = $GLOBALS['_LB_render']['ct']->f();
+      $result = sprintf($s, unprotege_input($ct->getContent()));
+      if ($return) return $result;
+      echo $result;
+   } 
   }
 ?>

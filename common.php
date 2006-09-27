@@ -18,6 +18,7 @@ define ('ADMIN_FILE',          'manager.php');
 
 define ('PHOTOS_DIR', 'photos/');
 define ('THUMB_DIR', 'vignette/');
+define ('COMMENT_DIR', '.comment/');
 define ('PREVIEW_DIR', 'apercu/');
 define ('DESCRIPTION_FILE', 'description.txt');
 define ('ORDER_FILE', 'ordre.txt');

@@ -71,6 +71,22 @@ class luxBum {
    }
 
    /**
+    * Retourne le chemin complet vers le dossier des commentaires
+    * Avec un / final
+    */
+   function getCommentPath($dir) {
+      return luxbum::getFsPath ($dir) . COMMENT_DIR;
+   }
+
+   /**
+    * Retourne le chemin complet vers le fichier des commentaires
+    * Avec un / final
+    */
+   function getCommentFilePath($dir, $photo) {
+      return luxbum::getCommentPath($dir) . $photo . '.txt';
+   }
+
+   /**
     * Retourne le chemin complet du dossier $dir de photos
     * Avec un / final
     */

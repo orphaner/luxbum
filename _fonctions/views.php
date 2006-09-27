@@ -99,8 +99,28 @@ class CommentaireView {
       verif::photo($dir, $photo);
       $GLOBALS['_LB_render']['img'] = new luxBumImage ($dir, $photo);
       $GLOBALS['_LB_render']['img']->exifInit ();
+      $GLOBALS['LB']['title'] = NOM_GALERIE;
 
-      include (TEMPLATE_DIR.TEMPLATE.'/comment.php');
+
+
+      $GLOBALS['_LB_render']['ctPost'] = new Commentaire();
+
+      // Add form valid
+      if (count($_POST) > 0 ) {
+         $comment =& $GLOBALS['_LB_render']['ctPost'];
+         $comment->fillFromPost();
+         
+         if ($comment->isValidForm()) {
+            $comment->fillInfos();
+            $GLOBALS['_LB_render']['img']->saveComment($comment);
+            $comment = new Commentaire();
+         }
+      }
+
+      $GLOBALS['_LB_render']['ct'] = $GLOBALS['_LB_render']['img']->lazyLoadComments();
+      $ct =& $GLOBALS['_LB_render']['ct'];
+
+      include (TEMPLATE_DIR.TEMPLATE.'/commentaire.php');
       return 200;
    }
 }

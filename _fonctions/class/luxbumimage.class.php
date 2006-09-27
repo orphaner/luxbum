@@ -1,7 +1,7 @@
 <?php
 
 include (LIB_DIR.'exifer/exif.php');
-include_once (FONCTIONS_DIR.'mysql.inc.php');
+
 
 define ('NOT_SET', __('Not Set'));
 
@@ -27,6 +27,8 @@ class luxBumImage
    var $previewToolkit = NULL;
 
    var $sortPosition = 0;
+
+   var $listComments = NULL;
 
 
    /**
@@ -379,24 +381,53 @@ class luxBumImage
    }
 
 
+
+
    /**-----------------------------------------------------------------------**/
    /** Fonctions pour les commentaires */
    /**-----------------------------------------------------------------------**/
+   /**
+    * Charge les commentaires de la photo
+    */
+   function lazyLoadComments() {
+      if ($this->listComments == NULL) {
+         $serialFile = luxbum::getCommentFilePath($this->dir, $this->img);
+         if (is_file ($serialFile)) {
+            $instanceSerial = implode ("", @file ($serialFile));
+            $this->listComments = unserialize ($instanceSerial);
+         }
+         else {
+            $this->listComments = new Recordset2();
+         }
+      }
+      return $this->listComments;
+   }
+
+   /**
+    *
+    */
+   function saveComment ($comment) {
+      $list = $this->lazyLoadComments();
+      $list->addToList($comment);
+      $passContent = serialize($list);
+
+      $serialFile = luxbum::getCommentFilePath($this->dir, $this->img);
+      $serialDir = luxbum::getCommentPath($this->dir);
+      files::createDir($serialDir);
+      files::deleteFile($serialFile);
+      files::writeFile($serialFile, $passContent);
+
+      $this->listComments = false;
+   }
+
+
    /**
     * Retourne le nombre de commentaires actifs de la photos
     * @return nombre de commentaires actifs
     */
    function getNbComment () {
-      global $mysql;
-      if ($mysql != null) {
-         $query = sprintf ("SELECT count(*) FROM ".DBL_PREFIX."commentaire "
-                           ."WHERE galerie_comment=%s AND photo_comment=%s AND pub_comment=%s",
-                           $mysql->escapeString($this->dir),
-                           $mysql->escapeString($this->img),
-                           $mysql->escapeSet(1));
-         return $mysql->DbCount ($query);
-      }
-      return 0;
+      $list = $this->lazyLoadComments();
+      return $list->getIntRowCount();
    }
 
    /**-----------------------------------------------------------------------**/

@@ -17,7 +17,8 @@ function protege_input ($in) {
  */
 function unprotege_input ($in) {
    //$in=htmlspecialchars($in,ENT_NOQUOTES);
-   return htmlentities(stripslashes(trim($in)));
+//   return htmlentities(stripslashes(trim($in)));
+   return (stripslashes(trim($in)));
 }
 
 /**
