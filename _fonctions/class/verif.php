@@ -6,9 +6,9 @@ class verif {
     * @param String dir Dossier de l'image
     */
    function dir ($dir) {
-      if (! ereg ("^[A-Za-z0-9_/]+$", $dir)) {
-         return false;
-      }
+//       if (! ereg ("^[A-Za-z0-9_/]+$", $dir)) {
+//          return false;
+//       }
       return true;
    }
    

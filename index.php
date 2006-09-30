@@ -1,4 +1,7 @@
 <?php
+
+xdebug_enable();
+
 $GLOBALS['startTime'] = microtime();
 session_start();
 
@@ -44,4 +47,5 @@ include_once(FONCTIONS_DIR.'private.php');
 
 
 Dispatcher::Launch($_SERVER['QUERY_STRING']);
+
 ?>

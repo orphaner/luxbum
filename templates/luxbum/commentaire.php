@@ -8,7 +8,7 @@
     <?php if( lb::commentCount(true)==0):?>
     <?php ___('No comments');?>
     <?php else:?>
-    <?php while (!$ct->EOF()):?>
+    <?php while (lb::ctHasNext()):?>
     <div id="c-content">
       <div class="comment-post">
         <div class="comment-info">Le DATE!!,
@@ -21,8 +21,8 @@
         </div>
       </div>
     </div>
-    <?php $ct->moveNext();
-    endwhile;?>
+    <?php lb::ctMoveNext();
+          endwhile;?>
     <?php endif;?>
   </div>
 
@@ -32,6 +32,7 @@
     
     <div id="ac-content">        
       <form method="post" id="ajout_commentaire">
+        <?php lb::ctFormAction(); ?>
 
         <fieldset>
           <legend><?php ___('Add a comment');?></legend>

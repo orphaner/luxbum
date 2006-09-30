@@ -34,6 +34,7 @@ class IndexView {
 
 class VignetteView {
    function action ($match) {
+
       VignetteView::initTemplate();
 
       if (count($match) == 3) { 
@@ -47,7 +48,7 @@ class VignetteView {
       else {
          echo "erreur";
       }
-      verif::isDir ($dir);
+      //verif::isDir ($dir);
 
       // Vérif que la page est bonne
       $GLOBALS['_LB_render']['res'] = new luxBumGallery($dir);
@@ -75,6 +76,7 @@ class VignetteView {
       $res->reset();
       
       $GLOBALS['LB']['currentPage'] = $currentPage;
+      $GLOBALS['_LB_render']['dir'] = $dir;
       $GLOBALS['_LB_render']['img'] = $res->getDefault();
 
 //      echo '<pre>';
@@ -82,6 +84,9 @@ class VignetteView {
 //       print_r($GLOBALS['LB_render']['affpage']);
 //       echo '</pre>';
       $affpage =& $GLOBALS['LB_render']['affpage'];
+
+      // Add comment form valid
+      lbPostAction::comment();
 
       include (TEMPLATE_DIR.TEMPLATE.'/vignette.php');
       return 200;
@@ -105,20 +110,11 @@ class CommentaireView {
 
       $GLOBALS['_LB_render']['ctPost'] = new Commentaire();
 
-      // Add form valid
-      if (count($_POST) > 0 ) {
-         $comment =& $GLOBALS['_LB_render']['ctPost'];
-         $comment->fillFromPost();
-         
-         if ($comment->isValidForm()) {
-            $comment->fillInfos();
-            $GLOBALS['_LB_render']['img']->saveComment($comment);
-            $comment = new Commentaire();
-         }
-      }
+      // Add comment form valid
+      lbPostAction::comment();
 
       $GLOBALS['_LB_render']['ct'] = $GLOBALS['_LB_render']['img']->lazyLoadComments();
-      $ct =& $GLOBALS['_LB_render']['ct'];
+      //$ct =& $GLOBALS['_LB_render']['ct'];
 
       include (TEMPLATE_DIR.TEMPLATE.'/commentaire.php');
       return 200;
@@ -141,6 +137,9 @@ class AffichageView {
       $imgIndex = $res->getImageIndex($photo);
       $res->setDefaultIndex($imgIndex);
 
+      // Add comment form valid
+      lbPostAction::comment();
+
       $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
       
       include (TEMPLATE_DIR.TEMPLATE.'/affichage.php');
@@ -158,6 +157,9 @@ class InfosExifView {
       $GLOBALS['_LB_render']['img']->exifInit ();
       $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
 
+      // Add comment form valid
+      lbPostAction::comment();
+
       include (TEMPLATE_DIR.TEMPLATE.'/exif.php');
       return 200;
    }
@@ -170,9 +172,28 @@ class SlideShowView {
       $GLOBALS['LB']['dir'] = $dir;
       $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
 
+      // Add comment form valid
+      lbPostAction::comment();
+
       include (TEMPLATE_DIR.TEMPLATE.'/slideshow.php');
       return 200;
 
+   }
+}
+
+class lbPostAction {
+   function comment() {
+      if (count($_POST) > 0 && isset($_POST['action']) && $_POST['action'] === 'ct') {
+         lbFactory::ctPost();
+         $comment =& $GLOBALS['_LB_render']['ctPost'];
+         $comment->fillFromPost();
+         
+         if ($comment->isValidForm()) {
+            $comment->fillInfos();
+            $GLOBALS['_LB_render']['img']->saveComment($comment);
+            $comment = new Commentaire();
+         }
+      }
    }
 }
 ?>

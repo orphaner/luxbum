@@ -113,7 +113,7 @@ class lb {
       if (!$res->isPrivate()) {
          return ;
       }
-      $result =  lien_sous_galerie($res->getName());
+      $result =  lien_sous_galerie($res->getDir());
       if ($return) return $result;
       echo $result;
    }
@@ -130,7 +130,7 @@ class lb {
       if (!$res->hasSubGallery()) {
          return ;
       }
-      $link =  link::subGallery($res->getName());
+      $link =  link::subGallery($res->getDir());
       $link = sprintf('<a href="%s">%s</a>', $link, $text);
       $result = sprintf($s, $link);
       if ($return) return $result;
@@ -1115,6 +1115,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function ctPostAuthor($return = false) {
+      lbFactory::ctPost();
       $result = $GLOBALS['_LB_render']['ctPost']->getAuthor();
       $result = unprotege_input($result);
       if ($return) return $result;
@@ -1127,6 +1128,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function ctPostEmail($return = false) {
+      lbFactory::ctPost();
       $result = $GLOBALS['_LB_render']['ctPost']->getEmail();
       $result = unprotege_input($result);
       if ($return) return $result;
@@ -1139,6 +1141,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function ctPostWebsite($return = false) {
+      lbFactory::ctPost();
       $result = $GLOBALS['_LB_render']['ctPost']->getWebsite();
       $result = unprotege_input($result);
       if ($return) return $result;
@@ -1151,6 +1154,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function ctPostContent($return = false) {
+      lbFactory::ctPost();
       $result = $GLOBALS['_LB_render']['ctPost']->getContent();
       $result = unprotege_input($result);
       $result = unprotege_input($result);
@@ -1165,6 +1169,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function ctPostError($key, $return = false) {
+      lbFactory::ctPost();
       $result = $GLOBALS['_LB_render']['ctPost']->getError($key);
       if ($return) return $result;
       echo $result;
@@ -1177,6 +1182,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function ctAuthor($s='%s', $return = false) {
+      lbFactory::comment();
       $ct = $GLOBALS['_LB_render']['ct']->f();
       $result = sprintf($s, unprotege_input($ct->getAuthor()));
       if ($return) return $result;
@@ -1189,6 +1195,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function ctEmail($s='%s', $return = false) {
+      lbFactory::comment();
       $ct = $GLOBALS['_LB_render']['ct']->f();
       $email = $ct->getEmail();
       $result = '';
@@ -1205,6 +1212,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function ctWebsite($s='%s', $return = false) {
+      lbFactory::comment();
       $ct = $GLOBALS['_LB_render']['ct']->f();
       $website = $ct->getWebsite();
       $result = '';
@@ -1221,10 +1229,50 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function ctContent($s='%s', $return = false) {
+      lbFactory::comment();
       $ct = $GLOBALS['_LB_render']['ct']->f();
       $result = sprintf($s, unprotege_input($ct->getContent()));
       if ($return) return $result;
       echo $result;
-   } 
+   }
+
+   /**
+    *
+    */
+   function ctFormAction() {
+      echo '<input type="hidden" name="action" id="action" value="ct"/>';
+   }
+
+   /**
+    *
+    */
+   function ctHasNext() {
+      lbFactory::comment();
+      $ct = $GLOBALS['_LB_render']['ct'];
+      return !$ct->EOF();
+   }
+
+   /**
+    *
+    */
+   function ctMoveNext() {
+      lbFactory::comment();
+      $ct = $GLOBALS['_LB_render']['ct'];
+      $ct->moveNext();
+   }
   }
+
+class lbFactory {
+   function comment() {
+      if (!isset($GLOBALS['_LB_render']['ct'])) {
+         $GLOBALS['_LB_render']['ct'] = $GLOBALS['_LB_render']['img']->lazyLoadComments();
+      }
+   }
+
+   function ctPost() {
+      if (!isset($GLOBALS['_LB_render']['ctPost'])) {
+         $GLOBALS['_LB_render']['ctPost'] = new Commentaire();
+      }
+   }
+}
 ?>
