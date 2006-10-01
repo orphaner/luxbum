@@ -49,22 +49,23 @@
     (<?php lb::commentCount();?>)</a>
   <?php endif;?>
 
-  <div id="voircomment">
+  <div id="comments">
     <h2><?php ___('Comments');?></h2>
     <?php if( lb::commentCount(true)==0):?>
     <?php ___('No comments');?>
     <?php else:?>
     <?php while (lb::ctHasNext()):?>
-    <div id="c-content">
-      <div class="comment-post">
-        <div class="comment-info">Le DATE!!,
-          <strong><?php lb::ctAuthor();?></strong>
-          <?php lb::ctWebsite('- <a href="%s" ref="nofollow">'.__('Web site').'</a>');?>
-          <?php lb::ctEmail('- <a href="mailto:%s">'.__('Email').'</a>');?>
-        </div>
-        <div id="co1" class="comment-content">
-          <?php lb::ctContent();?>
-        </div>
+    <div class="comment">
+      <div class="commentmeta">
+        <span class="commentauthor"><?php lb::ctAuthor();?></span>
+        <?php lb::ctWebsite('- <a href="%s" ref="nofollow">'.__('Web site').'</a>');?>
+        <?php lb::ctEmail('- <a href="mailto:%s">'.__('Email').'</a>');?>
+      </div>
+      <div class="commentbody">
+        <?php lb::ctContent();?>
+      </div>
+      <div class="commentdate">
+        DATE !!
       </div>
     </div>
     <?php lb::ctMoveNext();
@@ -73,7 +74,7 @@
   </div>
 
 
-  <div id="addcomment">
+  <div class="imgcommentform">
     <h2><?php ___('Add a comment');?></h2>
     
     <div id="ac-content">        
@@ -84,23 +85,23 @@
           <legend><?php ___('Add a comment');?></legend>
           <p>
             <label for="author" class="float"><strong><?php ___('Name or nickname');?></strong> : </label>
-            <input type="text" name="author" id="author" value="<?php lb::ctPostAuthor();?>"/>
-            <span class="erreur"><?php lb::ctPostError('author');?></span>
+            <input type="text" name="author" id="author" class="inputbox" value="<?php lb::ctPostAuthor();?>"/>
+            <?php lb::ctPostError('author');?>
           </p>
           <p>
             <label for="website" class="float"><?php ___('Web site');?> : </label>
-            <input type="text" name="website" id="website" value="<?php lb::ctPostWebsite();?>"/>
-            <span class="erreur"><?php lb::ctPostError('website');?></span>
+            <input type="text" name="website" id="website" class="inputbox" value="<?php lb::ctPostWebsite();?>"/>
+            <?php lb::ctPostError('website');?>
           </p>
           <p>
             <label for="email" class="float"><?php ___('Email');?> : </label>
-            <input type="text" name="email" id="email" value="<?php lb::ctPostEmail();?>"/>
-            <span class="erreur"><?php lb::ctPostError('email');?></span>
+            <input type="text" name="email" id="email" class="inputbox" value="<?php lb::ctPostEmail();?>"/>
+            <?php lb::ctPostError('email');?>
           </p>
           <p>
             <label for="content" class="float"><strong><?php ___('Comment');?></strong> : </label>
             <textarea name="content" id="content" cols="40" rows="5"><?php lb::ctPostContent();?></textarea>
-            <span class="erreur"><?php lb::ctPostError('author');?></span>
+            <?php lb::ctPostError('author');?>
           </p>
         </fieldset>
 
@@ -111,5 +112,6 @@
       </form>
     </div>
   </div>
-  <?php include('footer.php');?>
+</div>
+<?php include('footer.php');?>
 

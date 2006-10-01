@@ -31,7 +31,7 @@ define ('TEMPLATE', 'luxbum');
 define('LOCALE_DIR', 'locale/');
 define('URL_BASE', 'http://localhost/luxbum/trunk/');
 
-$GLOBALS['debug'] = true;
+$GLOBALS['debug'] = false;
 
 
 include (TEMPLATE_DIR.TEMPLATE.'/conf_'.TEMPLATE.'.php');

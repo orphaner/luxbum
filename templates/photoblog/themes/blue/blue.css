@@ -143,14 +143,6 @@ ul.pagelist li.next {
 }
 
 
-/* AJAX
------------------------------- */
-#albumDescEditable {
-    margin-bottom: 12px;
-}
-#imageDescEditable {
-    margin-top: 24px;
-}
 
 /* Image Thumbnails
 ------------------------------ */
@@ -234,7 +226,7 @@ ul.pagelist li.next {
 }
 .imgnav {
     float: right;
-    width: 140px;
+    width: 180px;
     text-align: center;
     border: 1px solid #D5E6EE;
     background: #EEF5F9;
@@ -248,7 +240,7 @@ ul.pagelist li.next {
     height: 100%;
     float: left;
     padding: 4px 0;
-    font-size: 120%;
+    font-size: 100%;
     text-decoration: none;
     line-height: 200%;
     color: #237898;
@@ -322,4 +314,10 @@ label {
 }
 label:hover {
     color: #000;
+}
+fieldset { 
+  border:0;
+}
+legend { 
+  display:none;
 }

@@ -13,7 +13,7 @@
     
     <div class="albumdesc">
       <?php lb::galleryLinkPrivate("<h3>%s</h3>", __('Private gallery'));?>
-      <?php echo  ; 
+      <?php  
             lb::galleryLinkSubGallery('<h3>'.__('Sub galleries').'&nbsp;:&nbsp;'."%s</h3>",lb::galleryNiceName(true));?>
       <?php lb::galleryLinkConsult("<h3>%s</h3>", lb::galleryNiceName(true));?>
       <?php if (lb::hasPhotos()):?>

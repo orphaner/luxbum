@@ -401,7 +401,7 @@ fieldset {
 legend {
 	display:none;
 }
-span.erreur {
+span.error {
 	color:red;
 }
 

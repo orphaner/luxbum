@@ -1,7 +1,7 @@
 <?php
 
 define ('LIMIT_THUMB_PAGE', 6);
-define ('MAX_NAVIGATION_ELEMENTS', 8);
+define ('MAX_NAVIGATION_ELEMENTS', 6);
 
 define ('VIGNETTE_THUMB_W', 125);
 define ('VIGNETTE_THUMB_H', 125);

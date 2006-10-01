@@ -39,22 +39,22 @@
           <p>
             <label for="author" class="float"><strong><?php ___('Name or nickname');?></strong> : </label>
             <input type="text" name="author" id="author" value="<?php lb::ctPostAuthor();?>"/>
-            <span class="erreur"><?php lb::ctPostError('author');?></span>
+            <?php lb::ctPostError('author');?>
           </p>
           <p>
             <label for="website" class="float"><?php ___('Web site');?> : </label>
             <input type="text" name="website" id="website" value="<?php lb::ctPostWebsite();?>"/>
-            <span class="erreur"><?php lb::ctPostError('website');?></span>
+            <?php lb::ctPostError('website');?>
           </p>
           <p>
             <label for="email" class="float"><?php ___('Email');?> : </label>
             <input type="text" name="email" id="email" value="<?php lb::ctPostEmail();?>"/>
-            <span class="erreur"><?php lb::ctPostError('email');?></span>
+            <?php lb::ctPostError('email');?>
           </p>
           <p>
             <label for="content" class="float"><strong><?php ___('Comment');?></strong> : </label>
             <textarea name="content" id="content" cols="40" rows="5"><?php lb::ctPostContent();?></textarea>
-            <span class="erreur"><?php lb::ctPostError('author');?></span>
+            ophp lb::ctPostError('author');?>
           </p>
         </fieldset>
 

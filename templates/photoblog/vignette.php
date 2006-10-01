@@ -42,7 +42,7 @@
     <?php if (lb::isLastPage()): ?>
     <li class="next"><span class="disabledlink"><?php echo __('next').' &raquo;';?></span></li>  
     <?php else: ?>
-    <li class="next"><?php  lb::vignetteNextPage(__('next').' &raquo;','');?><li>
+    <li class="next"><?php  lb::vignetteNextPage(__('next').' &raquo;','');?></li>
     <?php endif; ?>
 
   </ul>

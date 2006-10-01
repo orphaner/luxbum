@@ -50,6 +50,7 @@ class Dispatcher
     */
    function match($query)
    {
+      $query = rawurldecode($query);
       // Order the controllers by priority
       foreach ($GLOBALS['_PX_control'] as $key => $control) {
          $priority[$key] = $control['priority'];

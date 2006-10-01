@@ -256,7 +256,7 @@ class lb {
 
       $result = '';
       $result .= sprintf('<link rel="stylesheet" href="%s" title="%s" type="text/css"/>',
-                         TEMPLATE_DIR. TEMPLATE.'/themes/'.$default.'/'.$default.'.css', '$title');
+                         TEMPLATE_DIR. TEMPLATE.'/themes/'.$default.'/'.$default.'.css', '');
       while (list ($theme, $title) = each ($themes_css)) {
          if ($theme != $default) {
             $result .= sprintf('<link rel="alternate stylesheet" href="%s" title="%s" type="text/css"/>',
@@ -375,6 +375,7 @@ class lb {
     */
    function pathPhoto($return = false) {
       $result = $GLOBALS['_LB_render']['img']->getImagePath();
+      $result = link::photo($result);
       if ($return) return $result;
       echo $result;
    }
@@ -462,6 +463,7 @@ class lb {
     */
    function imageName($return = false) {
       $result =  $GLOBALS['_LB_render']['img']->getImageName();
+      $result = utf8_encode($result);
       if ($return) return $result;
       echo $result;
    }
@@ -1099,7 +1101,6 @@ class lb {
       $dir = $res->getDir();
       $res->move($affpage->nextPage());
       $img = $res->f();
-      print_r($res);
       $result = sprintf('<a href="%s">%s</a>', link::vignette($dir, $img->getImageName()), $s);
       if ($return) return $result;
       echo $result;
@@ -1168,9 +1169,10 @@ class lb {
     * @param string $key
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   function ctPostError($key, $return = false) {
+   function ctPostError($key, $s='<span class="error">%s</span>', $return = false) {
       lbFactory::ctPost();
       $result = $GLOBALS['_LB_render']['ctPost']->getError($key);
+      $result = sprintf($s, $result);
       if ($return) return $result;
       echo $result;
    }
