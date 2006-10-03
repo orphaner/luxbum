@@ -1,6 +1,8 @@
 <?php
 
-xdebug_enable();
+if ($GLOBALS['debug'] === true) {
+   xdebug_enable();
+}
 
 $GLOBALS['startTime'] = microtime();
 session_start();
