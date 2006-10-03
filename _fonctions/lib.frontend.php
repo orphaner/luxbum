@@ -207,7 +207,7 @@ class lb {
          $link = 'private';
       }
       else if ($res->hasSubGallery() &&  $res->getCount() == 0) {
-         $link = link::subGallery($res->getName());
+         $link = link::subGallery($res->getDir());
       }
       else {
          $link = link::vignette ($res->getDir());
@@ -1121,7 +1121,7 @@ class lb {
       $result = unprotege_input($result);
       if ($return) return $result;
       echo $result;
-   } 
+   }
 
    /**
     *
@@ -1134,7 +1134,7 @@ class lb {
       $result = unprotege_input($result);
       if ($return) return $result;
       echo $result;
-   } 
+   }
 
    /**
     *
@@ -1147,7 +1147,7 @@ class lb {
       $result = unprotege_input($result);
       if ($return) return $result;
       echo $result;
-   } 
+   }
 
    /**
     *
@@ -1161,7 +1161,7 @@ class lb {
       $result = unprotege_input($result);
       if ($return) return $result;
       echo $result;
-   } 
+   }
 
    /**
     *
@@ -1172,7 +1172,9 @@ class lb {
    function ctPostError($key, $s='<span class="error">%s</span>', $return = false) {
       lbFactory::ctPost();
       $result = $GLOBALS['_LB_render']['ctPost']->getError($key);
-      $result = sprintf($s, $result);
+      if (trim($result) != '') {
+         $result = sprintf($s, $result);
+      }
       if ($return) return $result;
       echo $result;
    }
@@ -1189,7 +1191,7 @@ class lb {
       $result = sprintf($s, unprotege_input($ct->getAuthor()));
       if ($return) return $result;
       echo $result;
-   } 
+   }
 
    /**
     *
@@ -1206,7 +1208,7 @@ class lb {
       }
       if ($return) return $result;
       echo $result;
-   } 
+   }
 
    /**
     *
@@ -1223,7 +1225,7 @@ class lb {
       }
       if ($return) return $result;
       echo $result;
-   } 
+   }
 
    /**
     *

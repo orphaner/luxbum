@@ -195,5 +195,11 @@ class lbPostAction {
          }
       }
    }
+
+   function login() {
+      if (count($_POST) > 0 && isset($_POST['action']) && $_POST['action'] === 'login') {
+         lbFactory::loginPost();
+      }
+   }
 }
 ?>

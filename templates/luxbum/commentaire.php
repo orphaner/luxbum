@@ -31,7 +31,7 @@
     <h2><?php ___('Add a comment');?></h2>
     
     <div id="ac-content">        
-      <form method="post" id="ajout_commentaire">
+      <form method="post" id="ajout_commentaire" action="">
         <?php lb::ctFormAction(); ?>
 
         <fieldset>
@@ -54,7 +54,7 @@
           <p>
             <label for="content" class="float"><strong><?php ___('Comment');?></strong> : </label>
             <textarea name="content" id="content" cols="40" rows="5"><?php lb::ctPostContent();?></textarea>
-            ophp lb::ctPostError('author');?>
+            <?php lb::ctPostError('content');?>
           </p>
         </fieldset>
 

@@ -44,8 +44,8 @@ class luxBum {
     * 
     */
    function niceName ($name) {
-      $pattern = array ('_');
-      $repl = array (' ');
+      $pattern = array ('_', '-');
+      $repl = array (' ', ' ');
       return str_replace ($pattern, $repl, $name);
    }
 
