@@ -1261,7 +1261,7 @@ class lb {
     */
    function ctMoveNext() {
       lbFactory::comment();
-      $ct = $GLOBALS['_LB_render']['ct'];
+      $ct =& $GLOBALS['_LB_render']['ct'];
       $ct->moveNext();
    }
   }
