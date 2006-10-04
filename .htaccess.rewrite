@@ -1,8 +1,8 @@
 RewriteEngine on
 
 
-RewriteRule ^image/(.*)$ /img.php?$1 [L]
-RewriteRule ^(album|folder|exif|photo|comments|slide\-show)/(.*)$ /index.php?/$1/$2
+
+RewriteRule ^(image|album|folder|exif|photo|comments|slide\-show)/(.*)$ /index.php?/$1/$2
 
 
 

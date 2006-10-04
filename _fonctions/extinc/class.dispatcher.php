@@ -90,6 +90,7 @@ class Dispatcher
    {
       Dispatcher::registerController('IndexView', '#^/$#i', 4);
       Dispatcher::registerController('IndexView', '#^/folder/(.*)/$#i', 4);
+      Dispatcher::registerController('ImageView', '#^/image/('.files::removeTailSlash(THUMB_DIR).'|'.files::removeTailSlash(PREVIEW_DIR).'|index|full)/(.+)/(.+)$#i', 4);
       Dispatcher::registerController('VignetteView', '#^/album/(.*)/$#i', 4);
       Dispatcher::registerController('VignetteView', '#^/album/(.*)/(.*)$#i', 4);
       Dispatcher::registerController('AffichageView', '#^/photo/(.*)/(.*)$#i', 4);

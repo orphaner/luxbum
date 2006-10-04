@@ -181,6 +181,47 @@ class SlideShowView {
    }
 }
 
+class ImageView {
+   function action ($match) {
+      $type = $match[1];
+      $dir = $match[2];
+      $photo = $match[3];
+
+      verif::isImage ($dir, $photo);
+
+      $luxAff = new luxBumImage ($dir, $photo);
+      if ($type == 'vignette') {
+         $newfile = $luxAff->getAsThumb(VIGNETTE_THUMB_W, VIGNETTE_THUMB_H);
+      }
+      else if ($type == 'index') {
+         $newfile = $luxAff->getAsThumb(INDEX_THUMB_W, INDEX_THUMB_H);
+      }
+      else if ($type == 'full') {
+      }
+      else {
+         $newfile = $luxAff->getAsPreview(PREVIEW_W, PREVIEW_H);
+      }
+
+      if( headers_sent($file,$lineno) ) {
+         die ("fuck header");
+      }
+
+      header("Content-Encoding: none");
+      header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+      header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
+      header("Cache-Control: no-cache, must-revalidate");
+      header("Pragma: no-cache");
+      header('Content-Type: '.$luxAff->getTypeMime());
+      if ($fp = fopen($newfile, 'rb')) {
+         header("Content-Length: " . filesize($newfile));
+         fpassthru($fp);
+      }
+      @fclose ($fp);
+      
+      return 200;
+   }
+}
+
 class lbPostAction {
    function comment() {
       if (count($_POST) > 0 && isset($_POST['action']) && $_POST['action'] === 'ct') {
