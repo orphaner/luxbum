@@ -84,7 +84,7 @@ class luxBumIndex extends Recordset2
     */
    function addGallery ($name) {
       $galleryName = files::addTailSlash($this->dir).$name;
-      $galleryTemp =  new luxBumGallery ($galleryName);
+      $galleryTemp = new luxBumGallery($galleryName);
       $galleryTemp->addSubGalleries();
 
       if ($galleryTemp->getCount() > 0 
@@ -95,8 +95,8 @@ class luxBumIndex extends Recordset2
             $galleryTemp->setSortPosition($this->sortList[$name]);
          }
 
-         $this->addToList($galleryTemp);
-      }
+          $this->addToList($galleryTemp);
+     }
    }
 
    

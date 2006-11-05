@@ -51,11 +51,14 @@ class VignetteView {
       //verif::isDir ($dir);
 
       // Vérif que la page est bonne
-      $GLOBALS['_LB_render']['res'] = new luxBumGallery($dir);
+//       $GLOBALS['_LB_render']['res'] = new luxBumGallery($dir);
+      $GLOBALS['_LB_render']['res'] = luxBumGallery::getInstance($dir);
       $res =& $GLOBALS['_LB_render']['res']; 
-      $res->addAllImages ();
+      //$res->addAllImages ();
+      $res->saveInstance($res);
       $galleryCount = $res->getCount ();
 
+      $d = microtime_float();
       
       $niceDir = ucfirst (luxBum::niceName ($res->getName()));
       $GLOBALS['LB']['title'] =  $niceDir.' - '.NOM_GALERIE;
@@ -79,16 +82,19 @@ class VignetteView {
       $GLOBALS['_LB_render']['dir'] = $dir;
       $GLOBALS['_LB_render']['img'] = $res->getDefault();
 
-//      echo '<pre>';
+
       $GLOBALS['LB_render']['affpage'] = new LbPaginator($currentPage, $res->getIntRowCount(), LIMIT_THUMB_PAGE, MAX_NAVIGATION_ELEMENTS);
-//       print_r($GLOBALS['LB_render']['affpage']);
-//       echo '</pre>';
+      echo ' - paginate time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
+
+
       $affpage =& $GLOBALS['LB_render']['affpage'];
 
       // Add comment form valid
       lbPostAction::comment();
 
+      $d = microtime_float();
       include (TEMPLATE_DIR.TEMPLATE.'/vignette.php');
+      echo ' - render time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
       return 200;
    }
 
@@ -133,7 +139,7 @@ class AffichageView {
 
       $GLOBALS['_LB_render']['res'] = new luxBumGallery($dir);
       $res =& $GLOBALS['_LB_render']['res']; 
-      $res->addAllImages ();
+//      $res->addAllImages ();
       $imgIndex = $res->getImageIndex($photo);
       $res->setDefaultIndex($imgIndex);
 

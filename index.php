@@ -1,10 +1,16 @@
 <?php
+function microtime_float()
+{
+  list($usec, $sec) = explode(" ", microtime());
+  return ((float)$usec + (float)$sec);
+}
+
 
 if ($GLOBALS['debug'] === true) {
    xdebug_enable();
 }
 
-$GLOBALS['startTime'] = microtime();
+$GLOBALS['startTime'] = microtime_float();
 session_start();
 
 
@@ -12,7 +18,7 @@ session_start();
 function showDebugInfo() {
    if ($GLOBALS['debug'] === true) {
       echo "\n\n".'mem: '.(int)(memory_get_usage()/1024).' ko';
-      echo ' - exec time (sec): '.((microtime() - $GLOBALS['startTime'])*1000).' ms';
+      echo ' - exec time (sec): '.((microtime_float() - $GLOBALS['startTime'])*1000).' ms';
       echo '<br><strong>Untranslated:</strong> <br>'; 
       if (!isset($GLOBALS['_PX_debug_data']['untranslated'])) {
          echo 'Toutes les chaines sont ok';

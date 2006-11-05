@@ -27,11 +27,11 @@ define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
 define ('PASS_FILE', 'pass.php');
 
 define ('TEMPLATE_DIR', 'templates/');
-define ('TEMPLATE', 'luxbum');
+define ('TEMPLATE', 'photoblog');
 define('LOCALE_DIR', 'locale/');
 define('URL_BASE', 'http://localhost/luxbum/trunk/');
 
-$GLOBALS['debug'] = false;
+$GLOBALS['debug'] = true;
 
 
 include (TEMPLATE_DIR.TEMPLATE.'/conf_'.TEMPLATE.'.php');

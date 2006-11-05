@@ -37,6 +37,7 @@ class luxBumGallery extends Recordset2
     * @param String $dir Dossier de la galerie
     */
    function luxBumGallery ($dir, $preview = '') {
+      $d = microtime_float();
       parent::Recordset2();
       $this->preview = $preview;
       $this->size = 0;
@@ -47,8 +48,44 @@ class luxBumGallery extends Recordset2
       $list = split('/', $dir);
       $this->name = $list[count($list) - 1];
 
+      $this->addAllImages();
       $this->_completeInfos ();
       $this->_loadPrivate();
+      echo ' - init time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
+   }
+
+   function getInstance($dir, $preview='') {
+      static $staticGallery = NULL;
+      if ($staticGallery == NULL) {
+         $d = microtime_float();
+         $serialFile = luxbum::getGallerySerialFilePath($dir);
+         if (is_file ($serialFile)) {
+            $instanceSerial = implode ("", @file ($serialFile));
+            $staticGallery = unserialize ($instanceSerial);
+            echo "from serial";
+         }
+         else {
+            $staticGallery = new luxBumGallery($dir, $preview);
+         }
+         echo ' - load time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
+      }
+      return $staticGallery;
+   }
+
+
+   /**
+    *
+    */
+   function saveInstance ($instance) {
+      $passContent = serialize($instance);
+
+      $serialFile = luxbum::getGallerySerialFilePath($instance->dir);
+      $serialDir = luxbum::getFsPath($instance->dir);
+      files::createDir($serialDir);
+      files::deleteFile($serialFile);
+      files::writeFile($serialFile, $passContent);
+
+      $this->listComments = false;
    }
 
    /**

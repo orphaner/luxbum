@@ -87,6 +87,14 @@ class luxBum {
    }
 
    /**
+    * Retourne le chemin complet vers le fichier des commentaires
+    * Avec un / final
+    */
+   function getGallerySerialFilePath($dir) {
+      return luxbum::getFsPath($dir) .  'serial.txt';
+   }
+
+   /**
     * Retourne le chemin complet du dossier $dir de photos
     * Avec un / final
     */
