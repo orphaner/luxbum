@@ -27,7 +27,7 @@ define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
 define ('PASS_FILE', 'pass.php');
 
 define ('TEMPLATE_DIR', 'templates/');
-define ('TEMPLATE', 'photoblog');
+define ('TEMPLATE', 'luxbum');
 define('LOCALE_DIR', 'locale/');
 define('URL_BASE', 'http://localhost/luxbum/trunk/');
 
@@ -40,13 +40,13 @@ include (TEMPLATE_DIR.TEMPLATE.'/conf_'.TEMPLATE.'.php');
 //------------------------------------------------------------------------------
 // Includes
 //------------------------------------------------------------------------------
-include (CONF_DIR.'config.php');
-include_once('_fonctions/extinc/class.recordset.php');
-include_once('_fonctions/class/paginator.php');
-include_once(FONCTIONS_DIR.'views.php');
-include_once(FONCTIONS_DIR.'class/verif.php');
+include(CONF_DIR.'config.php');
+include(FONCTIONS_DIR.'extinc/class.recordset.php');
+include(FONCTIONS_DIR.'class/paginator.php');
+include(FONCTIONS_DIR.'views.php');
+include(FONCTIONS_DIR.'class/verif.php');
 
-include_once(FONCTIONS_DIR.'extinc/class.l10n.php');
+include(FONCTIONS_DIR.'extinc/class.l10n.php');
 
 $locales = l10n::getAvailableLocales();
 

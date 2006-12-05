@@ -7,6 +7,11 @@
 </h2>
 
 <div id="albums">
+  <?php if ($res->EOF()):?>
+  <?php ___('There is no picture to consult.');?>
+  <?php endif;?>
+
+
   <?php while (!$res->EOF()):?>
   <div class="album">
     <?php lb::defaultImage(); ?>

@@ -8,6 +8,11 @@
     <?php lb::menuNav('<div id="menunav"><ol class="tree"><li>&#187; <a href="'.lb::indexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
           '<li>%s</li>'); ?>
 
+    <?php if ($res->EOF()):?>
+    <?php ___('There is no picture to consult.');?>
+    <?php endif;?>
+
+
     <?php while (!$res->EOF()):?>
     <div class="galerie">
       <div class="lg">

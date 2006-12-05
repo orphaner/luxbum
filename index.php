@@ -1,8 +1,8 @@
 <?php
 function microtime_float()
 {
-  list($usec, $sec) = explode(" ", microtime());
-  return ((float)$usec + (float)$sec);
+   list($usec, $sec) = explode(" ", microtime());
+   return ((float)$usec + (float)$sec);
 }
 
 
@@ -28,8 +28,8 @@ function showDebugInfo() {
             echo ';'.$k.'<br><br><br>';
          }
       }
-         echo '<pre>';
-         echo '</pre>';
+      echo '<pre>';
+      echo '</pre>';
    }
 }
 
@@ -37,19 +37,17 @@ function showDebugInfo() {
 // Includes
 //------------------------------------------------------------------------------
 include ('common.php');
-include_once(FONCTIONS_DIR.'lib.frontend.php');
-include_once(FONCTIONS_DIR.'class/link.php');
-include_once(FONCTIONS_DIR.'extinc/class.dispatcher.php');
-include_once(FONCTIONS_DIR.'luxbum.class.php');
+include(FONCTIONS_DIR.'lib.frontend.php');
+include(FONCTIONS_DIR.'class/link.php');
+include(FONCTIONS_DIR.'luxbum.class.php');
 
-include_once(FONCTIONS_DIR.'extinc/class.recordset.php');
-include_once(FONCTIONS_DIR.'class/luxbumgallery.class.php');
-include_once(FONCTIONS_DIR.'class/luxbumimage.class.php');
-include_once(FONCTIONS_DIR.'class/imagetoolkit.class.php');
-include_once(FONCTIONS_DIR.'class/luxbumindex.class.php');
-include_once(FONCTIONS_DIR.'class/files.php');
-include_once(FONCTIONS_DIR.'class/commentaire.class.php');
-include_once(FONCTIONS_DIR.'private.php');
+include(FONCTIONS_DIR.'class/luxbumgallery.class.php');
+include(FONCTIONS_DIR.'class/luxbumimage.class.php');
+include(FONCTIONS_DIR.'class/imagetoolkit.class.php');
+include(FONCTIONS_DIR.'class/luxbumindex.class.php');
+include(FONCTIONS_DIR.'class/commentaire.class.php');
+include(FONCTIONS_DIR.'extinc/class.dispatcher.php');
+
 
 
 

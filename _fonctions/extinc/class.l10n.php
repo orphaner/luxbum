@@ -73,10 +73,6 @@ class l10n
     */
    function loadDomain($lang='en', $domain='luxbum')
    {
-//        config::setVar('locale_lang', $lang);
-      if ('en' == $lang) {
-         return true;
-      }
       return $this->loadFile(LOCALE_DIR.$lang.'/'.$domain.'.lang');
    }
 

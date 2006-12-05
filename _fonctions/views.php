@@ -109,7 +109,7 @@ class CommentaireView {
       $photo = $match[2];
       verif::photo($dir, $photo);
       $GLOBALS['_LB_render']['img'] = new luxBumImage ($dir, $photo);
-      $GLOBALS['_LB_render']['img']->exifInit ();
+      $GLOBALS['_LB_render']['img']->metaInit ();
       $GLOBALS['LB']['title'] = NOM_GALERIE;
 
 
@@ -135,7 +135,7 @@ class AffichageView {
       verif::photo($dir, $photo);
       
       $GLOBALS['_LB_render']['img'] = new luxBumImage ($dir, $photo);
-      $GLOBALS['_LB_render']['img']->exifInit();
+      $GLOBALS['_LB_render']['img']->metaInit();
 
       $GLOBALS['_LB_render']['res'] = new luxBumGallery($dir);
       $res =& $GLOBALS['_LB_render']['res']; 
@@ -160,7 +160,7 @@ class InfosExifView {
       $photo = $match[2];
       verif::photo($dir, $photo);
       $GLOBALS['_LB_render']['img'] = new luxBumImage ($dir, $photo);
-      $GLOBALS['_LB_render']['img']->exifInit ();
+      $GLOBALS['_LB_render']['img']->metaInit ();
       $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
 
       // Add comment form valid

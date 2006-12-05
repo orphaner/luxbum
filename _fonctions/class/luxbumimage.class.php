@@ -1,6 +1,6 @@
 <?php
 
-include (LIB_DIR.'exifer/exif.php');
+include (FONCTIONS_DIR.'extinc/class.image.meta.php');
 
 
 define ('NOT_SET', __('Not Set'));
@@ -433,159 +433,26 @@ class luxBumImage
    /**-----------------------------------------------------------------------**/
    /** Fonctions d'informations exif */
    /**-----------------------------------------------------------------------**/
-   var $exifResult;
-
-
-   /**
-    * @access private
-    */
-   function &reduceExif ($exifvalue) {
-      $vals = split ("/",$exifvalue);
-      if (count ($vals) == 2){
-         $exposure = round ($vals[0]/$vals[1],2);
-         if ($exposure < 1) {
-            $exposure = '1/'.round ($vals[1]/$vals[0],0);
-         }
-      }
-      else {
-         $exposure = round ($vals[0]/$vals[1], 2);
-      }
-
-      return $exposure;
-   }
-
-   /**
-    * @access private
-    */
-   function pullout ($str){
-      $str = stripslashes($str);
-      $str = UTF8_decode($str);
-      return $str;
-   }
+   var $imageMeta;
 
    /**
     * Initialise les informations EXIF de la photo
     */
-   function exifInit () {
-      $verbose = 0;
-      $this->exifResult = read_exif_data_raw ($this->getImagePath (), $verbose); 
+   function metaInit () {
+      $this->imageMeta = new ImageMeta($this->getImagePath());
+      $this->imageMeta->getMeta();
    }
 
    /**
     * Retourne ok si les informations EXIF existent
     * @return boolean Infomations EXIF existent
     */
-   function exifExists () {
-      if (array_key_exists ('SubIFD', $this->exifResult) && 
-          array_key_exists ('IFD0', $this->exifResult)) {
-         return true;
-      }
-      return false;
+   function hasMeta() {
+      return $this->imageMeta->hasMeta();
    }
 
-   /**
-    * Retourne la valeur ISO
-    * @return String Valeur ISO
-    */
-   function getExifISO () {
-      if (array_key_exists('SubIFD', $this->exifResult)
-            && array_key_exists ('ISOSpeedRatings', $this->exifResult['SubIFD'])) {
-         return $this->pullout ($this->exifResult['SubIFD']['ISOSpeedRatings']);
-      }
-      return NOT_SET;
-   }
-   
-   /**
-    * Retourne le modèle de l'appareil photo
-    * @return Modèle de l'appareil photo
-    */
-   function getExifCameraModel () {
-      if (array_key_exists('IFD0', $this->exifResult)
-            && array_key_exists ('Model', $this->exifResult['IFD0'])) {
-         return trim ($this->exifResult['IFD0']['Model']);
-      }
-      return NOT_SET;
-   }
-
-   /**
-    * Retourne la marque de l'appareil photo
-    * @return String Marque de l'appareil photo
-    */
-   function getExifCameraMaker () {
-      if (array_key_exists('IFD0', $this->exifResult)
-            && array_key_exists ('Make', $this->exifResult['IFD0'])) {
-         return trim ($this->exifResult['IFD0']['Make']);
-      }
-      return NOT_SET;
-   }
-
-   /**
-    * Retourne la distance focale
-    * @return String Distance focale
-    */
-   function getExifFocalLength () {
-      if (array_key_exists('SubIFD', $this->exifResult)
-            && array_key_exists ('FocalLength', $this->exifResult['SubIFD'])) {
-         return $this->exifResult['SubIFD']['FocalLength'];
-      }
-      return NOT_SET;
-   }
-
-   /**
-    * Retourne si le flash c'est déclenché ou non
-    * @return Boolean Flash déclenché ou non
-    */
-   function getExifFlash () {
-      if (array_key_exists('SubIFD', $this->exifResult)
-            && array_key_exists ('Flash', $this->exifResult['SubIFD'])) {
-         $flash = $this->exifResult['SubIFD']['Flash'];
-         if ($flash == 'No Flash') {
-            $flash = __('Flash did not fire');
-         }
-         return $flash;
-      }
-      return NOT_SET;
-   }
-
-   /**
-    * Retourne la date à laquelle la photo a été prise
-    * @return Date de prise de la photo
-    */
-   function getExifCaptureDate () {
-      if (array_key_exists('SubIFD', $this->exifResult)
-            && array_key_exists ('DateTimeOriginal', $this->exifResult['SubIFD'])) {
-         return $this->exifResult['SubIFD']['DateTimeOriginal'];
-      }
-      return NOT_SET;
-   }
-
-   /**
-    * Retourne le temps d'ouverture
-    * @return String Temps d'ouverture
-    */
-   function getExifAperture () {
-      if (array_key_exists('SubIFD', $this->exifResult)
-            && array_key_exists ('FNumber', $this->exifResult['SubIFD'])) {
-         return $this->exifResult['SubIFD']['FNumber'];
-      }
-      return NOT_SET;
-   }
-
-   /**
-    * Retourne le temps d'exposition
-    * @return String Temps d'exposition
-    */
-   function getExifExposureTime () {
-      if (array_key_exists('SubIFD', $this->exifResult)
-            && array_key_exists ('ExposureTime', $this->exifResult['SubIFD'])) {
-         $exposure = $this->exifResult['SubIFD']['ExposureTime'];
-         if ($exposure != '') {
-            $exposure = $this->reduceExif ($exposure);
-            $exposure = $exposure.' sec';
-         }
-         return $exposure;
-      }
-      return NOT_SET;
+   function getMeta() {
+      return $this->imageMeta->getProperties();
    }
 }
 

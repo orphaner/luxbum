@@ -3,7 +3,7 @@
   //------------------------------------------------------------------------------
   // Include
   //------------------------------------------------------------------------------
-include_once (FONCTIONS_DIR.'utils/formulaires.php');
+include (FONCTIONS_DIR.'utils/formulaires.php');
 
 
 class Commentaire {

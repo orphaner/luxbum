@@ -110,7 +110,7 @@ class luxBumIndex extends Recordset2
       $this->_loadSort();
       
       // Lecture de tous les dossiers de photos 
-      if ($dir_fd = opendir (luxbum::getFsPath ($this->dir))) {
+      if (/*(is_dir($this->dir) || is_link($this->dir)) &&*/ $dir_fd = opendir (luxbum::getFsPath ($this->dir))) {
    
          while ($current_dir = readdir ($dir_fd)) {
             
