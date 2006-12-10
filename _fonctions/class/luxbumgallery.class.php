@@ -51,7 +51,7 @@ class luxBumGallery extends Recordset2
       $this->addAllImages();
       $this->_completeInfos ();
       $this->_loadPrivate();
-      echo ' - init time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
+      //echo ' - init time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
    }
 
    function getInstance($dir, $preview='') {
@@ -62,12 +62,12 @@ class luxBumGallery extends Recordset2
          if (is_file ($serialFile)) {
             $instanceSerial = implode ("", @file ($serialFile));
             $staticGallery = unserialize ($instanceSerial);
-            echo "from serial";
+            //echo "from serial";
          }
          else {
             $staticGallery = new luxBumGallery($dir, $preview);
          }
-         echo ' - load time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
+         //echo ' - load time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
       }
       return $staticGallery;
    }

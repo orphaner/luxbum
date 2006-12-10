@@ -58,7 +58,7 @@ class VignetteView {
       $res->saveInstance($res);
       $galleryCount = $res->getCount ();
 
-      $d = microtime_float();
+//      $d = microtime_float();
       
       $niceDir = ucfirst (luxBum::niceName ($res->getName()));
       $GLOBALS['LB']['title'] =  $niceDir.' - '.NOM_GALERIE;
@@ -84,7 +84,7 @@ class VignetteView {
 
 
       $GLOBALS['LB_render']['affpage'] = new LbPaginator($currentPage, $res->getIntRowCount(), LIMIT_THUMB_PAGE, MAX_NAVIGATION_ELEMENTS);
-      echo ' - paginate time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
+//      echo ' - paginate time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
 
 
       $affpage =& $GLOBALS['LB_render']['affpage'];
@@ -94,7 +94,7 @@ class VignetteView {
 
       $d = microtime_float();
       include (TEMPLATE_DIR.TEMPLATE.'/vignette.php');
-      echo ' - render time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
+//      echo ' - render time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
       return 200;
    }
 
