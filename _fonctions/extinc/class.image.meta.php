@@ -35,15 +35,13 @@ class ImageMeta
       $this->loadFile($f);
    }
 
-   function readMeta($f)
-   {
+   function readMeta($f){
       $o = new self;
       $o->loadFile($f);
       return $o->getMeta();
    }
 
-   function getMeta()
-   {
+   function getMeta() {
       foreach ($this->properties as $k => $v) {
          if (!empty($this->xmp[$k])) {
             $this->properties[$k] = $this->xmp[$k];
@@ -76,8 +74,7 @@ class ImageMeta
       return $this->hasMeta;
    }
 
-   function loadFile($f)
-   {
+   function loadFile($f) {
       if (!is_file($f) || !is_readable($f)) {
          throw new Exception('Unable to read file');
       }
@@ -87,8 +84,7 @@ class ImageMeta
       $this->readExif($f);
    }
 
-   function readXMP($f)
-   {
+   function readXMP($f) {
       if (($fp = @fopen($f,'rb')) === false) {
          throw new Exception('Unable to open image file');
       }
@@ -147,8 +143,7 @@ class ImageMeta
       }
    }
 
-   function readIPTC($file)
-   {
+   function readIPTC($file) {
       $imageinfo = null;
       @getimagesize($file,$imageinfo);
 
@@ -169,8 +164,7 @@ class ImageMeta
       }
    }
 
-   function readEXIF($f)
-   {
+   function readEXIF($f) {
       $d = @exif_read_data($f,'ANY_TAG');
 
       if (!is_array($d)) {
