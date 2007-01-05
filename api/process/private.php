@@ -1,8 +1,6 @@
 <?php
 
 
-include_once(FONCTIONS_DIR.'class/files.php');
-
 class Pass {
    var $dir;
    var $user;

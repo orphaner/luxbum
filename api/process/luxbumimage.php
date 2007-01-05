@@ -1,6 +1,5 @@
 <?php
 
-include (FONCTIONS_DIR.'extinc/class.image.meta.php');
 
 
 define ('NOT_SET', __('Not Set'));
