@@ -12,7 +12,7 @@ define ('PREVIEW_H', 485);
 
 
 
-define ('DEFAULT_CSS', 'dark');
+define ('DEFAULT_CSS', 'light');
 $themes_css = array (
    'light' =>'Thème Blanc',
    'dark' =>'Thème Noir'/*,
