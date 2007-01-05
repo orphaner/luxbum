@@ -1,4 +1,7 @@
 <?php
+
+global $UploadError;
+
   /**
    * http://miasmatik.maladoc.org/articles/
    * @package   upload2.0
@@ -31,9 +34,6 @@
    - set_time_limit n'a pas d'effet lorsque PHP fonctionne en mode safe mode . Il n'y a pas d'autre solution que de changer de mode, ou de modifier la durée maximale d'exécution dans le php.ini
    - la variable $UploadErreur (type bool) est réutilisable dans vos scripts afin de tester le bon déroulement des opérations. S'il y a eu des erreurs, la variable est positionnée à "true".
   */
-
-global $UploadError;
-
 class Upload {
     
    /**

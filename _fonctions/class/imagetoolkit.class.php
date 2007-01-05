@@ -221,17 +221,6 @@ class imagetoolkit
             // Crée une image vierge aux bonnes dimensions
             $destHandler = ImageCreateTrueColor ($this->imageDestWidth, $this->imageDestHeight);
             ImageCopyResampled ($destHandler, $srcHandler, 0, 0, 0, 0, $this->imageDestWidth, $this->imageDestHeight, $this->imageWidth, $this->imageHeight);
-
-            if (IMAGE_BORDER_PIXEL > 0) {
-               $pixels = IMAGE_BORDER_PIXEL;
-               $nuanceMax = IMAGE_BORDER_MAX_NUANCE;
-               $thumbBgColor = $this->hexToDecColor (IMAGE_BORDER_HEX_COLOR);
-               for ($i = 0 ; $i < $pixels ; $i++) {
-                  $nuance = (int)(($nuanceMax/$pixels)*$i);
-                  $color = imagecolorallocatealpha ($destHandler, $thumbBgColor[0], $thumbBgColor[1], $thumbBgColor[2], $nuance);
-                  imagerectangle ($destHandler, $i, $i, $this->imageDestWidth - ($i+1), $this->imageDestHeight - ($i+1), $color);
-               }
-            }
          }
 
          /* GD 1 */

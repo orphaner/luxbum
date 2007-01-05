@@ -208,7 +208,7 @@ class ImageView {
          $newfile = $luxAff->getAsPreview(PREVIEW_W, PREVIEW_H);
       }
 
-      if( headers_sent($file,$lineno) ) {
+      if (headers_sent($file,$lineno) ) {
          die ("fuck header");
       }
 
@@ -228,7 +228,16 @@ class ImageView {
    }
 }
 
+
+/**
+ * Classe de réponses aux actions des formulaires.
+ * L'action est lancée seulement si le formulaire est effectivement validé.
+ */
 class lbPostAction {
+
+   /**
+    *
+    */
    function comment() {
       if (count($_POST) > 0 && isset($_POST['action']) && $_POST['action'] === 'ct') {
          lbFactory::ctPost();
