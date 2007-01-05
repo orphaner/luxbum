@@ -44,6 +44,7 @@ include(FONCTIONS_DIR.'luxbum.class.php');
 include(FONCTIONS_DIR.'class/luxbumgallery.class.php');
 include(FONCTIONS_DIR.'class/luxbumimage.class.php');
 include(FONCTIONS_DIR.'class/imagetoolkit.class.php');
+include(FONCTIONS_DIR.'class/imagetoolkit.imagick.class.php');
 include(FONCTIONS_DIR.'class/luxbumindex.class.php');
 include(FONCTIONS_DIR.'class/commentaire.class.php');
 include(FONCTIONS_DIR.'extinc/class.dispatcher.php');
