@@ -4,7 +4,7 @@ global $UploadError;
 
   /**
    * http://miasmatik.maladoc.org/articles/
-   * @package   upload2.0
+   * @package   inc
    * @version 2.0.a (dernière révision le 07-11-2003)
    * @author    Olivier VEUJOZ <o.veujoz@miasmatik.net>
    * SECURITY CONSIDERATION: If you are saving all uploaded files to a directory accesible with an URL, remember to filter files not only by mime-type (e.g. image/gif), but also by extension. The mime-type is reported by the client, if you trust him, he can upload a php file as an image and then request it, executing malicious code. 

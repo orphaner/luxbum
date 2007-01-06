@@ -1,6 +1,9 @@
 <?php
 
 
+  /**
+   * @package process
+   */
 class Pass {
    var $dir;
    var $user;
@@ -54,6 +57,9 @@ class Pass {
 }
 
 
+  /**
+   * @package process
+   */
 class PrivateManager
 {
 

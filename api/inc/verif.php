@@ -1,4 +1,8 @@
 <?php
+
+  /**
+   * @package inc
+   */
 class verif {
    
    /**

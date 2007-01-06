@@ -2,6 +2,9 @@
 
 ini_set ('memory_limit', '16M'); 
 
+  /**
+   * @package inc
+   */
 class imagetoolkit
 {
 

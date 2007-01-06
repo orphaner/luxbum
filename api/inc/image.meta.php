@@ -23,6 +23,9 @@
 # Contributors:
 # - Mathieu Lecarme
 
+  /**
+   * @package inc
+   */
 class ImageMeta
 {
    var $meta = array();

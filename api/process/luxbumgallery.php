@@ -6,9 +6,10 @@
 // Classe luxBumGallery : une galerie
 //==============================================================================
 
-/**
- * Structure représentant une galerie
- */
+  /**
+   * @package process
+   * Structure représentant une galerie
+   */
 class luxBumGallery extends Recordset2
 {
    /**-----------------------------------------------------------------------**/

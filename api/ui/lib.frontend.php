@@ -1,5 +1,8 @@
 <?php
 
+  /**
+   * @package ui
+   */
 class lb {
    static function indexLink() {
       return URL_BASE.INDEX_FILE;

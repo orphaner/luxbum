@@ -4,6 +4,8 @@
 
 
 /**
+ * @package inc
+ *
  * Zip file creation class.
  * Makes zip files.
  *

@@ -5,6 +5,9 @@
   //------------------------------------------------------------------------------
 
 
+  /**
+   * @package process
+   */
 class Commentaire {
    var $author;
    var $email;

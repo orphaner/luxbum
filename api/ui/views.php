@@ -1,5 +1,8 @@
 <?php
 
+  /**
+   * @package ui
+   */
 class IndexView {
    function action ($match) {
       IndexView::initTemplate();
@@ -32,6 +35,10 @@ class IndexView {
    }
   }
 
+
+  /**
+   * @package ui
+   */
 class VignetteView {
    function action ($match) {
 
@@ -103,6 +110,9 @@ class VignetteView {
 }
 
 
+  /**
+   * @package ui
+   */
 class CommentaireView {
    function action ($match) {
       $dir = $match[1];
@@ -128,6 +138,9 @@ class CommentaireView {
 }
 
 
+  /**
+   * @package ui
+   */
 class AffichageView {
    function action ($match) {
       $dir = $match[1];
@@ -154,6 +167,9 @@ class AffichageView {
 }
 
 
+  /**
+   * @package ui
+   */
 class InfosExifView {
    function action ($match) {
       $dir = $match[1];
@@ -171,6 +187,9 @@ class InfosExifView {
    }
 }
 
+  /**
+   * @package ui
+   */
 class SlideShowView {
    function action ($match) {
       $dir = $match[1];
@@ -187,6 +206,9 @@ class SlideShowView {
    }
 }
 
+  /**
+   * @package ui
+   */
 class ImageView {
    function action ($match) {
       $type = $match[1];
@@ -230,6 +252,7 @@ class ImageView {
 
 
 /**
+ *
  * Classe de réponses aux actions des formulaires.
  * L'action est lancée seulement si le formulaire est effectivement validé.
  */

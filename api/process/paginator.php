@@ -1,6 +1,7 @@
 <?php
+
   /**
-   *
+   * @package process
    */
 class LbPaginator extends Recordset2 {
    var $currentPage;

@@ -6,6 +6,7 @@
 //==============================================================================
 
 /**
+ * @package process
  * Classe contenant l'index de toutes les galeries
  */
 class luxBumIndex extends Recordset2

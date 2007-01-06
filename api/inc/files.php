@@ -1,5 +1,8 @@
 <?php
 
+  /**
+   * @package inc
+   */
 class files {
    
    /**
@@ -152,7 +155,6 @@ class files {
     * 
     */
    function isPhotoFile ($dir, $file) {
-//      echo luxbum::getImage ($dir, $file).'<br>';
       return $file[0] != '.' 
                && !is_dir (luxbum::getImage ($dir, $file) )
                && eregi ('^.*(' . ALLOWED_FORMAT . ')$', $file);

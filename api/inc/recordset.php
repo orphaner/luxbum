@@ -14,7 +14,9 @@
 #    Loïc d'Anterroches
 */
 
-
+  /** 
+   * @package inc
+   */
 class Recordset2
 {
    var $arrayField = array();

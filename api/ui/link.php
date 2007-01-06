@@ -1,5 +1,8 @@
 <?php
 
+  /**
+   * @package ui
+   */
 class link {
    function encode($s) {
       $s = rawurlencode($s);

@@ -22,6 +22,7 @@
    # ***** END LICENSE BLOCK ***** */
 
   /**
+   * @package inc
    * Dispatcher of the requests to the handlers.
    */
 class Dispatcher

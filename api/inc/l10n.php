@@ -42,7 +42,10 @@ function __($str)
 }
 
 
+
 /**
+ * @package inc
+ * 
  * Localization class.
  *
  * 2 letter ISO codes from http://www.oasis-open.org/cover/iso639a.html
