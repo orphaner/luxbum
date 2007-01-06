@@ -26,20 +26,23 @@
    */
 class Dispatcher
 {
+   var $pluginPath = null;
+
+
+   function Dispatcher($pluginPath = null) {
+      $this->pluginPath = $pluginPath;
+   }
 
    /**
     * The unique method to call.
     *
     * @param string Query string ('')
     */
-   function Launch($query='')
-   {
-//      $GLOBALS['_PX_render']['error'] = new CError();
-
+   function Launch($query='') {
       $query = preg_replace('#^(/)+#', '/', '/'.$query);
-      Dispatcher::loadBuiltinControllers();
-//      Dispatcher::loadControllers();
-      Dispatcher::match($query);
+      $this->loadBuiltinControllers();
+      $this->loadControllers();
+      $this->match($query);
    }
 
 
@@ -48,9 +51,9 @@ class Dispatcher
     *
     * @param string Query string
     */
-   function match($query)
-   {
+   function match($query) {
       $query = rawurldecode($query);
+
       // Order the controllers by priority
       foreach ($GLOBALS['_PX_control'] as $key => $control) {
          $priority[$key] = $control['priority'];
@@ -64,7 +67,6 @@ class Dispatcher
                continue;
             }
 
-            //          config::setVar('action', $control['plugin']);
             $res = call_user_func(array($control['plugin'], 'action'), 
                                   $match);
             if ($res != 301 and $res != 404) {
@@ -86,36 +88,27 @@ class Dispatcher
     * The builtin controllers are for: news, article, category, 
     * page not found, search and rss.
     */
-   function loadBuiltinControllers()
-   {
-      Dispatcher::registerController('IndexView', '#^/$#i', 4);
-      Dispatcher::registerController('IndexView', '#^/folder/(.*)/$#i', 4);
-      Dispatcher::registerController('ImageView', '#^/image/('.files::removeTailSlash(THUMB_DIR).'|'.files::removeTailSlash(PREVIEW_DIR).'|index|full)/(.+)/(.+)$#i', 4);
-      Dispatcher::registerController('VignetteView', '#^/album/(.*)/$#i', 4);
-      Dispatcher::registerController('VignetteView', '#^/album/(.*)/(.*)$#i', 4);
-      Dispatcher::registerController('AffichageView', '#^/photo/(.*)/(.*)$#i', 4);
-      Dispatcher::registerController('InfosExifView', '#^/exif/(.*)/(.*)$#i', 4);
-      Dispatcher::registerController('CommentaireView', '#^/comments/(.*)/(.*)$#i', 4);
-      Dispatcher::registerController('SlideShowView', '#^/slide\-show/(.*)$#i', 4);
-      Dispatcher::registerController('SlideShowView', '#^/slide\-show/(.*)/([0-9]+)$#i', 4);
+   function loadBuiltinControllers() {
    }
 
    /**
     * Load the controllers.
     */
-//    function loadControllers()
-//    {
-//       $base = config::f('manager_path').'/tools/';
-//       $d = dir($base);
-//       while (($entry = $d->read()) !== false) {
-//          if ($entry != '.' && $entry != '..' 
-//              && is_dir($base.$entry) 
-//              && file_exists($base.$entry.'/register.php')) {
-//             include_once($base.$entry.'/register.php');
-//          }
-//       }
-//       @$d->close();
-//    }
+   function loadControllers() {
+      if ($this->pluginPath == null) {
+         return ;
+      }
+
+      $d = dir($this->pluginPath);
+      while (($entry = $d->read()) !== false) {
+         if ($entry != '.' && $entry != '..' 
+             && is_dir($this->pluginPath.$entry) 
+             && file_exists($this->pluginPath.$entry.'/register.php')) {
+            include_once($this->pluginPath.$entry.'/register.php');
+         }
+      }
+      @$d->close();
+   }
 
 
    /**
@@ -135,8 +128,7 @@ class Dispatcher
     * @param int Priority (5)
     * @return void
     */
-   function registerController($plugin, $regex, $priority=5)
-   {
+   function registerController($plugin, $regex, $priority=5) {
       if (!isset($GLOBALS['_PX_control'])) {
          $GLOBALS['_PX_control'] = array();
       }

@@ -1,7 +1,7 @@
 <?php
 
-/*----------------------------------------------------------------------------*/
-/* Brin du dÃbut pour le dÃveloppement */
+  /*----------------------------------------------------------------------------*/
+  /* Brin du début pour le développement */
 
 function microtime_float()
 {
@@ -116,7 +116,20 @@ else {
 
 $l = new l10n($lang);
 
+$dispatcher = new Dispatcher();
 
-Dispatcher::Launch($_SERVER['QUERY_STRING']);
+$dispatcher->registerController('IndexView', '#^/$#i');
+$dispatcher->registerController('IndexView', '#^/folder/(.*)/$#i');
+$dispatcher->registerController('ImageView', '#^/image/('.files::removeTailSlash(THUMB_DIR).'|'.files::removeTailSlash(PREVIEW_DIR).'|index|full)/(.+)/(.+)$#i');
+$dispatcher->registerController('VignetteView', '#^/album/(.*)/$#i');
+$dispatcher->registerController('VignetteView', '#^/album/(.*)/(.*)$#i');
+$dispatcher->registerController('AffichageView', '#^/photo/(.*)/(.*)$#i');
+$dispatcher->registerController('InfosExifView', '#^/exif/(.*)/(.*)$#i');
+$dispatcher->registerController('CommentaireView', '#^/comments/(.*)/(.*)$#i');
+$dispatcher->registerController('SlideShowView', '#^/slide\-show/(.*)$#i');
+$dispatcher->registerController('SlideShowView', '#^/slide\-show/(.*)/([0-9]+)$#i');
+
+
+$dispatcher->Launch($_SERVER['QUERY_STRING']);
 
 ?>
