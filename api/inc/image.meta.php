@@ -79,7 +79,7 @@ class ImageMeta
 
    function loadFile($f) {
       if (!is_file($f) || !is_readable($f)) {
-         throw new Exception('Unable to read file');
+         return;
       }
 
       $this->readXMP($f);
@@ -89,7 +89,7 @@ class ImageMeta
 
    function readXMP($f) {
       if (($fp = @fopen($f,'rb')) === false) {
-         throw new Exception('Unable to open image file');
+         return;
       }
 
       $inside = false;
@@ -147,6 +147,10 @@ class ImageMeta
    }
 
    function readIPTC($file) {
+      if (!function_exists('iptcparse')) { 
+         return; 
+      }
+
       $imageinfo = null;
       @getimagesize($file,$imageinfo);
 
@@ -168,6 +172,10 @@ class ImageMeta
    }
 
    function readEXIF($f) {
+      if (!function_exists('exif_read_data')) { 
+         return; 
+      }
+
       $d = @exif_read_data($f,'ANY_TAG');
 
       if (!is_array($d)) {
