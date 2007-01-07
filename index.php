@@ -63,8 +63,8 @@ define ('LOCALE_DIR', 'locales/');
 define ('TEMPLATE_DIR', 'templates/');
 
 // Variables a mettre en configurable dans le manager
-define ('TEMPLATE', 'luxbum');
-define('URL_BASE', 'http://localhost/luxbum/trunk/');
+define ('TEMPLATE', 'photoblog');
+define('URL_BASE', 'http://pics.iode.info/');
 
 
 

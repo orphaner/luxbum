@@ -4,7 +4,7 @@
  * @package process
  */
 class processFactory {
-   static function imageToolkit($imagePath, $imageDriver='gd') {
+   static function imageToolkit($imagePath, $imageDriver='imagemagick') {
       switch($imageDriver) {
          case 'gd':
             return new ImageToolkitGD($imagePath);
