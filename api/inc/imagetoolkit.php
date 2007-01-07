@@ -58,40 +58,95 @@ class ImageToolkit
 
    /**
     * Fixe une taille finale maximale de redimensionnement.
-    * @param Int $dst_w Largeur maximale
-    * @param int $dst_h Hauteur maximale
-    */
-   function setDestSize ($dst_w, $dst_h) {
-      $this->imageDestWidth = $dst_w;
-      $this->imageDestHeight = $dst_h;
+    * @param Int $dst_w Largeur maximale (px ou %)
+    * @param int $dst_h Hauteur maximale (px ou %)
+    * @param string $mode Crop mode (force, crop, ratio)
+    * @param boolean $expand Allow resize of image
+   */
+   function setDestSize ($dst_w, $dst_h, $mode='ratio', $expand=true) {
 
-      // Teste les dimensions tenant dans la zone
-      $test_h = round (($this->imageDestWidth / $this->imageWidth) * $this->imageHeight);
-      $test_w = round (($this->imageDestHeight / $this->imageHeight) * $this->imageWidth);
-      
-      if ($this->imageWidth < $this->imageDestWidth && $this->imageHeight < $this->imageDestHeight) {
-         $this->imageDestWidth = $this->imageWidth;
-         $this->imageDestHeight = $this->imageHeight;
-         return;
+      $imgWidth = $this->imageWidth;
+      $imgHeight = $this->imageHeight;
+                
+      if (strpos($dst_w, '%', 0)) {
+         $dst_w = $imgWidth*$dst_w/100;
       }
-
-      // Si Height final non précisé (0)
-      if (!$this->imageDestHeight) {
-         $this->imageDestHeight = $test_h;
+      if (strpos($dst_h, '%', 0)) {
+         $dst_h = $imgHeight*$dst_h/100;
       }
-
-      // Sinon si Width final non précisé (0)
-      elseif (!$this->imageDestWidth) {
-         $this->imageDestWidth = $test_w;
-      }
-
-      // Sinon teste quel redimensionnement tient dans la zone
-      elseif ($test_h>$this->imageDestHeight) {
-         $this->imageDestWidth = $test_w;
+                
+      $ratio = $imgWidth/$imgHeight;
+                
+      // guess resize ($_w et $_h)
+      if ($mode=='ratio') {
+         $_w=99999;
+         if ($dst_h > 0) {
+            $_h = $dst_h;
+            $_w = $_h*$ratio;
+         }
+         if ($dst_w > 0 && $_w > $dst_w) {
+            $_w = $dst_w;
+            $_h = $_w/$ratio;
+         }
+                        
+         if (!$expand && $_w > $imgWidth) {
+            $_w = $imgWidth;
+            $_h = $imgHeight;
+         }
       }
       else {
-         $this->imageDestHeight = $test_h;
+         // crop source image
+         $_w = $dst_w;
+         $_h = $dst_h;
       }
+                
+      if ($mode == 'force') {
+         if ($dst_w > 0) {
+            $_w = $dst_w;
+         }
+         else {
+            $_w = $dst_h*$ratio;
+         }
+                        
+         if ($dst_h > 0) {
+            $_h = $dst_h;
+         }
+         else {
+            $_h = $dst_w/$ratio;
+         }
+                        
+         if (!$expand && $_w > $imgWidth){
+            $_w = $imgWidth;
+            $_h = $imgHeight;
+         }
+                        
+         $cropW = $imgWidth;
+         $cropH = $imgHeight;
+         $decalW = 0;
+         $decalH = 0;
+      }
+      else {
+         // guess real viewport of image
+         $innerRatio = $_w/$_h;
+         if ($ratio >= $innerRatio) {
+            $cropH = $imgHeight;
+            $cropW = $imgHeight*$innerRatio;
+            $decalH = 0;
+            $decalW = ($imgWidth-$cropW)/2;
+         }
+         else {
+            $cropW = $imgWidth;
+            $cropH = $imgWidth/$innerRatio;
+            $decalW = 0;
+            $decalH = ($imgHeight-$cropH)/2;
+         }
+      }
+      $this->imageDestWidth = $_w;
+      $this->imageDestHeight = $_h;
+      $this->decalW = $decalW;
+      $this->decalH = $decalH;
+      $this->cropW = $cropW;
+      $this->cropH = $cropH;
    }
 
    /**

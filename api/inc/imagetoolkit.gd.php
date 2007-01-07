@@ -106,7 +106,7 @@ class ImageToolkitGD extends ImageToolkit
 
             // Crée une image vierge aux bonnes dimensions
             $destHandler = ImageCreateTrueColor ($this->imageDestWidth, $this->imageDestHeight);
-            ImageCopyResampled ($destHandler, $srcHandler, 0, 0, 0, 0, $this->imageDestWidth, $this->imageDestHeight, $this->imageWidth, $this->imageHeight);
+            ImageCopyResampled ($destHandler, $srcHandler, 0, 0, $this->decalW, $this->decalH, $this->imageDestWidth, $this->imageDestHeight, $this->cropW, $this->cropH);
          }
 
          /* GD 1 */
@@ -114,7 +114,7 @@ class ImageToolkitGD extends ImageToolkit
 
             // Crée une image vierge aux bonnes dimensions
             $destHandler = ImageCreate ($this->imageDestWidth, $this->imageDestHeight);
-            imagecopyresized ($destHandler, $srcHandler, 0, 0, 0, 0, $this->imageDestWidth, $this->imageDestHeight, $this->imageWidth, $this->imageHeight);
+            imagecopyresized ($destHandler, $srcHandler, 0, 0, $this->decalW, $this->decalH, $this->imageDestWidth, $this->imageDestHeight, $this->cropW, $this->cropH);
          }
 
          // Sauve la nouvelle image
