@@ -2,8 +2,6 @@
 
 
 
-define ('NOT_SET', __('Not Set'));
-
 //==============================================================================
 // Classe luxBumImage : Fonctions pour les générations de miniatures
 //==============================================================================
@@ -256,7 +254,7 @@ class luxBumImage
     * @return String Chemin vers la vignette générée.
     */
    function getAsThumb ($dst_w = 85, $dst_h = 85) {
-      $this->thumbToolkit = new ImageToolkitImagick ($this->getImagePath ());
+      $this->thumbToolkit = processFactory::imageToolkit($this->getImagePath ());
       $this->thumbToolkit->setDestSize ($dst_w, $dst_h);
 
       $final = luxbum::getThumbImage ($this->dir, $this->img, $dst_w, $dst_h);
@@ -286,7 +284,7 @@ class luxBumImage
     * @return String Chemin vers l'aperçu généré.
     */
    function getAsPreview ($dst_w = 650, $dst_h = 485) {
-      $this->previewToolkit = new ImageToolkitImagick ($this->getImagePath ());
+      $this->previewToolkit = processFactory::imageToolkit($this->getImagePath ());
       $this->previewToolkit->setDestSize ($dst_w, $dst_h);
       
       // Si pas d'aperçu on retourne l'image originale

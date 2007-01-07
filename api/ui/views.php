@@ -240,6 +240,7 @@ class ImageView {
       header("Cache-Control: no-cache, must-revalidate");
       header("Pragma: no-cache");
       header('Content-Type: '.$luxAff->getTypeMime());
+
       if ($fp = fopen($newfile, 'rb')) {
          header("Content-Length: " . filesize($newfile));
          fpassthru($fp);
