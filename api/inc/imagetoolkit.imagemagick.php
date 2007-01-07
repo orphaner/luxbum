@@ -6,18 +6,43 @@
 class ImageToolkitImageMagick extends ImageToolkit {
    var $forceResizeCmd = false;
 
+   /**
+    *
+    */
    function createThumb($img_dest) {
       $this->imageDest = $img_dest;
       
       // Créer la vignette ?
       if ($this->canResize ()) {
 
-         $cmd = 'convert -size %dx%d %s -geometry %dx%d %s';
-         $cmd = sprintf($cmd, $this->imageDestWidth, $this->imageDestHeight, 
-                        escapeshellarg($this->image), 
-                        $this->imageDestWidth, $this->imageDestHeight, 
-                        escapeshellarg($img_dest));
-         exec($cmd);
+         // Crop method
+         if ($this->mode == 'crop') {
+            $cmd = 'convert -gravity center -crop %dx%d+%d+%d +repage %s %s';
+            $cmd = sprintf($cmd, 
+                           $this->cropW, $this->cropH,
+                           $this->decalW, $this->decalH,
+                           escapeshellarg($this->image), 
+                           escapeshellarg($img_dest));
+            exec($cmd);
+
+            $cmd = 'convert -resize %dx%d -geometry %dx%d %s %s';
+            $cmd = sprintf($cmd, 
+                           $this->imageDestWidth, $this->imageDestHeight,
+                           $this->imageDestWidth, $this->imageDestHeight,
+                           escapeshellarg($img_dest),
+                           escapeshellarg($img_dest));
+            exec($cmd);
+         }
+         // Other methods
+         else {
+            $cmd = 'convert -resize %dx%d -geometry %dx%d %s %s';
+            $cmd = sprintf($cmd, 
+                           $this->imageDestWidth, $this->imageDestHeight,
+                           $this->imageDestWidth, $this->imageDestHeight,
+                           escapeshellarg($this->image), 
+                           escapeshellarg($img_dest));
+            exec($cmd);
+         }
       }
    }
 

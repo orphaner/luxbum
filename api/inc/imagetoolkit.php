@@ -64,6 +64,7 @@ class ImageToolkit
     * @param boolean $expand Allow resize of image
    */
    function setDestSize ($dst_w, $dst_h, $mode='ratio', $expand=true) {
+      $this->mode = $mode;
 
       $imgWidth = $this->imageWidth;
       $imgHeight = $this->imageHeight;
