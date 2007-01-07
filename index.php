@@ -81,12 +81,12 @@ include('api/inc/l10n.php');
 
 include('api/process/processFactory.php');
 include('api/process/luxbumgallery.php');
-include('api/process/paginator.php');
 include('api/process/luxbumindex.php');
 include('api/process/private.php');
 include('api/process/commentaire.php');
 include('api/process/luxbumimage.php');
 
+include('api/inc/paginator.php');
 include('api/inc/imagetoolkit.php');
 include('api/inc/imagetoolkit.imagemagick.php');
 include('api/inc/imagetoolkit.gd.php');
