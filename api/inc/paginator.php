@@ -1,15 +1,15 @@
 <?php
 
   /**
-   * @package process
+   * @package inc
    */
-class LbPaginator extends Recordset2 {
+class Paginator extends Recordset2 {
    var $currentPage;
    var $countPages;
    var $elementsByPage;
    var $totalPages;
 
-   function LbPaginator($currentPage, $countPages, $elementsByPage = 7, $nb_bouton_page = 3) {
+   function Paginator($currentPage, $countPages, $elementsByPage = 7, $nb_bouton_page = 3) {
       parent::Recordset2();
       $this->currentPage = $currentPage;
       $this->countPages = $countPages;

@@ -4,6 +4,8 @@
    * @package inc
    */
 class ImageToolkitImageMagick extends ImageToolkit {
+   var $forceResizeCmd = false;
+
    function createThumb($img_dest) {
       $this->imageDest = $img_dest;
       
@@ -28,11 +30,17 @@ class ImageToolkitImageMagick extends ImageToolkit {
    function setSrcInfos () {
       if ($this->image != "") {
 
-         $cmd ='identify -format %w:%h:%m ' . escapeshellarg($this->image);
-         exec($cmd, $res, $exit);
+         if (function_exists('GetImageSize') && !$this->forceResizeCmd) {
+            $exit = 0;
+            $size = GetImageSize ($this->image);
+         }
+         else {
+            $cmd ='identify -format %w:%h:%m ' . escapeshellarg($this->image);
+            exec($cmd, $res, $exit);
+            $size  = explode(':', $res[0]);
+         }
 
          if ($exit == 0) {
-            $size  = explode(':', $res[0]);
             $this->imageWidth = $size[0];
             $this->imageHeight = $size[1];
             $this->imageType = $size[2];
@@ -47,7 +55,7 @@ class ImageToolkitImageMagick extends ImageToolkit {
     */
    static function getImageDimensions($path) {
       if (is_file ($path)) {
-         $cmd ='identify -format %w:%h:%m ' . escapeshellarg($this->image);
+         $cmd ='identify -format %w:%h ' . escapeshellarg($this->image);
          exec($cmd, $res, $exit);
 
          if ($exit == 0) {

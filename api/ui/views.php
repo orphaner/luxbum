@@ -90,7 +90,7 @@ class VignetteView {
       $GLOBALS['_LB_render']['img'] = $res->getDefault();
 
 
-      $GLOBALS['LB_render']['affpage'] = new LbPaginator($currentPage, $res->getIntRowCount(), LIMIT_THUMB_PAGE, MAX_NAVIGATION_ELEMENTS);
+      $GLOBALS['LB_render']['affpage'] = new Paginator($currentPage, $res->getIntRowCount(), LIMIT_THUMB_PAGE, MAX_NAVIGATION_ELEMENTS);
 //      echo ' - paginate time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
 
 
