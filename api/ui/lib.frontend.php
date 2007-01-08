@@ -236,7 +236,7 @@ class lb {
       }
       $img = $GLOBALS['_LB_render']['res']->f();
       $dir = $img->getDir();
-      $link = sprintf('<a href="#" onclick="window.open(\'%s\',\'Diaporama\',\'width=700,height=545,scrollbars=yes,resizable=yes\');">%s</a>', link::slideshow($dir), $text);
+      $link = sprintf('<a href="javascript:void(0)" onclick="window.open(\'%s\',\'Diaporama\',\'width=740,height=600\');">%s</a>', link::slideshow($dir), $text);
       $result = sprintf($s, $link);
       if ($return) return $result;
       echo $result;
@@ -388,11 +388,11 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function displayVignette($return = false) {
+   static function displayVignette($s='<img src="%s" %s alt=""/>', $return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
       $path = $img->getThumbLink();
       $dimensions = $img->getThumbResizeSize();
-      $result = sprintf ('<img src="%s" %s alt=""/>', $path, $dimensions);
+      $result = sprintf ($s, $path, $dimensions);
       if ($return) return $result;
       echo $result;
    }
@@ -402,11 +402,16 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function displayApercu($return = false) {
-      $img = $GLOBALS['_LB_render']['img'];
+   static function displayApercu($s = '<img src="%s" %s alt=""/>', $return = false) {
+      if (isset($GLOBALS['_LB_render']['img'])) {
+         $img = $GLOBALS['_LB_render']['img'];
+      }
+      else {
+         $img = $GLOBALS['_LB_render']['res']->f();
+      }
       $path = $img->getPreviewLink();
       $dimensions = $img->getPreviewResizeSize();
-      $result = sprintf ('<img src="%s" %s alt=""/>', $path, $dimensions);
+      $result = sprintf ($s, $path, $dimensions);
       if ($return) return $result;
       echo $result;
    }
@@ -417,7 +422,12 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    static function photoDescription($return = false) {
-      $img = $GLOBALS['_LB_render']['img'];
+      if (isset($GLOBALS['_LB_render']['img'])) {
+         $img = $GLOBALS['_LB_render']['img'];
+      }
+      else {
+         $img = $GLOBALS['_LB_render']['res']->f();
+      }
       $img->findDescription();
       $result = $img->getDateDesc();
       if ($return) return $result;
@@ -579,7 +589,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    static function slideshowFadingText($return = false) {
-      if (lb::lideshowFadingEnabled()) {
+      if (lb::slideshowFadingEnabled()) {
          $result = 'true';
       }
       else {
@@ -595,7 +605,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    static function slideshowFadingCheckbox($return = false) {
-      if (lb::lideshowFadingEnabled()) {
+      if (lb::slideshowFadingEnabled()) {
          $result = 'checked';
       }
       else {
@@ -605,26 +615,26 @@ class lb {
       echo $result;
    }
 
-   /**
-    *
-    *
-    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
-    */
-   static function slideshowPhotoList($return = false) {
-      $list = new luxBumGallery($GLOBALS['LB']['dir']);
-      $list->addAllImages ();
-      $list->reset();
-      $i = 0;
-      $result = '';
-      while (!$list->EOF()) {
-         $img = $list->f();
-         $result .= 'photosURL['.$i.'] = "'.$img->getPreviewLink().'";'."\n";
-         $list->moveNext();
-         $i++;
-      }
-      if ($return) return $result;
-      echo $result;
-   }
+//    /**
+//     *
+//     *
+//     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+//     */
+//    static function slideshowPhotoList($return = false) {
+//       $list = new luxBumGallery($GLOBALS['LB']['dir']);
+//       $list->addAllImages ();
+//       $list->reset();
+//       $i = 0;
+//       $result = '';
+//       while (!$list->EOF()) {
+//          $img = $list->f();
+//          $result .= 'photosURL['.$i.'] = "'.$img->getPreviewLink().'";'."\n";
+//          $list->moveNext();
+//          $i++;
+//       }
+//       if ($return) return $result;
+//       echo $result;
+//    }
 
 
 

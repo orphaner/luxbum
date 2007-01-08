@@ -57,15 +57,10 @@ class VignetteView {
       }
       //verif::isDir ($dir);
 
-      // Vérif que la page est bonne
-//       $GLOBALS['_LB_render']['res'] = new luxBumGallery($dir);
       $GLOBALS['_LB_render']['res'] = luxBumGallery::getInstance($dir);
       $res =& $GLOBALS['_LB_render']['res']; 
-      //$res->addAllImages ();
       $res->saveInstance($res);
       $galleryCount = $res->getCount ();
-
-//      $d = microtime_float();
       
       $niceDir = ucfirst (luxBum::niceName ($res->getName()));
       $GLOBALS['LB']['title'] =  $niceDir.' - '.NOM_GALERIE;
@@ -196,6 +191,10 @@ class SlideShowView {
       verif::isDir($dir);
       $GLOBALS['LB']['dir'] = $dir;
       $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
+
+      $GLOBALS['_LB_render']['res'] = luxBumGallery::getInstance($dir);
+      $res =& $GLOBALS['_LB_render']['res']; 
+      $res->saveInstance($res);
 
       // Add comment form valid
       lbPostAction::comment();
