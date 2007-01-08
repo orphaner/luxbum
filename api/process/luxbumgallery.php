@@ -2,15 +2,15 @@
 
 
 
-//==============================================================================
-// Classe luxBumGallery : une galerie
-//==============================================================================
+  //==============================================================================
+  // Classe luxBumGallery : une galerie
+  //==============================================================================
 
   /**
    * @package process
    * Structure représentant une galerie
    */
-class luxBumGallery extends Recordset2
+class luxBumGallery extends SortableRecordset
 {
    /**-----------------------------------------------------------------------**/
    /** Champs de la classe */
@@ -19,10 +19,6 @@ class luxBumGallery extends Recordset2
    var $preview;
    var $count;
    var $size;
-   var $sortType;
-   var $sortOrder;
-   //var $list = array ();
-   var $sortList = array();
    var $sortPosition = 0;
    var $private = false;
    var $listSubGallery = array();
@@ -183,39 +179,7 @@ class luxBumGallery extends Recordset2
    function getCount () {
       return $this->count;
    }
-   
-   /**
-    * Affecte le type du tri de la galerie
-    * @param String $sortType Type du tri de la galerie
-    */
-   function setSortType ($sortType) {
-      $this->sortType = $sortType;
-   }
-   
-   /**
-    * Retourne le type de tri de la galerie
-    * @return String Type du tri de la galerie
-    */
-   function getSortType () {
-      return $this->sortType;
-   }
-   
-   /**
-    * Affecte le sens du tri (asc / desc)
-    * @param String $sortOrder Sens du tri
-    */
-   function setSortOrder ($sortOrder) {
-      $this->sortOrder = $sortOrder;
-   }
-   
-   /**
-    * Retourne le sens du tri
-    * @return String Sens du tri
-    */
-   function getSortOrder () {
-      return $this->sortOrder;
-   }
-   
+
    /**
     * Affecte la position de la galerie dans l'index
     * @param String $sortPosition Position de la galerie dans l'index
@@ -446,68 +410,38 @@ class luxBumGallery extends Recordset2
    /**-----------------------------------------------------------------------**/
    /** Fonctions de tri */
    /**-----------------------------------------------------------------------**/
-   /**
-    * Sort Image Array will sort an array of Images based on the given key. The
-    * key should correspond to any of the Image fields that can be sorted. If the
-    * given key turns out to be NULL for an image, we default to the filename.
-    *
-    * @access private
-    * @param images The array to be sorted.
-    * @param sortType le type de tri : manuel, date, description
-    * @param
-    * @return A new array of sorted images.
-    */
-   function _sortImageArray($images, $sortType, $sortOrder) {
-      $newImageArray = array();
-      $newImageArrayFailed = array();
-      $realkey = null;
-      $i = 0;
-          
-      //echo "sortType:$sortType - $sortOrder - ";
-      foreach ($images as $image) {
-         switch ($sortType) {
-            case 'manuel':
-               $realkey = $image->getSortPosition();
-               break;
-            case 'date':
-               $realkey = $image->getDate();
-               break;
-            case 'description':
-               $realkey = $image->getDescription();
-               break;
-            default:
-               $realkey = $image->getImageName();
-         }
-         $realkey = trim($realkey);
-         if ($realkey == null || $realkey == '') {
-            $newImageArrayFailed[$image->getImageName()] = $image;
-         }
-         else {
-            // Suffixe avec le nom de l'image au cas où 
-            // il y aurait des clés identiques !!! 
-            // (ce qui arrive souvent, même date|description, ordre non défini)
-            $realkey .= '_'.$image->getImageName();
-            $newImageArray[$realkey] = $image;
-         }
-         $i++;
+   function getSortRealKey($gallery, $sortType=null) {
+      if ($sortType == null) {
+         $sortType = $this->sortType;
       }
-      //print_r ($newImageArray);
-          
-      // Now natcase sort the array based on the keys 
-      uksort ($newImageArray, "strnatcasecmp");
-      uksort ($newImageArrayFailed, "strnatcasecmp");
-      
-      // Inverse l'ordre si ordre décroissant
-      if ($sortOrder == 'desc') {
-         $newImageArray = array_reverse ($newImageArray);
-         $newImageArrayFailed = array_reverse ($newImageArrayFailed);
+
+      switch ($sortType) {
+         case 'manuel':
+            $realkey = $image->getSortPosition();
+            break;
+         case 'date':
+            $realkey = $image->getDate();
+            break;
+         case 'description':
+            $realkey = $image->getDescription();
+            break;
+         default:
+            $realkey = $image->getImageName();
       }
-      
-      // Return a new array with just the values
-      $newImageArray = array_values($newImageArray);
-      $newImageArrayFailed = array_values($newImageArrayFailed);
-      return array_merge($newImageArray, $newImageArrayFailed);
+      $realkey = trim($realkey);
+      if ($realkey == null || $realkey == '') {
+         $realkey = $image->getImageName();
+      }
+      else {
+         // Suffixe avec le nom de l'image au cas où 
+         // il y aurait des clés identiques !!! 
+         // (ce qui arrive souvent, même date|description, ordre non défini)
+         $realkey .= '_'.$image->getImageName();
+      }
+
+      return $realkey;
    }
+
    
    /**
     * Enregistre les préférences de tri dans un fichier de format :

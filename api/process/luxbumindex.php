@@ -1,20 +1,17 @@
 <?php 
 
 
-//==============================================================================
-// Classe luxBumIndex : Index de toutes les galeries
-//==============================================================================
+  //==============================================================================
+  // Classe luxBumIndex : Index de toutes les galeries
+  //==============================================================================
 
-/**
- * @package process
- * Classe contenant l'index de toutes les galeries
- */
-class luxBumIndex extends Recordset2
+  /**
+   * @package process
+   * Classe contenant l'index de toutes les galeries
+   */
+class luxBumIndex extends SortableRecordset
 {
 //   var $galleryList = array ();
-   var $sortList = array();
-   var $sortType;
-   var $sortOrder;
    var $dir;
    
    function luxBumIndex ($dir) {
@@ -27,38 +24,6 @@ class luxBumIndex extends Recordset2
    /**-----------------------------------------------------------------------**/
    /** Getter et setter */
    /**-----------------------------------------------------------------------**/
-   /**
-    * Affecte le type du tri de l'index
-    * @param String $sortType Type du tri de l'index
-    */
-   function setSortType ($sortType) {
-      $this->sortType = $sortType;
-   }
-   
-   /**
-    * Retourne le type de tri de l'index
-    * @return String Type du tri de l'index
-    */
-   function getSortType () {
-      return $this->sortType;
-   }
-   
-   /**
-    * Affecte le sens du tri (asc / desc)
-    * @param String $sortOrder Sens du tri
-    */
-   function setSortOrder ($sortOrder) {
-      $this->sortOrder = $sortOrder;
-   }
-   
-   /**
-    * Retourne le sens du tri
-    * @return String Sens du tri
-    */
-   function getSortOrder () {
-      return $this->sortOrder;
-   }
-
    /**
     * Retourne le nombre de galeries
     */
@@ -96,8 +61,8 @@ class luxBumIndex extends Recordset2
             $galleryTemp->setSortPosition($this->sortList[$name]);
          }
 
-          $this->addToList($galleryTemp);
-     }
+         $this->addToList($galleryTemp);
+      }
    }
 
    
@@ -133,67 +98,35 @@ class luxBumIndex extends Recordset2
    /**-----------------------------------------------------------------------**/
    /** Fonctions de tri */
    /**-----------------------------------------------------------------------**/
-   /**
-    * Sort Image Array will sort an array of Images based on the given key. The
-    * key should correspond to any of the Image fields that can be sorted. If the
-    * given key turns out to be NULL for an image, we default to the filename.
-    *
-    * @access private
-    * @param images The array to be sorted.
-    * @param sortType le type de tri : manuel, date, description
-    * @param
-    * @return A new array of sorted images.
-    */
-   function _sortGalleryArray($galleryList, $sortType, $sortOrder) {
-      $newImageArray = array();
-      $newImageArrayFailed = array();
-      $realkey = null;
-      $i = 0;
-          
-      //echo "sortType:$sortType - $sortOrder - ";
-      foreach ($galleryList as $gallery) {
-         switch ($sortType) {
-            case 'manuel':
-               $realkey = $gallery->getSortPosition();
-               break;
-            case 'count':
-               $realkey = $gallery->getCount();
-               break;
-            case 'size':
-               $realkey = $gallery->getSize();
-               break;
-            default:
-               $realkey = $gallery->getName();
-         }
-         $realkey = trim($realkey);
-         if ($realkey == null || $realkey == '') {
-            $newImageArrayFailed[$gallery->getName()] = $gallery;
-         }
-         else {
-            // Suffixe avec le nom de la galerie au cas où 
-            // il y aurait des clés identiques !!! 
-            // (ce qui arrive souvent, même size|count, ordre non défini)
-            $realkey .= '_'.$gallery->getName();
-            $newImageArray[$realkey] = $gallery;
-         }
-         $i++;
+   function getSortRealKey($gallery, $sortType=null) {
+      if ($sortType == null) {
+         $sortType = $this->sortType;
       }
-      //print_r ($newImageArray);
-          
-      // Now natcase sort the array based on the keys 
-      uksort ($newImageArray, "strnatcasecmp");
-      uksort ($newImageArrayFailed, "strnatcasecmp");
-      
-      // Inverse l'ordre si ordre décroissant
-      if ($sortOrder == 'desc') {
-         $newImageArray = array_reverse ($newImageArray);
-         $newImageArrayFailed = array_reverse ($newImageArrayFailed);
+
+      switch ($sortType) {
+         case 'manuel':
+            $realkey = $gallery->getSortPosition();
+            break;
+         case 'count':
+            $realkey = $gallery->getCount();
+            break;
+         case 'size':
+            $realkey = $gallery->getSize();
+            break;
+         default:
+            $realkey = $gallery->getName();
       }
-      
-      // Return a new array with just the values
-      $newImageArray = array_values($newImageArray);
-      $newImageArrayFailed = array_values($newImageArrayFailed);
-      return array_merge($newImageArray, $newImageArrayFailed);
+      $realkey = trim($realkey);
+      if ($realkey == null || $realkey == '') {
+         $realkey = $gallery->getName();
+      }
+      else {
+         // Suffixe avec le nom de la galerie au cas où 
+         // il y aurait des clés identiques !!! 
+         // (ce qui arrive souvent, même size|count, ordre non défini)
+         $realkey .= '_'.$gallery->getName();
+      }
+      return $realkey;
    }
    
    /**
