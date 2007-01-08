@@ -90,7 +90,7 @@ class luxBumIndex extends SortableRecordset
          }
          closedir ($dir_fd);
          if (count ($this->arrayList) > 0) {
-            $this->arrayList = $this->_sortGalleryArray($this->arrayList, $this->sortType, $this->sortOrder);
+            $this->arrayList = $this->sortRecordset($this->arrayList, $this->sortType, $this->sortOrder);
          }
       }
    }

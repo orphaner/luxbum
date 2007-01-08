@@ -55,7 +55,7 @@ class SortableRecordset extends Recordset2 {
     * @param
     * @return A new array of sorted images.
     */
-   function _sortGalleryArray($galleryList, $sortType, $sortOrder) {
+   function sortRecordset($galleryList, $sortType, $sortOrder) {
       $newImageArray = array();
       $newImageArrayFailed = array();
       $realkey = null;

@@ -376,7 +376,7 @@ class luxBumGallery extends SortableRecordset
       }
       
       if (count ($this->arrayList) > 0) {
-         $this->arrayList = $this->_sortImageArray ($this->arrayList, $this->sortType, $this->sortOrder);
+         $this->arrayList = $this->sortRecordset($this->arrayList, $this->sortType, $this->sortOrder);
       }
    }
    
@@ -410,7 +410,7 @@ class luxBumGallery extends SortableRecordset
    /**-----------------------------------------------------------------------**/
    /** Fonctions de tri */
    /**-----------------------------------------------------------------------**/
-   function getSortRealKey($gallery, $sortType=null) {
+   function getSortRealKey($image, $sortType=null) {
       if ($sortType == null) {
          $sortType = $this->sortType;
       }
