@@ -37,7 +37,7 @@ function showDebugInfo() {
 }
 
 // Au revoir les erreurs
-$GLOBALS['debug'] = true;
+$GLOBALS['debug'] = false;
 error_reporting (E_ALL);
 
 /* </brin> */
@@ -63,8 +63,8 @@ define ('LOCALE_DIR', 'locales/');
 define ('TEMPLATE_DIR', 'templates/');
 
 // Variables a mettre en configurable dans le manager
-define ('TEMPLATE', 'photoblog');
-define('URL_BASE', 'http://pics.iode.info/');
+define ('TEMPLATE', 'luxbum');
+define('URL_BASE', 'http://nico.beroot.org/luxbum/trunk/');
 
 
 
@@ -77,6 +77,7 @@ include (TEMPLATE_DIR.TEMPLATE.'/conf_'.TEMPLATE.'.php');
 include (CONF_DIR.'config.php');
 
 include('api/inc/recordset.php');
+include('api/inc/sortablerecordset.php');
 include('api/inc/l10n.php');
 
 include('api/process/processFactory.php');
