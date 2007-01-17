@@ -236,7 +236,7 @@ class lb {
       }
       $img = $GLOBALS['_LB_render']['res']->f();
       $dir = $img->getDir();
-      $link = sprintf('<a href="javascript:void(0)" onclick="window.open(\'%s\',\'Diaporama\',\'width=740,height=600\');">%s</a>', link::slideshow($dir), $text);
+      $link = sprintf('<a href="javascript:void(0)" onclick="window.open(\'%s\',\'Diaporama\',\'width=670,height=505\');">%s</a>', link::slideshow($dir), $text);
       $result = sprintf($s, $link);
       if ($return) return $result;
       echo $result;
@@ -475,7 +475,13 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    static function imageName($return = false) {
-      $result =  $GLOBALS['_LB_render']['img']->getImageName();
+      if (isset($GLOBALS['_LB_render']['img'])) {
+         $img = $GLOBALS['_LB_render']['img'];
+      }
+      else {
+         $img = $GLOBALS['_LB_render']['res']->f();
+      }
+      $result =  $img->getImageName();
       $result = utf8_encode($result);
       if ($return) return $result;
       echo $result;

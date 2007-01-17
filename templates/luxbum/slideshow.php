@@ -8,7 +8,7 @@
     <meta http-equiv="Content-Style-Type" content="text/css"/>
     <meta http-equiv="Content-Language" content="fr"/>
 
-    <script  type="text/javascript" src="template-common/scripts/mootools.js"></script>
+    <script  type="text/javascript" src="template-common/scripts/mootools.uncompressed.js"></script>
     <script  type="text/javascript" src="template-common/scripts/jd.gallery.js"></script>
     <title><?php lb::pageTitle(); ?></title>
 
@@ -18,8 +18,12 @@
 <style>
 #myGallery
 {
+  margin:10px;
 width: 650px !important;
-height: 510px !important;
+height: 485px !important;
+}
+body {
+   font-size:1.2em;
 }
 </style>
   </head>
@@ -39,8 +43,8 @@ var lbThumb = new Array();
         echo "lbImage[$i] = '".(lb::displayApercu('%s', true))."';\n";
         echo "lbThumb[$i] = '".(lb::displayVignette('%s', true))."';\n";
         echo "lbLink[$i] = false;\n";
-        echo "lbTitle[$i] = 'Title $i';\n";
-        echo "lbDescription[$i] = 'Description $i';\n";
+        echo "lbTitle[$i] = '".(lb::imageName(true))."';\n";
+        echo "lbDescription[$i] = '".(lb::photoDescription(true))."';\n";
         $i++;
         $res->moveNext();
       }flush();
@@ -54,6 +58,7 @@ var lbThumb = new Array();
       function startGallery() {
       var myGallery = new gallery($('myGallery'), {
       timed: true,
+      preloader: true,
       embedLinks: false,
       preloader:false
       });

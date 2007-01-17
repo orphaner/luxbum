@@ -46,7 +46,7 @@ var gallery = new Class({
 	initialize: function(element, options) {
 		this.setOptions({
 			showArrows: true,
-			showCarousel: true,
+			showCarousel: false,
 			showInfopane: true,
 			thumbHeight: 75,
 			thumbWidth: 100,
@@ -54,7 +54,7 @@ var gallery = new Class({
 			embedLinks: true,
 			fadeDuration: 500,
 			timed: false,
-			delay: 9000,
+			delay: 7000,
 			preloader: true,
 			manualData: [],
 			populateData: true,

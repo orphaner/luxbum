@@ -206,6 +206,7 @@ class luxBumImage
       if (is_file (luxbum::getFsPath ($this->getImageDir()).DESCRIPTION_FILE)) {
          $fd = fopen (luxbum::getFsPath ($this->getImageDir()).DESCRIPTION_FILE, 'r+');
          while (!$trouve && $line = fgets ($fd)) {
+            $line = trim($line);
             if (ereg ('^.*\|.*\|.*$', $line)) {
                $tab = explode ('|', $line, 2);
                $desc[$tab[0]] = $tab[1];
