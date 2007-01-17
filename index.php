@@ -64,7 +64,7 @@ define ('TEMPLATE_DIR', 'templates/');
 
 // Variables a mettre en configurable dans le manager
 define ('TEMPLATE', 'luxbum');
-define('URL_BASE', 'http://nico.beroot.org/luxbum/trunk/');
+define('URL_BASE', 'http://localhost/luxbum/trunk/');
 
 
 

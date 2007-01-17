@@ -8,7 +8,7 @@
     <meta http-equiv="Content-Style-Type" content="text/css"/>
     <meta http-equiv="Content-Language" content="fr"/>
 
-    <script  type="text/javascript" src="template-common/scripts/mootools.uncompressed.js"></script>
+    <script  type="text/javascript" src="template-common/scripts/mootools.js"></script>
     <script  type="text/javascript" src="template-common/scripts/jd.gallery.js"></script>
     <title><?php lb::pageTitle(); ?></title>
 
