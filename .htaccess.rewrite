@@ -2,7 +2,7 @@ RewriteEngine on
 
 
 
-RewriteRule ^(image|album|folder|exif|photo|comments|slide\-show)/(.*)$ /index.php?/$1/$2
+RewriteRule ^(image|album|folder|meta|photo|comments|slide\-show)/(.*)$ /index.php?/$1/$2
 
 
 
