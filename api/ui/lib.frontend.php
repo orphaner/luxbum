@@ -430,7 +430,7 @@ class lb {
          $img = $GLOBALS['_LB_render']['res']->f();
       }
       $img->findDescription();
-      $result = $img->getDateDesc();
+      $result = utf8_encode($img->getDateDesc());
       $result = sprintf($s, $result);
       if ($return) return $result;
       echo $result;
