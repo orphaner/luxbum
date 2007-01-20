@@ -42,19 +42,19 @@ class ImageMeta extends Recordset2
    function getMeta() {
       foreach ($this->properties as $k => $v) {
          if (!empty($this->xmp[$k])) {
-            $this->properties[$k] = $this->xmp[$k];
+            $this->properties[$k] = trim($this->xmp[$k]);
             $this->hasMeta = true;
          }
          elseif (!empty($this->iptc[$k])) {
-            $this->properties[$k] = $this->iptc[$k];
+            $this->properties[$k] = trim($this->iptc[$k]);
             $this->hasMeta = true;
          }
          elseif (!empty($this->exif[$k])) {
-            $this->properties[$k] = $this->exif[$k];
+            $this->properties[$k] = trim($this->exif[$k]);
             $this->hasMeta = true;
          }
 
-         if (!empty($this->properties[$k])) {
+         if (!empty($this->properties[$k]) && $this->properties[$k] != '') {
             $this->addToList(new MetaElement($k,$this->properties[$k]));
          }
       }
