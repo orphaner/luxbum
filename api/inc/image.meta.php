@@ -26,7 +26,7 @@
   /**
    * @package inc
    */
-class ImageMeta
+class ImageMeta extends Recordset2
 {
    var $meta = array();
    var $xmp = array();
@@ -38,11 +38,6 @@ class ImageMeta
       $this->loadFile($f);
    }
 
-   function readMeta($f){
-      $o = new self;
-      $o->loadFile($f);
-      return $o->getMeta();
-   }
 
    function getMeta() {
       foreach ($this->properties as $k => $v) {
