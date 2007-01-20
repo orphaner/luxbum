@@ -3,9 +3,9 @@
 <body id="body">  
   <h1><span><?php lb::galleryH1();?></span></h1>
 
-  <div id="liste_apercu">
+  <div id="galleryList">
 
-    <?php lb::menuNav('<div id="menunav"><ol class="tree"><li>&#187; <a href="'.lb::indexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
+    <?php lb::menuNav('<div id="navigBar"><ol class="tree"><li>&#187; <a href="'.lb::indexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
           '<li>%s</li>'); ?>
 
     <?php if ($res->EOF()):?>
@@ -14,7 +14,7 @@
 
 
     <?php while (!$res->EOF()):?>
-    <div class="galerie">
+    <div class="gallery">
       <div class="lg">
         <?php lb::defaultImage(); ?>
       </div>
@@ -28,7 +28,7 @@
         </span> 
         <?php endif;?>
         
-        <div class="consulter">
+        <div class="actions">
           <ul>
             <?php lb::galleryLinkPrivate("<li>%s</li>", __('Private gallery'));?>
             <?php lb::galleryLinkSubGallery("<li>%s</li>", __('Sub galleries'));?>
@@ -44,7 +44,7 @@
     <div class="spacer"></div>
   </div>
 
-  <div id="footer2"><a href="http://nico.tuxfamily.org/Projets/Support-LuxBum"><img src="_images/luxbum.png" alt="Powered By LuxBum"/></a><br />
+  <div id="footerIndex"><a href="http://www.lubum.net/"><img src="_images/luxbum.png" alt="Powered By LuxBum"/></a><br />
     Luxbum by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
   
 </body>
