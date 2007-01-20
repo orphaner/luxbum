@@ -3,27 +3,58 @@
 //------------------------------------------------------------------------------
 // Includes
 //------------------------------------------------------------------------------
-include_once ('common.php');
-include_once(FONCTIONS_DIR.'lib.frontend.php');
-include_once(FONCTIONS_DIR.'class/link.php');
-include_once(FONCTIONS_DIR.'extinc/class.dispatcher.php');
-include_once(FONCTIONS_DIR.'luxbum.class.php');
+define ('API_DIR', '_fonctions/');
+define ('CONF_DIR', '../conf/');
+define ('LIB_DIR', '_librairies/');
+define ('INDEX_FILE', 'index.php');
+define ('ADMIN_FILE', 'manager.php');
+define ('PHOTOS_DIR', 'photos/');
+define ('THUMB_DIR', 'vignette/');
+define ('COMMENT_DIR', '.comment/');
+define ('PREVIEW_DIR', 'apercu/');
+define ('DESCRIPTION_FILE', 'description.txt');
+define ('ORDER_FILE', 'ordre.txt');
+define ('DEFAULT_INDEX_FILE', 'defaut.txt');
+define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
+define ('PASS_FILE', 'pass.php');
+define ('LOCALE_DIR', 'locales/');
+define ('TEMPLATE_DIR', 'templates/');
+define ('ADMIN_STRUCTURE_DIR', '_structure_manager/');
+define ('ADMIN_DIR', '_fonctions_manager/');
 
-include_once(FONCTIONS_DIR.'extinc/class.recordset.php');
-include_once(FONCTIONS_DIR.'class/luxbumgallery.class.php');
-include_once(FONCTIONS_DIR.'class/luxbumimage.class.php');
-include_once(FONCTIONS_DIR.'class/imagetoolkit.class.php');
-include_once(FONCTIONS_DIR.'class/luxbumindex.class.php');
-include_once(FONCTIONS_DIR.'class/files.php');
-include_once(FONCTIONS_DIR.'class/commentaire.class.php');
-include_once(FONCTIONS_DIR.'private.php');
+include('../api/inc/recordset.php');
+include('../api/inc/sortablerecordset.php');
+include('../api/inc/l10n.php');
 
+include('../api/process/processFactory.php');
+include('../api/process/luxbumgallery.php');
+include('../api/process/luxbumindex.php');
+include('../api/process/private.php');
+include('../api/process/commentaire.php');
+include('../api/process/luxbumimage.php');
+
+include('../api/inc/paginator.php');
+include('../api/inc/imagetoolkit.php');
+include('../api/inc/imagetoolkit.imagemagick.php');
+include('../api/inc/imagetoolkit.gd.php');
+include('../api/inc/aff_page.inc.php');
+include('../api/inc/formulaires.php');
+include('../api/inc/files.php');
+include('../api/inc/verif.php');
+include('../api/inc/image.meta.php');
+include('../api/inc/zip.php');
+include('../api/inc/upload.php');
+include('../api/inc/dispatcher.php');
+
+include('../api/ui/lib.frontend.php');
+include('../api/ui/views.php');
+include('../api/ui/link.php');
+include('../api/process/luxbum.php');
 
 include_once (CONF_DIR.'config_manager.php');
 include_once (CONF_DIR.'config_auth.php');
-include_once (FONCTIONS_DIR.'mysql.inc.php');
 include_once (LIB_DIR.'ModeliXe.php');
-$mysql = new MysqlInc (DBL_HOST, DBL_LOGIN, DBL_PASSWORD, DBL_NAME);
+//$mysql = new MysqlInc (DBL_HOST, DBL_LOGIN, DBL_PASSWORD, DBL_NAME);
 
 
 //------------------------------------------------------------------------------
@@ -264,9 +295,7 @@ else if ($logued_check == false) {
    }
 }
 
-if ($mysql) {
-   $mysql->DbClose();
-}
+
 $page->MxWrite ();
 
 ?>
