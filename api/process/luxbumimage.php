@@ -23,7 +23,7 @@ class luxBumImage
    var $thumbToolkit = NULL;
    var $previewToolkit = NULL;
 
-   var $sortPosition = 0;
+   var $sortPosition = '';
 
    var $listComments = NULL;
 

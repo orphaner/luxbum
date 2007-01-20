@@ -19,7 +19,7 @@ class luxBumGallery extends SortableRecordset
    var $preview;
    var $count;
    var $size;
-   var $sortPosition = 0;
+   var $sortPosition = '';
    var $private = false;
    var $listSubGallery = array();
    var $dirPath;
@@ -51,21 +51,22 @@ class luxBumGallery extends SortableRecordset
    }
 
    function getInstance($dir, $preview='') {
-      static $staticGallery = NULL;
-      if ($staticGallery == NULL) {
-         $d = microtime_float();
-         $serialFile = luxbum::getGallerySerialFilePath($dir);
-         if (is_file ($serialFile)) {
-            $instanceSerial = implode ("", @file ($serialFile));
-            $staticGallery = unserialize ($instanceSerial);
-            //echo "from serial";
-         }
-         else {
-            $staticGallery = new luxBumGallery($dir, $preview);
-         }
-         //echo ' - load time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
-      }
-      return $staticGallery;
+      return new luxBumGallery($dir, $preview);
+//       static $staticGallery = NULL;
+//       if ($staticGallery == NULL) {
+//          $d = microtime_float();
+//          $serialFile = luxbum::getGallerySerialFilePath($dir);
+//          if (is_file ($serialFile)) {
+//             $instanceSerial = implode ("", @file ($serialFile));
+//             $staticGallery = unserialize ($instanceSerial);
+//             //echo "from serial";
+//          }
+//          else {
+//             $staticGallery = new luxBumGallery($dir, $preview);
+//          }
+//          //echo ' - load time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
+//       }
+//       return $staticGallery;
    }
 
 
@@ -438,7 +439,6 @@ class luxBumGallery extends SortableRecordset
          // (ce qui arrive souvent, même date|description, ordre non défini)
          $realkey .= '_'.$image->getImageName();
       }
-
       return $realkey;
    }
 
