@@ -311,9 +311,9 @@ ol.tree li {
 }
 
 /*===========================================
-   Table des informations EXIF
+   Table des informations META
 =============================================*/
-#infos_exif h2 {
+#infos_meta h2 {
 	font-size:12px;
 }
 table.clean-table {

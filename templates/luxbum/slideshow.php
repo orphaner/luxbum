@@ -63,7 +63,6 @@ var lbThumb = new Array();
       preloader:false
       });
       }
-      //window.onDomReady(startGallery);
     </script>
   </body>
 </html>

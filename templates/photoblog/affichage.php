@@ -19,10 +19,24 @@
 
 <div id="narrow">
   <?php lb::photoDescription('<span class="description">%s</span>');?><br />
-  <?php if (lb::exifEnabled()):?>
+  <?php if (lb::metaEnabled()):?>
+  <?php if (!lb::metaExists(true)): ?>
+  <?php ___('No meta Found');?>
+  <?php else: ?>
+  <h2><?php ___('Meta Data');?></h2>
+  <table class="clean-table">
+    <?php while (!$meta->EOF()):?>
+    <tr>
+      <td><?php ___(lb::getMetaName(true)); ?></td>
+      <td><?php lb::getMetaValue(); ?></td>
+    </tr>
+    <?php $meta->moveNext();
+    endwhile;?>
+  </table>
+  <?php endif; ?>
   <?php endif;?>
   
-  <?php if (!lb::exifEnabled()):?>
+  <?php if (!lb::commentsEnabled()):?>
   + <a href="javascript:void(0);" onclick="window.open('<?php lb::linkComment();?>','Comments','width=480,height=540,scrollbars=yes,resizable=yes');"><?php echo __('Comments');?> 
     (<?php lb::commentCount();?>)</a>
   <?php endif;?>

@@ -7,7 +7,7 @@ define ('MKDIR_SAFE_MODE', 'off');
 define ('DATE_FORMAT', '%A %e %B %Y');
 define ('MIN_SIZE_FOR_PREVIEW', '0');
 define ('MAX_FILE_SIZE', '2000');
-define ('SHOW_EXIF', 'on');
+define ('SHOW_META', 'on');
 define ('SHOW_COMMENTAIRE', 'on');
 define ('DBL_HOST', 'localhost');
 define ('DBL_NAME', 'luxbum');
@@ -22,4 +22,8 @@ define ('ALLOW_DL_SELECTION', 'off');
 define ('IMAGE_BORDER_PIXEL', '6');
 define ('IMAGE_BORDER_MAX_NUANCE', '150');
 define ('IMAGE_BORDER_HEX_COLOR', 'FFFFFF');
+
+define ('TEMPLATE', 'photoblog');
+define ('URL_BASE', 'http://localhost/luxbum/trunk/');
+
 ?>

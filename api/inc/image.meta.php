@@ -35,9 +35,9 @@ class ImageMeta extends Recordset2
    var $hasMeta = false;
 
    function ImageMeta($f) {
+      parent::Recordset2();
       $this->loadFile($f);
    }
-
 
    function getMeta() {
       foreach ($this->properties as $k => $v) {
@@ -52,6 +52,10 @@ class ImageMeta extends Recordset2
          elseif (!empty($this->exif[$k])) {
             $this->properties[$k] = $this->exif[$k];
             $this->hasMeta = true;
+         }
+
+         if (!empty($this->properties[$k])) {
+            $this->addToList(new MetaElement($k,$this->properties[$k]));
          }
       }
 
@@ -354,4 +358,15 @@ class ImageMeta extends Recordset2
       //'' => 'Keywords'
       );
 }
+
+class MetaElement {
+   var $name;
+   var $value;
+
+   function MetaElement($name, $value) {
+      $this->name = $name;
+      $this->value = $value;
+   }
+}
+
 ?>

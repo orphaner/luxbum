@@ -25,6 +25,7 @@ class IndexView {
       $res->addAllGallery ();
 
 
+      header('Content-Type: text/html; charset=UTF-8');
       include (TEMPLATE_DIR.TEMPLATE.'/index.php');
       return 200;
    }
@@ -86,7 +87,6 @@ class VignetteView {
 
 
       $GLOBALS['LB_render']['affpage'] = new Paginator($currentPage, $res->getIntRowCount(), LIMIT_THUMB_PAGE, MAX_NAVIGATION_ELEMENTS);
-//      echo ' - paginate time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
 
 
       $affpage =& $GLOBALS['LB_render']['affpage'];
@@ -94,9 +94,8 @@ class VignetteView {
       // Add comment form valid
       lbPostAction::comment();
 
-      $d = microtime_float();
+      header('Content-Type: text/html; charset=UTF-8');
       include (TEMPLATE_DIR.TEMPLATE.'/vignette.php');
-//      echo ' - render time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
       return 200;
    }
 
@@ -127,6 +126,7 @@ class CommentaireView {
       $GLOBALS['_LB_render']['ct'] = $GLOBALS['_LB_render']['img']->lazyLoadComments();
       //$ct =& $GLOBALS['_LB_render']['ct'];
 
+      header('Content-Type: text/html; charset=UTF-8');
       include (TEMPLATE_DIR.TEMPLATE.'/commentaire.php');
       return 200;
    }
@@ -144,10 +144,11 @@ class AffichageView {
       
       $GLOBALS['_LB_render']['img'] = new luxBumImage ($dir, $photo);
       $GLOBALS['_LB_render']['img']->metaInit();
+      $GLOBALS['_LB_render']['meta'] = $GLOBALS['_LB_render']['img']->getMeta();
+      $meta =& $GLOBALS['_LB_render']['meta']; 
 
       $GLOBALS['_LB_render']['res'] = new luxBumGallery($dir);
       $res =& $GLOBALS['_LB_render']['res']; 
-//      $res->addAllImages ();
       $imgIndex = $res->getImageIndex($photo);
       $res->setDefaultIndex($imgIndex);
 
@@ -156,6 +157,7 @@ class AffichageView {
 
       $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
       
+      header('Content-Type: text/html; charset=UTF-8');
       include (TEMPLATE_DIR.TEMPLATE.'/affichage.php');
       return 200;
    }
@@ -165,19 +167,23 @@ class AffichageView {
   /**
    * @package ui
    */
-class InfosExifView {
+class InfosMetaView {
    function action ($match) {
       $dir = $match[1];
       $photo = $match[2];
       verif::photo($dir, $photo);
       $GLOBALS['_LB_render']['img'] = new luxBumImage ($dir, $photo);
-      $GLOBALS['_LB_render']['img']->metaInit ();
       $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
+
+      $GLOBALS['_LB_render']['img']->metaInit ();
+      $GLOBALS['_LB_render']['meta'] = $GLOBALS['_LB_render']['img']->getMeta();
+      $meta =& $GLOBALS['_LB_render']['meta']; 
 
       // Add comment form valid
       lbPostAction::comment();
 
-      include (TEMPLATE_DIR.TEMPLATE.'/exif.php');
+      header('Content-Type: text/html; charset=UTF-8');
+      include (TEMPLATE_DIR.TEMPLATE.'/meta.php');
       return 200;
    }
 }
@@ -199,6 +205,7 @@ class SlideShowView {
       // Add comment form valid
       lbPostAction::comment();
 
+      header('Content-Type: text/html; charset=UTF-8');
       include (TEMPLATE_DIR.TEMPLATE.'/slideshow.php');
       return 200;
 

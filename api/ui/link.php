@@ -109,10 +109,10 @@ class link {
       return  link::prefix().'comments/'.$dir.'/'.$img;
    }
 
-   function exif($dir, $img) {
+   function meta($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
-      return  link::prefix().'exif/'.$dir.'/'.$img;
+      return  link::prefix().'meta/'.$dir.'/'.$img;
    }
    function affichage($dir, $img) {
       $dir = link::encode($dir);

@@ -439,9 +439,9 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function linkExif($return = false) {
+   static function linkMeta($return = false) {
       $img =  $GLOBALS['_LB_render']['img'];
-      $result = link::exif($img->getImageDir(), $img->getImageName());
+      $result = link::meta($img->getImageDir(), $img->getImageName());
       if ($return) return $result;
       echo $result;
    }
@@ -488,7 +488,7 @@ class lb {
    }
 
 /*------------------------------------------------------------------------------
- EXIF DATA
+ META DATA
  -----------------------------------------------------------------------------*/
 
    /**
@@ -502,7 +502,18 @@ class lb {
       echo $result;
    }
 
-   static function getMeta($return = false) {
+   static function getMetaName($return = false) {
+      $meta = $GLOBALS['_LB_render']['meta']->f();
+      $result = $meta->name;
+      if ($return) return $result;
+      echo $result;
+   }
+
+   static function getMetaValue($return = false) {
+      $meta = $GLOBALS['_LB_render']['meta']->f();
+      $result = $meta->value;
+      if ($return) return $result;
+      echo $result;
    }
 
 
@@ -515,8 +526,8 @@ class lb {
     *
     *
     */
-   static function exifEnabled() {
-      return (SHOW_EXIF == 'on');
+   static function metaEnabled() {
+      return (SHOW_META == 'on');
    }
 
    /**

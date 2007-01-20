@@ -37,7 +37,7 @@ function showDebugInfo() {
 }
 
 // Au revoir les erreurs
-$GLOBALS['debug'] = false;
+$GLOBALS['debug'] = true;
 error_reporting (E_ALL);
 
 /* </brin> */
@@ -62,19 +62,15 @@ define ('PASS_FILE', 'pass.php');
 define ('LOCALE_DIR', 'locales/');
 define ('TEMPLATE_DIR', 'templates/');
 
-// Variables a mettre en configurable dans le manager
-define ('TEMPLATE', 'luxbum');
-define('URL_BASE', 'http://localhost/luxbum/trunk/');
 
 
-
+include (CONF_DIR.'config.php');
 include (TEMPLATE_DIR.TEMPLATE.'/conf_'.TEMPLATE.'.php');
 
 
 //------------------------------------------------------------------------------
 // Includes
 //------------------------------------------------------------------------------
-include (CONF_DIR.'config.php');
 
 include('api/inc/recordset.php');
 include('api/inc/sortablerecordset.php');
@@ -126,7 +122,7 @@ $dispatcher->registerController('ImageView', '#^/image/('.files::removeTailSlash
 $dispatcher->registerController('VignetteView', '#^/album/(.*)/$#i');
 $dispatcher->registerController('VignetteView', '#^/album/(.*)/(.*)$#i');
 $dispatcher->registerController('AffichageView', '#^/photo/(.*)/(.*)$#i');
-$dispatcher->registerController('InfosExifView', '#^/exif/(.*)/(.*)$#i');
+$dispatcher->registerController('InfosMetaView', '#^/meta/(.*)/(.*)$#i');
 $dispatcher->registerController('CommentaireView', '#^/comments/(.*)/(.*)$#i');
 $dispatcher->registerController('SlideShowView', '#^/slide\-show/(.*)$#i');
 $dispatcher->registerController('SlideShowView', '#^/slide\-show/(.*)/([0-9]+)$#i');

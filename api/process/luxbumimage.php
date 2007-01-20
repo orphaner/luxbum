@@ -429,12 +429,12 @@ class luxBumImage
    }
 
    /**-----------------------------------------------------------------------**/
-   /** Fonctions d'informations exif */
+   /** Fonctions d'informations META */
    /**-----------------------------------------------------------------------**/
    var $imageMeta;
 
    /**
-    * Initialise les informations EXIF de la photo
+    * Initialise les informations META de la photo
     */
    function metaInit () {
       $this->imageMeta = new ImageMeta($this->getImagePath());
@@ -442,15 +442,15 @@ class luxBumImage
    }
 
    /**
-    * Retourne ok si les informations EXIF existent
-    * @return boolean Infomations EXIF existent
+    * Retourne ok si les informations META existent
+    * @return boolean Infomations META existent
     */
    function hasMeta() {
       return $this->imageMeta->hasMeta();
    }
 
    function getMeta() {
-      return $this->imageMeta->getProperties();
+      return $this->imageMeta;
    }
 }
 

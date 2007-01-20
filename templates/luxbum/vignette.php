@@ -55,11 +55,11 @@
               <td class="description_td">
                 <?php lb::photoDescription('<span class="description">%s</span>');?><br />
 
-                <?php if (lb::exifEnabled()):?>
-                + <a href="javascript:void(0);" onclick="window.open('<?php lb::linkExif();?>','Exif','width=350,height=400,scrollbars=yes,resizable=yes');"><?php echo __('EXIF data');?></a>
+                <?php if (lb::metaEnabled()):?>
+                + <a href="javascript:void(0);" onclick="window.open('<?php lb::linkMeta();?>','Meta','width=350,height=400,scrollbars=yes,resizable=yes');"><?php echo __('Meta data');?></a>
                 <?php endif;?>
 
-                <?php if (lb::exifEnabled()):?>
+                <?php if (lb::commentsEnabled()):?>
                 + <a href="javascript:void(0);" onclick="window.open('<?php lb::linkComment();?>','Comments','width=480,height=540,scrollbars=yes,resizable=yes');"><?php echo __('Comments');?> 
                   (<?php lb::commentCount();?>)</a>
                 <?php endif;?>
