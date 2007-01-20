@@ -211,6 +211,7 @@ class lb {
       }
       else if ($res->hasSubGallery() &&  $res->getCount() == 0) {
          $link = link::subGallery($res->getDir());
+         $img = lb::colorThemePath(true).'/images/folder_image.png';
       }
       else {
          $link = link::vignette ($res->getDir());
@@ -421,7 +422,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function photoDescription($return = false) {
+   static function photoDescription($s, $return = false) {
       if (isset($GLOBALS['_LB_render']['img'])) {
          $img = $GLOBALS['_LB_render']['img'];
       }
@@ -430,6 +431,7 @@ class lb {
       }
       $img->findDescription();
       $result = $img->getDateDesc();
+      $result = sprintf($s, $result);
       if ($return) return $result;
       echo $result;
    }
