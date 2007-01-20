@@ -13,14 +13,27 @@ class luxBumIndex extends SortableRecordset
 {
 //   var $galleryList = array ();
    var $dir;
+   var $selfGallery;
    
    function luxBumIndex ($dir) {
       parent::RecordSet2();
       $this->dir = $dir;
       $this->_loadSort ();
+      $this->selfGallery = new luxBumGallery($dir);
    }
    
    
+   /**-----------------------------------------------------------------------**/
+   /** Index Gallery itslef */
+   /**-----------------------------------------------------------------------**/
+   function getSelfGallery() {
+      return $this->selfGallery;
+   }
+   function isSelfGallery() {
+      return $this->selfGallery->getCount() > 0;
+   }
+
+
    /**-----------------------------------------------------------------------**/
    /** Getter et setter */
    /**-----------------------------------------------------------------------**/

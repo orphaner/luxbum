@@ -169,6 +169,7 @@ class lb {
     */
    static function menuNav($s, $elt, $sep = '&#187;', $return = false) {
       $res = $GLOBALS['_LB_render']['res'];
+
       $dir = files::removeTailSlash($res->getDir());
       $list = explode('/', $dir);
       $count = count($list);
@@ -182,16 +183,13 @@ class lb {
          if ($i == $count-1) {
             $concat .= $list[$i];
             $link = link::vignette($concat);
-//         $result .= sprintf($elt,  sprintf($sep.' %s', $name));
+            $result .= sprintf($elt,  sprintf($sep.' %s', $name));
          }
          else {
             $concat .= $list[$i].'/';
             $link = link::subGallery($concat);
+            $result .= sprintf($elt,sprintf($sep.' <a href="%s">%s</a>', $link, $name));
          }
-         $result .= sprintf($elt,
-                            sprintf($sep.' <a href="%s">%s</a>',
-                                    $link, $name)
-            );
       }
       $result = sprintf($s, $result);
       if ($return) return $result;
@@ -251,11 +249,11 @@ class lb {
     */
    static function pageStyle ($return = false) {
       global $themes_css;
-      if (!array_key_exists (COLOR_THEME, $themes_css)) {
+      if (!array_key_exists (TEMPLATE_THEME, $themes_css)) {
          $default = DEFAULT_CSS;
       }
       else {
-         $default = COLOR_THEME;
+         $default = TEMPLATE_THEME;
       }
 
       $result = '';

@@ -23,7 +23,7 @@ define ('IMAGE_BORDER_PIXEL', '6');
 define ('IMAGE_BORDER_MAX_NUANCE', '150');
 define ('IMAGE_BORDER_HEX_COLOR', 'FFFFFF');
 
-define ('TEMPLATE', 'photoblog');
-define ('URL_BASE', 'http://localhost/luxbum/trunk/');
+define ('TEMPLATE', 'luxbum');
+define ('URL_BASE', 'http://nico.beroot.org/luxbum/trunk/');
 
 ?>

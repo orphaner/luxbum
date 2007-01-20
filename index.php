@@ -37,7 +37,7 @@ function showDebugInfo() {
 }
 
 // Au revoir les erreurs
-$GLOBALS['debug'] = true;
+$GLOBALS['debug'] = false;
 error_reporting (E_ALL);
 
 /* </brin> */
