@@ -17,37 +17,19 @@ class link {
    function thumb ($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
-      if (USE_REWRITE == 'on') {
-         $prefix = URL_BASE.'image/';
-      }
-      else {
-         $prefix = URL_BASE.'img.php?';
-      }
-      return $prefix.THUMB_DIR.'/'.$dir.'/'.$img;
+      return  link::prefix().'image/'.THUMB_DIR.$dir.'/'.$img;
    }
    
    function preview ($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
-      if (USE_REWRITE == 'on') {
-         $prefix = URL_BASE.'image/';
-      }
-      else {
-         $prefix = URL_BASE.'img.php?';
-      }
-      return $prefix.PREVIEW_DIR.'/'.$dir.'/'.$img;
+      return  link::prefix().'image/'.PREVIEW_DIR.$dir.'/'.$img;
    }
    
    function index ($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
-      if (USE_REWRITE == 'on') {
-         $prefix = URL_BASE.'image/';
-      }
-      else {
-         $prefix = URL_BASE.'img.php?';
-      }
-      return $prefix.'index/'.$dir.'/'.$img;
+      return  link::prefix().'image/index/'.$dir.'/'.$img;
    }
 
    function photo($path) {
