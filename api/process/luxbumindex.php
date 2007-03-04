@@ -143,47 +143,10 @@ class luxBumIndex extends SortableRecordset
    }
    
    /**
-    * Enregistre les préférences de tri dans un fichier de format :
-    * sortType\n
-    * sortOrder\n
-    * imgX en pos 1\n
-    * imgX en pos n\n
+    *
     */
-   function saveSort () {
-      $list = $this->_sortGalleryArray ($this->galleryList, 'manuel', 'asc');
-      //print_r($list);
-      files::deleteFile (luxbum::getFsPath($this->dir).ORDER_FILE, 'a');
-      if ($fd = fopen (luxbum::getFsPath($this->dir).ORDER_FILE, 'a')) {
-         fputs ($fd, $this->sortType."\n");
-         fputs ($fd, $this->sortOrder."\n");
-         for ($i = 0 ; $i < count ($list) ; $i++) {
-            $gallery = $list[$i];
-            $name = $gallery->getName();
-            fputs($fd, "$name\n");
-         }
-         fclose($fd);
-      }
-   }
-   
-   /**
-    * Charge l'ordre des photos
-    * @access private
-    */
-   function _loadSort () {
-      if (is_file(luxbum::getFsPath($this->dir).ORDER_FILE)) {
-         $fd = fopen (luxbum::getFsPath($this->dir).ORDER_FILE, 'r+');
-         $sortType = trim(fgets ($fd));
-         $sortOrder = trim(fgets ($fd));
-         $this->setSortType($sortType);
-         $this->setSortOrder($sortOrder);
-         $position = 0;
-         while ($galleryName = trim(fgets($fd))) {
-            $this->sortList[$galleryName] = $position;
-            $position++;
-         }
-         //print_r($this->sortList);
-         fclose ($fd);
-      }
+   function getOrderFilePath() {
+      return luxbum::getFsPath($this->dir).ORDER_FILE;
    }
 }
 ?>

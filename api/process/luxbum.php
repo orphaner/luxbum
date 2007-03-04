@@ -15,7 +15,7 @@ class luxBum {
    /**-----------------------------------------------------------------------**/
 
    /**
-    * Affiche une taille en octets sous une belle forme
+    * Show a size in byte in a nice way
     */
    function niceSize ($size) {
       if ($size >= 1073741824) {
@@ -54,12 +54,12 @@ class luxBum {
 
 
    /**-----------------------------------------------------------------------**/
-   /* Fonctions pr les noms de répertoires */
+   /* Functions for directories name */
    /**-----------------------------------------------------------------------**/
 
    /**
-    * Retourne le chemin complet des vignettes du dossier $dir de photos
-    * Avec un / final
+    * Return the thumb full path of the directory $dir
+    * With a trailing slash
     */
    function getThumbPath ($dir) {
       return luxbum::getFsPath ($dir) . THUMB_DIR;
@@ -67,7 +67,7 @@ class luxBum {
 
    /**
     * Retourne le chemin complet des prévisualisation du dossier $dir de photos
-    * Avec un / final
+    * With a trailing slash
     */
    function getPreviewPath ($dir) {
       return luxbum::getFsPath ($dir) . PREVIEW_DIR;
@@ -75,7 +75,7 @@ class luxBum {
 
    /**
     * Retourne le chemin complet vers le dossier des commentaires
-    * Avec un / final
+    * With a trailing slash
     */
    function getCommentPath($dir) {
       return luxbum::getFsPath ($dir) . COMMENT_DIR;
@@ -83,23 +83,15 @@ class luxBum {
 
    /**
     * Retourne le chemin complet vers le fichier des commentaires
-    * Avec un / final
+    * With a trailing slash
     */
    function getCommentFilePath($dir, $photo) {
       return luxbum::getCommentPath($dir) . $photo . '.txt';
    }
 
    /**
-    * Retourne le chemin complet vers le fichier des commentaires
-    * Avec un / final
-    */
-   function getGallerySerialFilePath($dir) {
-      return luxbum::getFsPath($dir) .  'serial.txt';
-   }
-
-   /**
     * Retourne le chemin complet du dossier $dir de photos
-    * Avec un / final
+    * With a trailing slash
     */
    function getFsPath ($dir, $subdir='') {
       if ($subdir == '') {

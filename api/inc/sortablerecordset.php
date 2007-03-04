@@ -84,6 +84,49 @@ class SortableRecordset extends Recordset2 {
       $newImageArrayFailed = array_values($newImageArrayFailed);
       return array_merge($newImageArray, $newImageArrayFailed);
    }
+
+
+   /**
+    * Enregistre les préférences de tri dans un fichier de format :
+    * sortType\n
+    * sortOrder\n
+    * imgX en pos 1\n
+    * imgX en pos n\n
+    */
+   function saveSort () {
+      $list = $this->sortRecordset($this->arrayList, $this->sortType, $this->sortOrder);
+      files::deleteFile ($this->getOrderFilePath(), 'a');
+      if ($fd = fopen ($this->getOrderFilePath(), 'a')) {
+         fputs ($fd, $this->sortType."\n");
+         fputs ($fd, $this->sortOrder."\n");
+         for ($i = 0 ; $i < count ($list) ; $i++) {
+            $img = $list[$i];
+            $name = $img->getImageName ();
+            fputs($fd, "$name\n");
+         }
+         fclose ($fd);
+      }
+   }
+   
+   /**
+    * Charge l'ordre des photos
+    * @access private
+    */
+   function _loadSort () {
+      if (is_file ($this->getOrderFilePath())) {
+         $fd = fopen ($this->getOrderFilePath(), 'r+');
+         $sortType = trim(fgets ($fd));
+         $sortOrder = trim(fgets ($fd));
+         $this->setSortType($sortType);
+         $this->setSortOrder($sortOrder);
+         $position = 0;
+         while ($imageName = trim(fgets($fd))) {
+            $this->sortList[$imageName] = $position;
+            $position++;
+         }
+         fclose ($fd);
+      }
+   }
   }
 
 ?>

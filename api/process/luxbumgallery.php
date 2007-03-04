@@ -47,42 +47,13 @@ class luxBumGallery extends SortableRecordset
       $this->addAllImages();
       $this->_completeInfos ();
       $this->_loadPrivate();
-      //echo ' - init time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
    }
-
-   function getInstance($dir, $preview='') {
-      return new luxBumGallery($dir, $preview);
-//       static $staticGallery = NULL;
-//       if ($staticGallery == NULL) {
-//          $d = microtime_float();
-//          $serialFile = luxbum::getGallerySerialFilePath($dir);
-//          if (is_file ($serialFile)) {
-//             $instanceSerial = implode ("", @file ($serialFile));
-//             $staticGallery = unserialize ($instanceSerial);
-//             //echo "from serial";
-//          }
-//          else {
-//             $staticGallery = new luxBumGallery($dir, $preview);
-//          }
-//          //echo ' - load time (sec): '.((microtime_float() - $d)*1000).' ms<br>';
-//       }
-//       return $staticGallery;
-   }
-
 
    /**
-    *
+    * Return a luxbumGallery instance 
     */
-   function saveInstance ($instance) {
-      $passContent = serialize($instance);
-
-      $serialFile = luxbum::getGallerySerialFilePath($instance->dir);
-      $serialDir = luxbum::getFsPath($instance->dir);
-      files::createDir($serialDir);
-      files::deleteFile($serialFile);
-      files::writeFile($serialFile, $passContent);
-
-      $this->listComments = false;
+   function getInstance($dir, $preview='') {
+      return new luxBumGallery($dir, $preview);
    }
 
    /**
@@ -442,48 +413,11 @@ class luxBumGallery extends SortableRecordset
       return $realkey;
    }
 
-   
    /**
-    * Enregistre les préférences de tri dans un fichier de format :
-    * sortType\n
-    * sortOrder\n
-    * imgX en pos 1\n
-    * imgX en pos n\n
+    *
     */
-   function saveSort () {
-      $list = $this->_sortImageArray ($this->list, 'manuel', 'asc');
-      //print_r($list);
-      files::deleteFile ($this->dirPath . ORDER_FILE, 'a');
-      if ($fd = fopen ($this->dirPath.ORDER_FILE, 'a')) {
-         fputs ($fd, $this->sortType."\n");
-         fputs ($fd, $this->sortOrder."\n");
-         for ($i = 0 ; $i < count ($list) ; $i++) {
-            $img = $list[$i];
-            $name = $img->getImageName ();
-            fputs($fd, "$name\n");
-         }
-         fclose ($fd);
-      }
-   }
-   
-   /**
-    * Charge l'ordre des photos
-    * @access private
-    */
-   function _loadSort () {
-      if (is_file ($this->dirPath.ORDER_FILE)) {
-         $fd = fopen ($this->dirPath.ORDER_FILE, 'r+');
-         $sortType = trim(fgets ($fd));
-         $sortOrder = trim(fgets ($fd));
-         $this->setSortType($sortType);
-         $this->setSortOrder($sortOrder);
-         $position = 0;
-         while ($imageName = trim(fgets($fd))) {
-            $this->sortList[$imageName] = $position;
-            $position++;
-         }
-         fclose ($fd);
-      }
+   function getOrderFilePath() {
+      return $this->dirPath . ORDER_FILE;
    }
 
    /**-----------------------------------------------------------------------**/
@@ -550,13 +484,8 @@ class luxBumGallery extends SortableRecordset
       }
 
       $this->_completeDefaultImage ();      
+
       // La galerie contient des photos
-//       if (USE_REWRITE == 'on') {
-//          $prefix = 'image/';
-//       }
-//       else {
-//          $prefix = 'image.php?';
-//       }
       return link::index($this->dir, $this->preview);
    }
 

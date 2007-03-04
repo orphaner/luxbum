@@ -60,7 +60,6 @@ class VignetteView {
 
       $GLOBALS['_LB_render']['res'] = luxBumGallery::getInstance($dir);
       $res =& $GLOBALS['_LB_render']['res']; 
-      $res->saveInstance($res);
       $galleryCount = $res->getCount ();
       
       $niceDir = ucfirst (luxBum::niceName ($res->getName()));
@@ -200,7 +199,6 @@ class SlideShowView {
 
       $GLOBALS['_LB_render']['res'] = luxBumGallery::getInstance($dir);
       $res =& $GLOBALS['_LB_render']['res']; 
-      $res->saveInstance($res);
 
       // Add comment form valid
       lbPostAction::comment();

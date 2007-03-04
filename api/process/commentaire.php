@@ -15,7 +15,7 @@ class Commentaire {
    var $content;
    var $date;
    var $ip;
-   var $pub;
+   var $public;
 
    var $errors = array ();
 
@@ -176,15 +176,15 @@ class Commentaire {
    /**
     * @return 
     */
-   function getPub () { 
-      return $this->pub;
+   function isPublic () { 
+      return $this->public;
    }
 
    /**
-    * @param String pub
+    * @param String public
     */
-   function setPub ($pub) { 
-      $this->pub = $pub;
+   function setPublic ($public) { 
+      $this->public = $public;
    }
 
 }
