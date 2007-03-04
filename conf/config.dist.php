@@ -16,4 +16,8 @@ define ('TEMPLATE', 'luxbum');
 define ('TEMPLATE_THEME', 'light');
 define ('URL_BASE', '');
 
+// Driver to use to generate thumbs
+// gd / imagemagick 
+define ('IMAGE_GENERATION_DRIVER', 'imagemagick');
+
 ?>
