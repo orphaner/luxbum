@@ -54,9 +54,9 @@ class ImageToolkitImageMagick extends ImageToolkit {
     */
    function setSrcInfos () {
       if ($this->image != "") {
+         $exit = 0; //TODO: how ugly it is !!
 
          if (function_exists('GetImageSize') && !$this->forceResizeCmd) {
-            $exit = 0;
             $size = GetImageSize ($this->image);
          }
          else {

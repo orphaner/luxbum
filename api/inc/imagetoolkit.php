@@ -175,8 +175,8 @@ class ImageToolkit
     *
     */
    function destBiggerThanFrom() {
-      return ($this->imageDestWidth == $this->imageWidth &&
-              $this->imageDestHeight == $this->imageHeight);
+      return ($this->imageDestWidth >= $this->imageWidth &&
+              $this->imageDestHeight >= $this->imageHeight);
    }
 
    /**

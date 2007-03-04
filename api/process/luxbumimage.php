@@ -273,10 +273,16 @@ class luxBumImage
     * @access private
     * @return boolean true/false Génére l'aperçu ou non
     */
-   function _needPreview () {
+   function _needPreview ($imageToolkit) {
       if ($this->getSize() < MIN_SIZE_FOR_PREVIEW * 1024) {
          return false;
       }
+
+      // Si image de départ plus petite, on ne redimentione pas la photo
+      if ($imageToolkit->destBiggerThanFrom()) {
+         return false;
+      }
+      
       return true;
    }
 
@@ -289,7 +295,7 @@ class luxBumImage
       $this->previewToolkit->setDestSize ($dst_w, $dst_h);
       
       // Si pas d'aperçu on retourne l'image originale
-      if ($this->_needPreview() == false) {
+      if ($this->_needPreview($this->previewToolkit) == false) {
          return $this->getImagePath ();
       }
 
