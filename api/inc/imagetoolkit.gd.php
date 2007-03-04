@@ -79,7 +79,7 @@ class ImageToolkitGD extends ImageToolkit
     *
     * @access static
     */
-   static function getImageDimensions($path) {
+   function getImageDimensions($path) {
       if (is_file ($path)) {
          $size = GetImageSize ($path);
          return sprintf ('width="%s" height="%s"', $size[0], $size[1]);
@@ -133,7 +133,7 @@ class ImageToolkitGD extends ImageToolkit
     * Retourne la version exacte de GD
     * @return Version exacte de GD
     */
-   static function gdVersionExact ()  {
+   function gdVersionExact ()  {
       static $gd_version_number = null;
       if ($gd_version_number === null) {
          // Use output buffering to get results from phpinfo()
@@ -160,7 +160,7 @@ class ImageToolkitGD extends ImageToolkit
     * Returns the version (1 or 2) of the GD extension.
     * @return 1 ou 2 pour GD1 ou GD2
     */
-   static function gdVersion ($user_ver = 0) {
+   function gdVersion ($user_ver = 0) {
 
       if (! extension_loaded('gd')) {
          return;

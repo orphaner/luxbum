@@ -78,7 +78,7 @@ class ImageToolkitImageMagick extends ImageToolkit {
     *
     * @access static
     */
-   static function getImageDimensions($path) {
+   function getImageDimensions($path) {
       if (is_file ($path)) {
          $cmd ='identify -format %w:%h ' . escapeshellarg($this->image);
          exec($cmd, $res, $exit);

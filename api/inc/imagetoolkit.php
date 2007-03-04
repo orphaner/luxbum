@@ -186,7 +186,7 @@ class ImageToolkit
     * @param string $hex color value in hexformat (e.g. 'FF0000')
     * @return array associative array with color values in dezimal format (fields: 0->'red', 1->'green', 2->'blue')
     */
-   static function hexToDecColor ($hex) {
+   function hexToDecColor ($hex) {
       $length = strlen($hex);
       $color[] = hexdec(substr($hex, $length - 6, 2));
       $color[] = hexdec(substr($hex, $length - 4, 2));
@@ -204,7 +204,7 @@ class ImageToolkit
    /**
     * @abstract
     */
-   static function getImageDimensions($path) {
+   function getImageDimensions($path) {
    }
    /**
     * @abstract

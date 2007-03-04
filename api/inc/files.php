@@ -163,7 +163,7 @@ class files {
    /**
     * 
     */
-   static function getExtension($f) {
+   function getExtension($f) {
       $f = explode('.',basename($f));
                 
       if (count($f) <= 1) { 
@@ -176,7 +176,7 @@ class files {
    /**
     * 
     */
-   static function getMimeType($file) {
+   function getMimeType($file) {
       $ext = files::getExtension($file);
       return files::getMimeTypeFromExtention($ext);
    }
@@ -184,7 +184,7 @@ class files {
    /**
     *
     */
-   static function getMimeTypeFromExtention($ext) {
+   function getMimeTypeFromExtention($ext) {
       $types = files::mimeTypes();
                 
       if (isset($types[$ext])) {
@@ -198,7 +198,7 @@ class files {
    /**
     * 
     */  
-   static function mimeTypes() {
+   function mimeTypes() {
       return array(
          'odt'  => 'application/vnd.oasis.opendocument.text',
          'odp'  => 'application/vnd.oasis.opendocument.presentation',

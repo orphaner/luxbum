@@ -4,7 +4,7 @@
    * @package ui
    */
 class lb {
-   static function indexLink() {
+   function indexLink() {
       return URL_BASE.INDEX_FILE;
    }
 
@@ -14,7 +14,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function pageTitle($return = false) {
+   function pageTitle($return = false) {
       echo  $GLOBALS['LB']['title'];
    }
 
@@ -27,7 +27,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function galleryH1($return = false) {
+   function galleryH1($return = false) {
       $result = $GLOBALS['LB']['title'];
       if ($return) return $result;
       echo $result;
@@ -39,7 +39,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function galleryNiceName($return = false) {
+   function galleryNiceName($return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
       $result = $img->getNiceName();
       if ($return) return $result;
@@ -51,7 +51,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function galleryName($return = false) {
+   function galleryName($return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
       $result = $img->getName();
       if ($return) return $result;
@@ -63,7 +63,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function gallerySize($return = false) {
+   function gallerySize($return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
       $result = $img->getSize();
       if ($return) return $result;
@@ -75,7 +75,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function galleryNiceSize($return = false) {
+   function galleryNiceSize($return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
       $result = $img->getNiceSize();
       if ($return) return $result;
@@ -87,7 +87,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function galleryNbPhotos($return = false) {
+   function galleryNbPhotos($return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
       $result = $img->getCount();
       if ($return) return $result;
@@ -99,7 +99,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function hasPhotos() {
+   function hasPhotos() {
       $img = $GLOBALS['_LB_render']['res']->f();
       return ($img->getCount() > 0);
    }
@@ -111,7 +111,7 @@ class lb {
     * @param string $text
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function galleryLinkPrivate($s, $text, $return = false) {
+   function galleryLinkPrivate($s, $text, $return = false) {
       $res = $GLOBALS['_LB_render']['res']->f();
       if (!$res->isPrivate()) {
          return ;
@@ -128,7 +128,7 @@ class lb {
     * @param string $text
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function galleryLinkSubGallery($s, $text, $return = false) {
+   function galleryLinkSubGallery($s, $text, $return = false) {
       $res = $GLOBALS['_LB_render']['res']->f();
       if (!$res->hasSubGallery()) {
          return ;
@@ -147,7 +147,7 @@ class lb {
     * @param string $text
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function galleryLinkConsult($s, $text, $return = false) {
+   function galleryLinkConsult($s, $text, $return = false) {
       if (!lb::hasPhotos()) {
          return ;
       }
@@ -167,7 +167,7 @@ class lb {
     * @param string $sep = '&#187'
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function menuNav($s, $elt, $sep = '&#187;', $return = false) {
+   function menuNav($s, $elt, $sep = '&#187;', $return = false) {
       $res = $GLOBALS['_LB_render']['res'];
 
       $dir = files::removeTailSlash($res->getDir());
@@ -201,7 +201,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function defaultImage($return = false) {
+   function defaultImage($return = false) {
       $res = $GLOBALS['_LB_render']['res']->f();
       $img = $res->getIndexLink();
       if ($res->isPrivate()) {
@@ -226,7 +226,7 @@ class lb {
     * @param string $text
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function galleryLinkSlideshow($s, $text, $return = false) {
+   function galleryLinkSlideshow($s, $text, $return = false) {
       if (SHOW_SLIDESHOW == 'off') {
          return ;
       }
@@ -247,7 +247,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function pageStyle ($return = false) {
+   function pageStyle ($return = false) {
       global $themes_css;
       if (!array_key_exists (TEMPLATE_THEME, $themes_css)) {
          $default = DEFAULT_CSS;
@@ -278,7 +278,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function colorThemePath ($return = false) {
+   function colorThemePath ($return = false) {
       $result = TEMPLATE_DIR. TEMPLATE.'/themes/'.DEFAULT_CSS;
       if ($return) return $result;
       echo $result;
@@ -289,7 +289,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function favicon($return = false) {
+   function favicon($return = false) {
       if (is_file(PHOTOS_DIR.'favicon.ico')) {
          $favicon = PHOTOS_DIR.'favicon.ico';
          $result = sprintf('<link rel="shortcut icon" href="%s"/>', $favicon);
@@ -303,7 +303,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function resPosition($return = false) {
+   function resPosition($return = false) {
       $result = $GLOBALS['_LB_render']['res']->getIntIndex();
       $result ++;
       if ($return) return $result;
@@ -316,7 +316,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function resTotal($return = false) {
+   function resTotal($return = false) {
       $result = $GLOBALS['_LB_render']['res']->getIntRowCount();
       if ($return) return $result;
       echo $result;
@@ -330,7 +330,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function vignetteStyle($return = false) {
+   function vignetteStyle($return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
       $dir = $img->getImageDir();
       $name = $img->getImageName();
@@ -349,7 +349,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function linkVignette($return = false) {
+   function linkVignette($return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
       $result = link::vignette($GLOBALS['_LB_render']['res']->getDir(),
                                $img->getImageName());
@@ -362,7 +362,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function linkAffichage($return = false) {
+   function linkAffichage($return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
       $result = link::affichage($GLOBALS['_LB_render']['res']->getDir(),
                                 $img->getImageName());
@@ -375,7 +375,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function pathPhoto($return = false) {
+   function pathPhoto($return = false) {
       $result = $GLOBALS['_LB_render']['img']->getImagePath();
       $result = link::photo($result);
       if ($return) return $result;
@@ -387,7 +387,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function displayVignette($s='<img src="%s" %s alt=""/>', $return = false) {
+   function displayVignette($s='<img src="%s" %s alt=""/>', $return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
       $path = $img->getThumbLink();
       $dimensions = $img->getThumbResizeSize();
@@ -401,7 +401,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function displayApercu($s = '<img src="%s" %s alt=""/>', $return = false) {
+   function displayApercu($s = '<img src="%s" %s alt=""/>', $return = false) {
       if (isset($GLOBALS['_LB_render']['img'])) {
          $img = $GLOBALS['_LB_render']['img'];
       }
@@ -420,7 +420,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function photoDescription($s, $return = false) {
+   function photoDescription($s, $return = false) {
       if (isset($GLOBALS['_LB_render']['img'])) {
          $img = $GLOBALS['_LB_render']['img'];
       }
@@ -439,7 +439,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function linkMeta($return = false) {
+   function linkMeta($return = false) {
       $img =  $GLOBALS['_LB_render']['img'];
       $result = link::meta($img->getImageDir(), $img->getImageName());
       if ($return) return $result;
@@ -451,7 +451,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function linkComment($return = false) {
+   function linkComment($return = false) {
       $img =  $GLOBALS['_LB_render']['img'];
       $result = link::commentaire($img->getImageDir(), $img->getImageName());
       if ($return) return $result;
@@ -463,7 +463,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function commentCount($return = false) {
+   function commentCount($return = false) {
       $result =  $GLOBALS['_LB_render']['img']->getNbComment();
       if ($return) return $result;
       echo $result;
@@ -474,7 +474,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function imageName($return = false) {
+   function imageName($return = false) {
       if (isset($GLOBALS['_LB_render']['img'])) {
          $img = $GLOBALS['_LB_render']['img'];
       }
@@ -496,20 +496,20 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function metaExists($return = false) {
+   function metaExists($return = false) {
       $result = $GLOBALS['_LB_render']['img']->hasMeta();
       if ($return) return $result;
       echo $result;
    }
 
-   static function getMetaName($return = false) {
+   function getMetaName($return = false) {
       $meta = $GLOBALS['_LB_render']['meta']->f();
       $result = $meta->name;
       if ($return) return $result;
       echo $result;
    }
 
-   static function getMetaValue($return = false) {
+   function getMetaValue($return = false) {
       $meta = $GLOBALS['_LB_render']['meta']->f();
       $result = $meta->value;
       if ($return) return $result;
@@ -526,7 +526,7 @@ class lb {
     *
     *
     */
-   static function metaEnabled() {
+   function metaEnabled() {
       return (SHOW_META == 'on');
    }
 
@@ -534,7 +534,7 @@ class lb {
     *
     *
     */
-   static function commentsEnabled() {
+   function commentsEnabled() {
       return (SHOW_COMMENTAIRE == 'on');
    }
 
@@ -542,7 +542,7 @@ class lb {
     *
     *
     */
-   static function slideshowEnabled() {
+   function slideshowEnabled() {
       return (SHOW_SLIDESHOW == 'on');
    }
 
@@ -550,7 +550,7 @@ class lb {
     *
     *
     */
-   static function selectionEnabled() {
+   function selectionEnabled() {
       return (SHOW_SELECTION == 'on');
    }
 
@@ -558,7 +558,7 @@ class lb {
     *
     *
     */
-   static function slideshowFadingEnabled() {
+   function slideshowFadingEnabled() {
       return (SLIDESHOW_FADING == 'on');
    }
 
@@ -572,7 +572,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function photoDir($return = false) {
+   function photoDir($return = false) {
       $result = PHOTOS_DIR;
       if ($return) return $result;
       echo $result;
@@ -583,7 +583,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function slideshowTime($return = false) {
+   function slideshowTime($return = false) {
       $result = SLIDESHOW_TIME;
       if ($return) return $result;
       echo $result;
@@ -594,7 +594,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function slideshowDir($return = false) {
+   function slideshowDir($return = false) {
       $result = $GLOBALS['LB']['dir'];
       if ($return) return $result;
       echo $result;
@@ -605,7 +605,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function slideshowFadingText($return = false) {
+   function slideshowFadingText($return = false) {
       if (lb::slideshowFadingEnabled()) {
          $result = 'true';
       }
@@ -621,7 +621,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function slideshowFadingCheckbox($return = false) {
+   function slideshowFadingCheckbox($return = false) {
       if (lb::slideshowFadingEnabled()) {
          $result = 'checked';
       }
@@ -637,7 +637,7 @@ class lb {
 //     *
 //     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
 //     */
-//    static function slideshowPhotoList($return = false) {
+//    function slideshowPhotoList($return = false) {
 //       $list = new luxBumGallery($GLOBALS['LB']['dir']);
 //       $list->addAllImages ();
 //       $list->reset();
@@ -664,7 +664,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function vignettePrev($s, $return = false) {
+   function vignettePrev($s, $return = false) {
       $res = $GLOBALS['_LB_render']['res'];
       if ($res->isFirst()) {
          $result =  '&nbsp;';
@@ -685,7 +685,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function vignetteNext($s, $return = false) {
+   function vignetteNext($s, $return = false) {
       $res = $GLOBALS['_LB_render']['res'];
       if ($res->isLast()) {
          $result =  '&nbsp;';
@@ -706,7 +706,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function vignettePrevLink($s, $return = false) {
+   function vignettePrevLink($s, $return = false) {
       $res = $GLOBALS['_LB_render']['res'];
       if ($res->isFirst()) {
          $result =  '';
@@ -727,7 +727,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function vignetteNextLink($s, $return = false) {
+   function vignetteNextLink($s, $return = false) {
       $res = $GLOBALS['_LB_render']['res'];
       if ($res->isLast()) {
          $result =  '';
@@ -746,7 +746,7 @@ class lb {
    /**
     *
     */
-   static function isLast() {
+   function isLast() {
       $res = $GLOBALS['_LB_render']['res'];
       return $res->isLast();
    }
@@ -754,7 +754,7 @@ class lb {
    /**
     *
     */
-   static function isFirst() {
+   function isFirst() {
       $res = $GLOBALS['_LB_render']['res'];
       return $res->isFirst();
    }
@@ -766,7 +766,7 @@ class lb {
     * @param string $first='&nbsp;'
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function affichagePrev($s, $first='&nbsp;', $return = false) {
+   function affichagePrev($s, $first='&nbsp;', $return = false) {
       $res = $GLOBALS['_LB_render']['res'];
       if ($res->isFirst()) {
          $result =  $first;
@@ -789,7 +789,7 @@ class lb {
     * @param string $last = '&nbsp;'
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function affichageNext($s, $last = '&nbsp;', $return = false) {
+   function affichageNext($s, $last = '&nbsp;', $return = false) {
       $res = $GLOBALS['_LB_render']['res'];
       if ($res->isLast()) {
          $result =  $last;
@@ -812,7 +812,7 @@ class lb {
     * @param string $first='&nbsp;'
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function affichagePrevLink($return = false) {
+   function affichagePrevLink($return = false) {
       $res = $GLOBALS['_LB_render']['res'];
       if ($res->isFirst()) {
          $result =  '';
@@ -835,7 +835,7 @@ class lb {
     * @param string $last = '&nbsp;'
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function affichageNextLink($return = false) {
+   function affichageNextLink($return = false) {
       $res = $GLOBALS['_LB_render']['res'];
       if ($res->isLast()) {
          $result =  '';
@@ -861,7 +861,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function paginatorCurrentPage($return = false) {
+   function paginatorCurrentPage($return = false) {
       $result = $GLOBALS['LB_render']['affpage']->getCurrentPage();
       if ($return) return $result;
       echo $result;
@@ -872,7 +872,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function paginatorTotalPages($return = false) {
+   function paginatorTotalPages($return = false) {
       $result = $GLOBALS['LB_render']['affpage']->getTotalPages();
       if ($return) return $result;
       echo $result;
@@ -883,7 +883,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function paginatorLinkVignette($return = false) {
+   function paginatorLinkVignette($return = false) {
       $affpage = $GLOBALS['LB_render']['affpage']->f();
       $res = $GLOBALS['_LB_render']['res'];
 
@@ -900,7 +900,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function paginatorLinkAffichage($return = false) {
+   function paginatorLinkAffichage($return = false) {
       $affpage = $GLOBALS['LB_render']['affpage']->f();
       $res = $GLOBALS['_LB_render']['res'];
 
@@ -917,7 +917,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function paginatorElementText($return = false) {
+   function paginatorElementText($return = false) {
       $affpage = $GLOBALS['LB_render']['affpage']->f();
       $result = $affpage[0];
       if ($return) return $result;
@@ -929,7 +929,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function paginatorElementImage($return = false) {
+   function paginatorElementImage($return = false) {
       $affpage = $GLOBALS['LB_render']['affpage']->f();
       $res = $GLOBALS['_LB_render']['res'];
 
@@ -953,7 +953,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function paginatorAltClass($return = false) {
+   function paginatorAltClass($return = false) {
       $affpage = $GLOBALS['LB_render']['affpage']->f();
       $paginatorPage = $affpage[2];
       if ($paginatorPage == $GLOBALS['LB_render']['affpage']->getCurrentPage()) {
@@ -970,7 +970,7 @@ class lb {
     *
     *
     */
-   static function paginatorIsCurrent() {
+   function paginatorIsCurrent() {
       $affpage = $GLOBALS['LB_render']['affpage']->f();
       $paginatorPage = $affpage[2];
       return ($paginatorPage == $GLOBALS['LB_render']['affpage']->getCurrentPage());
@@ -979,14 +979,14 @@ class lb {
    /**
     *
     */
-   static function isFirstPage() {
+   function isFirstPage() {
       return ($GLOBALS['LB_render']['affpage']->getCurrentPage() == 1);
    }
 
    /**
     *
     */
-   static function isLastPage() {
+   function isLastPage() {
       $affpage = $GLOBALS['LB_render']['affpage'];
       $paginatorPage = $affpage->getCurrentPage();
       return ($paginatorPage == $affpage->getTotalPages());
@@ -997,7 +997,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function vignettePrevPageLink($return = false) {
+   function vignettePrevPageLink($return = false) {
       $affpage = $GLOBALS['LB_render']['affpage'];
       $res = $GLOBALS['_LB_render']['res'];
 
@@ -1014,7 +1014,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function vignetteNextPageLink($return = false) {
+   function vignetteNextPageLink($return = false) {
       $affpage = $GLOBALS['LB_render']['affpage'];
       $res = $GLOBALS['_LB_render']['res'];
 
@@ -1032,7 +1032,7 @@ class lb {
     * @param string $s
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function vignettePrevPage($s, $return = false) {
+   function vignettePrevPage($s, $return = false) {
       $affpage = $GLOBALS['LB_render']['affpage'];
       $res = $GLOBALS['_LB_render']['res'];
 
@@ -1050,7 +1050,7 @@ class lb {
     * @param string $s
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function vignetteNextPage($s, $return = false) {
+   function vignetteNextPage($s, $return = false) {
       $affpage = $GLOBALS['LB_render']['affpage'];
       $res = $GLOBALS['_LB_render']['res'];
 
@@ -1071,7 +1071,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function ctPostAuthor($return = false) {
+   function ctPostAuthor($return = false) {
       lbFactory::ctPost();
       $result = $GLOBALS['_LB_render']['ctPost']->getAuthor();
       $result = unprotege_input($result);
@@ -1084,7 +1084,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function ctPostEmail($return = false) {
+   function ctPostEmail($return = false) {
       lbFactory::ctPost();
       $result = $GLOBALS['_LB_render']['ctPost']->getEmail();
       $result = unprotege_input($result);
@@ -1097,7 +1097,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function ctPostWebsite($return = false) {
+   function ctPostWebsite($return = false) {
       lbFactory::ctPost();
       $result = $GLOBALS['_LB_render']['ctPost']->getWebsite();
       $result = unprotege_input($result);
@@ -1110,7 +1110,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function ctPostContent($return = false) {
+   function ctPostContent($return = false) {
       lbFactory::ctPost();
       $result = $GLOBALS['_LB_render']['ctPost']->getContent();
       $result = unprotege_input($result);
@@ -1125,7 +1125,7 @@ class lb {
     * @param string $key
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function ctPostError($key, $s='<span class="error">%s</span>', $return = false) {
+   function ctPostError($key, $s='<span class="error">%s</span>', $return = false) {
       lbFactory::ctPost();
       $result = $GLOBALS['_LB_render']['ctPost']->getError($key);
       if (trim($result) != '') {
@@ -1141,7 +1141,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function ctAuthor($s='%s', $return = false) {
+   function ctAuthor($s='%s', $return = false) {
       lbFactory::comment();
       $ct = $GLOBALS['_LB_render']['ct']->f();
       $result = sprintf($s, unprotege_input($ct->getAuthor()));
@@ -1154,7 +1154,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function ctEmail($s='%s', $return = false) {
+   function ctEmail($s='%s', $return = false) {
       lbFactory::comment();
       $ct = $GLOBALS['_LB_render']['ct']->f();
       $email = $ct->getEmail();
@@ -1171,7 +1171,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function ctWebsite($s='%s', $return = false) {
+   function ctWebsite($s='%s', $return = false) {
       lbFactory::comment();
       $ct = $GLOBALS['_LB_render']['ct']->f();
       $website = $ct->getWebsite();
@@ -1188,7 +1188,7 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   static function ctContent($s='%s', $return = false) {
+   function ctContent($s='%s', $return = false) {
       lbFactory::comment();
       $ct = $GLOBALS['_LB_render']['ct']->f();
       $result = sprintf($s, unprotege_input($ct->getContent()));
@@ -1199,14 +1199,14 @@ class lb {
    /**
     *
     */
-   static function ctFormAction() {
+   function ctFormAction() {
       echo '<input type="hidden" name="action" id="action" value="ct"/>';
    }
 
    /**
     *
     */
-   static function ctHasNext() {
+   function ctHasNext() {
       lbFactory::comment();
       $ct = $GLOBALS['_LB_render']['ct'];
       return !$ct->EOF();
@@ -1215,7 +1215,7 @@ class lb {
    /**
     *
     */
-   static function ctMoveNext() {
+   function ctMoveNext() {
       lbFactory::comment();
       $ct =& $GLOBALS['_LB_render']['ct'];
       $ct->moveNext();
@@ -1223,13 +1223,13 @@ class lb {
   }
 
 class lbFactory {
-   static function comment() {
+   function comment() {
       if (!isset($GLOBALS['_LB_render']['ct'])) {
          $GLOBALS['_LB_render']['ct'] = $GLOBALS['_LB_render']['img']->lazyLoadComments();
       }
    }
 
-   static function ctPost() {
+   function ctPost() {
       if (!isset($GLOBALS['_LB_render']['ctPost'])) {
          $GLOBALS['_LB_render']['ctPost'] = new Commentaire();
       }
