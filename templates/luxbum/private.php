@@ -40,7 +40,7 @@
     <div class="spacer"></div>
   </div>
 
-  <div id="footerIndex"><a href="http://www.luxbum.net/"><img src="http://www.luxbum.net/luxbum.png" alt="Powered By LuxBum"/></a><br />
+  <div id="footerIndex"><a href="http://private.luxbum.net/"><img src="http://www.luxbum.net/luxbum.png" alt="Powered By LuxBum"/></a><br />
     Luxbum by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
 
 </body>
