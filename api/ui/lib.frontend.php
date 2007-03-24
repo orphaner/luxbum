@@ -105,6 +105,15 @@ class lb {
    }
 
    /**
+    * Check if the current gallery is private
+    * @return true if the current gallery is private, false otherwise
+    */
+   function isPrivate() {
+      $res = $GLOBALS['_LB_render']['res']->f();
+      return $res->isPrivate() && !$res->isUnlocked();
+   }
+
+   /**
     *
     *
     * @param string $s
@@ -116,7 +125,9 @@ class lb {
       if (!$res->isPrivate()) {
          return ;
       }
-      $result =  lien_sous_galerie($res->getDir());
+      $link =  link::privateGallery($res->getDir());
+      $link = sprintf('<a href="%s">%s</a>', $link, $text);
+      $result = sprintf($s, $link);
       if ($return) return $result;
       echo $result;
    }
@@ -204,16 +215,22 @@ class lb {
    function defaultImage($return = false) {
       $res = $GLOBALS['_LB_render']['res']->f();
       $img = $res->getIndexLink();
-      if ($res->isPrivate()) {
-         $link = 'private';
+
+      // private gallery image
+      if ($res->isPrivate() && !$res->isUnlocked()) {
+         $link = link::privateGallery($res->getDir());
+         $img = lb::colorThemePath(true).'/images/folder_locked.png';
       }
+      // Sub gallery image
       else if ($res->hasSubGallery() &&  $res->getCount() == 0) {
          $link = link::subGallery($res->getDir());
          $img = lb::colorThemePath(true).'/images/folder_image.png';
       }
+      // default gallery image
       else {
          $link = link::vignette ($res->getDir());
       }
+
       $result = sprintf('<a href="%s"><img src="%s" alt=""/></a>', $link, $img);
       if ($return) return $result;
       echo $result;
@@ -279,7 +296,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function colorThemePath ($return = false) {
-      $result = TEMPLATE_DIR. TEMPLATE.'/themes/'.DEFAULT_CSS;
+      $result = TEMPLATE_DIR. TEMPLATE.'/themes/'.TEMPLATE_THEME;
       if ($return) return $result;
       echo $result;
    }
@@ -375,9 +392,10 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   function pathPhoto($return = false) {
-      $result = $GLOBALS['_LB_render']['img']->getImagePath();
-      $result = link::photo($result);
+   function linkPhoto($return = false) {
+      $img = $GLOBALS['_LB_render']['res']->f();
+      $result = link::full($GLOBALS['_LB_render']['res']->getDir(),
+                                $img->getImageName());
       if ($return) return $result;
       echo $result;
    }
@@ -1220,15 +1238,53 @@ class lb {
       $ct =& $GLOBALS['_LB_render']['ct'];
       $ct->moveNext();
    }
+
+/*------------------------------------------------------------------------------
+ PRIVATE GALLERY
+ -----------------------------------------------------------------------------*/
+   function privateFormAction() {
+      echo '<input type="hidden" name="action" id="action" value="private"/>';
+   }
+   function privatePostError($key, $s='<span class="error">%s</span>', $return = false) {
+      lbFactory::privatePost();
+      $result = $GLOBALS['_LB_render']['privatePost']->getError($key);
+      if (trim($result) != '') {
+         $result = sprintf($s, $result);
+      }
+      if ($return) return $result;
+      echo $result;
+   }
+   function privatePostLogin($return = false) {
+      lbFactory::privatePost();
+      $result = $GLOBALS['_LB_render']['privatePost']->getLogin();
+      $result = unprotege_input($result);
+      if ($return) return $result;
+      echo $result;
+   }
+   function privatePostPassword($return = false) {
+      lbFactory::privatePost();
+      $result = $GLOBALS['_LB_render']['privatePost']->getPassword();
+      $result = unprotege_input($result);
+      if ($return) return $result;
+      echo $result;
+   }
   }
 
+/**
+ *
+ */
 class lbFactory {
+   function privatePost() {
+      if (!isset($GLOBALS['_LB_render']['privatePost'])) {
+         $GLOBALS['_LB_render']['privatePost'] = new PassPost();
+      }
+   }
+
    function comment() {
       if (!isset($GLOBALS['_LB_render']['ct'])) {
          $GLOBALS['_LB_render']['ct'] = $GLOBALS['_LB_render']['img']->lazyLoadComments();
       }
    }
-
    function ctPost() {
       if (!isset($GLOBALS['_LB_render']['ctPost'])) {
          $GLOBALS['_LB_render']['ctPost'] = new Commentaire();

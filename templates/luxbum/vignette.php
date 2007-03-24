@@ -50,7 +50,7 @@
 
         <div id="navigPicture">
           <div id="picture">
-            <a href="<?php lb::pathPhoto();?>" onclick="window.open(this.href,'',''); return false;"><?php lb::displayApercu();?></a>
+            <a href="<?php lb::linkPhoto();?>" onclick="window.open(this.href,'',''); return false;"><?php lb::displayApercu();?></a>
           </div>
           
           <table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -79,7 +79,7 @@
       </div>
 
     </div>
-    <div id="footer"><a href="http://nico.tuxfamily.org/Projets/Support-LuxBum">Luxbum</a> by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
+    <div id="footer"><a href="http://www.luxbum.net/">Luxbum</a> by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
   </div>
 </body>
 <?php include ('footer.php');?>

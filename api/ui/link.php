@@ -31,6 +31,12 @@ class link {
       $img = link::encode($img);
       return  link::prefix().'image/index/'.$dir.'/'.$img;
    }
+   
+   function full ($dir, $img) {
+      $dir = link::encode($dir);
+      $img = link::encode($img);
+      return  link::prefix().'image/full/'.$dir.'/'.$img;
+   }
 
    function photo($path) {
       $path = link::encode($path);
@@ -42,10 +48,10 @@ class link {
       $dir = link::encode($dir);
       $img = link::encode($img);
       if ($img == '') {
-         return link::prefix()."album/$dir/";
+         return link::prefix().'album/'.$dir.'/';
       }
       else {
-         return link::prefix()."album/$dir/$img";
+         return link::prefix().'album/'.$dir.'/'.$img;
       }
    }
    
@@ -59,6 +65,11 @@ class link {
       else {
          return link::prefix().'slide-show/'.$dir.'/'.$start;
       }
+   }
+
+   function privateGallery($dir) {
+      $dir = link::encode($dir);
+      return link::prefix().'private/'.$dir.'/';
    }
    
 //    // Lien pour voir la sélection

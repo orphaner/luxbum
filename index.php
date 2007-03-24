@@ -1,7 +1,12 @@
 <?php
 
-  /*----------------------------------------------------------------------------*/
-  /* Brin du début pour le développement */
+if (!is_file('conf/config.php')) {
+   exit('<a href="install.php">please install luxbum</a>');
+}
+
+
+/*----------------------------------------------------------------------------*/
+/* Brin du début pour le développement */
 
 function microtime_float()
 {
@@ -10,7 +15,9 @@ function microtime_float()
 }
 
 $GLOBALS['startTime'] = microtime_float();
+// Le préfixe des variables de session
 session_start();
+
 
 
 if ($GLOBALS['debug'] === true) {
@@ -37,7 +44,7 @@ function showDebugInfo() {
 }
 
 // Au revoir les erreurs
-$GLOBALS['debug'] = false;
+$GLOBALS['debug'] = true;
 error_reporting (E_ALL);
 
 /* </brin> */
@@ -102,7 +109,6 @@ include('api/ui/link.php');
 include('api/process/luxbum.php');
 
 
-
 $locales = l10n::getAvailableLocales();
 
 if (!empty($_COOKIE['lang']) && in_array($_COOKIE['lang'], $locales)) {
@@ -119,6 +125,7 @@ $dispatcher = new Dispatcher();
 $dispatcher->registerController('IndexView', '#^/$#i');
 $dispatcher->registerController('IndexView', '#^/folder/(.*)/$#i');
 $dispatcher->registerController('ImageView', '#^/image/('.files::removeTailSlash(THUMB_DIR).'|'.files::removeTailSlash(PREVIEW_DIR).'|index|full)/(.+)/(.+)$#i');
+$dispatcher->registerController('PrivateView', '#^/private/(.*)/$#i');
 $dispatcher->registerController('VignetteView', '#^/album/(.*)/$#i');
 $dispatcher->registerController('VignetteView', '#^/album/(.*)/(.*)$#i');
 $dispatcher->registerController('AffichageView', '#^/photo/(.*)/(.*)$#i');

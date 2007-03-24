@@ -184,6 +184,11 @@ class luxBumGallery extends SortableRecordset
       return $this->private;
    }
 
+   function isUnlocked() {
+      $privateManager =& PrivateManager::getInstance();
+      return $privateManager->isUnlocked($this->dir);
+   }
+
 
    /**-----------------------------------------------------------------------**/
    /** Descriptions / dates */
@@ -473,15 +478,6 @@ class luxBumGallery extends SortableRecordset
     * @return Lien de la vignette de l'image vers le script de génération
     */
    function getIndexLink () {
-      // Galerie privée
-      if ($this->isPrivate()) {
-         return '_images/folder_locked.png';
-      }
-
-      // Sous galerie sans photos
-      if ($this->getCount() == 0) {
-         return '_images/folder_image.png';
-      }
 
       $this->_completeDefaultImage ();      
 

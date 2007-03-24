@@ -401,3 +401,157 @@ body#body h1 span {
 #commentAdd span.error {
   color:red;
 }
+
+/*===========================================
+   Private Form
+   */
+#privateForm #messageOk {
+  text-align: left;
+  border-top: 1px solid #9c9;
+  border-bottom: 1px solid #9c9;
+  padding-left:25px;
+  font-size: 1.3em;
+  color: #060;
+  background-position:7px;
+}
+
+#privateForm #messageKo {
+  text-align: left;
+  border-top: 1px solid #A10000;
+  border-bottom: 1px solid #A10000;
+  padding-left:25px;
+  font-size: 0.9em;
+  background-position:7px;
+  color:#c00;
+}
+
+#privateForm {
+  position: relative;
+  left: 50%; 
+  margin-left: -200px;
+  width:400px;
+  font-size: 1.2em;
+}
+#privateForm input, textarea, option, select {
+  background: #eef3f5;
+  color: #000;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size: 1em;
+  margin-top: 2px;
+}
+#privateForm input, textarea, select {
+  border: 1px solid #999;
+}
+#privateForm legend {
+  font-weight: bold;
+}
+#privateForm label, span.label {
+  display: block;
+  position: static;  /* IE n'aime pas relative */
+}
+#privateForm p.field {
+  clear: left;
+  margin: 0;
+  padding: 1em 0 0 0;
+}
+#privateForm label.float, span.label {
+  position: relative;
+  float: left;
+  width: 25%;
+  padding-right: 0.5em;
+}
+#privateForm fieldset {
+  border: 0px solid #999;
+  border-top:1px solid #999;
+  border-bottom:1px solid #999;
+  padding: 10px;
+  margin-top:20px;
+}
+#privateForm legend {
+  padding: 1px 4px;
+  border-color: #999 #ccc #ccc #999;
+  border-style: solid;
+  border-width: 1px;
+  background: #eee;
+  display:none;
+}
+#privateForm span.error {
+  color:red;
+}
+
+/*===========================================
+   Private Form
+   */
+#privateForm #messageOk {
+  text-align: left;
+  border-top: 1px solid #9c9;
+  border-bottom: 1px solid #9c9;
+  padding-left:25px;
+  font-size: 1.3em;
+  color: #060;
+  background-position:7px;
+}
+
+#privateForm #messageKo {
+  text-align: left;
+  border-top: 1px solid #A10000;
+  border-bottom: 1px solid #A10000;
+  padding-left:25px;
+  font-size: 0.9em;
+  background-position:7px;
+  color:#c00;
+}
+
+#privateForm {
+  position: relative;
+  left: 50%; 
+  margin-left: -200px;
+  width:400px;
+  font-size: 1.2em;
+}
+#privateForm input, textarea, option, select {
+  background: #eef3f5;
+  color: #000;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size: 1em;
+  margin-top: 2px;
+}
+#privateForm input, textarea, select {
+  border: 1px solid #999;
+}
+#privateForm legend {
+  font-weight: bold;
+}
+#privateForm label, span.label {
+  display: block;
+  position: static;  /* IE n'aime pas relative */
+}
+#privateForm p.field {
+  clear: left;
+  margin: 0;
+  padding: 1em 0 0 0;
+}
+#privateForm label.float, span.label {
+  position: relative;
+  float: left;
+  width: 25%;
+  padding-right: 0.5em;
+}
+#privateForm fieldset {
+  border: 0px solid #999;
+  border-top:1px solid #999;
+  border-bottom:1px solid #999;
+  padding: 10px;
+  margin-top:20px;
+}
+#privateForm legend {
+  padding: 1px 4px;
+  border-color: #999 #ccc #ccc #999;
+  border-style: solid;
+  border-width: 1px;
+  background: #eee;
+  display:none;
+}
+#privateForm span.error {
+  color:red;
+}

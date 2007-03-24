@@ -3,25 +3,60 @@
   /**
    * @package ui
    */
+class PrivateView {
+   function action ($match) {
+      IndexView::initTemplate();
+
+      $dir = files::removeTailSlash($match[1]);
+
+
+      $GLOBALS['_LB_render']['res'] = '';
+      $res =& $GLOBALS['_LB_render']['res']; 
+      $res = new luxBumIndex($dir);
+
+      // 
+      if (lbPostAction::login($dir)) {
+         return VignetteView::action($match);
+      }
+
+      header('Content-Type: text/html; charset=UTF-8');
+      include (TEMPLATE_DIR.TEMPLATE.'/private.php');
+      return 200;
+   }
+
+
+   function initTemplate() {
+      $GLOBALS['LB']['title'] = NOM_GALERIE;
+   }
+  }
+
+
+/**
+ * @package ui
+ */
 class IndexView {
    function action ($match) {
       IndexView::initTemplate();
       // HookInitTemplate
 
       if (count($match) == 1) { 
-         $photoDir = '';
+         $dir = '';
       }
       else if (count($match) == 2) {
-         $photoDir = files::removeTailSlash($match[1]);
-         verif::isDir($photoDir);
+         $dir = files::removeTailSlash($match[1]);
       }
       else {
          echo "erreur";
       }
 
+      // Check if the gallery is private
+      if (PrivateManager::isLockedStatic($dir)) {
+         return PrivateView::action($match);
+      }
+
       $GLOBALS['_LB_render']['res'] = '';
       $res =& $GLOBALS['_LB_render']['res']; 
-      $res = new  luxBumIndex ($photoDir);
+      $res = new  luxBumIndex ($dir);
       $res->addAllGallery ();
 
 
@@ -34,16 +69,14 @@ class IndexView {
    function initTemplate() {
       $GLOBALS['LB']['title'] = NOM_GALERIE;
    }
-  }
+}
 
 
-  /**
-   * @package ui
-   */
+/**
+ * @package ui
+ */
 class VignetteView {
    function action ($match) {
-
-      VignetteView::initTemplate();
 
       if (count($match) == 3) { 
          $dir = $match[1];
@@ -56,10 +89,17 @@ class VignetteView {
       else {
          echo "erreur";
       }
-      //verif::isDir ($dir);
+
+      // Check if the gallery is private
+      if (PrivateManager::isLockedStatic($dir)) {
+         return PrivateView::action($match);
+      }
+
 
       $GLOBALS['_LB_render']['res'] = luxBumGallery::getInstance($dir);
       $res =& $GLOBALS['_LB_render']['res']; 
+
+
       $galleryCount = $res->getCount ();
       
       $niceDir = ucfirst (luxBum::niceName ($res->getName()));
@@ -97,19 +137,22 @@ class VignetteView {
       include (TEMPLATE_DIR.TEMPLATE.'/vignette.php');
       return 200;
    }
-
-   function initTemplate() {
-   }
 }
 
 
-  /**
-   * @package ui
-   */
+/**
+ * @package ui
+ */
 class CommentaireView {
    function action ($match) {
       $dir = $match[1];
       $photo = $match[2];
+
+      // Check if the gallery is private
+      if (PrivateManager::isLockedStatic($dir)) {
+         return PrivateView::action($match);
+      }
+
       verif::photo($dir, $photo);
       $GLOBALS['_LB_render']['img'] = new luxBumImage ($dir, $photo);
       $GLOBALS['_LB_render']['img']->metaInit ();
@@ -132,13 +175,19 @@ class CommentaireView {
 }
 
 
-  /**
-   * @package ui
-   */
+/**
+ * @package ui
+ */
 class AffichageView {
    function action ($match) {
       $dir = $match[1];
       $photo = $match[2];
+
+      // Check if the gallery is private
+      if (PrivateManager::isLockedStatic($dir)) {
+         return PrivateView::action($match);
+      }
+
       verif::photo($dir, $photo);
       
       $GLOBALS['_LB_render']['img'] = new luxBumImage ($dir, $photo);
@@ -163,13 +212,19 @@ class AffichageView {
 }
 
 
-  /**
-   * @package ui
-   */
+/**
+ * @package ui
+ */
 class InfosMetaView {
    function action ($match) {
       $dir = $match[1];
       $photo = $match[2];
+
+      // Check if the gallery is private
+      if (PrivateManager::isLockedStatic($dir)) {
+         return PrivateView::action($match);
+      }
+
       verif::photo($dir, $photo);
       $GLOBALS['_LB_render']['img'] = new luxBumImage ($dir, $photo);
       $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
@@ -187,13 +242,18 @@ class InfosMetaView {
    }
 }
 
-  /**
-   * @package ui
-   */
+/**
+ * @package ui
+ */
 class SlideShowView {
    function action ($match) {
       $dir = $match[1];
-      verif::isDir($dir);
+
+      // Check if the gallery is private
+      if (PrivateManager::isLockedStatic($dir)) {
+         return PrivateView::action($match);
+      }
+
       $GLOBALS['LB']['dir'] = $dir;
       $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
 
@@ -210,14 +270,19 @@ class SlideShowView {
    }
 }
 
-  /**
-   * @package ui
-   */
+/**
+ * @package ui
+ */
 class ImageView {
    function action ($match) {
       $type = $match[1];
       $dir = $match[2];
       $photo = $match[3];
+
+      // Check if the gallery is private
+      if (PrivateManager::isLockedStatic($dir)) {
+         return PrivateView::action($match);
+      }
 
       verif::isImage ($dir, $photo);
 
@@ -229,6 +294,7 @@ class ImageView {
          $newfile = $luxAff->getAsThumb(INDEX_THUMB_W, INDEX_THUMB_H);
       }
       else if ($type == 'full') {
+         $newfile = $luxAff->getImagePath();
       }
       else {
          $newfile = $luxAff->getAsPreview(PREVIEW_W, PREVIEW_H);
@@ -280,9 +346,16 @@ class lbPostAction {
       }
    }
 
-   function login() {
-      if (count($_POST) > 0 && isset($_POST['action']) && $_POST['action'] === 'login') {
-         lbFactory::loginPost();
+   function login($dir) {
+      if (count($_POST) > 0 && isset($_POST['action']) && $_POST['action'] === 'private') {
+         lbFactory::privatePost();
+         $private =&  $GLOBALS['_LB_render']['privatePost'];
+         $private->fillFromPost();
+         $privateManager =& PrivateManager::getInstance();
+         if ($privateManager->unlockDir($dir, $private)) {
+            return true;
+         }
+         return false;
       }
    }
 }

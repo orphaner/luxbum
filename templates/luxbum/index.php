@@ -30,10 +30,13 @@
         
         <div class="actions">
           <ul>
+            <?php if (lb::isPrivate()):?>
             <?php lb::galleryLinkPrivate("<li>%s</li>", __('Private gallery'));?>
+            <?php else:?>
             <?php lb::galleryLinkSubGallery("<li>%s</li>", __('Sub galleries'));?>
             <?php lb::galleryLinkConsult("<li>%s</li>", __('Consult'));?>
             <?php lb::galleryLinkSlideshow("<li>%s</li>", __('Slideshow'));?>
+            <?php endif;?>
           </ul>
         </div>
 

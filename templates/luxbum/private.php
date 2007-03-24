@@ -2,33 +2,45 @@
 <body id="body"> 
   <h1><span><?php lb::galleryH1();?></span></h1>
 
-  <div id="liste_apercu">
+  <div id="galleryList">
 
-    <?php lb::menuNav('<div id="menunav"><ol class="tree"><li>&#187; <a href="'.lb::indexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
+    <?php lb::menuNav('<div id="navigBar"><ol class="tree"><li>&#187; <a href="'.lb::indexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
           '<li>%s</li>'); ?>
 
-    <form method="post" id="login" action="">
-      <?php lb::privateAction(); ?>
-      
-      <fieldset>
-        <legend><?php ___('Add a comment');?></legend>
-        <p>
-          <label for="login" class="float"><strong><?php ___('Login');?></strong> : </label>
-          <input type="text" name="login" id="login" value="<?php lb::privateLogin();?>"/>
-          <?php lb::privatePostError('login');?>
+    <div id="privateForm">
+
+      <div id="messageOk">
+        <?php ___('You need to fill in the form bellow to consult the selected gallery');?>
+      </div>
+
+      <form method="post" id="login" action="">
+        <?php lb::privateFormAction(); ?>
+        
+        <fieldset>
+          <legend><?php ___('Authentication required');?></legend>
+          <p>
+            <label for="login" class="float"><strong><?php ___('Login');?></strong> : </label>
+            <input type="text" name="login" id="login" value="<?php lb::privatePostLogin();?>"/>
+            <?php lb::privatePostError('login');?>
+          </p>
+          <p>
+            <label for="password" class="float"><strong><?php ___('Password');?></strong> : </label>
+            <input type="password" name="password" id="password" value="<?php lb::privatePostPassword();?>"/>
+            <?php lb::privatePostError('password');?>
+          </p>
+        </fieldset>
+
+        <p style="text-align:center">
+          <input type="submit" value="<?php ___('Submit');?>"/>
+          <input type="reset" value="<?php ___('Clear');?>"/>
         </p>
-        <p>
-          <label for="password" class="float"><strong><?php ___('Password');?></strong> : </label>
-          <input type="text" name="password" id="password" value="<?php lb::loginPassword();?>"/>
-          <?php lb::privatePostError('password');?>
-        </p>
-      </fieldset>
-    </form>
+      </form>
+    </div>
 
     <div class="spacer"></div>
   </div>
 
-  <div id="footer2"><a href="http://nico.tuxfamily.org/Projets/Support-LuxBum"><img src="_images/luxbum.png" alt="Powered By LuxBum"/></a><br />
+  <div id="footerIndex"><a href="http://www.luxbum.net/"><img src="http://www.luxbum.net/luxbum.png" alt="Powered By LuxBum"/></a><br />
     Luxbum by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
 
 </body>
