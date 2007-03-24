@@ -41,7 +41,7 @@ class luxBumIndex extends SortableRecordset
     * Retourne le nombre de galeries
     */
    function getGalleryCount () {
-      return count ($this->galleryList);
+      return $this->getIntRowCount();
    }
 
    /**

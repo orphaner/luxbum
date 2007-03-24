@@ -13,10 +13,16 @@ class PrivateView {
       $GLOBALS['_LB_render']['res'] = '';
       $res =& $GLOBALS['_LB_render']['res']; 
       $res = new luxBumIndex($dir);
+      $res->addAllGallery ();
 
-      // 
+      // if the login is OK
       if (lbPostAction::login($dir)) {
-         return VignetteView::action($match);
+         if ($res->isSelfGallery()) {
+            header('Location: '.link::vignette($dir));
+         }
+         else {
+            header('Location: '.link::subGallery($dir));
+         }
       }
 
       header('Content-Type: text/html; charset=UTF-8');
