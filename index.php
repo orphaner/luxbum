@@ -126,6 +126,7 @@ $dispatcher->registerController('IndexView', '#^/$#i');
 $dispatcher->registerController('IndexView', '#^/folder/(.*)/$#i');
 $dispatcher->registerController('ImageView', '#^/image/('.files::removeTailSlash(THUMB_DIR).'|'.files::removeTailSlash(PREVIEW_DIR).'|index|full)/(.+)/(.+)$#i');
 $dispatcher->registerController('PrivateView', '#^/private/(.*)/$#i');
+$dispatcher->registerController('VignetteView', '#^/private/(.*)/(.*)$#i');
 $dispatcher->registerController('VignetteView', '#^/album/(.*)/$#i');
 $dispatcher->registerController('VignetteView', '#^/album/(.*)/(.*)$#i');
 $dispatcher->registerController('AffichageView', '#^/photo/(.*)/(.*)$#i');
