@@ -20,7 +20,7 @@
       </div>
       <div class="ld">
         <h2><?php lb::galleryNiceName();?></h2>
-        <?php if (lb::hasPhotos()):?>
+        <?php if (lb::hasPhotos() && !lb::isPrivate()):?>
         <span class="infos">
           <?php lb::galleryNbPhotos();?>
           <?php ___(' pictures - ');?>
