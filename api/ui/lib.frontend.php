@@ -175,6 +175,28 @@ class lb {
     *
     *
     * @param string $s
+    * @param string $text
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function galleryLinkSlideshow($s, $text, $return = false) {
+      if (SHOW_SLIDESHOW == 'off') {
+         return ;
+      }
+      if (!lb::hasPhotos()) {
+         return ;
+      }
+      $img = $GLOBALS['_LB_render']['res']->f();
+      $dir = $img->getDir();
+      $link = sprintf('<a href="javascript:void(0)" onclick="window.open(\'%s\',\'Diaporama\',\'width=670,height=505\');">%s</a>', link::slideshow($dir), $text);
+      $result = sprintf($s, $link);
+      if ($return) return $result;
+      echo $result;
+   }
+
+   /**
+    *
+    *
+    * @param string $s
     * @param string $sep = '&#187'
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
@@ -235,29 +257,6 @@ class lb {
       if ($return) return $result;
       echo $result;
    }
-
-   /**
-    *
-    *
-    * @param string $s
-    * @param string $text
-    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
-    */
-   function galleryLinkSlideshow($s, $text, $return = false) {
-      if (SHOW_SLIDESHOW == 'off') {
-         return ;
-      }
-      if (!lb::hasPhotos()) {
-         return ;
-      }
-      $img = $GLOBALS['_LB_render']['res']->f();
-      $dir = $img->getDir();
-      $link = sprintf('<a href="javascript:void(0)" onclick="window.open(\'%s\',\'Diaporama\',\'width=670,height=505\');">%s</a>', link::slideshow($dir), $text);
-      $result = sprintf($s, $link);
-      if ($return) return $result;
-      echo $result;
-   }
-
 
    /**
     *

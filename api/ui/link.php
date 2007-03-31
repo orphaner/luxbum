@@ -6,33 +6,33 @@
 class link {
    function encode($s) {
       $s = rawurlencode($s);
-      $s = str_replace ('%2F', '/', $s);
+      $s = str_replace('%2F', '/', $s);
       return $s;
    }
 
-   function prefix () {
-      return (USE_REWRITE == 'on') ? URL_BASE : URL_BASE.'?/';
+   function prefix() {
+      return(USE_REWRITE == 'on') ? URL_BASE : URL_BASE.'?/';
    }
 
-   function thumb ($dir, $img) {
+   function thumb($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
       return  link::prefix().'image/'.THUMB_DIR.$dir.'/'.$img;
    }
    
-   function preview ($dir, $img) {
+   function preview($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
       return  link::prefix().'image/'.PREVIEW_DIR.$dir.'/'.$img;
    }
    
-   function index ($dir, $img) {
+   function index($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
       return  link::prefix().'image/index/'.$dir.'/'.$img;
    }
    
-   function full ($dir, $img) {
+   function full($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
       return  link::prefix().'image/full/'.$dir.'/'.$img;
@@ -44,10 +44,10 @@ class link {
    }
    
    // Le lien pour les pages de vignettes
-   function vignette ($dir, $img = '') {
+   function vignette($dir, $img = '') {
       $dir = link::encode($dir);
       $img = link::encode($img);
-      if ($img == '') {
+      if($img == '') {
          return link::prefix().'album/'.$dir.'/';
       }
       else {
@@ -57,9 +57,9 @@ class link {
    
    
    // Le lien pour les pages de slideshow
-   function slideshow ($dir, $start='') {
+   function slideshow($dir, $start='') {
       $dir = link::encode($dir);
-      if ($start == '') {
+      if($start == '') {
          return link::prefix().'slide-show/'.$dir;
       }
       else {
@@ -73,18 +73,18 @@ class link {
    }
    
 //    // Lien pour voir la sélection
-//    function selection ($page) {
+//    function selection($page) {
 //       return link::prefix()."selection_list-$page.html";
 //    }
    
 //    // Lien pour sélectionner une photo
-//    function apercu_select ($dir, $image, $page) {
+//    function apercu_select($dir, $image, $page) {
 //       $page--;
 //       return link::prefix().'select-'.$page.'-'.$dir.'-'.$image.'.html';
 //    }
    
 //    // Lien pour désélectionner une photo
-//    function apercu_unselect ($dir, $image, $page) {
+//    function apercu_unselect($dir, $image, $page) {
 //       $page--;
 //       return link::prefix().'unselect-'.$page.'-'.$dir.'-'.$image.'.html';
 //    }
