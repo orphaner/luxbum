@@ -15,7 +15,6 @@ function microtime_float()
 }
 
 $GLOBALS['startTime'] = microtime_float();
-// Le préfixe des variables de session
 session_start();
 
 
@@ -68,6 +67,7 @@ define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
 define ('PASS_FILE', 'pass.php');
 define ('LOCALE_DIR', 'locales/');
 define ('TEMPLATE_DIR', 'templates/');
+define ('TEMPLATE_MANAGER_DIR', 'manager_templates/');
 
 
 
@@ -122,19 +122,38 @@ $l = new l10n($lang);
 
 $dispatcher = new Dispatcher();
 
-$dispatcher->registerController('IndexView', '#^/$#i');
-$dispatcher->registerController('IndexView', '#^/folder/(.*)/$#i');
-$dispatcher->registerController('ImageView', '#^/image/('.files::removeTailSlash(THUMB_DIR).'|'.files::removeTailSlash(PREVIEW_DIR).'|index|full)/(.+)/(.+)$#i');
-$dispatcher->registerController('PrivateView', '#^/private/(.*)/$#i');
-$dispatcher->registerController('PrivateView', '#^/private/(.*)/(.*)$#i');
-$dispatcher->registerController('VignetteView', '#^/album/(.*)/$#i');
-$dispatcher->registerController('VignetteView', '#^/album/(.*)/(.*)$#i');
-$dispatcher->registerController('AffichageView', '#^/photo/(.*)/(.*)$#i');
-$dispatcher->registerController('InfosMetaView', '#^/meta/(.*)/(.*)$#i');
-$dispatcher->registerController('CommentaireView', '#^/comments/(.*)/(.*)$#i');
-$dispatcher->registerController('SlideShowView', '#^/slide\-show/(.*)$#i');
-$dispatcher->registerController('SlideShowView', '#^/slide\-show/(.*)/([0-9]+)$#i');
+if (preg_match('#^/manager(.*)$#i', preg_replace('#^(/)+#', '/', '/'.$_SERVER['QUERY_STRING']), $match)) {
 
+   include('api/ui/views_manager.php');
+   include('api/ui/link_manager.php');
+   include('api/ui/lib.backend.php');
+
+   $dispatcher->registerController('ManagerIndexView', '#^/manager/$#i');
+   $dispatcher->registerController('ManagerIndexView', '#^/manager/galleries/folder/(.*)/$#i');
+   $dispatcher->registerController('ManagerIndexView', '#^/manager/galleries/$#i');
+   $dispatcher->registerController('ManagerGalleryView', '#^/manager/gallery/(.*)/$#i');
+   $dispatcher->registerController('ManagerCommentsView', '#^/manager/comments/$#i');
+   $dispatcher->registerController('ManagerToolsView', '#^/manager/tools/$#i');
+   $dispatcher->registerController('ManagerLoginView', '#^/manager/login/$#i');
+   $dispatcher->registerController('ManagerLogoutAction', '#^/manager/logout/$#i');
+}
+
+else {
+
+   $dispatcher->registerController('IndexView', '#^/$#i');
+   $dispatcher->registerController('IndexView', '#^/folder/(.*)/$#i');
+   $dispatcher->registerController('ImageView', '#^/image/('.files::removeTailSlash(THUMB_DIR).'|'.files::removeTailSlash(PREVIEW_DIR).'|index|full)/(.+)/(.+)$#i');
+   $dispatcher->registerController('PrivateView', '#^/private/(.*)/$#i');
+   $dispatcher->registerController('PrivateView', '#^/private/(.*)/(.*)$#i');
+   $dispatcher->registerController('VignetteView', '#^/album/(.*)/$#i');
+   $dispatcher->registerController('VignetteView', '#^/album/(.*)/(.*)$#i');
+   $dispatcher->registerController('AffichageView', '#^/photo/(.*)/(.*)$#i');
+   $dispatcher->registerController('InfosMetaView', '#^/meta/(.*)/(.*)$#i');
+   $dispatcher->registerController('CommentaireView', '#^/comments/(.*)/(.*)$#i');
+   $dispatcher->registerController('SlideShowView', '#^/slide\-show/(.*)$#i');
+   $dispatcher->registerController('SlideShowView', '#^/slide\-show/(.*)/([0-9]+)$#i');
+
+}
 
 $dispatcher->Launch($_SERVER['QUERY_STRING']);
 
