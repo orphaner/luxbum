@@ -40,7 +40,7 @@ class Dispatcher
     * @param string Query string ('')
     */
    function Launch($query='') {
-      $query = preg_replace('#^(/)+#', '/', '/'.$query);
+      $query = preg_replace('#^(/)+#', '/', '/'.$query);//echo $query;
       $this->loadBuiltinControllers();
       $this->loadControllers();
       $this->match($query);
@@ -63,13 +63,16 @@ class Dispatcher
 
       $res = 200;
       foreach ($GLOBALS['_PX_control'] as $key => $control) {
+         //echo $control['regex'].'<br>';
          if (preg_match($control['regex'], $query, $match)) {
             if ($res == 404 and $control['priority'] < 8) {
                continue;
             }
 
-            $res = call_user_func(array($control['plugin'], 'action'), 
-                                  $match);
+            //$res = call_user_func(array($control['plugin'], 'action'), 
+            //                      $match);
+            $obj = new $control['plugin'];
+            $res = $obj->action($match);
             if ($res != 301 and $res != 404) {
                showDebugInfo();
                return;
