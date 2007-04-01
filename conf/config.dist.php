@@ -8,6 +8,7 @@ define ('MAX_FILE_SIZE', '2000');
 define ('SHOW_META', 'on');
 define ('SHOW_COMMENTAIRE', 'on');
 define ('SHOW_SLIDESHOW', 'on');
+define ('SLIDESHOW_FADING', 'on');
 define ('SLIDESHOW_TIME', '4');
 define ('SHOW_SELECTION', 'on');
 define ('ALLOW_DL_SELECTION', 'off');
