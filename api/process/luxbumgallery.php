@@ -33,7 +33,6 @@ class luxBumGallery extends SortableRecordset
     * @param String $dir Dossier de la galerie
     */
    function luxBumGallery ($dir, $preview = '') {
-      $d = microtime_float();
       parent::Recordset2();
       $this->preview = $preview;
       $this->size = 0;

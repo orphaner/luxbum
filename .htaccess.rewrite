@@ -1,16 +1,11 @@
 RewriteEngine on
 
-
-
 RewriteRule ^(image|album|folder|meta|photo|comments|slide\-show|private)/(.*)$ /index.php?/$1/$2
-
-
-
-RewriteCond %{REQUEST_URI} !^/slideshow.php
-RewriteRule ^(.*)slideshow.php(.*)$ /slideshow.php
 
 
 RewriteRule ^(.*)/_javascript/(.*)$ /_javascript/$2 [L]
 RewriteRule ^(.*)/templates/(.*)$ /templates/$2 [L]
+RewriteRule ^(.*)/common_templates/(.*)$ /common_templates/$2 [L]
+RewriteRule ^(.*)/manager_templates/(.*)$ /manager_templates/$2 [L]
 RewriteRule ^(.*)/_images/(.*)$ /_images/$2 [L]
 

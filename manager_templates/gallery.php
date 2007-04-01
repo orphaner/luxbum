@@ -90,6 +90,10 @@
 
 <h2><?php ___('Photo list');?></h2>
 
+<?php if ($res->EOP()): ?>
+<?php ___('There is no photo to consult.');?>
+<?php else: ?>
+
 <p><?php ___('Clic on the photo to enlarge');?></p>
 <div id="liste_photo_div">
   <form mXattribut="action:action_date_desc" method="post">
@@ -164,5 +168,5 @@
     </tr>
   </table>
 </div>
-
+<?php endif;?>
 <?php include ('footer.php');?>

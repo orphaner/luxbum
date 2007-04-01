@@ -88,6 +88,9 @@ class Recordset2
       if ($this->defaultIndex == -1) {
          return false;
       }
+      if (!array_key_exists($this->defaultIndex, $this->arrayList)) {
+         return false;
+      }
       return $this->arrayList[$this->defaultIndex];
    }
 

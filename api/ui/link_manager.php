@@ -3,7 +3,7 @@
 class linkmanager extends link {
 
    function prefix() {
-      return(USE_REWRITE == 'on') ? URL_BASE.'manager/' : URL_BASE.'?/manager/';
+      return URL_BASE.'manager.php?/';
    }
 
    function subGallery($dir) {
