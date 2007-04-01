@@ -39,9 +39,10 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   function galleryNiceName($return = false) {
-      $img = $GLOBALS['_LB_render']['res']->f();
-      $result = $img->getNiceName();
+   function galleryNiceName($current = true, $return = false) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      $result = $res->getNiceName();
       if ($return) return $result;
       echo $result;
    }
@@ -51,9 +52,11 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   function galleryName($return = false) {
-      $img = $GLOBALS['_LB_render']['res']->f();
-      $result = $img->getName();
+   function galleryName($current = true, $return = false) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      $res = $GLOBALS['_LB_render']['res']->f();
+      $result = $res->getName();
       if ($return) return $result;
       echo $result;
    }
@@ -63,9 +66,10 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   function gallerySize($return = false) {
-      $img = $GLOBALS['_LB_render']['res']->f();
-      $result = $img->getSize();
+   function gallerySize($current = true, $return = false) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      $result = $res->getSize();
       if ($return) return $result;
       echo $result;
    }
@@ -75,9 +79,10 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   function galleryNiceSize($return = false) {
-      $img = $GLOBALS['_LB_render']['res']->f();
-      $result = $img->getNiceSize();
+   function galleryNiceSize($current = true, $return = false) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      $result = $res->getNiceSize();
       if ($return) return $result;
       echo $result;
    }
@@ -87,9 +92,10 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   function galleryNbPhotos($return = false) {
-      $img = $GLOBALS['_LB_render']['res']->f();
-      $result = $img->getCount();
+   function galleryNbPhotos($current = true, $return = false) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      $result = $res->getCount();
       if ($return) return $result;
       echo $result;
    }
@@ -99,18 +105,40 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   function hasPhotos() {
-      $img = $GLOBALS['_LB_render']['res']->f();
-      return ($img->getCount() > 0);
+   function hasPhotos($current = true) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      return ($res->getCount() > 0);
+   }
+
+   /**
+    * Check if the current gallery is private and locked
+    * @return true if the current gallery is private, false otherwise
+    */
+   function isPrivateAndLocked($current = true) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      return $res->isPrivate() && !$res->isUnlocked();
    }
 
    /**
     * Check if the current gallery is private
     * @return true if the current gallery is private, false otherwise
     */
-   function isPrivate() {
-      $res = $GLOBALS['_LB_render']['res']->f();
-      return $res->isPrivate() && !$res->isUnlocked();
+   function isPrivate($current = true) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      return $res->isPrivate();
+   }
+
+   /**
+    * Check if the current gallery is private
+    * @return true if the current gallery is private, false otherwise
+    */
+   function isPrivateExact($current = true) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      return $res->isPrivateExact();
    }
 
    /**
@@ -879,7 +907,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function paginatorCurrentPage($return = false) {
-      $result = $GLOBALS['LB_render']['affpage']->getCurrentPage();
+      $result = $GLOBALS['_LB_render']['affpage']->getCurrentPage();
       if ($return) return $result;
       echo $result;
    }
@@ -890,7 +918,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function paginatorTotalPages($return = false) {
-      $result = $GLOBALS['LB_render']['affpage']->getTotalPages();
+      $result = $GLOBALS['_LB_render']['affpage']->getTotalPages();
       if ($return) return $result;
       echo $result;
    }
@@ -901,7 +929,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function paginatorLinkVignette($return = false) {
-      $affpage = $GLOBALS['LB_render']['affpage']->f();
+      $affpage = $GLOBALS['_LB_render']['affpage']->f();
       $res = $GLOBALS['_LB_render']['res'];
 
       $dir = $res->getDir();
@@ -918,7 +946,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function paginatorLinkAffichage($return = false) {
-      $affpage = $GLOBALS['LB_render']['affpage']->f();
+      $affpage = $GLOBALS['_LB_render']['affpage']->f();
       $res = $GLOBALS['_LB_render']['res'];
 
       $dir = $res->getDir();
@@ -935,7 +963,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function paginatorElementText($return = false) {
-      $affpage = $GLOBALS['LB_render']['affpage']->f();
+      $affpage = $GLOBALS['_LB_render']['affpage']->f();
       $result = $affpage[0];
       if ($return) return $result;
       echo $result;
@@ -947,7 +975,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function paginatorElementImage($return = false) {
-      $affpage = $GLOBALS['LB_render']['affpage']->f();
+      $affpage = $GLOBALS['_LB_render']['affpage']->f();
       $res = $GLOBALS['_LB_render']['res'];
 
       if ($affpage[0][0] == '&') {
@@ -971,9 +999,9 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function paginatorAltClass($return = false) {
-      $affpage = $GLOBALS['LB_render']['affpage']->f();
+      $affpage = $GLOBALS['_LB_render']['affpage']->f();
       $paginatorPage = $affpage[2];
-      if ($paginatorPage == $GLOBALS['LB_render']['affpage']->getCurrentPage()) {
+      if ($paginatorPage == $GLOBALS['_LB_render']['affpage']->getCurrentPage()) {
          $result = 'alt2';
       }
       else {
@@ -988,23 +1016,23 @@ class lb {
     *
     */
    function paginatorIsCurrent() {
-      $affpage = $GLOBALS['LB_render']['affpage']->f();
+      $affpage = $GLOBALS['_LB_render']['affpage']->f();
       $paginatorPage = $affpage[2];
-      return ($paginatorPage == $GLOBALS['LB_render']['affpage']->getCurrentPage());
+      return ($paginatorPage == $GLOBALS['_LB_render']['affpage']->getCurrentPage());
    }
 
    /**
     *
     */
    function isFirstPage() {
-      return ($GLOBALS['LB_render']['affpage']->getCurrentPage() == 1);
+      return ($GLOBALS['_LB_render']['affpage']->getCurrentPage() == 1);
    }
 
    /**
     *
     */
    function isLastPage() {
-      $affpage = $GLOBALS['LB_render']['affpage'];
+      $affpage = $GLOBALS['_LB_render']['affpage'];
       $paginatorPage = $affpage->getCurrentPage();
       return ($paginatorPage == $affpage->getTotalPages());
    }
@@ -1015,7 +1043,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function vignettePrevPageLink($return = false) {
-      $affpage = $GLOBALS['LB_render']['affpage'];
+      $affpage = $GLOBALS['_LB_render']['affpage'];
       $res = $GLOBALS['_LB_render']['res'];
 
       $dir = $res->getDir();
@@ -1032,7 +1060,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function vignetteNextPageLink($return = false) {
-      $affpage = $GLOBALS['LB_render']['affpage'];
+      $affpage = $GLOBALS['_LB_render']['affpage'];
       $res = $GLOBALS['_LB_render']['res'];
 
       $dir = $res->getDir();
@@ -1050,7 +1078,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function vignettePrevPage($s, $return = false) {
-      $affpage = $GLOBALS['LB_render']['affpage'];
+      $affpage = $GLOBALS['_LB_render']['affpage'];
       $res = $GLOBALS['_LB_render']['res'];
 
       $dir = $res->getDir();
@@ -1068,7 +1096,7 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function vignetteNextPage($s, $return = false) {
-      $affpage = $GLOBALS['LB_render']['affpage'];
+      $affpage = $GLOBALS['_LB_render']['affpage'];
       $res = $GLOBALS['_LB_render']['res'];
 
       $dir = $res->getDir();

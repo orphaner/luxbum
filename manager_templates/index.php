@@ -6,14 +6,14 @@
 <p class="message"><?php lbm::headerMessage(); ?></p>
 
 <h2><?php ___('Add a gallery');?></h2>
-<form mXattribut="action:action_ajout_galerie" method="post">
+<form action="<?php lbm::linkActionIndexAddGallery();?>" method="post">
   <fieldset><legend><?php ___('Add a new gallery');?> </legend>
     <p><label for="ajout_galerie" class="float"><?php ___('Choose a name : ');?> </label>
       <input type="text" name="ajout_galerie" id="ajout_galerie" mXattribut="value:val_ajout_galerie" />
       <span class="erreur"><mx:text id="err_ajout_galerie"/></span>
     </p>
     <p>
-      <input class="submit" type="submit" value="Ajouter la galerie" />
+      <input class="submit" type="submit" value="<?php ___('Create the gallery');?>"/>
     </p>
   </fieldset>
 </form>
@@ -21,15 +21,15 @@
 
 <h2><?php ___('Gallery cache');?></h2>
 <ul>
-  <li><a mXattribut="url:action_vider_cache"><?php ___('Delete the cache for all galleries');?></a></li>
-  <li><a mXattribut="url:action_generer_cache"><?php ___('Generate the cache for all galleries');?></a></li>
+  <li><a href="<?php lbm::linkActionIndexPurgecache();?>"><?php ___('Delete the cache for all galleries');?></a></li>
+  <li><a href="<?php lbm::linkActionIndexGencache();?>"><?php ___('Generate the cache for all galleries');?></a></li>
 </ul>
 
 <h2><?php ___('Gallery sort');?></h2>
 <p><strong><?php ___('Manual sort');?></strong> : <a mXattribut="href:triUrl"><?php ___('Sort manually the galleries.');?></a></p>
-<form mXattribut="action:action_tri" method="post">
+<form action="<?php lbm::linkActionIndexSort(); ?>" method="post">
   <fieldset><legend><?php ___('Choose a sort criteria :');?></legend>
-    <mx:select id="tri"/>
+    <?php lbm::indexSortSelect(); ?>
     <p><input class="submit" type="submit" value="<?php ___('Submit the sort criteria');?>" /></p>
   </fieldset>
 </form>
@@ -80,7 +80,7 @@
       <td class="description_td">
         <p class="message"><mx:text id="message_modifier_galerie"/></p>
 
-        <form mXattribut="action:action_modifier_galerie" method="post">
+        <form action="<?php lbm::linkActionIndexGalleryRename();?>" method="post">
           <p>
             <label mXattribut="for:for_id" class="float"><strong><?php ___('New name');?> : </strong></label>
             <input type="text" name="modifier_galerie" mXattribut="value:val_modifier_galerie;id:id_id" />
@@ -94,16 +94,18 @@
       <td class="liste_photo_td">
         <p><strong><?php ___('Private');?> : </strong>
           <?php if(lbm::isPrivate()):?>
-          <?php ___('yes');?><br />
-          <a href=""><?php ___('set as private');?></a>
+             <?php ___('yes');?><br />
+             <?php if(lbm::isPrivateExact()):?>
+          		<a href=""><?php ___('set as public');?></a>
+             <?php endif;?>
           <?php else:?>
-          <?php ___('no');?><br />
-          <a href=""><?php ___('set as public');?></a>
+             <?php ___('no');?><br />
+          	<a href=""><?php ___('set as private');?></a>
           <?php endif;?>
           </p>
       </td>
       <td class="liste_photo_td">
-        <p><a mXattribut="href:del"><img src="<?php lbm::imgSrc('delete.png');?>" alt="<?php ___('Delete');?>" /></a></p>
+        <p><a href="<?php lbm::linkActionIndexGalleryDelete();?>"><img src="<?php lbm::imgSrc('delete.png');?>" alt="<?php ___('Delete');?>" /></a></p>
       </td>
     </tr>
     <?php $res->moveNext();

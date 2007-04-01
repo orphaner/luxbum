@@ -8,7 +8,7 @@
 
   /**
    * @package process
-   * Structure représentant une galerie
+   * Structure reprï¿½sentant une galerie
    */
 class luxBumGallery extends SortableRecordset
 {
@@ -21,6 +21,7 @@ class luxBumGallery extends SortableRecordset
    var $size;
    var $sortPosition = '';
    var $private = false;
+   var $privateExact = false;
    var $listSubGallery = array();
    var $dirPath;
 
@@ -29,7 +30,7 @@ class luxBumGallery extends SortableRecordset
    /** Constructeur de classe */
    /**-----------------------------------------------------------------------**/
    /**
-    * Constructeur par défaut
+    * Constructeur par dï¿½faut
     * @param String $dir Dossier de la galerie
     */
    function luxBumGallery ($dir, $preview = '') {
@@ -59,7 +60,7 @@ class luxBumGallery extends SortableRecordset
     * Remplit les informations suivantes sur la galerie :
     * - nombre d'images
     * - taille des images en octets
-    * - private : galerie privée ou non
+    * - private : galerie privï¿½e ou non
     * @access private
     */
    function _completeInfos () {
@@ -79,8 +80,9 @@ class luxBumGallery extends SortableRecordset
     *
     */
    function _loadPrivate() {
-      $priv = PrivateManager::getInstance(); //new PrivateManager();
+      $priv = PrivateManager::getInstance();
       $this->private = $priv->isPrivate($this->dir);
+      $this->privateExact = $priv->isPrivateExact($this->dir);
    }
 
 
@@ -120,8 +122,8 @@ class luxBumGallery extends SortableRecordset
    }
 
    /**
-    * Retourne l'image par défaut de la galerie
-    * @return String Chemin vers l'image par défaut de la galerie
+    * Retourne l'image par dï¿½faut de la galerie
+    * @return String Chemin vers l'image par dï¿½faut de la galerie
     */
    function getPreview () {
       return $this->preview;
@@ -168,19 +170,19 @@ class luxBumGallery extends SortableRecordset
    }
 
    /**
-    * Affecte la galerie en privée
-    * @param Boolean Galerie privée ou non
-    */
-//     function setPrivate ($private) {
-//        $this->private = ($private == true);
-//     }
-
-   /**
-    * Retourne si la galerie est privée ou non
-    * @return Boolean Galerie privée ou non (true / false)
+    * Retourne si la galerie est privÃ©e ou non
+    * @return Boolean Galerie privÃ©e ou non (true / false)
     */
    function isPrivate() {
       return $this->private;
+   }
+
+   /**
+    * Retourne si la galerie est la premiÃ¨re galerie privÃ©e ou non dans l'arborescence
+    * @return Boolean Galerie privÃ©e ou non (true / false)
+    */
+   function isPrivateExact() {
+      return $this->privateExact;
    }
 
    function isUnlocked() {
@@ -196,7 +198,7 @@ class luxBumGallery extends SortableRecordset
     * Lit le fichier des dates/descriptions et retourne un tableau
     * correspondant par rapport au nom de fichier.
     * 
-    * @return array clé: nomPhoto / valeur: date|description
+    * @return array clï¿½: nomPhoto / valeur: date|description
     */
    function getDescriptions () {
       $desc = array ();
@@ -215,13 +217,13 @@ class luxBumGallery extends SortableRecordset
    }
    
    /**
-    * Crée ou met à jour le fichier des descriptions des photos
+    * Crï¿½e ou met ï¿½ jour le fichier des descriptions des photos
     * 
     */
    function createOrMajDescriptionFile () {
       $desc = array ();
 
-      // Recherche des images présentes dans le fichier de description
+      // Search images who are in the description file
       if (is_file ($this->dirPath . DESCRIPTION_FILE)) {
          if ($fd = fopen ($this->dirPath . DESCRIPTION_FILE, 'r')) {
             while ($line = fgets ($fd)) {
@@ -233,7 +235,7 @@ class luxBumGallery extends SortableRecordset
          }
       }
 
-      // On ajoute les images non présentes dans le fichier de description
+      // On ajoute les images non prÃ©sentes dans le fichier de description
       if ($fd = fopen ($this->dirPath . DESCRIPTION_FILE, 'a')) {
          reset ($this->arrayList);
          while (list (,$img) = each ($this->arrayList)) {
@@ -247,7 +249,7 @@ class luxBumGallery extends SortableRecordset
    }
 
    /**
-    * Écrit les nouvelles descriptions/dates dans le fichier de description
+    * ï¿½crit les nouvelles descriptions/dates dans le fichier de description
     */
    function updateDescriptionFile () {
       files::deleteFile ($this->dirPath . DESCRIPTION_FILE, 'a');
@@ -317,16 +319,16 @@ class luxBumGallery extends SortableRecordset
    /** Ajout des images */
    /**-----------------------------------------------------------------------**/
    /**
-    * Ajoute toute les images à la liste $this->list
+    * Ajoute toute les images ï¿½ la liste $this->list
     * Les images ont leur date / descriptions correctement remplies.
-    * Les images sont triées suivant les options.
+    * Les images sont triï¿½es suivant les options.
     */
    function addAllImages () {
 
       // Ouverture du dossier des photos
       if ($dir_fd = opendir ($this->dirPath)) {
         
-         // Récupération des descriptions et de l'ordre
+         // Rï¿½cupï¿½ration des descriptions et de l'ordre
          $desc = $this->getDescriptions ();
          $this->_loadSort();
     
@@ -409,9 +411,9 @@ class luxBumGallery extends SortableRecordset
          $realkey = $image->getImageName();
       }
       else {
-         // Suffixe avec le nom de l'image au cas où 
-         // il y aurait des clés identiques !!! 
-         // (ce qui arrive souvent, même date|description, ordre non défini)
+         // Suffixe avec le nom de l'image au cas oï¿½ 
+         // il y aurait des clï¿½s identiques !!! 
+         // (ce qui arrive souvent, mï¿½me date|description, ordre non dï¿½fini)
          $realkey .= '_'.$image->getImageName();
       }
       return $realkey;
@@ -425,10 +427,10 @@ class luxBumGallery extends SortableRecordset
    }
 
    /**-----------------------------------------------------------------------**/
-   /** Image par défaut */
+   /** Image par dï¿½faut */
    /**-----------------------------------------------------------------------**/
    /**
-    * Recherche l'image par défaut !
+    * Recherche l'image par dï¿½faut !
     * @access private
     */
    function _completeDefaultImage () {
@@ -440,7 +442,7 @@ class luxBumGallery extends SortableRecordset
       }
 
 
-      /* Recherche d'une image par défaut définie par l'utilisateur */
+      /* Recherche d'une image par dï¿½faut dï¿½finie par l'utilisateur */
       if (is_file ($this->dirPath . DEFAULT_INDEX_FILE)) {
          $fd = fopen ($this->dirPath . DEFAULT_INDEX_FILE, 'r+');
          $line = fgets ($fd);
@@ -451,7 +453,7 @@ class luxBumGallery extends SortableRecordset
          fclose ($fd);
       }
 
-      /* On cherche la première image du dossier pr faire un aperçu */
+      /* On cherche la premiï¿½re image du dossier pr faire un aperï¿½u */
       if ($default == '') {
          $trouve = false;
          $apercu_fd = opendir ($this->dirPath);
@@ -472,9 +474,9 @@ class luxBumGallery extends SortableRecordset
 
    
    /**
-    * Retourne le lien de la vignette de l'image vers le script qui génére
+    * Retourne le lien de la vignette de l'image vers le script qui gï¿½nï¿½re
     * l'image
-    * @return Lien de la vignette de l'image vers le script de génération
+    * @return Lien de la vignette de l'image vers le script de gï¿½nï¿½ration
     */
    function getIndexLink () {
 
@@ -485,8 +487,8 @@ class luxBumGallery extends SortableRecordset
    }
 
    /**
-    * Ecrit une nouvelle image par défaut
-    * @param String $img Nom de la nouvelle image par défaut
+    * Ecrit une nouvelle image par dï¿½faut
+    * @param String $img Nom de la nouvelle image par dï¿½faut
     * @return boolean 
     */
    function setNewDefaultImage ($img) {
@@ -517,8 +519,8 @@ class luxBumGallery extends SortableRecordset
    }
    
    /**
-    * Efface une galerie. Méthode statique
-    * @param String $dirName Nom de la galerie à supprimer.
+    * Efface une galerie. Mï¿½thode statique
+    * @param String $dirName Nom de la galerie ï¿½ supprimer.
     */
    function delete ($dirName) {
       files::deltree (luxbum::getFsPath ($dirName));
@@ -536,7 +538,7 @@ class luxBumGallery extends SortableRecordset
    }
 
    /**
-    * Supprime les vignettes cachées de la galerie
+    * Supprime les vignettes cachï¿½es de la galerie
     */
    function clearThumbCache () {
       reset ($this->list);
@@ -546,7 +548,7 @@ class luxBumGallery extends SortableRecordset
    }
 
    /**
-    * Supprime les aperçus cachés de la galerie
+    * Supprime les aperï¿½us cachï¿½s de la galerie
     */
    function clearPreviewCache () {
       reset ($this->list);

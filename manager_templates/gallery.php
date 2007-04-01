@@ -1,20 +1,21 @@
 <?php include ('header.php');?>
 <script type="text/javascript">
-  function toggleBigImage(id, largepath) {
+function toggleBigImage(id, largepath) {
   var imageobj = document.getElementById(id);
   if (!imageobj.sizedlarge) {
-  imageobj.src2 = imageobj.src;
-  imageobj.src = largepath;
-  imageobj.style.position = 'absolute';
-  imageobj.style.zIndex = '1000';
-  imageobj.sizedlarge = true;
-  } else {
-  imageobj.style.position = 'relative';
-  imageobj.style.zIndex = '0';
-  imageobj.src = imageobj.src2;
-  imageobj.sizedlarge = false;
+	  imageobj.src2 = imageobj.src;
+	  imageobj.src = largepath;
+	  imageobj.style.position = 'absolute';
+	  imageobj.style.zIndex = '1000';
+	  imageobj.sizedlarge = true;
+  } 
+  else {
+	  imageobj.style.position = 'relative';
+	  imageobj.style.zIndex = '0';
+	  imageobj.src = imageobj.src2;
+	  imageobj.sizedlarge = false;
   }
-  }
+}
 
 </script>
 
@@ -30,9 +31,9 @@
 </div>
 
 
-<h1 id="h1_admin"><?php ___('Gallery management');?> : <mx:text id="galerie_nom"/></h1>
+<h1 id="h1_admin"><?php ___('Gallery management');?> : <?php lbm::galleryNiceName(false); ?></h1>
 
-<p class="message"><mx:text id="message"/></p>
+<p class="message"><?php lbm::headerMessage(); ?></p>
 
 <script  type="text/javascript" src="_javascript/add_upload.js"></script>
 

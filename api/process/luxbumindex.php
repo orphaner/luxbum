@@ -11,14 +11,13 @@
    */
 class luxBumIndex extends SortableRecordset
 {
-//   var $galleryList = array ();
    var $dir;
    var $selfGallery;
    
    function luxBumIndex ($dir) {
       parent::RecordSet2();
       $this->dir = $dir;
-      $this->_loadSort ();
+      $this->_loadSort();
       $this->selfGallery = new luxBumGallery($dir);
    }
    
@@ -40,14 +39,14 @@ class luxBumIndex extends SortableRecordset
    /**
     * Retourne le nombre de galeries
     */
-   function getGalleryCount () {
+   function getGalleryCount() {
       return $this->getIntRowCount();
    }
 
    /**
     * Retourne le dossier de la galerie
     */
-   function getDir () {
+   function getDir() {
       return $this->dir;
    }
 
@@ -61,16 +60,15 @@ class luxBumIndex extends SortableRecordset
     * @param String $name le nom de la galerie
     * @param int $sortPosition Position de la galerie dans l'index
     */
-   function addGallery ($name) {
+   function addGallery($name, $minImage) {
       $galleryName = files::addTailSlash($this->dir).$name;
       $galleryTemp = new luxBumGallery($galleryName);
       $galleryTemp->addSubGalleries();
 
-      if ($galleryTemp->getCount() > 0 
-          || $galleryTemp->hasSubGallery()) {
+      if ($galleryTemp->getCount() >= $minImage || $galleryTemp->hasSubGallery()) {
          
          // On affecte l'ordre
-         if (array_key_exists ($name, $this->sortList)) {
+         if (array_key_exists($name, $this->sortList)) {
             $galleryTemp->setSortPosition($this->sortList[$name]);
          }
 
@@ -84,25 +82,26 @@ class luxBumIndex extends SortableRecordset
     * Remplit la liste de toutes les galeries
     * @param boolean $minImage Au moins une image ou non dans la galerie
     */
-   function addAllGallery ($minImage = 1) {
+   function addAllGallery($minImage = 1) {
 
       $this->_loadSort();
       
-      // Lecture de tous les dossiers de photos 
-      if (/*(is_dir($this->dir) || is_link($this->dir)) &&*/ $dir_fd = opendir (luxbum::getFsPath ($this->dir))) {
+      // Read all directories ; each one is a gallery
+      if (/*(is_dir($this->dir) || is_link($this->dir)) &&*/ $dir_fd = opendir(luxbum::getFsPath($this->dir))) {
    
-         while ($current_dir = readdir ($dir_fd)) {
+         while ($current_dir = readdir($dir_fd)) {
             
             // Lecture de tous les dossiers
-            if ($current_dir[0] != '.' && is_dir (luxbum::getFsPath ($this->dir, $current_dir))
+            if ($current_dir[0] != '.' && is_dir (luxbum::getFsPath($this->dir, $current_dir))
+				// TODO: THUMB_DIR && PREVIEW_DIR as .DIR 
                 && $current_dir != files::removeTailSlash(THUMB_DIR)
                 && $current_dir != files::removeTailSlash(PREVIEW_DIR)) {
 
-               $this->addGallery ($current_dir);
+               $this->addGallery($current_dir, $minImage);
             }
          }
          closedir ($dir_fd);
-         if (count ($this->arrayList) > 0) {
+         if (count($this->arrayList) > 0) {
             $this->arrayList = $this->sortRecordset($this->arrayList, $this->sortType, $this->sortOrder);
          }
       }
@@ -134,9 +133,9 @@ class luxBumIndex extends SortableRecordset
          $realkey = $gallery->getName();
       }
       else {
-         // Suffixe avec le nom de la galerie au cas où 
-         // il y aurait des clés identiques !!! 
-         // (ce qui arrive souvent, même size|count, ordre non défini)
+         // Suffixe avec le nom de la galerie au cas oÃ¹
+         // il y aurait des clÃ©s identiques !!! 
+         // (ce qui arrive souvent, mÃªme size|count, ordre non dÃ©fini)
          $realkey .= '_'.$gallery->getName();
       }
       return $realkey;

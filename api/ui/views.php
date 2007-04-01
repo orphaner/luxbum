@@ -131,10 +131,10 @@ class VignetteView {
       $GLOBALS['_LB_render']['img'] = $res->getDefault();
 
 
-      $GLOBALS['LB_render']['affpage'] = new Paginator($currentPage, $res->getIntRowCount(), LIMIT_THUMB_PAGE, MAX_NAVIGATION_ELEMENTS);
+      $GLOBALS['_LB_render']['affpage'] = new Paginator($currentPage, $res->getIntRowCount(), LIMIT_THUMB_PAGE, MAX_NAVIGATION_ELEMENTS);
 
 
-      $affpage =& $GLOBALS['LB_render']['affpage'];
+      $affpage =& $GLOBALS['_LB_render']['affpage'];
 
       // Add comment form valid
       lbPostAction::comment();
@@ -330,8 +330,8 @@ class ImageView {
 
 /**
  *
- * Classe de réponses aux actions des formulaires.
- * L'action est lancée seulement si le formulaire est effectivement validé.
+ * Classe de rï¿½ponses aux actions des formulaires.
+ * L'action est lancï¿½e seulement si le formulaire est effectivement validï¿½.
  */
 class lbPostAction {
 

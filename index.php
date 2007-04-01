@@ -5,6 +5,7 @@ if (!is_file('conf/config.php')) {
 }
 
 include('common.php');
+$_SESSION['manager'] = true;
 
 $dispatcher->registerController('IndexView', '#^/$#i');
 $dispatcher->registerController('IndexView', '#^/folder/(.*)/$#i');

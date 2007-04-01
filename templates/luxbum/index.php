@@ -20,7 +20,7 @@
       </div>
       <div class="ld">
         <h2><?php lb::galleryNiceName();?></h2>
-        <?php if (lb::hasPhotos() && !lb::isPrivate()):?>
+        <?php if (lb::hasPhotos() && !lb::isPrivateAndLocked()):?>
         <span class="infos">
           <?php lb::galleryNbPhotos();?>
           <?php ___(' pictures - ');?>
@@ -30,7 +30,7 @@
         
         <div class="actions">
           <ul>
-            <?php if (lb::isPrivate()):?>
+            <?php if (lb::isPrivateAndLocked()):?>
             <?php lb::galleryLinkPrivate("<li>%s</li>", __('Private gallery'));?>
             <?php else:?>
             <?php lb::galleryLinkSubGallery("<li>%s</li>", __('Sub galleries'));?>

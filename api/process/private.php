@@ -182,6 +182,19 @@ class PrivateManager
    /**
     * @param String dir
     */
+   function isPrivateExact($dir) {
+      reset($this->list);
+      while (list($key, $val) = each($this->list)) {
+         if ($key == $dir) {
+            return true;
+         }
+      }
+      return false;
+   }
+
+   /**
+    * @param String dir
+    */
    function getPrivateEntry($dir) {
       reset($this->list);
       while (list($key, $val) = each($this->list)) {
@@ -196,10 +209,17 @@ class PrivateManager
     * @param String dir
     */
    function isUnlocked($dir) {
+      // A manager is loggued in
+      if (isset($_SESSION['manager']) && $_SESSION['manager']) {
+         return true;
+      }
+      
       $key = $this->getPrivateEntry($dir);
+      // The gallery is not private, so it is unlocked
       if ($key == null) {
          return true;
       }
+      // The gallery is unlocked
       if (isset($_SESSION['Private'][$key]) && $_SESSION['Private'][$key] == true){
          return true;
       }
