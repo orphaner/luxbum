@@ -2,7 +2,7 @@
 
 
 /*----------------------------------------------------------------------------*/
-/* Brin du début pour le développement */
+/* Brin du dï¿½but pour le dï¿½veloppement */
 
 function microtime_float()
 {
@@ -58,8 +58,8 @@ define ('DEFAULT_INDEX_FILE', 'defaut.txt');
 define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
 define ('PASS_FILE', 'pass.php');
 define ('LOCALE_DIR', 'locales/');
-define ('TEMPLATE_DIR', 'templates/');
-define ('TEMPLATE_MANAGER_DIR', 'manager_templates/');
+define ('TEMPLATE_DIR', 'templates/public/');
+define ('TEMPLATE_MANAGER_DIR', 'templates/manager/');
 
 
 
