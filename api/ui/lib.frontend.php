@@ -421,6 +421,12 @@ class lb {
     */
    function linkPhoto($return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
+      if (isset($GLOBALS['_LB_render']['img'])) {
+         $img = $GLOBALS['_LB_render']['img'];
+      }
+      else {
+         $img = $GLOBALS['_LB_render']['res']->f();
+      }
       $result = link::full($GLOBALS['_LB_render']['res']->getDir(),
                                 $img->getImageName());
       if ($return) return $result;
