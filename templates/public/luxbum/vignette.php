@@ -1,4 +1,4 @@
-<?php include ('filefooter.php');?>
+<?php include ('fileheader.php');?>
 
 <div id="navigPicture">
   <div id="picture">
