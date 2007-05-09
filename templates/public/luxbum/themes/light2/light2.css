@@ -1,0 +1,557 @@
+body { 
+  margin : 0;
+  padding : 0;
+  background-color: #EEE;
+  font-size:10px;
+  font-family:"Trebuchet MS",Verdana,Arial,Helvetica,Sans-serif;
+}
+
+a img {
+  border: none;
+}
+a {
+  color : #246; 
+  text-decoration:none;
+}
+a:visited{
+  color: #666;
+}
+a:hover, a:focus, a:active {
+  color: #333;
+  text-decoration:underline;
+}
+#centerV { 
+  width:100%;
+  height: 540px; 
+  position:absolute;
+  top: 50%;
+  margin-top: -290px;
+}
+#centerH {
+  position:absolute;
+  height: 540px; 
+  width:1000px;
+  left: 50%;
+  margin-left: -507px; /* moiti� de la hauteur */
+}
+div.spacer {
+  clear:both;
+}
+h1.vig_titre {
+	display:none;	
+}
+* { 
+  padding:0px;
+  margin:0px;
+}
+
+/*===========================================
+   Copyrights
+   */
+#footer, #footerIndex {
+  height:23px;
+  width:100%;
+  border-top:1px solid #838183;
+  border-bottom:1px solid #838183;
+  background:#fff;
+  text-align:center;
+  padding-top:5px;
+  font-weight: bold; 
+}
+#footerIndex {
+  height:35px;
+  text-align:center;
+  margin:50px 20px 0 0;
+  font-size:10px;
+}
+#footer { 
+  position:absolute;
+  top:610px;
+  font-size:10px;
+  color:#BEBEBE;
+}
+#footer a:link, #footer a:visited { 
+  color:#BEBEBE;
+}
+
+/*===========================================
+   Page d'accueil
+   */
+
+body#body h1 {
+  text-align:center;
+  background:url('images/luxbum_h1_light.jpg') center no-repeat;
+  height:160px;
+}
+body#body h1 span {
+  display:none;
+}
+#galleryList { 
+  text-align: left;
+  width:880px;
+  position: relative;
+  left: 50%; 
+  margin-left: -435px;
+  background: #FFF;
+  border: 1px solid #CFCFCF;
+  -moz-border-radius:6px;
+  -border-radius:6px;
+  padding: 15px 10px 5px 10px;
+}
+#galleryList .gallery {
+  float:left;
+  width:287px;
+  height:100px;
+}
+#galleryList img {
+  border:1px solid #DEDEDE;
+  padding:2px;
+}
+#galleryList a { 
+  font-size:10px;
+  font-family: verdana, helvetica, arial, sans-serif;
+}
+#galleryList h2 { 
+  font-size:14px;
+  margin:0 0 5px 0;
+  padding:0px;
+  color:#000;
+}
+#galleryList .gallery .lg {
+  height:100px;
+  width:100px;
+  float:left;
+}
+#galleryList .gallery .ld {
+}
+#galleryList .gallery span.infos { 
+  font-size:10px;
+  font-family: verdana, helvetica, arial, sans-serif;
+  /*    color:#E1E1E1;*/
+}
+#galleryList .gallery .actions ul {
+  margin:0px;
+  padding: 5px 4px 16px 6px ;
+}
+#galleryList .gallery .actions ul li {
+  padding: 1px 0 1px 0;
+  line-height: 120%;
+  list-style: none;
+}
+#galleryList .gallery .actions ul li a {
+  padding: 0 0 0 12px;
+  background: transparent url('images/fleche_light.png') no-repeat top left;
+}
+
+
+/*===========================================
+   Les vignettes
+   */
+#viewPage {
+  text-align: left;
+  width: 980px;
+  margin: 0px 10px 10px 0px;
+  position: relative;
+  background:#FFF;
+  border: 1px solid #cfcfcf;
+  -moz-border-radius:6px;
+  -border-radius:6px;
+  padding: 10px 5px 5px 5px;
+  float:left;
+}
+*> #viewPage { 
+  height:560px;
+}
+#navigThumb { 
+  height:400px;
+  width:294px;
+  float:left;
+}
+#thumbList { 
+  height:485px;
+  text-align:center;
+}
+#thumbList .thumb {
+  height:150px;
+  width:145px;
+  float:left;
+}
+#thumbList .thumb .thumbNumber { 
+  text-align:center;
+  padding-top:3px;
+  color:#acc3c4;
+  font-size:10px;
+}
+#thumbList .thumb  img { 
+  border:1px solid #DEDEDE;
+  padding:2px;
+}
+/** upd dark 1 **/
+.view_photo, .view_photo_selected {
+  height:100%;
+  text-align:center;
+}
+.view_photo_selected  img, .photo_selected  img{ 
+  border:2px solid #ABABAB;
+  padding:1px;
+}
+/**fin  upd dark 1 **/
+
+
+/*===========================================
+   Navigation par pages
+   */
+#paginator { 
+  width:300px;
+  text-align:center;
+  margin-top:10px;
+}
+#paginator a { 
+  padding:0 2px;
+}
+/* Ici pour d�finir la couleur de fond du cadre ! */
+#paginator .tborder {
+  background-color: #5A5A5A;
+  margin: auto;
+  font-size:10px;
+}
+/* page non courante */
+#paginator .alt1 {
+  background-color: #D6D6D6;
+  color: #000000;
+  text-align:center;
+  font-weight : bold;
+}
+/* page courante */
+#paginator .alt2 {
+  background-color: #A9A9A9;
+  color: #000000;
+  text-align:center;
+}
+#paginator .alt2 a {
+  text-align:center;
+  font-weight : bold;
+  color: #000000;
+}
+/* page x sur y */
+#paginator .affpage {
+  background: #97C6E8;
+  color: #2B3842;
+  font: bold 11px tahoma, verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+  padding: 3px 6px 3px 6px;
+  white-space: nowrap;
+}
+
+
+
+/*===========================================
+   Barre navigation
+   */
+#navigBar {
+  margin-left:10px;
+  text-align:left;
+  font-size: 12px
+}
+#navigBar a {
+  font-size: 12px
+}
+#navigBar ol.tree {
+  position: relative;
+  margin: 0 0 1em 0;
+  padding: 0;
+  border-bottom: 1px solid #f5f5dc;
+}
+#navigBar ol.tree li {
+  display: inline;
+  list-style-type: none;
+  padding-right: 0.7em;
+  padding-left: 0;
+}
+
+
+/*===========================================
+   Affichage des images
+   */
+#navigPicture {
+  width:660px;
+  height:530px;
+  text-align: left;
+  margin: 5px 0 0 10px;
+  float:left;
+}
+#navigPicture #picture {
+  height: 500px;
+  text-align:center;
+}
+#navigPicture #picture img {
+  border:1px solid #DEDEDE;
+  padding:2px;
+}
+#navigPicture .pictureDescription { 
+  font-size:10px;
+  text-align: center;
+}
+
+
+/*===========================================
+   Table des informations META
+   */
+#bodyMeta { 
+  margin:10px;
+}
+#metaData h2 {
+  font-size:12px;
+}
+#metaData table.cleanTable {
+  border-collapse: collapse;
+  width:100%;
+}
+#metaData table.cleanTable tr {
+}
+#metaData table.cleanTable th {
+  border: 1px solid #000;
+  padding: 0.5em;
+}
+#metaData table.cleanTable td {
+  border: 1px solid #666;
+  padding: 0.5em;
+  font-size:11px;
+}
+
+/*===========================================
+   Commentaires
+   */
+#bodyCommentaire {
+  padding:15px;
+  background-color: white;
+}
+#commentList { 
+}
+#commentAdd h2, #commentList h2 {
+  font-size:14px;
+}
+#commentList #comment {
+  font-size:12px;
+}
+#comment .info{
+  font-style: italic;
+  font-size:10px;
+  margin:0.5em 0 0.6em 0;
+  color: #898B89;
+  color: #666;
+  margin: 0 0 0 15px;
+  font-size: 11px;
+}
+#comment .content{
+  font-weight: normal;
+  color: #333;
+  background: #EFF5FF;
+  border: 1px solid #DCE9FF;
+  padding: 5px;
+  margin: 0 0 0 5px;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+#comment .content p{
+  padding:0;
+  margin:0;
+}
+#commentAdd { 
+}
+#commentAdd input, textarea, option, select {
+  background: #eef3f5;
+  color: #000;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size: 1em;
+  margin-top: 2px;
+}
+#commentAdd input, textarea, select {
+  border: 1px solid #999;
+}
+#commentAdd legend {
+  font-weight: bold;
+}
+#commentAdd label, span.label {
+  display: block;
+  position: static;  /* IE n'aime pas relative */
+}
+#commentAdd p.field {
+  clear: left;
+  margin: 0;
+  padding: 1em 0 0 0;
+}
+#commentAdd label.float, span.label {
+  position: relative;
+  float: left;
+  width: 25%;
+  padding-right: 0.5em;
+}
+#commentAdd fieldset {
+  border: 1px solid #999;
+  padding: 10px;
+  margin-top:20px;
+}
+#commentAdd legend {
+  padding: 1px 4px;
+  border-color: #999 #ccc #ccc #999;
+  border-style: solid;
+  border-width: 1px;
+  background: #eee;
+}
+#commentAdd span.error {
+  color:red;
+}
+
+/*===========================================
+   Private Form
+   */
+#privateForm #messageOk {
+  text-align: left;
+  border-top: 1px solid #9c9;
+  border-bottom: 1px solid #9c9;
+  padding-left:25px;
+  font-size: 1.3em;
+  color: #060;
+  background-position:7px;
+}
+
+#privateForm #messageKo {
+  text-align: left;
+  border-top: 1px solid #A10000;
+  border-bottom: 1px solid #A10000;
+  padding-left:25px;
+  font-size: 0.9em;
+  background-position:7px;
+  color:#c00;
+}
+
+#privateForm {
+  position: relative;
+  left: 50%; 
+  margin-left: -200px;
+  width:400px;
+  font-size: 1.2em;
+}
+#privateForm input, textarea, option, select {
+  background: #eef3f5;
+  color: #000;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size: 1em;
+  margin-top: 2px;
+}
+#privateForm input, textarea, select {
+  border: 1px solid #999;
+}
+#privateForm legend {
+  font-weight: bold;
+}
+#privateForm label, span.label {
+  display: block;
+  position: static;  /* IE n'aime pas relative */
+}
+#privateForm p.field {
+  clear: left;
+  margin: 0;
+  padding: 1em 0 0 0;
+}
+#privateForm label.float, span.label {
+  position: relative;
+  float: left;
+  width: 25%;
+  padding-right: 0.5em;
+}
+#privateForm fieldset {
+  border: 0px solid #999;
+  border-top:1px solid #999;
+  border-bottom:1px solid #999;
+  padding: 10px;
+  margin-top:20px;
+}
+#privateForm legend {
+  padding: 1px 4px;
+  border-color: #999 #ccc #ccc #999;
+  border-style: solid;
+  border-width: 1px;
+  background: #eee;
+  display:none;
+}
+#privateForm span.error {
+  color:red;
+}
+
+/*===========================================
+   Private Form
+   */
+#privateForm #messageOk {
+  text-align: left;
+  border-top: 1px solid #9c9;
+  border-bottom: 1px solid #9c9;
+  padding-left:25px;
+  font-size: 1.3em;
+  color: #060;
+  background-position:7px;
+}
+
+#privateForm #messageKo {
+  text-align: left;
+  border-top: 1px solid #A10000;
+  border-bottom: 1px solid #A10000;
+  padding-left:25px;
+  font-size: 0.9em;
+  background-position:7px;
+  color:#c00;
+}
+
+#privateForm {
+  position: relative;
+  left: 50%; 
+  margin-left: -200px;
+  width:400px;
+  font-size: 1.2em;
+}
+#privateForm input, textarea, option, select {
+  background: #eef3f5;
+  color: #000;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size: 1em;
+  margin-top: 2px;
+}
+#privateForm input, textarea, select {
+  border: 1px solid #999;
+}
+#privateForm legend {
+  font-weight: bold;
+}
+#privateForm label, span.label {
+  display: block;
+  position: static;  /* IE n'aime pas relative */
+}
+#privateForm p.field {
+  clear: left;
+  margin: 0;
+  padding: 1em 0 0 0;
+}
+#privateForm label.float, span.label {
+  position: relative;
+  float: left;
+  width: 25%;
+  padding-right: 0.5em;
+}
+#privateForm fieldset {
+  border: 0px solid #999;
+  border-top:1px solid #999;
+  border-bottom:1px solid #999;
+  padding: 10px;
+  margin-top:20px;
+}
+#privateForm legend {
+  padding: 1px 4px;
+  border-color: #999 #ccc #ccc #999;
+  border-style: solid;
+  border-width: 1px;
+  background: #eee;
+  display:none;
+}
+#privateForm span.error {
+  color:red;
+}

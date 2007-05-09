@@ -10,7 +10,7 @@ class ImageToolkit
 {
 
    /**-----------------------------------------------------------------------**/
-   /** Fonctions de créations d'images */
+   /** Image generation functions */
    /**-----------------------------------------------------------------------**/
 
    var $image;
@@ -24,7 +24,7 @@ class ImageToolkit
    var $imageDestHeight;
 
    /**
-    * Constructeur par défaut
+    * Constructeur par dï¿½faut
     * @param String $image Chemin complet vers l'image
     */
    function ImageToolkit ($image) {
@@ -33,16 +33,16 @@ class ImageToolkit
    }
 
    /**
-    * Retourne la largeur finale de l'image redimensionnée.
-    * @return int Largeur finale de l'image redimensionnée.
+    * Retourne la largeur finale de l'image redimensionnï¿½e.
+    * @return int Largeur finale de l'image redimensionnï¿½e.
     */
    function getImageDestWidth () {
       return $this->imageDestWidth;
    }
 
    /**
-    * Retourne la hauteur finale de l'image redimensionnée.
-    * @return int Hauteur finale de l'image redimensionnée.
+    * Retourne la hauteur finale de l'image redimensionnï¿½e.
+    * @return int Hauteur finale de l'image redimensionnï¿½e.
     */
    function getImageDestHeight () {
       return $this->imageDestHeight;
@@ -157,12 +157,12 @@ class ImageToolkit
     */
    function canResize () {
 
-      // La vignette existe ?
+      // the thumb exists ?
       if (!file_exists ($this->imageDest)) {
          return true;
       }
 
-      // L'original a été modifié ?
+      // The original has changed ?
       if (filemtime($this->imageDest) > filemtime ($this->image)) {
          return true;
       }

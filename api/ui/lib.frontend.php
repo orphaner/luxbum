@@ -1,8 +1,8 @@
 <?php
 
-  /**
-   * @package ui
-   */
+/**
+ * @package ui
+ */
 class lb {
    function indexLink() {
       return URL_BASE.INDEX_FILE;
@@ -18,9 +18,9 @@ class lb {
       echo  $GLOBALS['LB']['title'];
    }
 
-/*------------------------------------------------------------------------------
- Functions to display the index page
- -----------------------------------------------------------------------------*/
+   /*------------------------------------------------------------------------------
+    Functions to display the index page
+    -----------------------------------------------------------------------------*/
 
    /**
     *
@@ -66,14 +66,66 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   function gallerySize($current = true, $return = false) {
+   function galleryImageSize($current = true, $return = false) {
       $res = $GLOBALS['_LB_render']['res'];
       if ($current) $res = $res->f();
-      $result = $res->getSize();
+      $result = $res->getImageSize();
       if ($return) return $result;
       echo $result;
    }
 
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function galleryFlvSize($current = true, $return = false) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      $result = $res->getFlvSize();
+      if ($return) return $result;
+      echo $result;
+   }
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function gallerySize($current = true, $return = false) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      $result = $res->getTotalSize();
+      if ($return) return $result;
+      echo $result;
+   }
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function galleryImageNiceSize($current = true, $return = false) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      $result = $res->getImageNiceSize();
+      if ($return) return $result;
+      echo $result;
+   }
+    
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function galleryFlvNiceSize($current = true, $return = false) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      $result = $res->getFlvNiceSize();
+      if ($return) return $result;
+      echo $result;
+   }
+    
    /**
     *
     *
@@ -82,7 +134,7 @@ class lb {
    function galleryNiceSize($current = true, $return = false) {
       $res = $GLOBALS['_LB_render']['res'];
       if ($current) $res = $res->f();
-      $result = $res->getNiceSize();
+      $result = $res->getTotalNiceSize();
       if ($return) return $result;
       echo $result;
    }
@@ -92,10 +144,10 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   function galleryNbPhotos($current = true, $return = false) {
+   function galleryImageCount($current = true, $return = false) {
       $res = $GLOBALS['_LB_render']['res'];
       if ($current) $res = $res->f();
-      $result = $res->getCount();
+      $result = $res->getImageCount();
       if ($return) return $result;
       echo $result;
    }
@@ -105,10 +157,58 @@ class lb {
     *
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
-   function hasPhotos($current = true) {
+   function galleryFlvCount($current = true, $return = false) {
       $res = $GLOBALS['_LB_render']['res'];
       if ($current) $res = $res->f();
-      return ($res->getCount() > 0);
+      $result = $res->getFlvCount();
+      if ($return) return $result;
+      echo $result;
+   }
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function galleryCount($current = true, $return = false) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      $result = $res->getTotalCount();
+      if ($return) return $result;
+      echo $result;
+   }
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function hasImage($current = true) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      return ($res->getImageCount() > 0);
+   }
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function hasFlv($current = true) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      return ($res->getFlvCount() > 0);
+   }
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function hasElements($current = true) {
+      $res = $GLOBALS['_LB_render']['res'];
+      if ($current) $res = $res->f();
+      return ($res->getTotalCount() > 0);
    }
 
    /**
@@ -187,12 +287,13 @@ class lb {
     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
     */
    function galleryLinkConsult($s, $text, $return = false) {
-      if (!lb::hasPhotos()) {
+      if (!lb::hasElements()) {
          return ;
       }
 
-      $img = $GLOBALS['_LB_render']['res']->f();
-      $l =  link::vignette ($img->getDir());
+      $gallery = $GLOBALS['_LB_render']['res']->f();
+      $file = $gallery->f();
+      $l = link::fileType($file);
       $link = sprintf('<a href="%s">%s</a>', $l, $text);
       $result = sprintf($s, $link);
       if ($return) return $result;
@@ -210,7 +311,7 @@ class lb {
       if (SHOW_SLIDESHOW == 'off') {
          return ;
       }
-      if (!lb::hasPhotos()) {
+      if (!lb::hasImage()) {
          return ;
       }
       $img = $GLOBALS['_LB_render']['res']->f();
@@ -243,7 +344,6 @@ class lb {
          $name = luxbum::niceName($list[$i]);
          if ($i == $count-1) {
             $concat .= $list[$i];
-            $link = link::vignette($concat);
             $result .= sprintf($elt,  sprintf($sep.' %s', $name));
          }
          else {
@@ -271,14 +371,24 @@ class lb {
          $link = link::privateGallery($res->getDir());
          $img = lb::colorThemePath(true).'/images/folder_locked.png';
       }
+      
       // Sub gallery image
-      else if ($res->hasSubGallery() &&  $res->getCount() == 0) {
+      else if ($res->hasSubGallery() && $res->getTotalCount() == 0) {
          $link = link::subGallery($res->getDir());
          $img = lb::colorThemePath(true).'/images/folder_image.png';
       }
+      
+      // Video gallery
+      else if ($res->getImageCount() == 0 && $res->getFlvCount() > 0) {
+         $img2 = $res->f();
+         $link = link::fileFlv($img2->getDir(), $img2->getFile());
+         $img = lb::colorThemePath(true).'/images/folder_video.png';
+      }
+      
       // default gallery image
       else {
-         $link = link::vignette ($res->getDir());
+         $file = $res->f();
+         $link = link::fileType($file);
       }
 
       $result = sprintf('<a href="%s"><img src="%s" alt=""/></a>', $link, $img);
@@ -302,15 +412,15 @@ class lb {
 
       $result = '';
       $result .= sprintf('<link rel="stylesheet" href="%s" title="%s" type="text/css"/>',
-                         TEMPLATE_DIR. TEMPLATE.'/themes/'.$default.'/'.$default.'.css', '');
+      TEMPLATE_DIR. TEMPLATE.'/themes/'.$default.'/'.$default.'.css', '');
       while (list ($theme, $title) = each ($themes_css)) {
          if ($theme != $default) {
             $result .= sprintf('<link rel="alternate stylesheet" href="%s" title="%s" type="text/css"/>',
-                               TEMPLATE_DIR. TEMPLATE.'/themes/'.$theme.'/'.$theme.'.css', $title);
+            TEMPLATE_DIR. TEMPLATE.'/themes/'.$theme.'/'.$theme.'.css', $title);
          }
          else {
             $result .= sprintf('<link rel="stylesheet" href="%s" title="%s" type="text/css"/>',
-                               TEMPLATE_DIR. TEMPLATE.'/themes/'.$default.'/'.$default.'.css', $title);
+            TEMPLATE_DIR. TEMPLATE.'/themes/'.$default.'/'.$default.'.css', $title);
          }
       }
       if ($return) return $result;
@@ -324,6 +434,28 @@ class lb {
     */
    function colorThemePath ($return = false) {
       $result = TEMPLATE_DIR. TEMPLATE.'/themes/'.TEMPLATE_THEME;
+      if ($return) return $result;
+      echo $result;
+   }
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function getVideoPlayer($return = false) {
+      $result = TEMPLATE_COMMON_DIR.'/flash/video/'.$GLOBALS['video_player'][TEMPLATE_THEME].'.swf';
+      if ($return) return $result;
+      echo $result;
+   }
+   
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function flashPlayerBgcolor($return = false) {
+      $result = $GLOBALS['video_player_bgcolor'][TEMPLATE_THEME];
       if ($return) return $result;
       echo $result;
    }
@@ -365,9 +497,9 @@ class lb {
       if ($return) return $result;
       echo $result;
    }
-/*------------------------------------------------------------------------------
+   /*------------------------------------------------------------------------------
 
------------------------------------------------------------------------------*/
+   -----------------------------------------------------------------------------*/
 
    /**
     *
@@ -376,8 +508,8 @@ class lb {
     */
    function vignetteStyle($return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
-      $dir = $img->getImageDir();
-      $name = $img->getImageName();
+      $dir = $img->getDir();
+      $name = $img->getFile();
       if (isSet($_SESSION['luxbum'][$dir][$name])) {
          $result = 'view_photo_selected';
       }
@@ -395,8 +527,7 @@ class lb {
     */
    function linkVignette($return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
-      $result = link::vignette($GLOBALS['_LB_render']['res']->getDir(),
-                               $img->getImageName());
+      $result = $img->getVignettePageUrl();
       if ($return) return $result;
       echo $result;
    }
@@ -409,7 +540,7 @@ class lb {
    function linkAffichage($return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
       $result = link::affichage($GLOBALS['_LB_render']['res']->getDir(),
-                                $img->getImageName());
+      $img->getFile());
       if ($return) return $result;
       echo $result;
    }
@@ -428,7 +559,7 @@ class lb {
          $img = $GLOBALS['_LB_render']['res']->f();
       }
       $result = link::full($GLOBALS['_LB_render']['res']->getDir(),
-                                $img->getImageName());
+      $img->getFile());
       if ($return) return $result;
       echo $result;
    }
@@ -440,7 +571,7 @@ class lb {
     */
    function displayVignette($s='<img src="%s" %s alt=""/>', $return = false) {
       $img = $GLOBALS['_LB_render']['res']->f();
-      $path = $img->getThumbLink();
+      $path = $img->getThumbUrl();
       $dimensions = $img->getThumbResizeSize();
       $result = sprintf ($s, $path, $dimensions);
       if ($return) return $result;
@@ -459,9 +590,21 @@ class lb {
       else {
          $img = $GLOBALS['_LB_render']['res']->f();
       }
-      $path = $img->getPreviewLink();
+      $path = $img->getPreviewUrl();
       $dimensions = $img->getPreviewResizeSize();
       $result = sprintf ($s, $path, $dimensions);
+      if ($return) return $result;
+      echo $result;
+   }
+
+   /**
+    *
+    *
+    * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+    */
+   function urlFlvFile($return = false) {
+      $img = $GLOBALS['_LB_render']['img'];
+      $result = $img->urlPath();
       if ($return) return $result;
       echo $result;
    }
@@ -492,7 +635,7 @@ class lb {
     */
    function linkMeta($return = false) {
       $img =  $GLOBALS['_LB_render']['img'];
-      $result = link::meta($img->getImageDir(), $img->getImageName());
+      $result = link::meta($img->getDir(), $img->getFile());
       if ($return) return $result;
       echo $result;
    }
@@ -504,7 +647,7 @@ class lb {
     */
    function linkComment($return = false) {
       $img =  $GLOBALS['_LB_render']['img'];
-      $result = link::commentaire($img->getImageDir(), $img->getImageName());
+      $result = link::commentaire($img->getDir(), $img->getFile());
       if ($return) return $result;
       echo $result;
    }
@@ -532,15 +675,15 @@ class lb {
       else {
          $img = $GLOBALS['_LB_render']['res']->f();
       }
-      $result =  $img->getImageName();
+      $result =  $img->getFile();
       $result = utf8_encode($result);
       if ($return) return $result;
       echo $result;
    }
 
-/*------------------------------------------------------------------------------
- META DATA
- -----------------------------------------------------------------------------*/
+   /*------------------------------------------------------------------------------
+    META DATA
+    -----------------------------------------------------------------------------*/
 
    /**
     *
@@ -569,9 +712,9 @@ class lb {
 
 
 
-/*------------------------------------------------------------------------------
- OPTIONS STATUS
- -----------------------------------------------------------------------------*/
+   /*------------------------------------------------------------------------------
+    OPTIONS STATUS
+    -----------------------------------------------------------------------------*/
 
    /**
     *
@@ -614,9 +757,9 @@ class lb {
    }
 
 
-/*------------------------------------------------------------------------------
- SLIDESHOW
- -----------------------------------------------------------------------------*/
+   /*------------------------------------------------------------------------------
+    SLIDESHOW
+    -----------------------------------------------------------------------------*/
 
    /**
     *
@@ -683,32 +826,32 @@ class lb {
       echo $result;
    }
 
-//    /**
-//     *
-//     *
-//     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
-//     */
-//    function slideshowPhotoList($return = false) {
-//       $list = new luxBumGallery($GLOBALS['LB']['dir']);
-//       $list->addAllImages ();
-//       $list->reset();
-//       $i = 0;
-//       $result = '';
-//       while (!$list->EOF()) {
-//          $img = $list->f();
-//          $result .= 'photosURL['.$i.'] = "'.$img->getPreviewLink().'";'."\n";
-//          $list->moveNext();
-//          $i++;
-//       }
-//       if ($return) return $result;
-//       echo $result;
-//    }
+   //    /**
+   //     *
+   //     *
+   //     * @param boolean return Type of return : true return result as a string, false (default) print in stdout
+   //     */
+   //    function slideshowPhotoList($return = false) {
+   //       $list = new luxBumGallery($GLOBALS['LB']['dir']);
+   //       $list->addAllImages ();
+   //       $list->reset();
+   //       $i = 0;
+   //       $result = '';
+   //       while (!$list->EOF()) {
+   //          $img = $list->f();
+   //          $result .= 'photosURL['.$i.'] = "'.$img->getPreviewLink().'";'."\n";
+   //          $list->moveNext();
+   //          $i++;
+   //       }
+   //       if ($return) return $result;
+   //       echo $result;
+   //    }
 
 
 
-/*------------------------------------------------------------------------------
- PAGINATOR
- -----------------------------------------------------------------------------*/
+   /*------------------------------------------------------------------------------
+    PAGINATOR
+    -----------------------------------------------------------------------------*/
 
    /**
     *
@@ -725,7 +868,7 @@ class lb {
          $res->move($res->getDefaultIndex());
          $res->movePrev();
          $img = $res->f();
-         $result = sprintf('<a href="%s">%s</a>', link::vignette($dir, $img->getImageName()), $s);
+         $result = sprintf('<a href="%s">%s</a>', link::fileType($img), $s);
       }
       if ($return) return $result;
       echo $result;
@@ -746,7 +889,7 @@ class lb {
          $res->move($res->getDefaultIndex());
          $res->moveNext();
          $img = $res->f();
-         $result = sprintf('<a href="%s">%s</a>', link::vignette($dir, $img->getImageName()), $s);
+         $result = sprintf('<a href="%s">%s</a>', link::fileType($img), $s);
       }
       if ($return) return $result;
       echo $result;
@@ -767,7 +910,7 @@ class lb {
          $res->move($res->getDefaultIndex());
          $res->movePrev();
          $img = $res->f();
-         $result = link::vignette($dir, $img->getImageName());
+         $result = link::fileType($img);
       }
       if ($return) return $result;
       echo $result;
@@ -788,7 +931,7 @@ class lb {
          $res->move($res->getDefaultIndex());
          $res->moveNext();
          $img = $res->f();
-         $result = link::vignette($dir, $img->getImageName());
+         $result = link::fileType($img);
       }
       if ($return) return $result;
       echo $result;
@@ -827,7 +970,7 @@ class lb {
          $res->move($res->getDefaultIndex());
          $res->movePrev();
          $img = $res->f();
-         $result = sprintf('<a href="%s">%s</a>', link::affichage($dir, $img->getImageName()), $s);
+         $result = sprintf('<a href="%s">%s</a>', link::affichage($dir, $img->getFile()), $s);
       }
       if ($return) return $result;
       echo $result;
@@ -850,7 +993,7 @@ class lb {
          $res->move($res->getDefaultIndex());
          $res->moveNext();
          $img = $res->f();
-         $result = sprintf('<a href="%s">%s</a>', link::affichage($dir, $img->getImageName()), $s);
+         $result = sprintf('<a href="%s">%s</a>', link::affichage($dir, $img->getFile()), $s);
       }
       if ($return) return $result;
       echo $result;
@@ -873,7 +1016,7 @@ class lb {
          $res->move($res->getDefaultIndex());
          $res->movePrev();
          $img = $res->f();
-         $result = link::affichage($dir, $img->getImageName());
+         $result = link::affichage($dir, $img->getFile());
       }
       if ($return) return $result;
       echo $result;
@@ -896,16 +1039,16 @@ class lb {
          $res->move($res->getDefaultIndex());
          $res->moveNext();
          $img = $res->f();
-         $result = link::affichage($dir, $img->getImageName());
+         $result = link::affichage($dir, $img->getFile());
       }
       if ($return) return $result;
       echo $result;
    }
 
 
-/*------------------------------------------------------------------------------
- PAGINATOR
- -----------------------------------------------------------------------------*/
+   /*------------------------------------------------------------------------------
+    PAGINATOR
+    -----------------------------------------------------------------------------*/
 
    /**
     *
@@ -941,7 +1084,7 @@ class lb {
       $dir = $res->getDir();
       $res->move($affpage[1]);
       $img = $res->f();
-      $result = link::vignette($dir, $img->getImageName());
+      $result = link::fileType($img);
       if ($return) return $result;
       echo $result;
    }
@@ -958,7 +1101,7 @@ class lb {
       $dir = $res->getDir();
       $res->move($affpage[1]);
       $img = $res->f();
-      $result = link::affichage($dir, $img->getImageName());
+      $result = link::affichage($dir, $img->getFile());
       if ($return) return $result;
       echo $result;
    }
@@ -1055,7 +1198,7 @@ class lb {
       $dir = $res->getDir();
       $res->move($affpage->prevPage());
       $img = $res->f();
-      $result = link::vignette($dir, $img->getImageName());
+      $result = link::fileType($img);
       if ($return) return $result;
       echo $result;
    }
@@ -1072,7 +1215,7 @@ class lb {
       $dir = $res->getDir();
       $res->move($affpage->nextPage());
       $img = $res->f();
-      $result = link::vignette($dir, $img->getImageName());
+      $result = link::fileType($img);
       if ($return) return $result;
       echo $result;
    }
@@ -1090,7 +1233,7 @@ class lb {
       $dir = $res->getDir();
       $res->move($affpage->prevPage());
       $img = $res->f();
-      $result = sprintf('<a href="%s">%s</a>', link::vignette($dir, $img->getImageName()), $s);
+      $result = sprintf('<a href="%s">%s</a>', link::fileType($img), $s);
       if ($return) return $result;
       echo $result;
    }
@@ -1108,15 +1251,15 @@ class lb {
       $dir = $res->getDir();
       $res->move($affpage->nextPage());
       $img = $res->f();
-      $result = sprintf('<a href="%s">%s</a>', link::vignette($dir, $img->getImageName()), $s);
+      $result = sprintf('<a href="%s">%s</a>', link::fileType($img), $s);
       if ($return) return $result;
       echo $result;
    }
 
 
-/*------------------------------------------------------------------------------
- COMMENTS
- -----------------------------------------------------------------------------*/
+   /*------------------------------------------------------------------------------
+    COMMENTS
+    -----------------------------------------------------------------------------*/
    /**
     *
     *
@@ -1272,9 +1415,9 @@ class lb {
       $ct->moveNext();
    }
 
-/*------------------------------------------------------------------------------
- PRIVATE GALLERY
- -----------------------------------------------------------------------------*/
+   /*------------------------------------------------------------------------------
+    PRIVATE GALLERY
+    -----------------------------------------------------------------------------*/
    function privateFormAction() {
       echo '<input type="hidden" name="action" id="action" value="private"/>';
    }
@@ -1301,27 +1444,27 @@ class lb {
       if ($return) return $result;
       echo $result;
    }
-  }
-
-/**
- *
- */
-class lbFactory {
-   function privatePost() {
-      if (!isset($GLOBALS['_LB_render']['privatePost'])) {
-         $GLOBALS['_LB_render']['privatePost'] = new PassPost();
-      }
    }
 
-   function comment() {
-      if (!isset($GLOBALS['_LB_render']['ct'])) {
-         $GLOBALS['_LB_render']['ct'] = $GLOBALS['_LB_render']['img']->lazyLoadComments();
+   /**
+    *
+    */
+   class lbFactory {
+      function privatePost() {
+         if (!isset($GLOBALS['_LB_render']['privatePost'])) {
+            $GLOBALS['_LB_render']['privatePost'] = new PassPost();
+         }
+      }
+
+      function comment() {
+         if (!isset($GLOBALS['_LB_render']['ct'])) {
+            $GLOBALS['_LB_render']['ct'] = $GLOBALS['_LB_render']['img']->lazyLoadComments();
+         }
+      }
+      function ctPost() {
+         if (!isset($GLOBALS['_LB_render']['ctPost'])) {
+            $GLOBALS['_LB_render']['ctPost'] = new Commentaire();
+         }
       }
    }
-   function ctPost() {
-      if (!isset($GLOBALS['_LB_render']['ctPost'])) {
-         $GLOBALS['_LB_render']['ctPost'] = new Commentaire();
-      }
-   }
-}
-?>
+   ?>

@@ -29,7 +29,7 @@ class luxBumIndex extends SortableRecordset
       return $this->selfGallery;
    }
    function isSelfGallery() {
-      return $this->selfGallery->getCount() > 0;
+      return $this->selfGallery->getTotalCount() > 0;
    }
 
 
@@ -65,7 +65,7 @@ class luxBumIndex extends SortableRecordset
       $galleryTemp = new luxBumGallery($galleryName);
       $galleryTemp->addSubGalleries();
 
-      if ($galleryTemp->getCount() >= $minImage || $galleryTemp->hasSubGallery()) {
+      if ($galleryTemp->getTotalCount() >= $minImage || $galleryTemp->hasSubGallery()) {
          
          // On affecte l'ordre
          if (array_key_exists($name, $this->sortList)) {
@@ -120,7 +120,7 @@ class luxBumIndex extends SortableRecordset
             $realkey = $gallery->getSortPosition();
             break;
          case 'count':
-            $realkey = $gallery->getCount();
+            $realkey = $gallery->getTotalCount();
             break;
          case 'size':
             $realkey = $gallery->getSize();

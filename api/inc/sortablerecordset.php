@@ -1,9 +1,8 @@
 <?php
 
-  /**
-   * @package inc
-   */
-
+/**
+ * @package inc
+ */
 class SortableRecordset extends Recordset2 {
 
    var $sortList = array();
@@ -17,7 +16,7 @@ class SortableRecordset extends Recordset2 {
    function setSortType ($sortType) {
       $this->sortType = $sortType;
    }
-   
+    
    /**
     * Retourne le type de tri de l'index
     * @return String Type du tri de l'index
@@ -25,7 +24,7 @@ class SortableRecordset extends Recordset2 {
    function getSortType () {
       return $this->sortType;
    }
-   
+    
    /**
     * Affecte le sens du tri (asc / desc)
     * @param String $sortOrder Sens du tri
@@ -33,7 +32,7 @@ class SortableRecordset extends Recordset2 {
    function setSortOrder ($sortOrder) {
       $this->sortOrder = $sortOrder;
    }
-   
+    
    /**
     * Retourne le sens du tri
     * @return String Sens du tri
@@ -60,7 +59,7 @@ class SortableRecordset extends Recordset2 {
       $newImageArrayFailed = array();
       $realkey = null;
       $i = 0;
-          
+
       //echo "sortType:$sortType - $sortOrder - ";
       foreach ($galleryList as $gallery) {
          $realkey = $this->getSortRealKey($gallery, $sortType);
@@ -68,17 +67,17 @@ class SortableRecordset extends Recordset2 {
          $i++;
       }
       //print_r ($newImageArray);
-          
-      // Now natcase sort the array based on the keys 
+
+      // Now natcase sort the array based on the keys
       uksort ($newImageArray, "strnatcasecmp");
       uksort ($newImageArrayFailed, "strnatcasecmp");
-      
-      // Inverse l'ordre si ordre décroissant
+
+      // Inverse l'ordre si ordre dï¿½croissant
       if ($sortOrder == 'desc') {
          $newImageArray = array_reverse ($newImageArray);
          $newImageArrayFailed = array_reverse ($newImageArrayFailed);
       }
-      
+
       // Return a new array with just the values
       $newImageArray = array_values($newImageArray);
       $newImageArrayFailed = array_values($newImageArrayFailed);
@@ -87,7 +86,7 @@ class SortableRecordset extends Recordset2 {
 
 
    /**
-    * Enregistre les préférences de tri dans un fichier de format :
+    * Enregistre les prï¿½fï¿½rences de tri dans un fichier de format :
     * sortType\n
     * sortOrder\n
     * imgX en pos 1\n
@@ -101,13 +100,13 @@ class SortableRecordset extends Recordset2 {
          fputs ($fd, $this->sortOrder."\n");
          for ($i = 0 ; $i < count ($list) ; $i++) {
             $img = $list[$i];
-            $name = $img->getImageName ();
+            $name = $img->getFile();
             fputs($fd, "$name\n");
          }
          fclose ($fd);
       }
    }
-   
+    
    /**
     * Charge l'ordre des photos
     * @access private
@@ -127,6 +126,6 @@ class SortableRecordset extends Recordset2 {
          fclose ($fd);
       }
    }
-  }
+}
 
 ?>

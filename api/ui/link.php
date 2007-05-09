@@ -1,8 +1,8 @@
 <?php
 
-  /**
-   * @package ui
-   */
+/**
+ * @package ui
+ */
 class link {
    function encode($s) {
       $s = rawurlencode($s);
@@ -19,19 +19,19 @@ class link {
       $img = link::encode($img);
       return  link::prefix().'image/'.THUMB_DIR.$dir.'/'.$img;
    }
-   
+    
    function preview($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
       return  link::prefix().'image/'.PREVIEW_DIR.$dir.'/'.$img;
    }
-   
+    
    function index($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
       return  link::prefix().'image/index/'.$dir.'/'.$img;
    }
-   
+    
    function full($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
@@ -42,7 +42,7 @@ class link {
       $path = link::encode($path);
       return URL_BASE.$path;
    }
-   
+    
    // Le lien pour les pages de vignettes
    function vignette($dir, $img = '') {
       $dir = link::encode($dir);
@@ -54,8 +54,31 @@ class link {
          return link::prefix().'album/'.$dir.'/'.$img;
       }
    }
-   
-   
+    
+   // Le lien pour les pages de video flv
+   function fileFlv($dir, $img = '') {
+      $dir = link::encode($dir);
+      $img = link::encode($img);
+      if($img == '') {
+         return link::prefix().'file/'.$dir.'/';
+      }
+      else {
+         return link::prefix().'file/'.$dir.'/'.$img;
+      }
+   }
+    
+   function fileType($file) {
+      switch ($file->getType()) {
+         case TYPE_FLV_FILE:
+            return link::fileFlv($file->getDir(), $file->getFile());
+            break;
+         case TYPE_IMAGE_FILE:
+            return link::vignette($file->getDir(), $file->getFile());
+            break;
+      }
+   }
+    
+    
    // Le lien pour les pages de slideshow
    function slideshow($dir, $start='') {
       $dir = link::encode($dir);
@@ -71,24 +94,24 @@ class link {
       $dir = link::encode($dir);
       return link::prefix().'private/'.$dir.'/';
    }
-   
-//    // Lien pour voir la sélection
-//    function selection($page) {
-//       return link::prefix()."selection_list-$page.html";
-//    }
-   
-//    // Lien pour sélectionner une photo
-//    function apercu_select($dir, $image, $page) {
-//       $page--;
-//       return link::prefix().'select-'.$page.'-'.$dir.'-'.$image.'.html';
-//    }
-   
-//    // Lien pour désélectionner une photo
-//    function apercu_unselect($dir, $image, $page) {
-//       $page--;
-//       return link::prefix().'unselect-'.$page.'-'.$dir.'-'.$image.'.html';
-//    }
- 
+    
+   //    // Lien pour voir la sï¿½lection
+   //    function selection($page) {
+   //       return link::prefix()."selection_list-$page.html";
+   //    }
+    
+   //    // Lien pour sï¿½lectionner une photo
+   //    function apercu_select($dir, $image, $page) {
+   //       $page--;
+   //       return link::prefix().'select-'.$page.'-'.$dir.'-'.$image.'.html';
+   //    }
+    
+   //    // Lien pour dï¿½sï¿½lectionner une photo
+   //    function apercu_unselect($dir, $image, $page) {
+   //       $page--;
+   //       return link::prefix().'unselect-'.$page.'-'.$dir.'-'.$image.'.html';
+   //    }
+
    // Lien pour une sous galerie
    function subGallery($dir) {
       $dir = link::encode($dir);
@@ -112,7 +135,7 @@ class link {
       $img = link::encode($img);
       return  link::prefix().'photo/'.$dir.'/'.$img;
    }
-}
+   }
 
 
-?>
+   ?>

@@ -22,11 +22,10 @@ class ManagerGalleryView extends ManagerCommonView {
       $res =& $GLOBALS['_LB_render']['res']; 
 
 
-      $galleryCount = $res->getCount ();
+      $galleryCount = $res->getTotalCount ();
       
       $niceDir = ucfirst (luxBum::niceName ($res->getName()));
       $GLOBALS['LB']['title'] =  $niceDir.' - '.NOM_GALERIE;
-      $GLOBALS['LB']['niceDir'] = $niceDir;
       $res->createOrMajDescriptionFile ();
       $res->getDescriptions ();
 

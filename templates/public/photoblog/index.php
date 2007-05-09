@@ -18,16 +18,23 @@
     
     <div class="albumdesc">
       <?php lb::galleryLinkPrivate("<h3>%s</h3>", __('Private gallery'));?>
-      <?php  
-            lb::galleryLinkSubGallery('<h3>'.__('Sub galleries').'&nbsp;:&nbsp;'."%s</h3>",lb::galleryNiceName(true));?>
-      <?php lb::galleryLinkConsult("<h3>%s</h3>", lb::galleryNiceName(true));?>
-      <?php if (lb::hasPhotos()):?>
-      <span class="infos">
-        <?php lb::galleryNbPhotos();?>
-        <?php ___(' pictures - ');?>
-        <?php lb::galleryNiceSize();?>.
-      </span> 
-      <?php endif;?>
+      <?php lb::galleryLinkSubGallery('<h3>'.__('Sub galleries').'&nbsp;:&nbsp;'."%s</h3>",lb::galleryNiceName(true, true));?>
+      <?php lb::galleryLinkConsult("<h3>%s</h3>", lb::galleryNiceName(true, true));?>
+
+        <?php if (lb::hasElements() && !lb::isPrivateAndLocked()):?>
+        <span class="infos">
+          <?php if (lb::hasImage()): ?>
+            <?php lb::galleryImageCount();?>
+            <?php ___(' pictures - ');?>
+            <?php lb::galleryImageNiceSize();?>.
+          <?php endif;?>
+          <?php if (lb::hasFlv()): ?>
+            <?php lb::galleryFlvCount();?>
+            <?php ___(' videos - ');?>
+            <?php lb::galleryFlvNiceSize();?>.
+          <?php endif;?>
+        </span> 
+        <?php endif;?>
     </div>
     <p style="clear:both;"></p>
 

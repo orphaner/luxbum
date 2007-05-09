@@ -17,8 +17,15 @@ class luxBumGallery extends SortableRecordset
    /**-----------------------------------------------------------------------**/
    var $name, $dir;
    var $preview;
-   var $count;
-   var $size;
+   
+   var $flvCount = 0;
+   var $imageCount = 0;
+   var $totalCount = 0;
+   
+   var $flvSize = 0;
+   var $imageSize = 0;
+   var $totalSize = 0;
+   
    var $sortPosition = '';
    var $private = false;
    var $privateExact = false;
@@ -30,14 +37,12 @@ class luxBumGallery extends SortableRecordset
    /** Constructeur de classe */
    /**-----------------------------------------------------------------------**/
    /**
-    * Constructeur par d�faut
+    * Default constructor
     * @param String $dir Dossier de la galerie
     */
    function luxBumGallery ($dir, $preview = '') {
       parent::Recordset2();
       $this->preview = $preview;
-      $this->size = 0;
-      $this->count = 0; 
 
       $this->dir = $dir;
       $this->dirPath = luxbum::getFsPath($dir);
@@ -67,13 +72,20 @@ class luxBumGallery extends SortableRecordset
       if ($fd = dir ($this->dirPath)) {
          while ($current_file = $fd->read ()) {
             if (files::isPhotoFile($this->dir, $current_file)) {
-               $the_file = luxbum::getImage ($this->dir, $current_file);
-               $this->size += filesize ($the_file);
-               $this->count++; 
+               $theFile = luxbum::getFilePath($this->dir, $current_file);
+               $this->imageSize += filesize ($theFile);
+               $this->imageCount++; 
+            }
+            else if (files::isFlvFile($this->dir, $current_file)) {
+               $theFile = luxbum::getFilePath($this->dir, $current_file);
+               $this->flvSize += filesize ($theFile);
+               $this->flvCount++; 
             }
          }
          $fd->close();
       }
+      $this->totalSize = $this->flvSize + $this->imageSize;
+      $this->totalCount = $this->flvCount + $this->imageCount;
    }
 
    /**
@@ -133,24 +145,72 @@ class luxBumGallery extends SortableRecordset
     * Retourne la taille en octets des photos de la galerie
     * @return int Taille en octets des photos de la galerie
     */
-   function getSize () {
-      return $this->size;
+   function getImageSize () {
+      return $this->imageSize;
+   }
+
+   /**
+    * Retourne la taille en octets des photos de la galerie
+    * @return int Taille en octets des photos de la galerie
+    */
+   function getFlvSize () {
+      return $this->flvSize;
+   }
+
+   /**
+    * Retourne la taille en octets des photos de la galerie
+    * @return int Taille en octets des photos de la galerie
+    */
+   function getTotalSize () {
+      return $this->totalSize;
    }
 
    /**
     * Retourne la taille affichable des photos de la galerie
     * @return int Taille affichable des photos de la galerie
     */
-   function getNiceSize () {
-      return luxbum::niceSize ($this->size);
+   function getImageNiceSize () {
+      return luxbum::niceSize ($this->imageSize);
+   }
+
+   /**
+    * Retourne la taille affichable des photos de la galerie
+    * @return int Taille affichable des photos de la galerie
+    */
+   function getFlvNiceSize () {
+      return luxbum::niceSize ($this->flvSize);
+   }
+
+   /**
+    * Retourne la taille affichable des photos de la galerie
+    * @return int Taille affichable des photos de la galerie
+    */
+   function getTotalNiceSize () {
+      return luxbum::niceSize ($this->totalSize);
    }
 
    /**
     * Retourne le nombre de photos de la galerie
     * @return int Nombre de photos de la galerie
     */
-   function getCount () {
-      return $this->count;
+   function getImageCount () {
+      return $this->imageCount;
+   }
+
+   /**
+    * Retourne le nombre de vidéos de la galerie
+    * @return int Nombre de vidéos de la galerie
+    */
+   function getFlvCount () {
+      return $this->flvCount;
+   }
+
+   /**
+    * Retourne le nombre de vidéos de la galerie
+    * @return int Nombre de vidéos de la galerie
+    */
+   function getTotalCount () {
+      return $this->totalCount;
    }
 
    /**
@@ -239,7 +299,7 @@ class luxBumGallery extends SortableRecordset
       if ($fd = fopen ($this->dirPath . DESCRIPTION_FILE, 'a')) {
          reset ($this->arrayList);
          while (list (,$img) = each ($this->arrayList)) {
-            $name = $img->getImageName ();
+            $name = $img->getFile();
             if (!in_array ($name, $desc)) {
                fputs ($fd, "$name||\n");
             }
@@ -255,9 +315,9 @@ class luxBumGallery extends SortableRecordset
       files::deleteFile ($this->dirPath . DESCRIPTION_FILE, 'a');
       
       if ($fd = fopen ($this->dirPath . DESCRIPTION_FILE, 'a')) {
-         for ($i = 0 ; $i < $this->getCount () ; $i++) {
+         for ($i = 0 ; $i < $this->getTotalCount () ; $i++) {
             $img = $this->list[$i];
-            $name = $img->getImageName ();
+            $name = $img->getFile ();
             $description = $img->getDescription ();
             $date = $img->getDate ();
             fputs ($fd, "$name|$date|$description\n");
@@ -328,12 +388,14 @@ class luxBumGallery extends SortableRecordset
       // Ouverture du dossier des photos
       if ($dir_fd = opendir ($this->dirPath)) {
         
-         // R�cup�ration des descriptions et de l'ordre
+         // Fetch all images, their descriptions and their orders
          $desc = $this->getDescriptions ();
          $this->_loadSort();
     
          // Parcours des photos du dossiers
          while ($current_file = readdir ($dir_fd)) {
+            
+            // Add an image file
             if (files::isPhotoFile ($this->dir, $current_file)) {
                $imageTemp = new luxBumImage ($this->dir, $current_file);
                 
@@ -348,6 +410,12 @@ class luxBumGallery extends SortableRecordset
                   $imageTemp->setSortPosition($this->sortList[$current_file]);
                }
                $this->addToList($imageTemp);
+            }
+            
+            // Add a flash video file
+            else if (files::isFlvFile($this->dir, $current_file)) {
+               $object = new LuxbumFlv($this->dir, $current_file);
+               $this->addToList($object);
             }
          }
          closedir ($dir_fd);
@@ -369,7 +437,7 @@ class luxBumGallery extends SortableRecordset
 
       $this->reset();
       while (!$trouve && list (,$img) = each ($this->arrayList)) {
-         $name = $img->getImageName ();
+         $name = $img->getFile();
          if ($name == $imgName) {
             $trouve = true;
          }
@@ -388,33 +456,33 @@ class luxBumGallery extends SortableRecordset
    /**-----------------------------------------------------------------------**/
    /** Fonctions de tri */
    /**-----------------------------------------------------------------------**/
-   function getSortRealKey($image, $sortType=null) {
+   function getSortRealKey($file, $sortType=null) {
       if ($sortType == null) {
          $sortType = $this->sortType;
       }
 
       switch ($sortType) {
          case 'manuel':
-            $realkey = $image->getSortPosition();
+            $realkey = $file->getSortPosition();
             break;
          case 'date':
-            $realkey = $image->getDate();
+            $realkey = $file->getDate();
             break;
          case 'description':
-            $realkey = $image->getDescription();
+            $realkey = $file->getDescription();
             break;
          default:
-            $realkey = $image->getImageName();
+            $realkey = $file->getFile();
       }
       $realkey = trim($realkey);
       if ($realkey == null || $realkey == '') {
-         $realkey = $image->getImageName();
+         $realkey = $file->getFile();
       }
       else {
          // Suffixe avec le nom de l'image au cas o� 
          // il y aurait des cl�s identiques !!! 
          // (ce qui arrive souvent, m�me date|description, ordre non d�fini)
-         $realkey .= '_'.$image->getImageName();
+         $realkey .= '_'.$file->getFile();
       }
       return $realkey;
    }
@@ -437,8 +505,12 @@ class luxBumGallery extends SortableRecordset
       $default = '';
 
       // On est dans une sous galerie sans images
-      if ($this->getCount() == 0) {
+      if ($this->getTotalCount() == 0) {
          $this->preview = '';
+      }
+      
+      if ($this->getImageCount() == 0 && $this->getFlvCount() > 0) {
+         
       }
 
 

@@ -13,7 +13,7 @@
 </div>
 
 <div id="image">
-  <a href="<?php lb::pathPhoto();?>" onclick="window.open(this.href,'',''); return false;"><?php lb::displayApercu();?></a>
+  <a href="<?php lb::linkPhoto();?>" onclick="window.open(this.href,'',''); return false;"><?php lb::displayApercu();?></a>
 </div>
 
 

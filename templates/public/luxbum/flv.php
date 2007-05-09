@@ -1,19 +1,23 @@
-<?php include ('filefooter.php');?>
+<?php include ('fileheader.php');?>
 
 <div id="navigPicture">
   <div id="picture">
-    <a href="<?php lb::linkPhoto();?>" onclick="window.open(this.href,'',''); return false;"><?php lb::displayApercu();?></a>
   </div>
+  
+  <script type="text/javascript" src="templates/common/flash/video/swfobject.js"></script>
+  <script type="text/javascript">
+    // <![CDATA[
+   var fo = new SWFObject("<?php lb::getVideoPlayer(); ?>?config={menuItems: [ true, true, true, true, false, false], autoPlay:false, loop:false,videoFile: '<?php lb::urlFlvFile(); ?>'}", "FlowPlayer", "640", "480", "7", "<?php lb::flashPlayerBgcolor(); ?>", true);
+fo.addParam("AllowScriptAccess", "always");
+fo.write("picture");
+// ]]>
+  </script>
   
   <table width="100%" border="0" cellpadding="0" cellspacing="0">
     <tr>
       <td width="30"><?php lb::vignettePrev('<img src="'. lb::colorThemePath(true).'/images/back.png" alt="back" border="0"/>');?></td>
       <td class="pictureDescription">
         <?php lb::photoDescription('<span class="description">%s</span>');?><br />
-
-        <?php if (lb::metaEnabled()):?>
-        + <a href="javascript:void(0);" onclick="window.open('<?php lb::linkMeta();?>','Meta','width=350,height=400,scrollbars=yes,resizable=yes');"><?php echo __('Meta data');?></a>
-        <?php endif;?>
 
         <?php if (lb::commentsEnabled()):?>
         + <a href="javascript:void(0);" onclick="window.open('<?php lb::linkComment();?>','Comments','width=480,height=540,scrollbars=yes,resizable=yes');"><?php echo __('Comments');?> 

@@ -63,11 +63,11 @@ class lbm extends lb {
       $link = linkmanager::manageGallery($res->getDir());
 
       // Sub gallery image
-      if ($res->hasSubGallery() &&  $res->getCount() == 0) {
+      if ($res->hasSubGallery() &&  $res->getTotalCount() == 0) {
          $img = lbm::imgSrc('folder_image.png', true);
       }
       // Empty gallery
-      else if ($res->getCount() == 0) {
+      else if ($res->getTotalCount() == 0) {
          $img = lbm::imgSrc('folder_image.png', true);
       }
 

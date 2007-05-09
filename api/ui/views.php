@@ -1,8 +1,8 @@
 <?php
 
-  /**
-   * @package ui
-   */
+/**
+ * @package ui
+ */
 class PrivateView {
    function action ($match) {
       IndexView::initTemplate();
@@ -11,7 +11,7 @@ class PrivateView {
 
 
       $GLOBALS['_LB_render']['res'] = '';
-      $res =& $GLOBALS['_LB_render']['res']; 
+      $res =& $GLOBALS['_LB_render']['res'];
       $res = new luxBumIndex($dir);
       $res->addAllGallery ();
 
@@ -34,7 +34,7 @@ class PrivateView {
    function initTemplate() {
       $GLOBALS['LB']['title'] = NOM_GALERIE;
    }
-  }
+}
 
 
 /**
@@ -45,7 +45,7 @@ class IndexView {
       IndexView::initTemplate();
       // HookInitTemplate
 
-      if (count($match) == 1) { 
+      if (count($match) == 1) {
          $dir = '';
       }
       else if (count($match) == 2) {
@@ -61,7 +61,7 @@ class IndexView {
       }
 
       $GLOBALS['_LB_render']['res'] = '';
-      $res =& $GLOBALS['_LB_render']['res']; 
+      $res =& $GLOBALS['_LB_render']['res'];
       $res = new  luxBumIndex ($dir);
       $res->addAllGallery ();
 
@@ -82,9 +82,11 @@ class IndexView {
  * @package ui
  */
 class VignetteView {
+   var $viewPage = 'vignette';
+
    function action ($match) {
 
-      if (count($match) == 3) { 
+      if (count($match) == 3) {
          $dir = $match[1];
          $defaultImage = $match[2];
       }
@@ -103,14 +105,10 @@ class VignetteView {
 
 
       $GLOBALS['_LB_render']['res'] = luxBumGallery::getInstance($dir);
-      $res =& $GLOBALS['_LB_render']['res']; 
+      $res =& $GLOBALS['_LB_render']['res'];
 
-
-      $galleryCount = $res->getCount ();
-      
       $niceDir = ucfirst (luxBum::niceName ($res->getName()));
       $GLOBALS['LB']['title'] =  $niceDir.' - '.NOM_GALERIE;
-      $GLOBALS['LB']['niceDir'] = $niceDir;
       $res->createOrMajDescriptionFile ();
       $res->getDescriptions ();
 
@@ -125,7 +123,7 @@ class VignetteView {
       $res->setStartOfPage(($currentPage * LIMIT_THUMB_PAGE) - LIMIT_THUMB_PAGE);
       $res->setEndOfPage((($currentPage) * LIMIT_THUMB_PAGE) );
       $res->reset();
-      
+
       $GLOBALS['LB']['currentPage'] = $currentPage;
       $GLOBALS['_LB_render']['dir'] = $dir;
       $GLOBALS['_LB_render']['img'] = $res->getDefault();
@@ -140,12 +138,25 @@ class VignetteView {
       lbPostAction::comment();
 
       header('Content-Type: text/html; charset=UTF-8');
-      include (TEMPLATE_DIR.TEMPLATE.'/vignette.php');
+      include (TEMPLATE_DIR.TEMPLATE.'/'.$this->viewPage.'.php');
       return 200;
    }
 }
 
 
+/**
+ * @package ui
+ */
+class FlvView extends VignetteView {
+   var $viewPage = 'flv';
+}
+
+class FlvDlView {
+   function action ($match) {
+      header('Location: http://nico.beroot.org/trunk/photos/flv/fils_bush.flv');
+      exit();
+   }
+}
 /**
  * @package ui
  */
@@ -195,14 +206,14 @@ class AffichageView {
       }
 
       verif::photo($dir, $photo);
-      
+
       $GLOBALS['_LB_render']['img'] = new luxBumImage ($dir, $photo);
       $GLOBALS['_LB_render']['img']->metaInit();
       $GLOBALS['_LB_render']['meta'] = $GLOBALS['_LB_render']['img']->getMeta();
-      $meta =& $GLOBALS['_LB_render']['meta']; 
+      $meta =& $GLOBALS['_LB_render']['meta'];
 
       $GLOBALS['_LB_render']['res'] = new luxBumGallery($dir);
-      $res =& $GLOBALS['_LB_render']['res']; 
+      $res =& $GLOBALS['_LB_render']['res'];
       $imgIndex = $res->getImageIndex($photo);
       $res->setDefaultIndex($imgIndex);
 
@@ -210,7 +221,7 @@ class AffichageView {
       lbPostAction::comment();
 
       $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
-      
+
       header('Content-Type: text/html; charset=UTF-8');
       include (TEMPLATE_DIR.TEMPLATE.'/affichage.php');
       return 200;
@@ -237,7 +248,7 @@ class InfosMetaView {
 
       $GLOBALS['_LB_render']['img']->metaInit ();
       $GLOBALS['_LB_render']['meta'] = $GLOBALS['_LB_render']['img']->getMeta();
-      $meta =& $GLOBALS['_LB_render']['meta']; 
+      $meta =& $GLOBALS['_LB_render']['meta'];
 
       // Add comment form valid
       lbPostAction::comment();
@@ -264,7 +275,7 @@ class SlideShowView {
       $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
 
       $GLOBALS['_LB_render']['res'] = luxBumGallery::getInstance($dir);
-      $res =& $GLOBALS['_LB_render']['res']; 
+      $res =& $GLOBALS['_LB_render']['res'];
 
       // Add comment form valid
       lbPostAction::comment();
@@ -294,16 +305,16 @@ class ImageView {
 
       $luxAff = new luxBumImage ($dir, $photo);
       if ($type == 'vignette') {
-         $newfile = $luxAff->getAsThumb(VIGNETTE_THUMB_W, VIGNETTE_THUMB_H);
+         $newfile = $luxAff->generateThumb(VIGNETTE_THUMB_W, VIGNETTE_THUMB_H);
       }
       else if ($type == 'index') {
-         $newfile = $luxAff->getAsThumb(INDEX_THUMB_W, INDEX_THUMB_H);
+         $newfile = $luxAff->generateThumb(INDEX_THUMB_W, INDEX_THUMB_H);
       }
       else if ($type == 'full') {
          $newfile = $luxAff->getImagePath();
       }
       else {
-         $newfile = $luxAff->getAsPreview(PREVIEW_W, PREVIEW_H);
+         $newfile = $luxAff->generatePreview(PREVIEW_W, PREVIEW_H);
       }
 
       if (headers_sent($file,$lineno) ) {
@@ -311,19 +322,45 @@ class ImageView {
       }
 
       header("Content-Encoding: none");
-      header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-      header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
-      header("Cache-Control: no-cache, must-revalidate");
-      header("Pragma: no-cache");
       header('Content-Type: '.$luxAff->getTypeMime());
-
+      header('Cache-Control: maxage=3600');
+      header('Pragma: public');
+      header('Expires: ' . $this->getHttpDate(time() + 3600));
+      
       if ($fp = fopen($newfile, 'rb')) {
-         header("Content-Length: " . filesize($newfile));
-         fpassthru($fp);
+         while (!feof($fp)) {
+            print fread($fp, 4096);
+         }
       }
       @fclose ($fp);
-      
+
       return 200;
+   }
+
+   /**
+    * Return a date and time string that is conformant to RFC 2616
+    * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3
+    *
+    * @param int $time the unix timestamp of the date we want to return,
+    *                empty if we want the current time
+    * @return string a date-string conformant to the RFC 2616
+    */
+   function getHttpDate($time='') {
+      if ($time == '') {
+         $time = time();
+      }
+      /* Use fixed list of weekdays and months, so we don't have to fiddle with locale stuff */
+      $months = array('01' => 'Jan', '02' => 'Feb', '03' => 'Mar',
+		      '04' => 'Apr', '05' => 'May', '06' => 'Jun',
+		      '07' => 'Jul', '08' => 'Aug', '09' => 'Sep',
+		      '10' => 'Oct', '11' => 'Nov', '12' => 'Dec');
+      $weekdays = array('1' => 'Mon', '2' => 'Tue', '3' => 'Wed',
+		      '4' => 'Thu', '5' => 'Fri', '6' => 'Sat',
+		      '0' => 'Sun');
+      $dow = $weekdays[gmstrftime('%w', $time)];
+      $month = $months[gmstrftime('%m', $time)];
+      $out = gmstrftime('%%s, %d %%s %Y %H:%M:%S GMT', $time);
+      return sprintf($out, $dow, $month);
    }
 }
 
@@ -343,7 +380,7 @@ class lbPostAction {
          lbFactory::ctPost();
          $comment =& $GLOBALS['_LB_render']['ctPost'];
          $comment->fillFromPost();
-         
+
          if ($comment->isValidForm()) {
             $comment->fillInfos();
             $GLOBALS['_LB_render']['img']->saveComment($comment);

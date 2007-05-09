@@ -20,11 +20,18 @@
       </div>
       <div class="ld">
         <h2><?php lb::galleryNiceName();?></h2>
-        <?php if (lb::hasPhotos() && !lb::isPrivateAndLocked()):?>
+        <?php if (lb::hasElements() && !lb::isPrivateAndLocked()):?>
         <span class="infos">
-          <?php lb::galleryNbPhotos();?>
-          <?php ___(' pictures - ');?>
-          <?php lb::galleryNiceSize();?>.
+          <?php if (lb::hasImage()): ?>
+            <?php lb::galleryImageCount();?>
+            <?php ___(' pictures - ');?>
+            <?php lb::galleryImageNiceSize();?>.
+          <?php endif;?>
+          <?php if (lb::hasFlv()): ?>
+            <?php lb::galleryFlvCount();?>
+            <?php ___(' videos - ');?>
+            <?php lb::galleryFlvNiceSize();?>.
+          <?php endif;?>
         </span> 
         <?php endif;?>
         

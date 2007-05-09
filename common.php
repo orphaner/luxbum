@@ -59,6 +59,7 @@ define ('ALLOWED_FORMAT', 'jpg|jpeg|png|gif');
 define ('PASS_FILE', 'pass.php');
 define ('LOCALE_DIR', 'locales/');
 define ('TEMPLATE_DIR', 'templates/public/');
+define ('TEMPLATE_COMMON_DIR', 'templates/common/');
 define ('TEMPLATE_MANAGER_DIR', 'templates/manager/');
 
 
@@ -80,7 +81,9 @@ include('api/process/luxbumgallery.php');
 include('api/process/luxbumindex.php');
 include('api/process/private.php');
 include('api/process/commentaire.php');
+include('api/process/commonfile.php');
 include('api/process/luxbumimage.php');
+include('api/process/luxbumflv.php');
 
 include('api/inc/paginator.php');
 include('api/inc/imagetoolkit.php');

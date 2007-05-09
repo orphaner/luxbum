@@ -10,7 +10,7 @@ define ('PREVIEW_H', 444);
 
 define ('DEFAULT_CSS', 'blue');
 $themes_css = array (
-   'blue' =>'Thème Blue'
+   'blue' =>'Thème Bleu'
    );
 
 ?>

@@ -12,7 +12,7 @@ class ImageToolkitImageMagick extends ImageToolkit {
    function createThumb($img_dest) {
       $this->imageDest = $img_dest;
       
-      // Créer la vignette ?
+      // Create the thumb ?
       if ($this->canResize ()) {
 
          // Crop method

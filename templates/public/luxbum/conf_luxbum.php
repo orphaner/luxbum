@@ -18,7 +18,19 @@ define ('PREVIEW_CROP', false);
 define ('DEFAULT_CSS', 'light');
 $themes_css = array (
    'light' =>'Thème Blanc',
+   'light2' =>'Thème Blanc Alternatif',
    'dark' =>'Thème Noir'/*,
    'l62' =>'Thème Linux 62'*/
    );
+   
+$GLOBALS['video_player'] = array (
+   'light' => 'FlowPlayerWhite',
+   'light2' => 'FlowPlayerWhite',
+   'dark' => 'FlowPlayerBlack'
+);   
+$GLOBALS['video_player_bgcolor'] = array (
+   'light' => '#ffffff',
+   'light2' => '#ffffff',
+   'dark' => '#2C2C2C'
+);
 ?>

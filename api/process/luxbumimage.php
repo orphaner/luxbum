@@ -1,46 +1,34 @@
 <?php
 
 
-
-//==============================================================================
-// Classe luxBumImage : Fonctions pour les générations de miniatures
-//==============================================================================
-
 /**
  * @package process
  */
-class luxBumImage
+class luxBumImage extends CommonFile
 {
-   var $dir;
-   var $img;
    var $thumbDir;
    var $previewDir;
 
-
-   var $description = NULL;
-   var $date = NULL;
-
    var $thumbToolkit = NULL;
    var $previewToolkit = NULL;
-
-   var $sortPosition = '';
-
-   var $listComments = NULL;
+    
+   var $imageMeta;
 
 
    /**
-    * Constructeur par défaut
+    * Default constructor
     * @param String $dir le nom de la galerie
     * @param String $img le nom de l'image
     */
-   function luxBumImage ($dir, $img) {
+   function luxBumImage($dir, $file) {
       $this->dir = $dir;
       $list = split('/', $dir);
       $this->name = $list[count($list) - 1];
+      $this->type = TYPE_IMAGE_FILE;
 
-      $this->img = $img;
-      $this->thumbDir = luxbum::getThumbPath ($this->dir);
-      $this->previewDir = luxbum::getPreviewPath ($this->dir);
+      $this->file = $file;
+      $this->thumbDir = luxbum::getThumbPath($this->dir);
+      $this->previewDir = luxbum::getPreviewPath($this->dir);
       $this->setAllDescription ('', '');
    }
 
@@ -53,109 +41,13 @@ class luxBumImage
    }
 
    /**
-    * Retourne le nom de l'image
-    * @return String Nom de l'image
-    */
-   function getImageName () {
-      return $this->img;
-   }
-
-   /**
     * Retourne le chemin complet de l'image
     * @return String Chemin complet de l'image
     */
    function getImagePath () {
-      return luxbum::getImage ($this->dir, $this->img);
+      return luxbum::getImage($this->dir, $this->file);
    }
 
-   /**
-    * Retourne la description de l'image
-    * @return String Description de l'image
-    */
-   function getDescription () {
-      return $this->description;
-   }
-
-   /**
-    * Retourne la date de l'image
-    * @return String Date de l'image
-    */
-   function getDate () {
-      return $this->date;
-   }
-
-   /**
-    * Affecte la description de l'image
-    * @param String $description Description de l'image
-    */
-   function setDescription ($description) {
-      $this->description = $description;
-   }
-
-   /**
-    * Affecte la date de l'image
-    * @param String $date Date de l'image
-    */
-   function setDate ($date) {
-      $this->date = $date;
-   }
-
-   /**
-    * Affecte la date et la description de l'image
-    * @param String $description Description de l'image
-    * @param String $date Date de l'image
-    */
-   function setAllDescription ($description, $date) {
-      $this->setDescription ($description);
-      $this->setDate ($date);
-   }
-
-   /**
-    * Retourne true/false si la date et la description sont vide
-    * @return Boolean true/false si la date et la description sont vide
-    */
-   function issetDescription () {
-      if ($this->description == '' && $this->date == '') {
-         return false;
-      }
-      return true;
-   }
-
-   /**
-    * Retourne la taille en octets de l'image
-    * @return int Taille en octets de l'image
-    */
-   function getSize () {
-      return filesize ($this->getImagePath ());
-   }
-   
-   /**
-    * Retourne la date et la description sous un format affichable
-    * @return String Date et descrition sous format affichable
-    */
-   function getDateDesc () {
-      $dateDesc = '&nbsp;';
-      
-      // Date
-      if ($this -> getDate() != '') {
-         list ($jour, $mois, $annee) = explode ('/', $this -> getDate());
-         setlocale (LC_TIME, 'fr_FR');
-         $timeStamp = mktime (0, 0, 0, $mois, $jour, $annee);
-         $dateDesc = 'Le '.strftime (DATE_FORMAT,  $timeStamp);
-    
-         // date + description
-         if ($this -> getDescription () != '') {
-            $dateDesc .= ' - '. ucfirst ($this -> getDescription ());
-         }
-      }
-   
-      // Que description
-      else if ($this -> getDescription () != '') {
-         $dateDesc = ucfirst ($this -> getDescription ());
-      }
-      return $dateDesc;
-   }
-   
    /**
     * Retourne le type mime de l'image
     * @return Type mime de l'image
@@ -166,145 +58,89 @@ class luxBumImage
       }
       return $this->thumbToolkit->getTypeMime();
    }
-   
-   /**
-    * Affecte l'ordre manuel de tri
-    * @param int $sortOrder Ordre de tri
-    */
-   function setSortPosition ($sortPosition) {
-      $this->sortPosition = $sortPosition;
-   }
-   
-   /**
-    * Retourne l'ordre manuel de tri
-    * @return int Ordre manuel de tri
-    */
-   function getSortPosition () {
-      return $this->sortPosition;
+    
+   function getVignettePageUrl() {
+      return link::vignette($this->dir, $this->file);
    }
 
    /**-----------------------------------------------------------------------**/
-   /** Fonctions des descriptions d'images */
+   /** Functions to create thumbs & previews */
    /**-----------------------------------------------------------------------**/
-
+    
    /**
-    * Recherche et affecte la date/description de l'image dans le fichier des
-    * descriptions.
-    * @return boolean true/false Date/description trouvés ou non
+    * Return the thumb url. The url is the page who generates the thumb.
+    * @return Thumb url
     */
-   function findDescription () {
-
-      // Une description est déjà rentrée, pas besoin de chercher !
-      if ($this->description != '' || $this->date != '') {
-         return true;
-      }
-
-      $desc = array ();
-      $trouve = false;
-
-      // Recherche de la description dans toutes les descriptions
-      if (is_file (luxbum::getFsPath ($this->getImageDir()).DESCRIPTION_FILE)) {
-         $fd = fopen (luxbum::getFsPath ($this->getImageDir()).DESCRIPTION_FILE, 'r+');
-         while (!$trouve && $line = fgets ($fd)) {
-            $line = trim($line);
-            if (ereg ('^.*\|.*\|.*$', $line)) {
-               $tab = explode ('|', $line, 2);
-               $desc[$tab[0]] = $tab[1];
-               if ($tab[0] == $this->getImageName ()) {
-                  $trouve = true;
-               }
-               unset ($tab);
-            }
-         }
-      }
-
-      // Si on a trouvé la description, on met à jour les champs
-      if (isset ($desc[$this->getImageName ()])) {
-         $tab = explode ('|', $desc[$this->getImageName ()]);
-         $this->setdate ($tab[0]);
-         $this->setdescription ($tab[1]);
-      }
-
-      return $trouve;
+   function getThumbUrl () {
+      return link::thumb($this->dir, $this->file);
    }
-
-
-   /**-----------------------------------------------------------------------**/
-   /** Fonctions pour créer les thumbs / preview */
-   /**-----------------------------------------------------------------------**/
-   
+    
    /**
-    * Retourne le lien de la vignette de l'image vers le script qui génére
-    * l'image
-    * @return Lien de la vignette de l'image vers le script de génération
+    * Return the preview url. The url is the page who generates the preview.
+    * @return Preview url
     */
-   function getThumbLink () {
-      return link::thumb($this->dir, $this->img);
-   }
-   
-   /**
-    * Retourne le lien de l'aperçu de l'image vers le script qui génére l'image
-    * @return Lien de l'aperçu de l'image vers le script de génération
-    */
-   function getPreviewLink () {
-      return link::preview($this->dir, $this->img);
+   function getPreviewUrl () {
+      return link::preview($this->dir, $this->file);
    }
 
    /**
-    * Génére la vignette de l'image et retourne le chemin vers l'image générée
-    * @return String Chemin vers la vignette générée.
+    * Generate the thumb and returns the file path to it.
+    * @return String File path to the generated thumb.
     */
-   function getAsThumb ($dst_w = 85, $dst_h = 85) {
+   function generateThumb($dst_w = 85, $dst_h = 85) {
       $this->thumbToolkit = processFactory::imageToolkit($this->getImagePath ());
       $this->thumbToolkit->setDestSize ($dst_w, $dst_h);
 
-      $final = luxbum::getThumbImage ($this->dir, $this->img, $dst_w, $dst_h);
+      $final = luxbum::getThumbImage ($this->dir, $this->file, $dst_w, $dst_h);
       if (!is_file ($final)) {
          files::createDir ($this->thumbDir);
          $this->thumbToolkit->createThumb ($final);
       }
       return $final;
    }
-   
+    
    /**
-    * Cette fonction détermine si oui ou non il faut générer un aperçu.
-    * L'aperçu est généré seulement si la taille en octets de l'image est
-    * supérieur au seuil fixé.
+    * Check if it is necessary to generate a preview of the image.
+    * The preview is generated only if :
+    * - the image size in bytes is greater than the configurated threshold
+    * - the image dimensions are smaller than the original image 
     * @access private
-    * @return boolean true/false Génére l'aperçu ou non
+    * @return boolean true/false Generate the preview / or not
     */
    function _needPreview ($imageToolkit) {
       if ($this->getSize() < MIN_SIZE_FOR_PREVIEW * 1024) {
          return false;
       }
 
-      // Si image de départ plus petite, on ne redimentione pas la photo
+      // Si image de dÃ©part plus petite, on ne redimentione pas la photo
       if ($imageToolkit->destBiggerThanFrom()) {
          return false;
       }
-      
+
       return true;
    }
 
    /**
-    * Génére l'aperçu de l'image et retourne le chemin vers l'image générée
-    * @return String Chemin vers l'aperçu généré.
+    * Generate the preview and returns the file path to it.
+    * @return String File path to the generated preview.
     */
-   function getAsPreview ($dst_w = 650, $dst_h = 485) {
+   function generatePreview ($dst_w = 650, $dst_h = 485) {
       $this->previewToolkit = processFactory::imageToolkit($this->getImagePath ());
       $this->previewToolkit->setDestSize ($dst_w, $dst_h);
-      
-      // Si pas d'aperçu on retourne l'image originale
+
+      // If the generation is not needed, returns the file path to the original image
       if ($this->_needPreview($this->previewToolkit) == false) {
          return $this->getImagePath ();
       }
 
-      $final = luxbum::getPreviewImage ($this->dir, $this->img, $dst_w, $dst_h);
-      // Génération de preview
+      $final = luxbum::getPreviewImage($this->dir, $this->file, $dst_w, $dst_h);
+      
+      // Generate the preview is the preview is not yet generated
       if (!is_file ($final)) {
          files::createDir ($this->previewDir);
          $this->previewToolkit->createThumb ($final);
       }
+      
       return $final;
    }
 
@@ -318,13 +154,13 @@ class luxBumImage
          return imagetoolkit::getImageDimensions($this->getAsThumb ());
       }
       return sprintf ('width="%s" height="%s"',
-                      $this->thumbToolkit->getImageDestWidth(),
-                      $this->thumbToolkit->getImageDestHeight());
+				         $this->thumbToolkit->getImageDestWidth(),
+				         $this->thumbToolkit->getImageDestHeight());
    }
 
    /**
-    * Retourne la chaine de taille de l'aperçu pour la balise &gt;img&lt;
-    * @return String Taille de l'aperçu pour la balise &gt;img&lt;
+    * Retourne la chaine de taille de l'aperï¿½u pour la balise &gt;img&lt;
+    * @return String Taille de l'aperï¿½u pour la balise &gt;img&lt;
     */
    function getPreviewResizeSize () {
       if ($this->previewToolkit == null) {
@@ -332,8 +168,8 @@ class luxBumImage
          return imagetoolkit::getImageDimensions($this->getAsPreview ());
       }
       return sprintf ('width="%s" height="%s"',
-                      $this->previewToolkit->getImageDestWidth(),
-                      $this->previewToolkit->getImageDestHeight());
+                        $this->previewToolkit->getImageDestWidth(),
+                        $this->previewToolkit->getImageDestHeight());
    }
 
 
@@ -342,18 +178,17 @@ class luxBumImage
    /**-----------------------------------------------------------------------**/
 
    /**
-    * Supprime la photo ainsi que tout son cache et les commentaires associés.
+    * Delete the image, it's cache and it's comments
     * @return Boolean
     */
    function delete () {
       $this->clearCache ();
-      commentaire::deletePhoto ($this->dir, $this->img);
-      return files::deleteFile (luxbum::getFsPath ($this->dir) . $this->img);
+      commentaire::deletePhoto ($this->dir, $this->file);
+      return files::deleteFile (luxbum::getFsPath ($this->dir) . $this->file);
    }
 
-
    /**
-    * Supprime le cache de l'image
+    * Delete the image cache
     */
    function clearCache () {
       $this->clearThumbCache ();
@@ -361,15 +196,17 @@ class luxBumImage
    }
 
    /**
-    * Supprime le cache des aperçus
+    * Delete the thumb cache. The function fetch all images in the thumb dir to 
+    * find images which matches because it is possible to have many thumbs with many sizes.
+    * @access private
     */
-   function clearThumbCache () {
+   function DateTimeclearThumbCache () {
 
       if ($fd = opendir ($this->thumbDir)) {
          while ($current_file = readdir ($fd)) {
-            if ($current_file[0] != '.' 
+            if ($current_file[0] != '.'
                 && !is_dir ($this->thumbDir.$current_file) 
-                && eregi ('^.*(' . $this->img . ')$', $current_file)){
+                && eregi ('^.*(' . $this->file . ')$', $current_file)){
                files::deleteFile ($this->thumbDir.$current_file);
             }
          }
@@ -378,66 +215,17 @@ class luxBumImage
    }
 
    /**
-    * Supprime le cache des vignettes
+    * Delete the preview cache
+    * @access private
     */
    function clearPreviewCache () {
-      files::deleteFile ($this->previewDir . $this->img);
+      files::deleteFile($this->previewDir . $this->file);
    }
 
-
-
-
-   /**-----------------------------------------------------------------------**/
-   /** Fonctions pour les commentaires */
-   /**-----------------------------------------------------------------------**/
-   /**
-    * Charge les commentaires de la photo
-    */
-   function lazyLoadComments() {
-      if ($this->listComments == NULL) {
-         $serialFile = luxbum::getCommentFilePath($this->dir, $this->img);
-         if (is_file ($serialFile)) {
-            $instanceSerial = implode ("", @file ($serialFile));
-            $this->listComments = unserialize ($instanceSerial);
-         }
-         else {
-            $this->listComments = new Recordset2();
-         }
-      }
-      return $this->listComments;
-   }
-
-   /**
-    *
-    */
-   function saveComment ($comment) {
-      $list = $this->lazyLoadComments();
-      $list->addToList($comment);
-      $passContent = serialize($list);
-
-      $serialFile = luxbum::getCommentFilePath($this->dir, $this->img);
-      $serialDir = luxbum::getCommentPath($this->dir);
-      files::createDir($serialDir);
-      files::deleteFile($serialFile);
-      files::writeFile($serialFile, $passContent);
-
-      $this->listComments = false;
-   }
-
-
-   /**
-    * Retourne le nombre de commentaires actifs de la photos
-    * @return nombre de commentaires actifs
-    */
-   function getNbComment () {
-      $list = $this->lazyLoadComments();
-      return $list->getIntRowCount();
-   }
 
    /**-----------------------------------------------------------------------**/
    /** Fonctions d'informations META */
    /**-----------------------------------------------------------------------**/
-   var $imageMeta;
 
    /**
     * Initialise les informations META de la photo

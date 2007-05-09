@@ -66,7 +66,7 @@ class luxBum {
    }
 
    /**
-    * Retourne le chemin complet des prévisualisation du dossier $dir de photos
+    * Retourne le chemin complet des prï¿½visualisation du dossier $dir de photos
     * With a trailing slash
     */
    function getPreviewPath ($dir) {
@@ -112,6 +112,13 @@ class luxBum {
    function getImage ($dir, $img) {
       return luxbum::getFsPath ($dir) . $img;
    }
+   
+   /**
+    * Return the full file path
+    */
+   function getFilePath($dir, $img) {
+      return luxbum::getFsPath ($dir) . $img;
+   }
 
    /**
     * Retourne le chemin de l'image vignette $img du dossier $dir d'images
@@ -121,7 +128,7 @@ class luxBum {
    }
 
    /**
-    * Retourne le chemin de l'image prévisualisation $img du dossier $dir d'images
+    * Retourne le chemin de l'image prï¿½visualisation $img du dossier $dir d'images
     */
    function getPreviewImage ($dir, $img, $w, $h) {
       return luxbum::getPreviewPath ($dir) . $w . '_' . $h . $img;

@@ -1,6 +1,6 @@
 RewriteEngine on
 
-RewriteRule ^(image|album|folder|meta|photo|comments|slide\-show|private)/(.*)$ /index.php?/$1/$2
+RewriteRule ^(image|album|folder|meta|photo|comments|slide\-show|private|file)/(.*)$ /index.php?/$1/$2
 
 
 RewriteRule ^(.*)/_javascript/(.*)$ /_javascript/$2 [L]
