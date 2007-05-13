@@ -33,7 +33,7 @@ class LuxbumFlv extends commonFile
    }
    
    function urlPath() {
-      return URL_BASE.$this->getFilePath();
+      return link::fileFlvDL($this->dir, $this->file);//URL_BASE.$this->getFilePath();
    }
 
 

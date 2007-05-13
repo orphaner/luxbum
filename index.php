@@ -10,7 +10,13 @@ $_SESSION['manager'] = false;
 $dispatcher->registerController('IndexView', '#^/$#i');
 $dispatcher->registerController('IndexView', '#^/folder/(.*)/$#i');
 
-$dispatcher->registerController('FlvDlView', '#^/dl/(.+)/(.+\.flv)$#i');
+
+$dispatcher->registerController('SelectView', '#^/select/(.*)/(.*)$#i');
+$dispatcher->registerController('UnselectView', '#^/unselect/(.*)/(.*)$#i');
+$dispatcher->registerController('SelectionVignetteView', '#^/selectionv/(.*)/(.*)$#i');
+$dispatcher->registerController('SelectionAffichageView', '#^/selectiona/(.*)/(.*)$#i');
+
+$dispatcher->registerController('FlvDlView', '#^/flv/(.+)/(.+\.flv)$#i');
 
 $dispatcher->registerController('FlvView', '#^/file/(.+)/(.+\.flv)$#i');
 

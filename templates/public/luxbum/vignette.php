@@ -11,6 +11,8 @@
       <td class="pictureDescription">
         <?php lb::photoDescription('<span class="description">%s</span>');?><br />
 
+        + <?php lb::selectLink(); ?>
+        
         <?php if (lb::metaEnabled()):?>
         + <a href="javascript:void(0);" onclick="window.open('<?php lb::linkMeta();?>','Meta','width=350,height=400,scrollbars=yes,resizable=yes');"><?php echo __('Meta data');?></a>
         <?php endif;?>

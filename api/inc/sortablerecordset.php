@@ -10,32 +10,32 @@ class SortableRecordset extends Recordset2 {
    var $sortOrder;
 
    /**
-    * Affecte le type du tri de l'index
-    * @param String $sortType Type du tri de l'index
+    * Set the sort clause
+    * @param String $sortType Sort clause
     */
    function setSortType ($sortType) {
       $this->sortType = $sortType;
    }
     
    /**
-    * Retourne le type de tri de l'index
-    * @return String Type du tri de l'index
+    * Return the sort clause
+    * @return String Sort clause
     */
    function getSortType () {
       return $this->sortType;
    }
     
    /**
-    * Affecte le sens du tri (asc / desc)
-    * @param String $sortOrder Sens du tri
+    * Set the sort order (asc / desc)
+    * @param String $sortOrder Sort order
     */
    function setSortOrder ($sortOrder) {
       $this->sortOrder = $sortOrder;
    }
     
    /**
-    * Retourne le sens du tri
-    * @return String Sens du tri
+    * Revert the sort order
+    * @return String Sort order (asc or desc)
     */
    function getSortOrder () {
       return $this->sortOrder;
@@ -51,7 +51,7 @@ class SortableRecordset extends Recordset2 {
     * @access private
     * @param images The array to be sorted.
     * @param sortType le type de tri : manuel, date, description
-    * @param
+    * @param sortOrder
     * @return A new array of sorted images.
     */
    function sortRecordset($galleryList, $sortType, $sortOrder) {
@@ -72,7 +72,7 @@ class SortableRecordset extends Recordset2 {
       uksort ($newImageArray, "strnatcasecmp");
       uksort ($newImageArrayFailed, "strnatcasecmp");
 
-      // Inverse l'ordre si ordre d�croissant
+      // Revert the sort order if necessary
       if ($sortOrder == 'desc') {
          $newImageArray = array_reverse ($newImageArray);
          $newImageArrayFailed = array_reverse ($newImageArrayFailed);
@@ -86,7 +86,7 @@ class SortableRecordset extends Recordset2 {
 
 
    /**
-    * Enregistre les pr�f�rences de tri dans un fichier de format :
+    * Save the sort properties in a file who respect this format :
     * sortType\n
     * sortOrder\n
     * imgX en pos 1\n

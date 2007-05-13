@@ -1444,7 +1444,36 @@ class lb {
       if ($return) return $result;
       echo $result;
    }
+
+   /*------------------------------------------------------------------------------
+    SELECTION
+    -----------------------------------------------------------------------------*/
+   function selectLink($return = false) {
+      if (isset($GLOBALS['_LB_render']['img'])) {
+         $file = $GLOBALS['_LB_render']['img'];
+      }
+      else {
+         $file = $GLOBALS['_LB_render']['res']->f();
+      }
+      
+      $dir = $file->getDir();
+      $file = $file->getFile();
+      
+      $selection = Selection::getInstance();
+      if ($selection->exists($dir, $file)) {
+         $label = __('Unselect file');
+         $link = link::unselect($dir, $file);
+      }
+      else {
+         $label = __('Select file');
+         $link = link::select($dir, $file);
+      }
+      $result = sprintf('<a href="%s">%s</a>', $link, $label);
+      if ($return) return $result;
+      echo $result;
    }
+
+}
 
    /**
     *

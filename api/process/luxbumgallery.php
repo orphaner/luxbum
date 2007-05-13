@@ -8,23 +8,14 @@
 
   /**
    * @package process
-   * Structure repr�sentant une galerie
+   * Class representing a gallery
    */
-class luxBumGallery extends SortableRecordset
+class luxBumGallery extends CommonGallery
 {
    /**-----------------------------------------------------------------------**/
    /** Champs de la classe */
    /**-----------------------------------------------------------------------**/
-   var $name, $dir;
-   var $preview;
-   
-   var $flvCount = 0;
-   var $imageCount = 0;
-   var $totalCount = 0;
-   
-   var $flvSize = 0;
-   var $imageSize = 0;
-   var $totalSize = 0;
+   var $dir;
    
    var $sortPosition = '';
    var $private = false;
@@ -62,10 +53,12 @@ class luxBumGallery extends SortableRecordset
    }
 
    /**
-    * Remplit les informations suivantes sur la galerie :
-    * - nombre d'images
-    * - taille des images en octets
-    * - private : galerie priv�e ou non
+    * Fill in information about the gallery :
+    * - image number
+    * - images size in byte
+    * - flv video number
+    * - flv video size in byte
+    * - private : private gallery or no
     * @access private
     */
    function _completeInfos () {
@@ -101,20 +94,12 @@ class luxBumGallery extends SortableRecordset
    /**-----------------------------------------------------------------------**/
    /** Getter et setter */
    /**-----------------------------------------------------------------------**/
-   /**
-    * Affecte le nom de la galerie
-    * @param string $name Nom de la galerie
-    */
-   function setName ($name) {
-      $this->name = $this->dir = $name;
-   }
 
    /**
-    * Retourne le nom de la galerie
-    * @return String Nom de la galerie
+    * 
     */
-   function getName () {
-      return $this->name;
+   function setDir($dir) {
+      $this->dir = $dir;
    }
 
    /**
@@ -123,110 +108,6 @@ class luxBumGallery extends SortableRecordset
     */
    function getDir () {
       return $this->dir;
-   }
-
-   /**
-    * Retourne le "beau" nom de la galerie
-    * @return String Beau nom de la galerie
-    */
-   function getNiceName () {
-      return luxbum::niceName ($this->name);
-   }
-
-   /**
-    * Retourne l'image par d�faut de la galerie
-    * @return String Chemin vers l'image par d�faut de la galerie
-    */
-   function getPreview () {
-      return $this->preview;
-   }
-
-   /**
-    * Retourne la taille en octets des photos de la galerie
-    * @return int Taille en octets des photos de la galerie
-    */
-   function getImageSize () {
-      return $this->imageSize;
-   }
-
-   /**
-    * Retourne la taille en octets des photos de la galerie
-    * @return int Taille en octets des photos de la galerie
-    */
-   function getFlvSize () {
-      return $this->flvSize;
-   }
-
-   /**
-    * Retourne la taille en octets des photos de la galerie
-    * @return int Taille en octets des photos de la galerie
-    */
-   function getTotalSize () {
-      return $this->totalSize;
-   }
-
-   /**
-    * Retourne la taille affichable des photos de la galerie
-    * @return int Taille affichable des photos de la galerie
-    */
-   function getImageNiceSize () {
-      return luxbum::niceSize ($this->imageSize);
-   }
-
-   /**
-    * Retourne la taille affichable des photos de la galerie
-    * @return int Taille affichable des photos de la galerie
-    */
-   function getFlvNiceSize () {
-      return luxbum::niceSize ($this->flvSize);
-   }
-
-   /**
-    * Retourne la taille affichable des photos de la galerie
-    * @return int Taille affichable des photos de la galerie
-    */
-   function getTotalNiceSize () {
-      return luxbum::niceSize ($this->totalSize);
-   }
-
-   /**
-    * Retourne le nombre de photos de la galerie
-    * @return int Nombre de photos de la galerie
-    */
-   function getImageCount () {
-      return $this->imageCount;
-   }
-
-   /**
-    * Retourne le nombre de vidéos de la galerie
-    * @return int Nombre de vidéos de la galerie
-    */
-   function getFlvCount () {
-      return $this->flvCount;
-   }
-
-   /**
-    * Retourne le nombre de vidéos de la galerie
-    * @return int Nombre de vidéos de la galerie
-    */
-   function getTotalCount () {
-      return $this->totalCount;
-   }
-
-   /**
-    * Affecte la position de la galerie dans l'index
-    * @param String $sortPosition Position de la galerie dans l'index
-    */
-   function setSortPosition ($sortPosition) {
-      $this->sortPosition = $sortPosition;
-   }
-   
-   /**
-    * Retourne la position de la galerie dans l'index
-    * @return String Position de la galerie dans l'index
-    */
-   function getSortPosition () {
-      return $this->sortPosition;
    }
 
    /**
@@ -245,6 +126,9 @@ class luxBumGallery extends SortableRecordset
       return $this->privateExact;
    }
 
+   /**
+    * 
+    */
    function isUnlocked() {
       $privateManager =& PrivateManager::getInstance();
       return $privateManager->isUnlocked($this->dir);
@@ -379,9 +263,8 @@ class luxBumGallery extends SortableRecordset
    /** Ajout des images */
    /**-----------------------------------------------------------------------**/
    /**
-    * Ajoute toute les images � la liste $this->list
-    * Les images ont leur date / descriptions correctement remplies.
-    * Les images sont tri�es suivant les options.
+    * Add all images to the gallery, then sort them.
+    * They have all their date / description correctly filled in.
     */
    function addAllImages () {
 
@@ -426,36 +309,14 @@ class luxBumGallery extends SortableRecordset
       }
    }
    
-   /**
-    * Retourne la position d'une image $imgName dans la galerie
-    * @param String $imgName l'image dont on cherche la position
-    * @return la position de cette image dans la galerie
-    */
-   function getImageIndex ($imgName) {
-      $index = 0;
-      $trouve = false;
-
-      $this->reset();
-      while (!$trouve && list (,$img) = each ($this->arrayList)) {
-         $name = $img->getFile();
-         if ($name == $imgName) {
-            $trouve = true;
-         }
-         else {
-            $index++;
-         }
-      }
-      $this->reset();
-      if (!$trouve) {
-         return -1;
-      }
-      return $index;
-   }
-   
    
    /**-----------------------------------------------------------------------**/
    /** Fonctions de tri */
    /**-----------------------------------------------------------------------**/
+   /**
+    * @param String $file
+    * @param String $sortType
+    */
    function getSortRealKey($file, $sortType=null) {
       if ($sortType == null) {
          $sortType = $this->sortType;
@@ -479,9 +340,8 @@ class luxBumGallery extends SortableRecordset
          $realkey = $file->getFile();
       }
       else {
-         // Suffixe avec le nom de l'image au cas o� 
-         // il y aurait des cl�s identiques !!! 
-         // (ce qui arrive souvent, m�me date|description, ordre non d�fini)
+         // Add a suffix to the key with the image name in case there are identical keys.
+         // It often appends : same date or description, order not defined
          $realkey .= '_'.$file->getFile();
       }
       return $realkey;
@@ -495,10 +355,10 @@ class luxBumGallery extends SortableRecordset
    }
 
    /**-----------------------------------------------------------------------**/
-   /** Image par d�faut */
+   /** Default image */
    /**-----------------------------------------------------------------------**/
    /**
-    * Recherche l'image par d�faut !
+    * Search for the default image
     * @access private
     */
    function _completeDefaultImage () {
@@ -514,7 +374,7 @@ class luxBumGallery extends SortableRecordset
       }
 
 
-      /* Recherche d'une image par d�faut d�finie par l'utilisateur */
+      // Search for an user defined image
       if (is_file ($this->dirPath . DEFAULT_INDEX_FILE)) {
          $fd = fopen ($this->dirPath . DEFAULT_INDEX_FILE, 'r+');
          $line = fgets ($fd);
@@ -525,7 +385,7 @@ class luxBumGallery extends SortableRecordset
          fclose ($fd);
       }
 
-      /* On cherche la premi�re image du dossier pr faire un aper�u */
+      // Search the first image of the gallery
       if ($default == '') {
          $trouve = false;
          $apercu_fd = opendir ($this->dirPath);
@@ -559,27 +419,27 @@ class luxBumGallery extends SortableRecordset
    }
 
    /**
-    * Ecrit une nouvelle image par d�faut
-    * @param String $img Nom de la nouvelle image par d�faut
+    * Set an user defined image
+    * @param String $filename Filename of the user defined image
     * @return boolean 
     */
-   function setNewDefaultImage ($img) {
-      $theFile = $this->dirPath . $img;
+   function setNewDefaultImage ($filename) {
+      $theFile = $this->dirPath . $filename;
       if (!is_file ($theFile)) {
          return false;
       }
-      files::writeFile ($this->dirPath . DEFAULT_INDEX_FILE, $img);
+      files::writeFile ($this->dirPath . DEFAULT_INDEX_FILE, $filename);
       return true;
    }
    
    
    /**-----------------------------------------------------------------------**/
-   /** Fonctions de renomage / suppression */
+   /** Rename / delete functions */
    /**-----------------------------------------------------------------------**/
    /**
-    * Renome la galerie courante
-    * @param String $newName Nouveau nom de la galerie
-    * @return boolean Renomage OK ou KO
+    * Rename the current gallery
+    * @param String $newName New name of the gallery
+    * @return boolean Rename success (true) or failed (false)
     */
    function rename ($newName) {
       if (files::renameDir ($this->dirPath, luxbum::getFsPath ($newName))) {
@@ -591,43 +451,44 @@ class luxBumGallery extends SortableRecordset
    }
    
    /**
-    * Efface une galerie. M�thode statique
-    * @param String $dirName Nom de la galerie � supprimer.
+    * Delete a gallery 
+    * @static 
+    * @param String $galleryName Gallery name to delete
     */
-   function delete ($dirName) {
-      files::deltree (luxbum::getFsPath ($dirName));
-      commentaire::deleteGalerie ($dirName);
+   function delete ($galleryName) {
+      files::deltree (luxbum::getFsPath ($galleryName));
+      commentaire::deleteGalerie ($galleryName);
    }
    
    /**
-    * Supprime le cache de la galerie
+    * Delete the gallery cache.
     */
    function clearCache () {
-      reset ($this->list);
-      while (list (,$img) = each ($this->list)) {
+      $this->reset();
+      while (list (,$img) = each ($this->arrayList)) {
          $img->clearCache ();
       }
    }
 
-   /**
-    * Supprime les vignettes cach�es de la galerie
-    */
-   function clearThumbCache () {
-      reset ($this->list);
-      while (list (,$img) = each ($this->list)) {
-         $img->clearThumbCache ();
-      }
-   }
-
-   /**
-    * Supprime les aper�us cach�s de la galerie
-    */
-   function clearPreviewCache () {
-      reset ($this->list);
-      while (list (,$img) = each ($this->list)){
-         $img->clearPreviewCache ();
-      }
-   }
+//   /**
+//    * Supprime les vignettes cachées de la galerie
+//    */
+//   function clearThumbCache () {
+//      reset ($this->list);
+//      while (list (,$img) = each ($this->list)) {
+//         $img->clearThumbCache ();
+//      }
+//   }
+//
+//   /**
+//    * Supprime les aperçus cachés de la galerie
+//    */
+//   function clearPreviewCache () {
+//      reset ($this->list);
+//      while (list (,$img) = each ($this->list)){
+//         $img->clearPreviewCache ();
+//      }
+//   }
 }
 
 ?>

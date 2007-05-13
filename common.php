@@ -11,7 +11,6 @@ function microtime_float()
 }
 
 $GLOBALS['startTime'] = microtime_float();
-session_start();
 
 
 
@@ -76,8 +75,11 @@ include('api/inc/recordset.php');
 include('api/inc/sortablerecordset.php');
 include('api/inc/l10n.php');
 
+include('api/process/selection.php');
 include('api/process/processFactory.php');
+include('api/process/commongallery.php');
 include('api/process/luxbumgallery.php');
+include('api/process/luxbumselectiongallery.php');
 include('api/process/luxbumindex.php');
 include('api/process/private.php');
 include('api/process/commentaire.php');
@@ -102,6 +104,7 @@ include('api/ui/lib.frontend.php');
 include('api/ui/views.php');
 include('api/ui/link.php');
 include('api/process/luxbum.php');
+session_start();
 
 
 $locales = l10n::getAvailableLocales();

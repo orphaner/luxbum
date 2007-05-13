@@ -103,8 +103,7 @@ class VignetteView {
          return PrivateView::action($match);
       }
 
-
-      $GLOBALS['_LB_render']['res'] = luxBumGallery::getInstance($dir);
+      $this->setRes($dir);
       $res =& $GLOBALS['_LB_render']['res'];
 
       $niceDir = ucfirst (luxBum::niceName ($res->getName()));
@@ -141,6 +140,10 @@ class VignetteView {
       include (TEMPLATE_DIR.TEMPLATE.'/'.$this->viewPage.'.php');
       return 200;
    }
+   
+   function setRes($dir) {
+      $GLOBALS['_LB_render']['res'] = luxBumGallery::getInstance($dir);
+   }
 }
 
 
@@ -151,12 +154,13 @@ class FlvView extends VignetteView {
    var $viewPage = 'flv';
 }
 
-class FlvDlView {
-   function action ($match) {
-      header('Location: http://nico.beroot.org/trunk/photos/flv/fils_bush.flv');
-      exit();
+class SelectionVignetteView extends VignetteView {
+   
+   function setRes() {
+      $GLOBALS['_LB_render']['res'] = luxBumGallery::getInstance($dir);
    }
 }
+
 /**
  * @package ui
  */
@@ -287,6 +291,34 @@ class SlideShowView {
    }
 }
 
+class SelectView {
+   function action ($match) {
+      $dir = $match[1];
+      $file = $match[2];
+
+      $selection = Selection::getInstance();
+      $selection->addFile($dir, $file);
+      Selection::saveSelection($selection);
+      
+      $redirect = link::vignette($dir, $file);
+      header('Location: '.$redirect);
+   }
+}
+
+class UnselectView {
+   function action ($match) {
+      $dir = $match[1];
+      $file = $match[2];
+
+      $selection = Selection::getInstance();
+      $selection->removeFile($dir, $file);
+      Selection::saveSelection($selection);
+      
+      $redirect = link::vignette($dir, $file);
+      header('Location: '.$redirect);
+   }
+}
+
 /**
  * @package ui
  */
@@ -321,11 +353,12 @@ class ImageView {
          die ("fuck header");
       }
 
-      header("Content-Encoding: none");
+      header('Content-Encoding: none');
       header('Content-Type: '.$luxAff->getTypeMime());
       header('Cache-Control: maxage=3600');
       header('Pragma: public');
-      header('Expires: ' . $this->getHttpDate(time() + 3600));
+      header('Last-Modified: ' + HTTP::getHttpDate(filemtime($newfile)));
+      header('Expires: ' . HTTP::getHttpDate(time() + 3600));
       
       if ($fp = fopen($newfile, 'rb')) {
          while (!feof($fp)) {
@@ -336,7 +369,50 @@ class ImageView {
 
       return 200;
    }
+}
 
+/**
+ * @package ui
+ */
+class FlvDlView {
+   function action ($match) {
+      $dir = $match[1];
+      $file = $match[2];
+
+      // Check if the gallery is private
+      if (PrivateManager::isLockedStatic($dir)) {
+         return PrivateView::action($match);
+      }
+
+      if (headers_sent($ffff,$lineno) ) {
+         die ("fuck header");
+      }
+
+      $luxAff = new LuxbumFlv($dir, $file);
+      
+      header('Content-Encoding: none');
+      header('Content-Type: '.$luxAff->getTypeMime());
+      header('Cache-Control: maxage=3600');
+      header('Pragma: public');
+      header('Last-Modified: ' + HTTP::getHttpDate(filemtime(luxbum::getFilePath($dir, $file))));
+      header('Expires: ' . HTTP::getHttpDate(time() + 3600));
+      
+      
+      if ($fp = fopen(luxbum::getFilePath($dir, $file), 'rb')) {
+         while (!feof($fp)) {
+            print fread($fp, 4096);
+         }
+      }
+      @fclose ($fp);
+
+      return 200;
+   }
+}
+
+/**
+ * 
+ */
+class HTTP {
    /**
     * Return a date and time string that is conformant to RFC 2616
     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3
@@ -363,7 +439,6 @@ class ImageView {
       return sprintf($out, $dow, $month);
    }
 }
-
 
 /**
  *

@@ -19,19 +19,19 @@ class link {
       $img = link::encode($img);
       return  link::prefix().'image/'.THUMB_DIR.$dir.'/'.$img;
    }
-    
+
    function preview($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
       return  link::prefix().'image/'.PREVIEW_DIR.$dir.'/'.$img;
    }
-    
+
    function index($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
       return  link::prefix().'image/index/'.$dir.'/'.$img;
    }
-    
+
    function full($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
@@ -42,7 +42,7 @@ class link {
       $path = link::encode($path);
       return URL_BASE.$path;
    }
-    
+
    // Le lien pour les pages de vignettes
    function vignette($dir, $img = '') {
       $dir = link::encode($dir);
@@ -54,7 +54,7 @@ class link {
          return link::prefix().'album/'.$dir.'/'.$img;
       }
    }
-    
+
    // Le lien pour les pages de video flv
    function fileFlv($dir, $img = '') {
       $dir = link::encode($dir);
@@ -66,7 +66,19 @@ class link {
          return link::prefix().'file/'.$dir.'/'.$img;
       }
    }
-    
+   
+   // Le lien pour les pages de video flv
+   function fileFlvDL($dir, $img = '') {
+      $dir = link::encode($dir);
+      $img = link::encode($img);
+      if($img == '') {
+         return link::prefix().'flv/'.$dir.'/';
+      }
+      else {
+         return link::prefix().'flv/'.$dir.'/'.$img;
+      }
+   }
+
    function fileType($file) {
       switch ($file->getType()) {
          case TYPE_FLV_FILE:
@@ -77,8 +89,7 @@ class link {
             break;
       }
    }
-    
-    
+
    // Le lien pour les pages de slideshow
    function slideshow($dir, $start='') {
       $dir = link::encode($dir);
@@ -95,22 +106,23 @@ class link {
       return link::prefix().'private/'.$dir.'/';
    }
     
-   //    // Lien pour voir la s�lection
-   //    function selection($page) {
-   //       return link::prefix()."selection_list-$page.html";
-   //    }
+   function select($dir, $file) {
+      $dir = link::encode($dir);
+      $file = link::encode($file);
+      return link::prefix().'select/'.$dir.'/'.$file;
+   }
     
-   //    // Lien pour s�lectionner une photo
-   //    function apercu_select($dir, $image, $page) {
-   //       $page--;
-   //       return link::prefix().'select-'.$page.'-'.$dir.'-'.$image.'.html';
-   //    }
+   function unselect($dir, $file) {
+      $dir = link::encode($dir);
+      $file = link::encode($file);
+      return link::prefix().'unselect/'.$dir.'/'.$file;
+   }
     
-   //    // Lien pour d�s�lectionner une photo
-   //    function apercu_unselect($dir, $image, $page) {
-   //       $page--;
-   //       return link::prefix().'unselect-'.$page.'-'.$dir.'-'.$image.'.html';
-   //    }
+   function selection($dir, $file) {
+      $dir = link::encode($dir);
+      $file = link::encode($file);
+      return link::prefix().'selection/'.$dir.'/'.$file;
+   }
 
    // Lien pour une sous galerie
    function subGallery($dir) {
@@ -135,7 +147,7 @@ class link {
       $img = link::encode($img);
       return  link::prefix().'photo/'.$dir.'/'.$img;
    }
-   }
+}
 
 
-   ?>
+?>
