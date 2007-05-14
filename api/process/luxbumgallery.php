@@ -373,13 +373,12 @@ class luxBumGallery extends CommonGallery
          
       }
 
-
       // Search for an user defined image
-      if (is_file ($this->dirPath . DEFAULT_INDEX_FILE)) {
-         $fd = fopen ($this->dirPath . DEFAULT_INDEX_FILE, 'r+');
+      if (is_file (luxbum::getFilePath($this->dir, DEFAULT_INDEX_FILE))) {
+         $fd = fopen (luxbum::getFilePath($this->dir, DEFAULT_INDEX_FILE), 'r+');
          $line = fgets ($fd);
-               
-         if ( is_file ($this->dirPath . $line )) {
+         
+         if ( files::isFile($this->dir, $line)) {
             $default = $line;
          }
          fclose ($fd);

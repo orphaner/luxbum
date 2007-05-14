@@ -150,6 +150,11 @@ class files {
       rename ($oldPath, $newPath);
       return true;
    }
+   
+   function isFile($dir, $file) {
+      return $file[0] != '.'
+         && !is_dir (luxbum::getFilePath($dir, $file) );
+   }
     
    /**
     *
