@@ -17,7 +17,7 @@ class ImageToolkitImageMagick extends ImageToolkit {
 
          // Crop method
          if ($this->mode == 'crop') {
-            $cmd = 'convert -gravity center -crop %dx%d+%d+%d +repage %s %s';
+            $cmd = 'convert -quality 80 -gravity center -crop %dx%d+%d+%d +repage %s %s';
             $cmd = sprintf($cmd, 
                            $this->cropW, $this->cropH,
                            $this->decalW, $this->decalH,
@@ -25,7 +25,7 @@ class ImageToolkitImageMagick extends ImageToolkit {
                            escapeshellarg($img_dest));
             exec($cmd);
 
-            $cmd = 'convert -resize %dx%d -geometry %dx%d %s %s';
+            $cmd = 'convert -quality 80 -resize %dx%d -geometry %dx%d %s %s';
             $cmd = sprintf($cmd, 
                            $this->imageDestWidth, $this->imageDestHeight,
                            $this->imageDestWidth, $this->imageDestHeight,
@@ -35,7 +35,7 @@ class ImageToolkitImageMagick extends ImageToolkit {
          }
          // Other methods
          else {
-            $cmd = 'convert -resize %dx%d -geometry %dx%d %s %s';
+            $cmd = 'convert -quality 80 -resize %dx%d -geometry %dx%d %s %s';
             $cmd = sprintf($cmd, 
                            $this->imageDestWidth, $this->imageDestHeight,
                            $this->imageDestWidth, $this->imageDestHeight,
