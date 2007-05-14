@@ -1,10 +1,10 @@
 <?php include ('_header.php');?>
 <body id="body"> 
-  <h1><span><?php lbgal::galleryH1();?></span></h1>
+  <h1><span><?php lb::galleryH1();?></span></h1>
 
   <div id="galleryList">
 
-    <?php lbgal::menuNav('<div id="navigBar"><ol class="tree"><li>&#187; <a href="'.lb::indexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
+    <?php lb::menuNav('<div id="navigBar"><ol class="tree"><li>&#187; <a href="'.lb::indexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
           '<li>%s</li>'); ?>
 
     <div id="privateForm">
