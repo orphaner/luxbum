@@ -1,4 +1,4 @@
-<?php include ('header.php');?>
+<?php include ('_header.php');?>
 
 <body id="body">  
   <h1><span><?php lb::galleryH1();?></span></h1>
@@ -16,33 +16,38 @@
     <?php while (!$res->EOF()):?>
     <div class="gallery">
       <div class="lg">
-        <?php lb::defaultImage(); ?>
+        <?php lbgal::defaultImage(); ?>
       </div>
       <div class="ld">
-        <h2><?php lb::galleryNiceName();?></h2>
-        <?php if (lb::hasElements() && !lb::isPrivateAndLocked()):?>
+      
+        <h2><?php lbgal::niceName();?></h2>
+        
+        <?php if (lbgal::hasElements() && !lbgal::isPrivateAndLocked()):?>
         <span class="infos">
-          <?php if (lb::hasImage()): ?>
-            <?php lb::galleryImageCount();?>
+        
+          <?php if (lbgal::hasImage()): ?>
+            <?php lbgal::imageCount();?>
             <?php ___(' pictures - ');?>
-            <?php lb::galleryImageNiceSize();?>.
+            <?php lbgal::imageNiceSize();?>.
           <?php endif;?>
-          <?php if (lb::hasFlv()): ?>
-            <?php lb::galleryFlvCount();?>
+          
+          <?php if (lbgal::hasFlv()): ?>
+            <?php lbgal::flvCount();?>
             <?php ___(' videos - ');?>
-            <?php lb::galleryFlvNiceSize();?>.
+            <?php lbgal::flvNiceSize();?>.
           <?php endif;?>
+          
         </span> 
         <?php endif;?>
         
         <div class="actions">
           <ul>
-            <?php if (lb::isPrivateAndLocked()):?>
-            <?php lb::galleryLinkPrivate("<li>%s</li>", __('Private gallery'));?>
+            <?php if (lbgal::isPrivateAndLocked()):?>
+            <?php lbgal::linkPrivate(   "<li>%s</li>", __('Private gallery'));?>
             <?php else:?>
-            <?php lb::galleryLinkSubGallery("<li>%s</li>", __('Sub galleries'));?>
-            <?php lb::galleryLinkConsult("<li>%s</li>", __('Consult'));?>
-            <?php lb::galleryLinkSlideshow("<li>%s</li>", __('Slideshow'));?>
+            <?php lbgal::linkSubGallery("<li>%s</li>", __('Sub galleries'));?>
+            <?php lbgal::linkConsult(   "<li>%s</li>", __('Consult'));?>
+            <?php lbgal::linkSlideshow( "<li>%s</li>", __('Slideshow'));?>
             <?php endif;?>
           </ul>
         </div>
@@ -58,4 +63,4 @@
     Luxbum by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
   
 </body>
-<?php include ('footer.php');?>
+<?php include ('_footer.php');?>

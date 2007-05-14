@@ -1,10 +1,10 @@
-<?php include ('header.php');?>
+<?php include ('_header.php');?>
 <body id="body"> 
-  <h1><span><?php lb::galleryH1();?></span></h1>
+  <h1><span><?php lbgal::galleryH1();?></span></h1>
 
   <div id="galleryList">
 
-    <?php lb::menuNav('<div id="navigBar"><ol class="tree"><li>&#187; <a href="'.lb::indexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
+    <?php lbgal::menuNav('<div id="navigBar"><ol class="tree"><li>&#187; <a href="'.lb::indexLink().'"><strong>'.__('Home').'</strong></a></li>%s</ol></div>', 
           '<li>%s</li>'); ?>
 
     <div id="privateForm">
@@ -14,19 +14,19 @@
       </div>
 
       <form method="post" id="login" action="">
-        <?php lb::privateFormAction(); ?>
+        <?php lbprivate::privateFormAction(); ?>
         
         <fieldset>
           <legend><?php ___('Authentication required');?></legend>
           <p>
             <label for="login" class="float"><strong><?php ___('Login');?></strong> : </label>
-            <input type="text" name="login" id="login" value="<?php lb::privatePostLogin();?>"/>
-            <?php lb::privatePostError('login');?>
+            <input type="text" name="login" id="login" value="<?php lbprivate::privatePostLogin();?>"/>
+            <?php lbprivate::privatePostError('login');?>
           </p>
           <p>
             <label for="password" class="float"><strong><?php ___('Password');?></strong> : </label>
-            <input type="password" name="password" id="password" value="<?php lb::privatePostPassword();?>"/>
-            <?php lb::privatePostError('password');?>
+            <input type="password" name="password" id="password" value="<?php lbprivate::privatePostPassword();?>"/>
+            <?php lbprivate::privatePostError('password');?>
           </p>
         </fieldset>
 
@@ -44,4 +44,4 @@
     Luxbum by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
 
 </body>
-<?php include ('footer.php');?>
+<?php include ('_footer.php');?>

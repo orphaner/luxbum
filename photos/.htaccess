@@ -1,10 +1,3 @@
-<Files *>
-  Order Deny,Allow
-  Deny from all
-</Files>
-
-<Files *.flv>
-  Order Allow,Deny
-  Allow from all
-</Files>
+Order Deny,Allow
+Deny from all
 

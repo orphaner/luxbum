@@ -6,6 +6,6 @@
     <meta name="MSSmartTagsPreventParsing" content="TRUE" />
     <title><?php lb::pageTitle(); ?></title>
 
-    <?php lb::favicon();?>
-    <?php lb::pageStyle();?>
+    <?php lbconf::favicon();?>
+    <?php lbconf::pageStyle();?>
   </head>

@@ -1,4 +1,4 @@
-<?php include ('header.php');?>
+<?php include ('_header.php');?>
 <body id="body">  
   <div id="centerV">
     <div id="centerH"> 
@@ -15,7 +15,7 @@
             <?php while (!$res->EOP()):?>
             <div class="thumb">
               <div class="thumbNumber">
-                <?php lb::resPosition();?> / <?php lb::resTotal();?>
+                <?php lbpage::resPosition();?> / <?php lbpage::resTotal();?>
               </div>
               <div class="<?php lb::vignetteStyle();?>">
                 <a href="<?php lb::linkVignette();?>"><?php lb::displayVignette();?></a>
@@ -30,13 +30,13 @@
               <tr>
                 <td class="affpage">
                   <?php ___('Page'); ?>
-                  <?php lb::paginatorCurrentPage(); ?>
+                  <?php lbpage::paginatorCurrentPage(); ?>
                   <?php ___('on');?>
-                  <?php lb::paginatorTotalPages(); ?>
+                  <?php lbpage::paginatorTotalPages(); ?>
                 </td>
                 <?php while (!$affpage->EOF()):?>
-                <td class="<?php lb::paginatorAltClass();?>">
-                  <a href="<?php lb::paginatorLinkVignette();?>"><?php lb::paginatorElementText();?></a>
+                <td class="<?php lbpage::paginatorAltClass();?>">
+                  <a href="<?php lbpage::paginatorLinkVignette();?>"><?php lbpage::paginatorElementText();?></a>
                 </td>
                 <?php $affpage->moveNext();
                 endwhile;?>

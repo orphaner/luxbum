@@ -7,8 +7,8 @@
     <script  type="text/javascript" src="http://localhost/luxbum/trunk/common_templates/slideshow/slideshow.js"></script>
     <title><?php lb::pageTitle(); ?></title>
 
-    <?php lb::favicon();?>
-    <?php lb::pageStyle();?>
+    <?php lbconf::favicon();?>
+    <?php lbconf::pageStyle();?>
 
 
 <style type="text/css">
@@ -132,17 +132,17 @@
 
   <script type="text/javascript">
     <!--
-        var photosDir = "<?php lb::photoDir();?>";
-        var currentDir = "<?php lb::slideshowDir();?>";
+        var photosDir = "<?php lbslide::photoDir();?>";
+        var currentDir = "<?php lbslide::slideshowDir();?>";
         var photosURL = new Array();
 
         <?php while (!$res->EOF()):?>
-        photosURL[<?php echo (lb::resPosition(true)-1);?>] = "<?php lb::displayApercu("%s"); ?>";
+        photosURL[<?php echo (lbpage::resPosition(true)-1);?>] = "<?php lb::displayApercu("%s"); ?>";
         <?php $res->moveNext();
         endwhile;?>
 
-        var smoothtrans = <?php lb::slideshowFadingText();?>; // Set this to false to prevent any fading effect
-        var slide_speed = <?php lb::slideshowTime();?>;
+        var smoothtrans = <?php lbslide::slideshowFadingText();?>; // Set this to false to prevent any fading effect
+        var slide_speed = <?php lbslide::slideshowTime();?>;
         -->
   </script>
 
@@ -154,7 +154,7 @@
     <div id="controle">
       <div id="s_next">&raquo;</div>
       <div id="s_prev">&laquo;</div>
-      <div id="s_play">Démarrer</div>
+      <div id="s_play">DÃ©marrer</div>
       <div id="s_pause">Pause</div>
       <div id="s_info"><img class="myicon" src="slideshow.php?base64=i" alt="Informations about the picture"/></div>
       <div id="s_options"><img class="myicon" src="slideshow.php?base64=o" alt="Options of the slideshow" /></div>
@@ -170,11 +170,11 @@
     <div id="s_exif_info"></div>
     <div id="s_help_box">
       <h2>A propos</h2>
-      <p><strong>ESS</strong> par <strong>Yann HAMON</strong> adapté pour Luxbum</p>
+      <p><strong>ESS</strong> par <strong>Yann HAMON</strong> adaptÃ© pour Luxbum</p>
       <p id="k_shortcuts">Racourcis clavier</p>
       <ul>
-        <li><strong>Espace</strong> : Démarre/met en pause le diaporama</li>
-        <li><strong>Flèches gauches et droites</strong> : Photo précédente, suivante</li>
+        <li><strong>Espace</strong> : DÃ©marre/met en pause le diaporama</li>
+        <li><strong>FlÃ¨ches gauches et droites</strong> : Photo prÃ©cÃ©dente, suivante</li>
         <li><strong>i</strong> : Informations EXIF de la photo</li>
         <li><strong>o</strong> : Options</li>
         <li><strong>h</strong> : Afficher cette aide</li>

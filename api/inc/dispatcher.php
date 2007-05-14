@@ -1,30 +1,30 @@
 <?php
-  /* -*- tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
-  /*
-   # ***** BEGIN LICENSE BLOCK *****
-   # This file is part of Plume CMS, a website management application.
-   # Copyright (C) 2001-2005 Loic d'Anterroches and contributors.
-   #
-   # Plume CMS is free software; you can redistribute it and/or modify
-   # it under the terms of the GNU General Public License as published by
-   # the Free Software Foundation; either version 2 of the License, or
-   # (at your option) any later version.
-   #
-   # Plume CMS is distributed in the hope that it will be useful,
-   # but WITHOUT ANY WARRANTY; without even the implied warranty of
-   # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   # GNU General Public License for more details.
-   #
-   # You should have received a copy of the GNU General Public License
-   # along with this program; if not, write to the Free Software
-   # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-   #
-   # ***** END LICENSE BLOCK ***** */
+/* -*- tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
+/*
+ # ***** BEGIN LICENSE BLOCK *****
+ # This file is part of Plume CMS, a website management application.
+ # Copyright (C) 2001-2005 Loic d'Anterroches and contributors.
+ #
+ # Plume CMS is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 2 of the License, or
+ # (at your option) any later version.
+ #
+ # Plume CMS is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with this program; if not, write to the Free Software
+ # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ #
+ # ***** END LICENSE BLOCK ***** */
 
-  /**
-   * @package inc
-   * Dispatcher of the requests to the handlers.
-   */
+/**
+ * @package inc
+ * Dispatcher of the requests to the handlers.
+ */
 class Dispatcher
 {
    var $pluginPath = null;
@@ -69,7 +69,7 @@ class Dispatcher
                continue;
             }
 
-            //$res = call_user_func(array($control['plugin'], 'action'), 
+            //$res = call_user_func(array($control['plugin'], 'action'),
             //                      $match);
             $obj = new $control['plugin'];
             $res = $obj->action($match);
@@ -89,7 +89,7 @@ class Dispatcher
    /**
     * Load the builtin controllers.
     *
-    * The builtin controllers are for: news, article, category, 
+    * The builtin controllers are for: news, article, category,
     * page not found, search and rss.
     */
    function loadBuiltinControllers() {
@@ -105,7 +105,7 @@ class Dispatcher
 
       $d = dir($this->pluginPath);
       while (($entry = $d->read()) !== false) {
-         if ($entry != '.' && $entry != '..' 
+         if ($entry != '.' && $entry != '..'
              && is_dir($this->pluginPath.$entry) 
              && file_exists($this->pluginPath.$entry.'/register.php')) {
             include_once($this->pluginPath.$entry.'/register.php');
@@ -120,7 +120,7 @@ class Dispatcher
     *
     * - The plugin must provide a "standalone" action method
     * pluginname::action($querystring)
-    * - The priority is to order the controller matches. 
+    * - The priority is to order the controller matches.
     * 5: Default, if the controller provides some content
     * 1: If the controller provides a control before, without providing
     * content, note that in this case the return code must be a redirection.
@@ -137,8 +137,8 @@ class Dispatcher
          $GLOBALS['_PX_control'] = array();
       }
       $GLOBALS['_PX_control'][] = array('plugin' => $plugin,
-                                        'regex' => $regex,
-                                        'priority' => $priority);
+      'regex' => $regex,
+      'priority' => $priority);
    }
 
 }

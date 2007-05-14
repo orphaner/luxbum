@@ -1,8 +1,8 @@
-<?php include ('header.php');?>
+<?php include ('_header.php');?>
 <body id="bodyMeta">
   <div id="metaData">
     <h2><?php echo __('Meta data');?></h2>
-    <?php if (!lb::metaExists(true)): ?>
+    <?php if (!lbmeta::metaExists(true)): ?>
     <?php ___('No meta Found');?>
     <?php else: ?>
     <table class="cleanTable">
@@ -12,8 +12,8 @@
       </tr>
       <?php while (!$meta->EOF()):?>
       <tr>
-        <td><?php ___(lb::getMetaName(true)); ?></td>
-        <td><?php lb::getMetaValue(); ?></td>
+        <td><?php ___(lbmeta::getMetaName(true)); ?></td>
+        <td><?php lbmeta::getMetaValue(); ?></td>
       </tr>
       <?php $meta->moveNext();
       endwhile;?>
@@ -22,4 +22,4 @@
     <p><a href="javascript:window.close();"><?php echo __('Close the window');?></a></p>
   </div>
 </body>
-<?php include ('footer.php');?>
+<?php include ('_footer.php');?>
