@@ -35,7 +35,7 @@ class ImageToolkitImageMagick extends ImageToolkit {
          }
          // Other methods
          else {
-            $cmd = 'convert -quality 80 -treedepth 3 -resize %dx%d -geometry %dx%d %s %s';
+            $cmd = 'convert -quality 80 -treedepth 5 -resize %dx%d -geometry %dx%d %s %s';
             $cmd = sprintf($cmd, 
                            $this->imageDestWidth, $this->imageDestHeight,
                            $this->imageDestWidth, $this->imageDestHeight,
