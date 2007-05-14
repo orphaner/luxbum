@@ -73,7 +73,7 @@ include (TEMPLATE_DIR.TEMPLATE.'/conf_'.TEMPLATE.'.php');
 
 //include('api/inc/exception.php');
 include('api/inc/HTTP.php');
-include('api/inc/HTTP/Error404.php');
+/*include('api/inc/HTTP/Error404.php');
 include('api/inc/HTTP/Error500.php');
 include('api/inc/HTTP/Request.php');
 include('api/inc/HTTP/Response.php');
@@ -83,7 +83,7 @@ include('api/inc/HTTP/Response/NotFound.php');
 include('api/inc/HTTP/Response/Redirect.php');
 include('api/inc/HTTP/Response/RedirectToLogin.php');
 include('api/inc/HTTP/Response/ServerErrorDebug.php');
-include('api/inc/HTTP/Response/ServerError.php');
+include('api/inc/HTTP/Response/ServerError.php');*/
 
 
 include('api/inc/recordset.php');
