@@ -96,7 +96,11 @@ class Pluf_Middleware_Debug
 // -->
   </script>';
         $text = '<pre style="text-align: left;">';
-        $text .= 'Peak mem: '.(int)(xdebug_peak_memory_usage()/1024).'kB'."\n";
+        if (function_exists('xdebug_peak_memory_usage')) {
+           $text .= 'Xdebug Peak mem: '.(int)(xdebug_peak_memory_usage()/1024).'kB'."\n";
+        }
+        $text .= 'PHP mem: '.(int)(memory_get_usage()/1024).'kB'."\n";
+        $text .= 'PHP Peak mem: '.(int)(memory_get_usage()/1024).'kB'."\n";
         $text .= 'Exec time: '.sprintf('%.5f', (microtime(true) - $GLOBALS['_PX_starttime'])).'s'."\n";
         if (!isset($GLOBALS['_PX_debug_data']['untranslated'])) {
            $text .= 'Toutes les chaines sont ok';
