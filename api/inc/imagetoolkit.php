@@ -22,7 +22,26 @@ class ImageToolkit
    var $imagDest;
    var $imageDestWidth;
    var $imageDestHeight;
+   var $mode;
+   
+   static function factory($imagePath, $imageDriver='') {
+      if ($imageDriver === '') {
+         $imageDriver = Pluf::f('image_generation_driver');
+      }
+      switch($imageDriver) {
+         case 'gd':
+            return new ImageToolkitGD($imagePath);
+            break;
 
+         case 'imagemagick':
+            return new ImageToolkitImageMagick($imagePath);
+            break;
+
+         case 'imagick':
+            break;
+      }
+   }
+   
    /**
     * Constructeur par d�faut
     * @param String $image Chemin complet vers l'image

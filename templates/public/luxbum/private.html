@@ -1,0 +1,55 @@
+{include '_header.html'}
+<body id="body"> 
+  <h1><span>{$cfg['gallery_name']}</span></h1>
+
+  <div id="galleryList">
+
+
+<div id="navigBar">
+<ol class="tree">
+<li>&#187; <a href="{$cfg['url_base']}"><strong>{i18n 'Home'}</strong></a></li>
+{NavigationMenu $galleries, '<li>%s</li>', '&#187;'}
+</ol>
+</div>
+    <div id="privateForm">
+
+      
+      {if $privatePost.posted}
+        <div id="messageKo">{i18n 'Authentication failed. Please check the form :'}</div>
+      {else}
+        <div id="messageOk">{i18n 'You need to fill in the form bellow to consult the selected gallery'}</div>
+      {/if}
+
+      <form method="post" id="loginform" action="">
+        <input type="hidden" name="action" id="action" value="private"/>
+        
+        <fieldset>
+          <legend>{i18n 'Authentication required'}</legend>
+          <p>
+            <label for="login" class="float"><strong>{i18n 'Login'}</strong> : </label>
+            <input type="text" name="login" id="login" value="{$privatePost.login}"/>
+            {$privatePost->getError('login')|errorSpan}
+          </p>
+          <p>
+            <label for="password" class="float"><strong>{i18n 'Password'}</strong> : </label>
+            <input type="password" name="password" id="password" value="{$privatePost.password}"/>
+            {$privatePost->getError('password')|errorSpan}
+          </p>
+        </fieldset>
+
+        <p style="text-align:center">
+          <input type="submit" value="{i18n 'Submit'}"/>
+          <input type="reset" value="{i18n 'Clear'}"/>
+        </p>
+      </form>
+    </div>
+
+    <div class="spacer"></div>
+  </div>
+
+  <div id="footerIndex"><a href="http://blog.luxbum.net/"><img src="http://www.luxbum.net/luxbum.png" alt="Powered By LuxBum"/></a><br />
+    Luxbum by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
+
+</body>
+
+{include '_footer.html'}

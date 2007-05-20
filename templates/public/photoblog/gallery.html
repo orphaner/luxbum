@@ -1,0 +1,49 @@
+{include '_header.html'}
+
+<div id="gallerytitle"><h1>{$cfg['gallery_name']}</h1></div>
+
+<h2>
+  <a href="{$cfg['url_base']}"><strong>{i18n 'Home'}</strong></a> 
+  {NavigationMenu $gallery, '%s', ' | '}
+</h2>
+
+
+<div id="images">
+  {foreach $gallery as $file}
+  <div>
+    <div class="image">
+      <div class="imagethumb">
+        <a href="{$file.linkDisplay}"><img src="{$file.thumbUrl}" {$file.thumbResizeSize} alt=""/></a>
+      </div>
+    </div>
+  </div>
+  {/foreach}
+</div>
+<p style="clear:both;"></p>
+
+<div class="pagelist">
+
+  <ul class="pagelist">
+    {if $pages->isFirst()}
+    <li class="prev"><span class="disabledlink">&laquo; {i18n 'prev'}</span></li>  
+    {else}
+    <li class="prev"><a href="{$pages.linkPreviousPageGallery}">&laquo; {i18n 'prev'}</a></li>
+    {/if}
+
+    {foreach $pages as $page}
+    {if $page.page == $pages.currentPage}
+    <li class="current"><a href="{$pages.linkVignette}" title="{$page.page}">{$page.text|unsafe}</a></li>
+    {else}
+    <li><a href="{$pages.linkVignette}" title="{$page.page}">{$page.text|unsafe}</a></li>
+    {/if}
+    {/foreach}
+
+    {if $pages->isLast()}
+    <li class="next"><span class="disabledlink">{i18n 'next'} &raquo;</span></li>  
+    {else}
+    <li class="next"><a href="{$pages.linkNextPageGallery}">{i18n 'next'} &raquo;</a></li>
+    {/if}
+
+  </ul>
+</div>
+{include '_footer.html'}

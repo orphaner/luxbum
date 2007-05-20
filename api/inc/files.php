@@ -9,7 +9,8 @@ class files {
     * Ajoute un slash final si il n'y en a pas
     */
    function addTailSlash ($dir) {
-      if (strlen($dir) > 1 && $dir[strlen ($dir) - 1] != '/') {
+      $size = strlen($dir);
+      if ($size > 1 && $dir[$size - 1] != '/') {
          $dir = $dir.'/';
       }
       return $dir;
@@ -19,11 +20,12 @@ class files {
     * Ajoute le slash final si il n'y en a un
     */
    function removeTailSlash ($dir) {
-      if (strlen ($dir) == 0) {
+      $size = strlen($dir);
+      if ($size == 0) {
          return $dir;
       }
-      if ($dir[strlen ($dir) - 1] == '/') {
-         $dir = substr ($dir, 0, strlen ($dir) - 1);
+      if ($dir[$size - 1] == '/') {
+         $dir = substr ($dir, 0, $size - 1);
       }
       return $dir;
    }
@@ -179,12 +181,13 @@ class files {
     */
    function getExtension($f) {
       $f = explode('.',basename($f));
-
-      if (count($f) <= 1) {
+      $c = count($f);
+      
+      if ($c <= 1) {
          return '';
       }
 
-      return strtolower($f[count($f)-1]);
+      return strtolower($f[$c - 1]);
    }
 
    /**

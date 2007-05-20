@@ -21,7 +21,7 @@ class luxBumImage extends CommonFile
     * @param String $img le nom de l'image
     */
    function luxBumImage($dir, $file) {
-      $this->dir = $dir;
+      $this->dir = files::addTailSlash($dir);
       $list = split('/', $dir);
       $this->name = $list[count($list) - 1];
       $this->type = TYPE_IMAGE_FILE;
@@ -87,9 +87,15 @@ class luxBumImage extends CommonFile
     * Generate the thumb and returns the file path to it.
     * @return String File path to the generated thumb.
     */
-   function generateThumb($dst_w = 85, $dst_h = 85) {
-      $this->thumbToolkit = processFactory::imageToolkit($this->getImagePath ());
-      $this->thumbToolkit->setDestSize ($dst_w, $dst_h);
+   function generateThumb($dst_w = 85, $dst_h = 85, $mode) {
+      $this->thumbToolkit = ImageToolkit::factory($this->getImagePath ());
+      if ($mode == true) {
+         $mode = 'crop';
+      }
+      else {
+         $mode = 'ratio';
+      }
+      $this->thumbToolkit->setDestSize ($dst_w, $dst_h, $mode);
 
       $final = luxbum::getThumbImage ($this->dir, $this->file, $dst_w, $dst_h);
       if (!is_file ($final)) {
@@ -124,9 +130,15 @@ class luxBumImage extends CommonFile
     * Generate the preview and returns the file path to it.
     * @return String File path to the generated preview.
     */
-   function generatePreview ($dst_w = 650, $dst_h = 485) {
-      $this->previewToolkit = processFactory::imageToolkit($this->getImagePath ());
-      $this->previewToolkit->setDestSize ($dst_w, $dst_h);
+   function generatePreview ($dst_w = 650, $dst_h = 485, $mode) {
+      $this->previewToolkit = ImageToolkit::factory($this->getImagePath ());
+      if ($mode == true) {
+         $mode = 'crop';
+      }
+      else {
+         $mode = 'ratio';
+      }
+      $this->previewToolkit->setDestSize ($dst_w, $dst_h, $mode);
 
       // If the generation is not needed, returns the file path to the original image
       if ($this->_needPreview($this->previewToolkit) == false) {
@@ -245,6 +257,10 @@ class luxBumImage extends CommonFile
 
    function getMeta() {
       return $this->imageMeta;
+   }
+   
+   function getLinkFullImage() {
+      return link::full($this->dir, $this->file);
    }
 }
 

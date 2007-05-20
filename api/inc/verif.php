@@ -6,7 +6,7 @@
 class verif {
    
    /**
-    * Vérifie si le format du nom du dossier est correct
+    * Vï¿½rifie si le format du nom du dossier est correct
     * @param String dir Dossier de l'image
     */
    function dir ($dir) {
@@ -17,19 +17,19 @@ class verif {
    }
    
    /**
-    * Vérifie si l'image existe
+    * Vï¿½rifie si l'image existe
     * @param String dir Dossier de l'image
     * @param String $img Nom de l'image
     */
    function photo ($dir, $img) {
-      if (!is_file (luxbum::getImage ($dir, $img))) {
+      if (!is_file(luxbum::getImage($dir, $img))) {
          return false;
       }
       return true;
    }
 
    /**
-    * Vérifie si le dossier est correct
+    * Vï¿½rifie si le dossier est correct
     */
    function isDir ($dir) {
       if (!verif::dir ($dir)) {
@@ -41,7 +41,7 @@ class verif {
    }
 
    /**
-    * Vérifie si un couple dossier/image est correct.
+    * Vï¿½rifie si un couple dossier/image est correct.
     * Exit si erreur !
     * @param String dir Dossier de l'image
     * @param String $file Nom de l'image

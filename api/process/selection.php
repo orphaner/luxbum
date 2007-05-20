@@ -10,22 +10,21 @@ class Selection {
     *
     * @var array
     */
-   var $list = array();
+   private $list = array();
 
    /**
     * Enter description here...
     *
     * @var integer
     */
-   var $count = 0;
+   private $count = 0;
       
    /**
-    * Enter description here...
+    * Singleton to create a new selection or reuse the existing selection.
     *
     * @return Selection the instance of the current selection
     */
-   function getInstance() {
-      //unset($_SESSION['lbSelection']);
+   public function getInstance() {
       if (!isset($_SESSION['lbSelection'])) {
          return new Selection();
       }
@@ -33,12 +32,12 @@ class Selection {
    }
 
    /**
-    * Enter description here...
+    * Add a file to the current selection
     *
-    * @param string $dir
-    * @param string $img
+    * @param String $dir
+    * @param String $img
     */
-   function addFile($dir, $file) {
+   public function addFile($dir, $file) {
       if(!isSet($this->list[$dir])){
          $this->list[$dir] = array();
       }
@@ -47,32 +46,33 @@ class Selection {
    }
 
    /**
-    * Enter description here...
+    * Remove a file from the current selection
     *
-    * @param string $dir
-    * @param string $img
+    * @param String $dir
+    * @param String $img
     */
-   function removeFile($dir, $file) {
+   public function removeFile($dir, $file) {
       unset($this->list[$dir][$file]);
       $this->count--;
    }
    
    /**
-    * Enter description here...
+    * Check if a file is in the current selection
     *
-    * @param string $dir
-    * @param string $img
+    * @param String $dir
+    * @param String $img
+    * @return boolean true if a file is in the current selection ; false otherwise
     */
-   function exists($dir, $file) {
+   public function exists($dir, $file) {
       return isset($this->list[$dir][$file]);
    }
     
    /**
-    * Enter description here...
+    * Returns the current selection into an array.
     *
     * @return array
     */
-   function toArray() {
+   public function toArray() {
       $t = array();
       $i = 0;
       foreach($this->list as $dir => $s){
@@ -90,16 +90,26 @@ class Selection {
     *
     * @return integer
     */
-   function getCount() {
-      return $this->getCount();
+   public function getCount() {
+      return $this->count;
    }
    
    /**
     * Enter description here...
     * @static
+    * @param Selection $selection
     */
-   function saveSelection($selection) {
+   static public function saveSelection($selection) {
       $_SESSION['lbSelection'] = $selection;
+   }
+   
+   /**
+    * Delete the entire selection
+    * @static
+    * @param Selection $selection
+    */
+   static public function deleteSelection() {
+      $_SESSION['lbSelection'] = null;
    }
 }
 

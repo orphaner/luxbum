@@ -1,0 +1,128 @@
+{include '_header.html'}
+
+<body id="body">  
+  <div id="centerV">
+    <div id="centerH"> 
+
+      <h1 class="vig_titre">{$cfg['gallery_name']}</h1>
+      <div id="viewPage">
+
+        <div id="navigBar">
+          <ol class="tree">
+            <li>&#187; <a href="{$cfg['url_base']}"><strong>{i18n 'Home'}</strong></a></li>
+            {NavigationMenu $gallery, '<li>%s</li>', '&#187;'}
+          </ol>
+        </div>
+
+        <div id="navigThumb">
+          <div id="thumbList">
+            {foreach $gallery as $file}
+            <div class="thumb">
+              <div class="thumbNumber">
+                {$gallery.intIndex + 1} / {$gallery.totalCount}
+              </div>
+              <div class="">
+                {if $file->isImage()}
+                <a href="{$file.linkGallery}"><img src="{$file.thumbUrl}" {$file.thumbResizeSize} alt=""/></a>
+                {/if}
+                {if $file->isFlv()}
+                <a href="{$file.linkGallery}"><img src="{$file.thumbUrl}" {$file.thumbResizeSize} alt=""/></a>
+                {/if}
+              </div>
+            </div>
+            {/foreach}
+          </div>
+
+          <div id="paginator">
+            <table class="tborder" cellpadding="3" cellspacing="1" border="0" summary="">
+              <tr>
+                <td class="affpage">
+                  {i18n 'Page'} {$pages.currentPage} {i18n 'on'} {$pages.totalPages}
+                </td>
+                {foreach $pages as $page}
+                {if $page.page == $pages.currentPage}
+                <td class="alt2">
+                  {else}
+                <td class="alt1">
+                  {/if}
+                  <a href="{$pages.linkVignette}">{$page.text|unsafe}</a>
+                </td>
+                {/foreach}
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div id="navigPicture">
+          <div id="picture">
+            {if $cFile->isImage()}
+            <a href="{$cFile.linkFullImage}" onclick="window.open(this.href,'',''); return false;"><img src="{$cFile.previewUrl}" {$cFile.previewResizeSize} alt=""/></a>
+            {/if}
+            
+            {if $cFile->isFlv()}
+            <script type="text/javascript" src="templates/common/flash/video/swfobject.js"></script>
+            <script type="text/javascript">
+              var fo = new SWFObject("{$cFile.videoPlayer}?config={ldelim}menuItems: [ true, true, true, true, false, false], autoPlay:false, loop:false,videoFile: '{$cFile.urlPath}'{rdelim}", "FlowPlayer", "640", "480", "7", "{$cFile.flashPlayerBgcolor}", true);
+              fo.addParam("AllowScriptAccess", "always");
+              fo.write("picture");
+            </script>
+            
+            {/if}
+          </div>
+
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" summary="">
+            <tr>
+              <td width="30">
+                {if $gallery->isFirst()}
+                &nbsp;
+                {else}
+                <a href="{$gallery.linkPreviousGallery}">
+                  <img src="{$cfg['color_theme_path']}/images/previous.png" alt="{i18n previous}"/>
+                </a>
+                {/if}
+              </td>
+
+              <td class="pictureDescription">
+                {if $cFile->hasDateDescription()}
+                <span class="description">{$cFile.dateDescription}</span>
+                {/if}
+                <br />
+
+                {if $cfg['show_selection']}
+                  {if $cFile->isSelected()}
+                  + <a href="{$cFile.linkUnselect}">{i18n 'Unselect file'}</a>
+                  {else}
+                  + <a href="{$cFile.linkSelect}">{i18n 'Select file'}</a>
+                  {/if}
+                {/if}
+
+                {if $cfg['show_meta'] && $cFile->isImage()}
+                + <a href="javascript:void(0);" onclick="window.open('{$cFile.linkMeta}','Meta','width=350,height=400,scrollbars=yes,resizable=yes');">{i18n 'Meta data'}</a>
+                {/if}
+
+                {if $cfg['show_selection']}
+                + <a href="javascript:void(0);" onclick="window.open('{$cFile.linkComment}','Comments','width=480,height=540,scrollbars=yes,resizable=yes');">{i18n 'Comments'} 
+                  ({$cFile.commentCount})</a>
+                {/if}
+              </td>
+
+              <td width="30">
+                {if $gallery->isLast()}
+                &nbsp;
+                {else}
+                <a href="{$gallery.linkNextGallery}">
+                  <img src="{$cfg['color_theme_path']}/images/next.png" alt="{i18n next}"/>
+                </a>
+                {/if}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <div id="footer"><a href="http://www.luxbum.net/">Luxbum</a> by <a href="mailto:nico_at_tuxfamily.org">Nico</a></div>
+  </div>
+</body>
+
+{include '_footer.html'}

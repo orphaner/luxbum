@@ -60,6 +60,7 @@ class Pass {
 class PassPost  {
    var $login;
    var $password;
+   private $posted = false;
 
    function getLogin() {
       return $this->login;
@@ -79,6 +80,8 @@ class PassPost  {
    }
 
    function fillFromPost() {
+      $this->posted = true;
+      
       // login, mandatory
       if (isset ($_POST['login']) && $_POST['login'] != '') {
          $this->setLogin (protege_input ($_POST['login']));
@@ -99,7 +102,7 @@ class PassPost  {
    /**
     * 
     */
-   function getError ($champ) {
+   function getError($champ) {
       if (array_key_exists ($champ, $this->errors)) {
          return $this->errors[$champ];
       }
@@ -111,6 +114,13 @@ class PassPost  {
     */
    function isValidForm () {
       return (count ($this->errors) == 0);
+   }
+   
+   /**
+    * 
+    */
+   function getPosted() {
+      return $this->posted;
    }
 }
 
@@ -170,6 +180,7 @@ class PrivateManager
     * @param String dir
     */
    function isPrivate($dir) {
+      $dir = files::removeTailSlash($dir);
       reset($this->list);
       while (list($key, $val) = each($this->list)) {
          if ($this->startsWith($key, $dir)) {
@@ -183,6 +194,7 @@ class PrivateManager
     * @param String dir
     */
    function isPrivateExact($dir) {
+      $dir = files::removeTailSlash($dir);
       reset($this->list);
       while (list($key, $val) = each($this->list)) {
          if ($key == $dir) {
@@ -196,6 +208,7 @@ class PrivateManager
     * @param String dir
     */
    function getPrivateEntry($dir) {
+      $dir = files::removeTailSlash($dir);
       reset($this->list);
       while (list($key, $val) = each($this->list)) {
          if ($this->startsWith($key, $dir)) {
@@ -209,6 +222,7 @@ class PrivateManager
     * @param String dir
     */
    function isUnlocked($dir) {
+      $dir = files::removeTailSlash($dir);
       // A manager is loggued in
       if (isset($_SESSION['manager']) && $_SESSION['manager']) {
          return true;
@@ -230,6 +244,7 @@ class PrivateManager
     * @param String dir
     */
    function isLocked($dir) {
+      $dir = files::removeTailSlash($dir);
       return !$this->isUnlocked($dir);
    }
 
@@ -237,6 +252,7 @@ class PrivateManager
     * @param String dir
     */
    function unlockDir($dir, $passForm) {
+      $dir = files::removeTailSlash($dir);
       $key = $this->getPrivateEntry($dir);
       if ($key == null) {
          return true;
@@ -253,6 +269,7 @@ class PrivateManager
     * @static
     */
    function isLockedStatic($dir) {
+      $dir = files::removeTailSlash($dir);
       $privateManager =& PrivateManager::getInstance();
       return $privateManager->isLocked($dir);
    }
@@ -271,6 +288,7 @@ class PrivateManager
     * @param String dir
     */
    function removePrivateGallery($dir) {
+      $dir = files::removeTailSlash($dir);
       if (array_key_exists($dir, $this->list)) {
          unset($this->list[$dir]);
       }
@@ -282,6 +300,7 @@ class PrivateManager
     * @param String pass
     */
    function updatePrivateGallery($dir, $user, $pass) {
+      $dir = files::removeTailSlash($dir);
       if (array_key_exists($dir, $this->list)) {
          $this->list[$dir]->setPass($pass);
          $this->list[$dir]->setUser($user);
@@ -293,6 +312,8 @@ class PrivateManager
     * @param String newDir
     */
    function renamePrivateGallery($oldDir, $newDir) {
+      $oldDir = files::removeTailSlash($oldDir);
+      $newDir = files::removeTailSlash($newDir);
       if (array_key_exists($oldDir, $this->list)) {
          $this->list[$newDir] = $this->list[$oldDir];
          unset($this->list[$oldDir]);

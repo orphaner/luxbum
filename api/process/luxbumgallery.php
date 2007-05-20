@@ -32,11 +32,11 @@ class luxBumGallery extends CommonGallery
     * @param String $dir Dossier de la galerie
     */
    function luxBumGallery ($dir, $preview = '') {
-      parent::Recordset2();
+      parent::__construct();
       $this->preview = $preview;
 
-      $this->dir = $dir;
-      $this->dirPath = luxbum::getFsPath($dir);
+      $this->dir = files::addTailSlash($dir);
+      $this->dirPath = files::addTailSlash(luxbum::getFsPath($dir));
       $list = split('/', $dir);
       $this->name = $list[count($list) - 1];
 
@@ -133,7 +133,10 @@ class luxBumGallery extends CommonGallery
       $privateManager =& PrivateManager::getInstance();
       return $privateManager->isUnlocked($this->dir);
    }
-
+   
+   function isPrivateAndLocked($current = true) {
+      return $this->isPrivate() && !$this->isUnlocked();
+   }
 
    /**-----------------------------------------------------------------------**/
    /** Descriptions / dates */
@@ -148,7 +151,10 @@ class luxBumGallery extends CommonGallery
       $desc = array ();
 
       if (is_file ($this->dirPath.DESCRIPTION_FILE)) {
-         $fd = fopen ($this->dirPath.DESCRIPTION_FILE, 'r+');
+         $fd = @fopen ($this->dirPath.DESCRIPTION_FILE, 'r+');
+         if ($fd === false) {
+            throw new Exception("Unable to open file: ".$this->dirPath.DESCRIPTION_FILE);
+         }
          while ($line = trim(fgets($fd)))  {
             if ( ereg ('^.*\|.*\|.*$', $line)) {
                list ($imgName, $imgDescription) = explode ('|', $line, 2);
@@ -218,7 +224,7 @@ class luxBumGallery extends CommonGallery
     *
     */
    function isSubGallery ($current_file) {
-      if (!is_dir ($this->dirPath.$current_file)) {
+      if (!is_dir($this->dirPath.$current_file)) {
          return false;
       }
       if ($current_file[0] == '.') {
@@ -228,7 +234,7 @@ class luxBumGallery extends CommonGallery
           || $current_file == files::removeTailSlash(PREVIEW_DIR)) {
          return false;
       }
-      if (files::isPhotoFile ($this->dir, $current_file)) {
+      if (files::isPhotoFile($this->dir, $current_file)) {
          return false;
       }
       return true;
@@ -403,20 +409,6 @@ class luxBumGallery extends CommonGallery
       $this->preview = $default;
    }
 
-   
-   /**
-    * Retourne le lien de la vignette de l'image vers le script qui g�n�re
-    * l'image
-    * @return Lien de la vignette de l'image vers le script de g�n�ration
-    */
-   function getIndexLink () {
-
-      $this->_completeDefaultImage ();      
-
-      // La galerie contient des photos
-      return link::index($this->dir, $this->preview);
-   }
-
    /**
     * Set an user defined image
     * @param String $filename Filename of the user defined image
@@ -468,26 +460,10 @@ class luxBumGallery extends CommonGallery
          $img->clearCache ();
       }
    }
-
-//   /**
-//    * Supprime les vignettes cachées de la galerie
-//    */
-//   function clearThumbCache () {
-//      reset ($this->list);
-//      while (list (,$img) = each ($this->list)) {
-//         $img->clearThumbCache ();
-//      }
-//   }
-//
-//   /**
-//    * Supprime les aperçus cachés de la galerie
-//    */
-//   function clearPreviewCache () {
-//      reset ($this->list);
-//      while (list (,$img) = each ($this->list)){
-//         $img->clearPreviewCache ();
-//      }
-//   }
+   
+   function __toString() {
+      echo "luxbumgallery::__toString();";
+   }
 }
 
 ?>

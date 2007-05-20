@@ -62,7 +62,7 @@ class luxBum {
     * With a trailing slash
     */
    function getThumbPath ($dir) {
-      return luxbum::getFsPath ($dir) . THUMB_DIR;
+      return PHOTOS_DIR . $dir . THUMB_DIR;
    }
 
    /**
@@ -70,7 +70,7 @@ class luxBum {
     * With a trailing slash
     */
    function getPreviewPath ($dir) {
-      return luxbum::getFsPath ($dir) . PREVIEW_DIR;
+      return PHOTOS_DIR . $dir . PREVIEW_DIR;
    }
 
    /**
@@ -78,7 +78,7 @@ class luxBum {
     * With a trailing slash
     */
    function getCommentPath($dir) {
-      return luxbum::getFsPath ($dir) . COMMENT_DIR;
+      return PHOTOS_DIR . $dir . COMMENT_DIR;
    }
 
    /**
@@ -93,13 +93,12 @@ class luxBum {
     * Retourne le chemin complet du dossier $dir de photos
     * With a trailing slash
     */
-   function getFsPath ($dir, $subdir='') {
-      if ($subdir == '') {
-         return PHOTOS_DIR.files::addTailSlash($dir);
-      }
-      else {
-         return PHOTOS_DIR.files::addTailSlash($dir).files::addTailSlash($subdir);
-      }
+   function getFsPath($dir) {
+      return PHOTOS_DIR.$dir;
+   }
+   
+   function getFsPath2($dir, $subdir='') {
+      return PHOTOS_DIR.$dir.files::addTailSlash($subdir);
    }
 
    /**-----------------------------------------------------------------------**/
@@ -109,15 +108,15 @@ class luxBum {
    /**
     * Retourne le chemin de l'image $img du dossier $dir d'images
     */
-   function getImage ($dir, $img) {
-      return luxbum::getFsPath ($dir) . $img;
+   function getImage($dir, $img) {
+      return PHOTOS_DIR . $dir . $img; // better to use luxbum::getFsPath ;
    }
    
    /**
     * Return the full file path
     */
    function getFilePath($dir, $img) {
-      return luxbum::getFsPath ($dir) . $img;
+      return PHOTOS_DIR . $dir . $img; // better to use luxbum::getFsPath ;
    }
 
    /**

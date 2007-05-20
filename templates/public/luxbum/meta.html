@@ -1,0 +1,26 @@
+{include '_header.html'}
+
+<body id="bodyMeta">
+  <div id="metaData">
+    <h2>{i18n 'Meta data'}</h2>
+    {if !$img->hasMeta()}
+      {i18n 'No meta Found'}
+    {else}
+    <table class="cleanTable" summary="">
+      <tr>
+        <th>{i18n 'Metadata name'}</th>
+        <th>{i18n 'Metadata value'}</th>
+      </tr>
+      {foreach $metas as $meta}
+      <tr>
+        <td>{$meta.name}</td>
+        <td>{$meta.value}</td>
+      </tr>
+      {/foreach}
+    </table>
+    {/if}
+    <p><a href="javascript:window.close();">{i18n 'Close the window'}</a></p>
+  </div>
+</body>
+
+{include '_footer.html'}

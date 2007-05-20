@@ -28,14 +28,13 @@ class LuxbumFlv extends commonFile
       return files::getMimeType($this->file);
    }
 
-   function getVignettePageUrl() {
-      return link::fileFlv($this->dir, $this->file);
-   }
+   //function getVignettePageUrl() {
+   //   return link::fileFlv($this->dir, $this->file);
+   //}
    
-   function urlPath() {
+   function getUrlPath() {
       return link::fileFlvDL($this->dir, $this->file);//URL_BASE.$this->getFilePath();
    }
-
 
 
    /**-----------------------------------------------------------------------**/
@@ -93,6 +92,13 @@ class LuxbumFlv extends commonFile
     */
    function clearCache () {
       // TODO
+   }
+   
+   function getVideoPlayer() {
+      return TEMPLATE_COMMON_DIR.'/flash/video/'.$GLOBALS['video_player'][Pluf::f('template_theme')].'.swf';
+   }
+   function getFlashPlayerBgcolor() {
+      return $GLOBALS['video_player_bgcolor'][Pluf::f('template_theme')];
    }
 }
 

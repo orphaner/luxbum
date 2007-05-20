@@ -32,7 +32,7 @@ a:hover, a:focus, a:active {
   height: 540px; 
   width:1000px;
   left: 50%;
-  margin-left: -507px; /* moitié de la hauteur */
+  margin-left: -507px; /* moitiï¿½ de la hauteur */
 }
 div.spacer {
   clear:both;
@@ -209,7 +209,7 @@ body#body h1 span {
 #paginator a { 
   padding:0 2px;
 }
-/* Ici pour définir la couleur de fond du cadre ! */
+/* Ici pour dï¿½finir la couleur de fond du cadre ! */
 #paginator .tborder {
   background-color: #5A5A5A;
   margin: auto;
@@ -268,6 +268,14 @@ body#body h1 span {
   padding-left: 0;
 }
 
+#selection h2.title {
+  margin-top:20px;
+  margin-left:10px;
+  text-align:left;
+  font-size: 14px;
+  padding: 0;
+  border-bottom: 1px solid #f5f5dc;
+}
 
 /*===========================================
    Affichage des images
@@ -497,7 +505,7 @@ body#body h1 span {
   border-top: 1px solid #A10000;
   border-bottom: 1px solid #A10000;
   padding-left:25px;
-  font-size: 0.9em;
+  font-size: 1.3em;
   background-position:7px;
   color:#c00;
 }

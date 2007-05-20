@@ -7,10 +7,6 @@
 /* Basics
 ------------------------------ */
 html {
-    /* IE */
-    overflow-y: scroll; 
-    /* Moz */
-    height: 100%;
     margin-bottom: 0.1em;
 }
 
@@ -180,6 +176,7 @@ ul.pagelist li.next {
 ------------------------------ */
 .album {
     padding: 10px;
+    height:85px;
     margin-bottom: 12px;
     clear: both;
     border: 1px solid #E7F0F5;
@@ -226,7 +223,7 @@ ul.pagelist li.next {
 }
 .imgnav {
     float: right;
-    width: 180px;
+    width: 200px;
     text-align: center;
     border: 1px solid #D5E6EE;
     background: #EEF5F9;
@@ -234,12 +231,12 @@ ul.pagelist li.next {
     _margin-top: 8px; /* IE Only */
     height:30px;
 }
-.imgnav .imgprevious a, .imgnav .imgnext a {
+.imgnav .imgprevious, .imgnav .imgnext {
     display: block;
-    width: 50%;
+    width: 49%;
     height: 100%;
     float: left;
-    padding: 4px 0;
+    padding: 2px 0px;
     font-size: 100%;
     text-decoration: none;
     line-height: 200%;
@@ -251,9 +248,11 @@ ul.pagelist li.next {
     color: #002E5B;
 }
 .imgnav .imgprevious a {
+	margin-left:4px;
     float: left;
 }
 .imgnav .imgnext a {
+	margin-right:4px;
     float: right;
 }
 #narrow {

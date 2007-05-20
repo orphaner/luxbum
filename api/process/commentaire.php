@@ -24,35 +24,36 @@ class Commentaire {
    
    /**
     * 
+    * @param Pluf_HTTP_Request $request
     */
-   function fillFromPost () {
+   function fillFromPost ($request) {
       // Auteur, obligatoire
-      if (isset ($_POST['author']) && $_POST['author'] != '') {
-         $this->setAuthor (protege_input ($_POST['author']));
+      if (isset ($request->POST['author']) && $request->POST['author'] != '') {
+         $this->setAuthor (protege_input ($request->POST['author']));
       }
       else {
          $this->errors['author'] = _('Champ vide !!!');
       }
 
       // Contenu, obligatoire
-      if (isset ($_POST['content']) && trim ($_POST['content']) != '') {
-         $this->setContent (protege_input ($_POST['content']));
+      if (isset ($request->POST['content']) && trim ($request->POST['content']) != '') {
+         $this->setContent (protege_input ($request->POST['content']));
       }
       else {
          $this->errors['content'] = _('Champ vide !!!');
       }
 
       // Site
-      if (isset ($_POST['website']) && $_POST['website'] != '') {
-         $this->setWebsite (protege_input ($_POST['website']));
+      if (isset ($request->POST['website']) && $request->POST['website'] != '') {
+         $this->setWebsite (protege_input ($request->POST['website']));
          if (!verifsite ($this->website)) {
             $this->errors['website'] = _('Format de site incorrect');
          }
       }
 
       // Email
-      if (isset ($_POST['email']) && $_POST['email'] != '') {
-         $this->setEmail (protege_input ($_POST['email']));
+      if (isset ($request->POST['email']) && $request->POST['email'] != '') {
+         $this->setEmail (protege_input ($request->POST['email']));
          if (!verifEmail ($this->email)) {
             $this->errors['email'] = _('Format d\'email incorrect');
          }

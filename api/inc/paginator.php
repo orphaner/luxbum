@@ -1,16 +1,47 @@
 <?php
 
+class Page {
+   private $text;
+   private $imageName;
+   private $page;
+   
+   /**
+    * @param string $text
+    * @param string $imageName
+    * @param int $page
+    */
+   function __construct($text, $imageName, $page) {
+      $this->text = $text;
+      $this->imageName = $imageName;
+      $this->page = $page;
+   }
+   
+   function getText() {
+      return $this->text;
+   }
+   
+   function getImageName() {
+      return $this->imageName;
+   }
+   
+   function getPage() {
+      return $this->page;
+   }
+}
+
   /**
    * @package inc
    */
-class Paginator extends Recordset2 {
+class Paginator extends inc_Recordset {
+   var $res;
    var $currentPage;
    var $countPages;
    var $elementsByPage;
    var $totalPages;
 
-   function Paginator($currentPage, $countPages, $elementsByPage = 7, $nb_bouton_page = 3) {
-      parent::Recordset2();
+   function Paginator($res, $currentPage, $countPages, $elementsByPage = 7, $nb_bouton_page = 3) {
+      parent::inc_Recordset();
+      $this->res = $res;
       $this->currentPage = $currentPage;
       $this->countPages = $countPages;
       $this->elementsByPage = $elementsByPage;
@@ -52,21 +83,21 @@ class Paginator extends Recordset2 {
       //--- On affiche la fleche de premier et de precedant, si on peut revenir en arriere
       if ($first_button > 0) {
          $mini = true;
-         $this->addToList(array('&lt;&lt;', $this->getPictureNumber(0), 0));
-         $this->addToList(array('&lt;', $this->getPictureNumber($this->currentPage-2), 0));
+         $this->addToList(new Page('&lt;&lt;', $this->getPictureNumber(0), 0));
+         $this->addToList(new Page('&lt;', $this->getPictureNumber($this->currentPage-2), 0));
       }
 
       //--- On parcours la liste des bouttons
       for ($j=$first_button; $j < $last_button; $j++) {
          $mini = true;
-         $this->addToList(array($j+1, $this->getPictureNumber($j), $j+1));
+         $this->addToList(new Page($j+1, $this->getPictureNumber($j), $j+1));
       }
 
       //--- On affiche la fleche de dernier et de suivant, si $last_button n'est pas la derniere page
       if ( $last_button < $nb_sql ) {
          $mini = true;
-         $this->addToList(array('&gt;', $this->getPictureNumber($j), 0));
-         $this->addToList(array('&gt;&gt;', $this->getPictureNumber($nb_sql-1), 0));
+         $this->addToList(new Page('&gt;', $this->getPictureNumber($j), 0));
+         $this->addToList(new Page('&gt;&gt;', $this->getPictureNumber($nb_sql-1), 0));
       }
    }
 
@@ -86,6 +117,49 @@ class Paginator extends Recordset2 {
    function prevPage () {
       return  ($this->currentPage * $this->elementsByPage) - (2 * $this->elementsByPage);
    }
+   
+   function getLinkVignette($return = false) {
+      $this->res->move($this->f()->getImageName());
+      
+      $file = $this->res->f();
+      return link::gallery($file->getDir(), $file->getFile());
+   }
 
+   
+   function isFirst() {
+      return $this->getCurrentPage() == 1;
+   }
+
+   /**
+    *
+    */
+   function isLast() {
+      return $this->getCurrentPage() == $this->getTotalPages();
+   }
+   
+   /**
+    * @return string the link url to consult the previous page in a gallery page
+    */
+   public function getLinkPreviousPageGallery() {
+      if ($this->isFirst()) {
+         return '';
+      }
+      $this->res->move($this->prevPage());
+      $file = $this->res->f();
+      return link::gallery($file->getDir(), $file->getFile());
+   }
+   
+   /**
+    * @return string the link url to consult the next page in a gallery page
+    */
+   public function getLinkNextPageGallery() {
+      if ($this->isLast()) {
+         return '';
+      }
+      $this->res->move($this->nextPage());
+      $file = $this->res->f();
+      return link::gallery($file->getDir(), $file->getFile());
+   }
+   
 }
 ?>

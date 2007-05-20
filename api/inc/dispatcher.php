@@ -40,10 +40,39 @@ class Dispatcher
     * @param string Query string ('')
     */
    function Launch($query='') {
+      $query = rawurldecode($query);
       $query = preg_replace('#^(/)+#', '/', '/'.$query);//echo $query;
       $this->loadBuiltinControllers();
       $this->loadControllers();
-      $this->match($query);
+      //$this->match($query);
+
+      $query = preg_replace('#^(/)+#', '/', '/'.$query);
+      $req = new Pluf_HTTP_Request($query);
+      $middleware = array();
+      foreach (Pluf::f('middleware_classes', array()) as $mw) {
+         $middleware[] = new $mw();
+      }
+      $skip = false;
+      foreach ($middleware as $mw) {
+         if (method_exists($mw, 'process_request')) {
+            $res = $mw->process_request($req);
+            if ($res !== false) {
+               // $res is a response
+               $res->render();
+               $skip = true;
+               break;
+            }
+         }
+      }
+      if ($skip === false) {
+         $response = Dispatcher::match($req);
+         foreach ($middleware as $mw) {
+            if (method_exists($mw, 'process_response')) {
+               $response = $mw->process_response($req, $response);
+            }
+         }
+         $response->render();
+      }
    }
 
 
@@ -52,8 +81,7 @@ class Dispatcher
     *
     * @param string Query string
     */
-   function match($query) {
-      $query = rawurldecode($query);
+   function match($req) {
 
       // Order the controllers by priority
       foreach ($GLOBALS['_PX_control'] as $key => $control) {
@@ -62,27 +90,32 @@ class Dispatcher
       array_multisort($priority, SORT_ASC, $GLOBALS['_PX_control']);
 
       $res = 200;
-      foreach ($GLOBALS['_PX_control'] as $key => $control) {
-         //echo $control['regex'].'<br>';
-         if (preg_match($control['regex'], $query, $match)) {
-            if ($res == 404 and $control['priority'] < 8) {
-               continue;
+      foreach ($GLOBALS['_PX_control'] as $key => $ctl) {
+         $match = array();
+         if (preg_match($ctl['regex'], $req->query, $match)) {
+            try {
+               $m = new $ctl['plugin']();
+               if (!isset($ctl['params'])) {
+                  return $m->$ctl['method']($req, $match);
+               }
+               else {
+                  return $m->$ctl['method']($req, $match, $ctl['params']);
+               }
             }
-
-            //$res = call_user_func(array($control['plugin'], 'action'),
-            //                      $match);
-            $obj = new $control['plugin'];
-            $res = $obj->action($match);
-            if ($res != 301 and $res != 404) {
-               showDebugInfo();
-               return;
+            catch (Pluf_HTTP_Error404 $e) {
+               return new Pluf_HTTP_Response_NotFound("");
             }
-            if ($res == 301 and !empty($GLOBALS['_PX_redirect'])) {
-               header('Location: '.$GLOBALS['_PX_redirect']);
-               return;
+            catch (Exception $e) {
+               if ($GLOBALS['debug'] == true) {
+                  return new Pluf_HTTP_Response_ServerErrorDebug($e);
+               }
+               else {
+                  return new Pluf_HTTP_Response_ServerError($e->getMessage());
+               }
             }
          }
       }
+      return new Pluf_HTTP_Response_NotFound("No Matching view");
    }
 
 
@@ -107,7 +140,7 @@ class Dispatcher
       while (($entry = $d->read()) !== false) {
          if ($entry != '.' && $entry != '..'
              && is_dir($this->pluginPath.$entry) 
-             && file_exists($this->pluginPath.$entry.'/register.php')) {
+         && file_exists($this->pluginPath.$entry.'/register.php')) {
             include_once($this->pluginPath.$entry.'/register.php');
          }
       }
@@ -132,15 +165,15 @@ class Dispatcher
     * @param int Priority (5)
     * @return void
     */
-   function registerController($plugin, $regex, $priority=5) {
+   function registerController($plugin, $method, $regex, $priority=5) {
       if (!isset($GLOBALS['_PX_control'])) {
          $GLOBALS['_PX_control'] = array();
       }
       $GLOBALS['_PX_control'][] = array('plugin' => $plugin,
-      'regex' => $regex,
-      'priority' => $priority);
+								        'method' => $method,
+								        'regex' => $regex,
+								        'priority' => $priority);
    }
-
 }
 
 ?>

@@ -9,11 +9,12 @@ class LuxbumSelectionGallery extends CommonGallery {
     * @param Selection $selection
     */
    function LuxbumSelectionGallery($selection) {
+      parent::__construct();
       $this->name = __('My selection');
 
       $array = $selection->toArray();
       for ($i = 0 ; $i < $selection->getCount() ; $i++) {
-         $dir = $array[$i]['dir'];
+         $dir = files::addTailSlash($array[$i]['dir']);
          $file = $array[$i]['file'];
 
          if (files::isPhotoFile($dir, $file)) {
@@ -21,17 +22,25 @@ class LuxbumSelectionGallery extends CommonGallery {
             $theFile = luxbum::getFilePath($dir, $file);
             $this->imageSize += filesize ($theFile);
             $this->imageCount++;
+            $this->addToList($object);
          }
          else if (files::isFlvFile($dir, $file)) {
             $object = new LuxbumFlv($dir, $file);
-            $theFile = luxbum::getFilePath($this->dir, $file);
+            $theFile = luxbum::getFilePath($dir, $file);
             $this->flvSize += filesize ($theFile);
             $this->flvCount++;
+            $this->addToList($object);
          }
-         $this->addToList($object);
       }
       $this->totalSize = $this->flvSize + $this->imageSize;
       $this->totalCount = $this->flvCount + $this->imageCount;
+   }
+   
+   /**
+    * @return string
+    */
+   function getDir() {
+      return '';
    }
 
    /**-----------------------------------------------------------------------**/
@@ -86,8 +95,39 @@ class LuxbumSelectionGallery extends CommonGallery {
     * Search for the default image
     * @access private
     */
-   function _completeDefaultImage () {
-       
+   protected function _completeDefaultImage () {
+      while (!$this->EOF && $this->f()->getType() != TYPE_IMAGE_FILE) {
+         $this->next();
+      }
+      $file = $this->f();
+      $this->dir = $file->getDir();
+      $this->preview = $file->getFile();
+   }
+   
+   /**-----------------------------------------------------------------------**/
+   /** UI Functions */
+   /**-----------------------------------------------------------------------**/
+   /**
+    * @return string the url link to delete the selection
+    */
+   function getLinkDelete() {
+      return link::deleteSelection();
+   }
+   
+   /**
+    * @return string the url link to download the selection
+    */
+   function getLinkDownload() {
+      return  link::downloadSelection();
+   }
+   
+   /**
+    * @return string the link url to consult the selection gallery
+    */
+   function getLinkConsult() {
+      $this->moveStart();
+      $file = $this->f();
+      return link::selection($file->getDir(), $file->getFile());
    }
 }
 

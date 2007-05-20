@@ -9,14 +9,14 @@
    * @package process
    * Classe contenant l'index de toutes les galeries
    */
-class luxBumIndex extends SortableRecordset
+class luxBumIndex extends inc_SortableRecordset
 {
    var $dir;
    var $selfGallery;
    
-   function luxBumIndex ($dir) {
-      parent::RecordSet2();
-      $this->dir = $dir;
+   function luxBumIndex($dir) {
+      parent::inc_Recordset();
+      $this->dir = files::addTailSlash($dir);
       $this->_loadSort();
       $this->selfGallery = new luxBumGallery($dir);
    }
@@ -61,7 +61,7 @@ class luxBumIndex extends SortableRecordset
     * @param int $sortPosition Position de la galerie dans l'index
     */
    function addGallery($name, $minImage) {
-      $galleryName = files::addTailSlash($this->dir).$name;
+      $galleryName = $this->dir.$name;
       $galleryTemp = new luxBumGallery($galleryName);
       $galleryTemp->addSubGalleries();
 
@@ -92,10 +92,7 @@ class luxBumIndex extends SortableRecordset
          while ($current_dir = readdir($dir_fd)) {
             
             // Lecture de tous les dossiers
-            if ($current_dir[0] != '.' && is_dir (luxbum::getFsPath($this->dir, $current_dir))
-				// TODO: THUMB_DIR && PREVIEW_DIR as .DIR 
-                && $current_dir != files::removeTailSlash(THUMB_DIR)
-                && $current_dir != files::removeTailSlash(PREVIEW_DIR)) {
+            if ($current_dir[0] != '.' && is_dir (luxbum::getFsPath2($this->dir, $current_dir))) {
 
                $this->addGallery($current_dir, $minImage);
             }

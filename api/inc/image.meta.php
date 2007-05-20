@@ -26,7 +26,7 @@
   /**
    * @package inc
    */
-class ImageMeta extends Recordset2
+class ImageMeta extends inc_Recordset
 {
    var $meta = array();
    var $xmp = array();
@@ -35,7 +35,7 @@ class ImageMeta extends Recordset2
    var $hasMeta = false;
 
    function ImageMeta($f) {
-      parent::Recordset2();
+      parent::inc_Recordset();
       $this->loadFile($f);
    }
 
@@ -175,7 +175,7 @@ class ImageMeta extends Recordset2
          return; 
       }
 
-      $d = @exif_read_data($f,'ANY_TAG');
+      $d = @exif_read_data($f, EXIF|COMMENT);
 
       if (!is_array($d)) {
          return;
@@ -366,6 +366,14 @@ class MetaElement {
    function MetaElement($name, $value) {
       $this->name = $name;
       $this->value = $value;
+   }
+   
+   function getName() {
+      return $this->name;
+   }
+   
+   function getValue() {
+      return $this->value;
    }
 }
 

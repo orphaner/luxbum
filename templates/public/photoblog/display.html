@@ -1,0 +1,127 @@
+{include '_header.html'}
+
+<div class="imgnav">
+  {if $gallery->isFirst()}
+    <div class="imgprevious">&laquo; {i18n 'prev'}</div>
+  {else}
+    <div class="imgprevious"><a href="{$gallery.linkPreviousDisplay}">&laquo; {i18n 'prev'}</a></div>
+  {/if}
+  
+  {if $gallery->isLast()}
+  <div class="imgnext">{i18n 'next'} &raquo;</div>
+  {else}
+  <div class="imgnext"><a href="{$gallery.linkNextDisplay}">{i18n 'next'} &raquo;</a></div>
+  {/if}
+</div>
+
+<div id="gallerytitle"><h1>{$cfg['gallery_name']}</h1></div>
+
+<h2>
+  <a href="{$cfg['url_base']}"><strong>{i18n 'Home'}</strong></a> 
+  {NavigationMenu $gallery, '%s', ' | ', $gallery.linkGallery} | {$cFile.file}
+</h2>
+
+{if $cFile->isImage()}
+<div id="image">
+<a href="{$cFile.linkFullImage}" onclick="window.open(this.href,'',''); return false;"><img src="{$cFile.previewUrl}" {$cFile.previewResizeSize} alt=""/></a>
+</div>
+{/if}
+
+{if $cFile->isFlv()}
+<div id="picture"></div>
+<script type="text/javascript" src="templates/common/flash/video/swfobject.js"></script>
+<script type="text/javascript">
+  var fo = new SWFObject("{$cFile.videoPlayer}?config={ldelim}menuItems: [ true, true, true, true, false, false], autoPlay:false, loop:false,videoFile: '{$cFile.urlPath}'{rdelim}", "FlowPlayer", "595", "444", "7", "{$cFile.flashPlayerBgcolor}", true);
+  fo.addParam("AllowScriptAccess", "always");
+  fo.write("picture");
+</script>
+
+{/if}
+
+<div id="narrow">
+  {if $cFile->isImage()}
+  <div id="metaData">
+    <h2>{i18n 'Meta data'}</h2>
+    {if !$cFile->hasMeta()}
+      {i18n 'No meta Found'}
+    {else}
+    <table class="clean-table" summary="">
+      <tr>
+        <th>{i18n 'Metadata name'}</th>
+        <th>{i18n 'Metadata value'}</th>
+      </tr>
+      {foreach $metas as $meta}
+      <tr>
+        <td>{$meta.name}</td>
+        <td>{$meta.value}</td>
+      </tr>
+      {/foreach}
+    </table>
+    {/if}
+  </div>
+  {/if}
+  
+  <div id="commentList">
+    <h2>{i18n 'Comments'}</h2>
+
+    {if $cFile.commentCount == 0}
+      {i18n 'No comments'}
+    {else}
+    {foreach $comments as $comment}
+    <div id="comment">
+      <div class="info">Le {$comment.date|dateFormat:$cfg['date_format']},
+        <strong>{$comment.author}</strong>
+        {if $comment.website != ''}
+        - <a href="{$comment.website}" ref="nofollow">{i18n 'Web site'}</a>
+        {/if}
+        {if $comment.email != ''}
+        - <a href="mailto:{$comment.email}" ref="nofollow">{i18n 'Email'}</a>
+        {/if}
+      </div>
+      <div id="co1" class="content">
+        {$comment.content |nl2br}
+      </div>
+    </div>
+    {/foreach}
+    {/if}
+  </div>
+
+
+  <div id="commentAdd">
+    <h2>{i18n 'Add a comment'}</h2>
+    
+    <form method="post" action="">
+      <input type="hidden" name="action" id="action" value="ct"/>
+
+      <fieldset>
+        <legend>{i18n 'Add a comment'}</legend>
+        <p>
+          <label for="author" class="float"><strong>{i18n 'Name or nickname'}</strong> : </label>
+          <input type="text" name="author" id="author" value="{$ctPost.author}"/>
+          {$ctPost->getError('author')|errorSpan}
+        </p>
+        <p>
+          <label for="website" class="float">{i18n 'Web site'} : </label>
+          <input type="text" name="website" id="website" value="{$ctPost.website}"/>
+          {$ctPost->getError('website')|errorSpan}
+        </p>
+        <p>
+          <label for="email" class="float">{i18n 'Email'} : </label>
+          <input type="text" name="email" id="email" value="{$ctPost.email}"/>
+          {$ctPost->getError('email')|errorSpan}
+        </p>
+        <p>
+          <label for="content" class="float"><strong>{i18n 'Comment'}</strong> : </label>
+          <textarea name="content" id="content" cols="40" rows="5">{$ctPost.content}</textarea>
+          {$ctPost->getError('content')|errorSpan}
+        </p>
+      </fieldset>
+
+      <p>
+        <input type="submit" value="{i18n 'Add'}"/>
+        <input type="reset" value="{i18n 'Clear'}"/>
+      </p>
+    </form>
+  </div>
+</div>
+{include '_footer.html'}

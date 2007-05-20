@@ -1,22 +1,22 @@
 <?php
 
-class CommonGallery extends SortableRecordset {
+class CommonGallery extends inc_SortableRecordset {
    /**
     * Enter description here...
     *
     * @access private
     * @var unknown_type
     */
-   var $name;
-   var $preview;
+   protected $name;
+   protected $preview;
    
-   var $flvCount = 0;
-   var $imageCount = 0;
-   var $totalCount = 0;
+   protected $flvCount = 0;
+   protected $imageCount = 0;
+   protected $totalCount = 0;
    
-   var $flvSize = 0;
-   var $imageSize = 0;
-   var $totalSize = 0;
+   protected $flvSize = 0;
+   protected $imageSize = 0;
+   protected $totalSize = 0;
 
    
    /**
@@ -164,7 +164,138 @@ class CommonGallery extends SortableRecordset {
       }
       return $index;
    }
-    
+
+   
+   /**-----------------------------------------------------------------------**/
+   /** UI Functions */
+   /**-----------------------------------------------------------------------**/
+   /**
+    * @return string the link url to consult the gallery
+    */
+   public function getLinkConsult() {
+      return link::gallery($this->dir, $this->f()->getFile());
+   }
+   
+   /**
+    * @return string the link url to consult the gallery
+    */
+   public function getLinkGallery() {
+      return link::gallery($this->dir, $this->f()->getFile());
+   }
+   
+   /**
+    * @return string the link url to consult the gallery
+    */
+   public function getLinkDisplay() {
+      return link::display($this->dir, $this->f()->getFile());
+   }
+   
+   /**
+    * @return string the link url to consult the gallery as a slideshow
+    */
+   public function getLinkSlideshow() {
+      return link::slideshow($this->dir);
+   }
+
+   /**
+    * @return string the link url to consult the sub galleries of the gallery
+    */
+   public function getLinkSubGallery() {
+      return link::subGallery($this->dir);
+   }
+   
+   /**
+    * @return string the link url to the login form of a private gallery
+    */
+   public function getLinkPrivate() {
+      return link::privateGallery($this->dir);
+   }
+   
+   /**
+    * @return string the link url to consult the previous file in a gallery page
+    */
+   public function getLinkPreviousGallery() {
+      if ($this->isFirst()) {
+         return '';
+      }
+      $this->move($this->getDefaultIndex());
+      $this->movePrev();
+      $file = $this->f();
+      return link::gallery($file->getDir(), $file->getFile());
+   }
+   
+   /**
+    * @return string the link url to consult the next file in a gallery page
+    */
+   public function getLinkNextGallery() {
+      if ($this->isLast()) {
+         return '';
+      }
+      $this->move($this->getDefaultIndex());
+      $this->moveNext();
+      $file = $this->f();
+      return link::gallery($file->getDir(), $file->getFile());
+   }   
+   
+   /**
+    * @return string the link url to consult the previous file in a gallery page
+    */
+   public function getLinkPreviousDisplay() {
+      if ($this->isFirst()) {
+         return '';
+      }
+      $this->move($this->getDefaultIndex());
+      $this->movePrev();
+      $file = $this->f();
+      return link::display($file->getDir(), $file->getFile());
+   }
+   
+   /**
+    * @return string the link url to consult the next file in a gallery page
+    */
+   public function getLinkNextDisplay() {
+      if ($this->isLast()) {
+         return '';
+      }
+      $this->move($this->getDefaultIndex());
+      $this->moveNext();
+      $file = $this->f();
+      return link::display($file->getDir(), $file->getFile());
+   }   
+   
+   /**
+    * Retourne le lien de la vignette de l'image vers le script qui génére
+    * l'image
+    * @return Lien de la vignette de l'image vers le script de génération
+    */
+   protected function getIndexLink () {
+
+      $this->_completeDefaultImage ();      
+
+      // La galerie contient des photos
+      return link::index($this->dir, $this->preview);
+   }
+   
+   public function getDefaultImage($return = false) {
+
+      // private gallery image
+      if ($this->isPrivate() && !$this->isUnlocked()) {
+         return Pluf::f('color_theme_path').'/images/folder_locked.png';
+      }
+
+      // Sub gallery image
+      if ($this->hasSubGallery() && $this->getTotalCount() == 0) {
+         return Pluf::f('color_theme_path').'/images/folder_image.png';
+      }
+
+      // Video gallery
+      if ($this->getImageCount() == 0 && $this->getFlvCount() > 0) {
+         return Pluf::f('color_theme_path').'/images/folder_video.png';
+      }
+
+      // default gallery image
+	  return $this->getIndexLink();
+   }
 }
 
 ?>

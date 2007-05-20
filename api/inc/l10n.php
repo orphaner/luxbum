@@ -35,7 +35,7 @@ function __($str)
    if (isset($GLOBALS['_PX_locale'][$t])) {
       return $GLOBALS['_PX_locale'][$t];
    }
-   elseif ($GLOBALS['debug'] === true) {
+   elseif (Pluf::f('debug') === true) {
       $GLOBALS['_PX_debug_data']['untranslated'][$t] = $t;
    }
    return $t;

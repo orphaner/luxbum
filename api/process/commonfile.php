@@ -7,18 +7,18 @@ define('TYPE_FLV_FILE', 2);
  * 
  * @abstract
  */
-class CommonFile {
-   var $type;
+abstract class CommonFile {
+   protected $type;
    
-   var $dir;
-   var $file;
+   protected $dir;
+   protected $file;
 
-   var $description = NULL;
-   var $date = NULL;
+   protected $description = NULL;
+   protected $date = NULL;
 
-   var $sortPosition = '';
+   protected $sortPosition = '';
 
-   var $listComments = NULL;
+   protected $listComments = NULL;
    
    function getType() {
       return $this->type;
@@ -86,7 +86,7 @@ class CommonFile {
     * Retourne true/false si la date et la description sont vide
     * @return Boolean true/false si la date et la description sont vide
     */
-   function issetDescription() {
+   function hasDateDescription() {
       if ($this->description == '' && $this->date == '') {
          return false;
       }
@@ -122,7 +122,7 @@ class CommonFile {
     * Retourne la date et la description sous un format affichable
     * @return String Date et descrition sous format affichable
     */
-   function getDateDesc () {
+   function getDateDescription () {
       $dateDesc = '&nbsp;';
 
       // Date
@@ -145,6 +145,28 @@ class CommonFile {
       return $dateDesc;
    }
 
+   /**
+    * @return boolean true if the file is a flv video ; false otherwise
+    */
+   function isFlv() {
+      return $this->type == TYPE_FLV_FILE;
+   }
+   
+   /**
+    * @return boolean true if the file is an image ; false otherwise
+    */
+   function isImage() {
+      return $this->type == TYPE_IMAGE_FILE;
+   }
+   
+   /**
+    * @return boolean true if the file is selection in the current selection ; false otherwise
+    */
+   function isSelected() {
+      $selection = Selection::getInstance();
+      return $selection->exists($this->dir, $this->file);
+   }
+   
    /**-----------------------------------------------------------------------**/
    /** Fonctions des descriptions d'images */
    /**-----------------------------------------------------------------------**/
@@ -183,7 +205,7 @@ class CommonFile {
          }
       }
 
-      // Si on a trouv� la description, on met � jour les champs
+      // Update the class fields if a date/description have been found
       if (isset($desc[$this->getFile()])) {
          $tab = explode('|', $desc[$this->getFile()]);
          $this->setDate($tab[0]);
@@ -207,7 +229,7 @@ class CommonFile {
             $this->listComments = unserialize ($instanceSerial);
          }
          else {
-            $this->listComments = new Recordset2();
+            $this->listComments = new inc_Recordset();
          }
       }
       return $this->listComments;
@@ -235,9 +257,61 @@ class CommonFile {
     * Retourne le nombre de commentaires actifs de la photos
     * @return nombre de commentaires actifs
     */
-   function getNbComment () {
+   function getCommentCount () {
       $list = $this->lazyLoadComments();
       return $list->getIntRowCount();
+   }
+   
+   
+   /**-----------------------------------------------------------------------**/
+   /** UI Functions */
+   /**-----------------------------------------------------------------------**/
+   /**
+    * @return string the link url to consult the file on a gallery page
+    */
+   function getLinkGallery() {
+      return link::gallery($this->dir, $this->file);
+   }
+   /**
+    * @return string the link url to consult the file on a display page
+    */
+   function getLinkDisplay() {
+      return link::display($this->dir, $this->file);
+   }
+   
+   /**
+    * @return string the link url to consult the file on a file page
+    */
+   function getLinkFile() {
+      return link::affichage($this->dir, $this->file);
+   }
+   
+   /**
+    * @return string the link url to select the file
+    */
+   function getLinkSelect() {
+      return link::select($this->dir, $this->file);
+   }
+   
+   /**
+    * @return string the link url to unselect the file
+    */
+   function getLinkUnselect() {
+      return link::unselect($this->dir, $this->file);
+   }
+   
+   /**
+    * @return string the link url to show the metadata of the file
+    */
+   function getLinkMeta() {
+      return link::meta($this->dir, $this->file);
+   }
+   
+   /**
+    * @return string the link url to show the comments of the file
+    */
+   function getLinkComment() {
+      return link::commentaire($this->dir, $this->file);
    }
 }
 ?>
