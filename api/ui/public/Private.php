@@ -21,7 +21,8 @@ class ui_public_Private {
       $privatePost =  new PassPost();
       if (lbPostAction::login($request, $privatePost, $dir)) {
          if ($res->isSelfGallery()) {
-            header('Location: '.link::gallery($dir, $res->f()->getFile()));
+            header('Location: '.link::gallery($res->getSelfGallery()->f()->getDir(), $res->getSelfGallery()->f()->getFile()));
+            exit();
          }
          else {
             header('Location: '.link::subGallery($dir));
