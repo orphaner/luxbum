@@ -106,6 +106,7 @@ class Pluf_Middleware_Debug
            $text .= 'Toutes les chaines sont ok';
 	    }
 	    else {
+	       $text .= 'Untranslated string: ';
 	       while (list(,$k) = each($GLOBALS['_PX_debug_data']['untranslated'])) {
 	          $text .= ';'.$k.'<br/><br/><br/>';
 	       }
