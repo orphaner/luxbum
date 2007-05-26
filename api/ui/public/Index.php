@@ -28,10 +28,10 @@ class ui_public_Index extends ui_CommonView {
          throw new Exception("Unable to find the selected gallery");
       }
 
+
       // Check if the gallery is private
-      if (PrivateManager::isLockedStatic($dir)) {
-         return PrivateView::action($match);
-      }
+	  $this->checkDir($dir);
+      $this->checkPrivate($dir);
 
       $galleries = new luxBumIndex ($dir);
       $galleries->addAllGallery ();

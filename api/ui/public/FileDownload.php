@@ -26,10 +26,9 @@ class ui_public_FileDownload extends ui_CommonView {
       $photo = $match[3];
 
       // Check if the gallery is private
+	  $this->checkFile($dir, $photo);
       $this->checkPrivate($dir);
       
-      
-      verif::isImage($dir, $photo);
 
       $luxAff = new luxBumImage($dir, $photo);
       try {
@@ -84,6 +83,7 @@ class ui_public_FileDownload extends ui_CommonView {
       $file = $match[2];
 
       // Check if the gallery is private
+	  $this->checkFile($dir, $file);
       $this->checkPrivate($dir);
       
 

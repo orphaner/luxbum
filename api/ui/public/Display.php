@@ -16,10 +16,10 @@ class ui_public_Display extends ui_CommonView {
       $file = $match[2];
 
       // Check if the gallery is private
+	  $this->checkFile($dir, $file);
       $this->checkPrivate($dir);
 
-      verif::photo($dir, $file);
-
+      
       $gallery = new luxBumGallery($dir);
       $imgIndex = $gallery->getImageIndex($file);
       $gallery->setDefaultIndex($imgIndex);

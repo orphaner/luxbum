@@ -25,6 +25,7 @@ class ui_public_InfosMeta extends ui_CommonView {
       $photo = $match[2];
 
       // Check if the gallery is private
+	  $this->checkFile($dir, $photo);
       $this->checkPrivate($dir);
 
       verif::photo($dir, $photo);

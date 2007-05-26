@@ -28,7 +28,9 @@ class ui_public_Gallery extends ui_CommonView {
          echo "erreur";
       }
       
+      
       // Check if the gallery is private
+	  $this->checkFile($dir, $defaultImage);
       $this->checkPrivate($dir);
 
       $gallery = luxBumGallery::getInstance($dir);
@@ -74,7 +76,7 @@ class ui_public_Gallery extends ui_CommonView {
     */
    public function selection($request, $match) {
       if (count($match) == 3) {
-         $dir = $match[1];
+         //$dir = $match[1];
          $defaultImage = $match[2];
       }
       else {

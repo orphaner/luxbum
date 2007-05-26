@@ -23,6 +23,7 @@ class ui_public_SlideShow extends ui_CommonView {
       $dir = $match[1];
       
       // Check if the gallery is private
+	  $this->checkDir($dir);
       $this->checkPrivate($dir);
 
       $GLOBALS['LB']['dir'] = $dir;

@@ -24,6 +24,7 @@ class ui_public_Selection extends ui_CommonView  {
       $file = $match[2];
       
       // Check if the gallery is private
+	  $this->checkFile($dir, $file);
       $this->checkPrivate($dir);
 
       $selection = Selection::getInstance();
@@ -44,6 +45,7 @@ class ui_public_Selection extends ui_CommonView  {
       $file = $match[2];
       
       // Check if the gallery is private
+	  $this->checkFile($dir, $file);
       $this->checkPrivate($dir);
 
       $selection = Selection::getInstance();

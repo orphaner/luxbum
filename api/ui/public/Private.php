@@ -22,6 +22,8 @@ class ui_public_Private extends ui_CommonView {
    function action($request, $match) {
 
       $dir = files::removeTailSlash($match[1]);
+      
+	  $this->checkDir($dir);
 
 
       $res = new luxBumIndex($dir);

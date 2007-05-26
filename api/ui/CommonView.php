@@ -24,6 +24,31 @@ abstract class ui_CommonView {
          throw new Pluf_HTTP_PrivateException($dir);
       }
    }
+   
+   /**
+    * Enter description here...
+    *
+    * @param string $dir
+    */
+   public function checkDir($dir) {
+      $dir = files::addTailSlash($dir);
+      if (!is_dir(luxBum::getFsPath($dir))) {
+         throw new Pluf_HTTP_FileSystemException(sprintf(__('The gallery %s doesn\'t exists.'), $dir));
+      }
+   }
+   
+   /**
+    * Enter description here...
+    *
+    * @param string $file
+    */
+   public function checkFile($dir, $file) {
+      $dir = files::addTailSlash($dir);
+      $this->checkDir($dir);
+      if (!file_exists(luxBum::getFilePath($dir, $file))) {
+         throw new Pluf_HTTP_FileSystemException(sprintf(__('The file %s doesn\'t exists.'), $dir . $file));
+      }
+   }
 }
 
 

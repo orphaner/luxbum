@@ -23,7 +23,10 @@ class ImageToolkitImageMagick extends ImageToolkit {
                            $this->decalW, $this->decalH,
                            escapeshellarg($this->image), 
                            escapeshellarg($img_dest));
-            if (!system($cmd)) {
+                           
+            $res = array();
+            exec($cmd, $res, $returnCode);
+            if ($returnCode != 0) {
                throw new Pluf_HTTP_ImageException();
             }
 
@@ -33,8 +36,10 @@ class ImageToolkitImageMagick extends ImageToolkit {
                            $this->imageDestWidth, $this->imageDestHeight,
                            escapeshellarg($img_dest),
                            escapeshellarg($img_dest));
-            //exec($cmd);
-            if (!system($cmd)) {
+            
+            $res = array();
+            exec($cmd, $res, $returnCode);
+            if ($returnCode != 0) {
                throw new Pluf_HTTP_ImageException();
             }
          }
@@ -46,8 +51,9 @@ class ImageToolkitImageMagick extends ImageToolkit {
                            $this->imageDestWidth, $this->imageDestHeight,
                            escapeshellarg($this->image), 
                            escapeshellarg($img_dest));
-            //exec($cmd);
-            if (!system($cmd)) {
+            $res = array();
+            exec($cmd, $res, $returnCode);
+            if ($returnCode != 0) {
                throw new Pluf_HTTP_ImageException();
             }
          }
