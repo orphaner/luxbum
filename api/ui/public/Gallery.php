@@ -1,6 +1,19 @@
 <?php
 
-class ui_public_Gallery {
+/**
+ * @package ui
+ */
+class ui_public_Gallery extends ui_CommonView {
+   
+   /**
+    * Check access list
+    * 
+    * @return boolean
+    */
+   function checkACL() {
+      return true;
+   }
+   
    /**
     * 
     * @param Pluf_HTTP_Request $request
@@ -14,6 +27,9 @@ class ui_public_Gallery {
       else {
          echo "erreur";
       }
+      
+      // Check if the gallery is private
+      $this->checkPrivate($dir);
 
       $gallery = luxBumGallery::getInstance($dir);
       $gallery->createOrMajDescriptionFile();
@@ -26,18 +42,25 @@ class ui_public_Gallery {
       $gallery->setEndOfPage((($currentPage) * LIMIT_THUMB_PAGE) );
       $gallery->reset();
       
+      $cFile = $gallery->getDefault();
+      
 
       $pages = new Paginator($gallery, $currentPage, $gallery->getTotalCount(), LIMIT_THUMB_PAGE, MAX_NAVIGATION_ELEMENTS);
+      
+	  if (Pluf::f('show_comment')) {
+	     // Add comment form valid
+	     $ctPost = new Commentaire();
+	     $ctPost = lbPostAction::comment($request, $ctPost, $cFile);
+	  }
+	  else {
+	     $ctPost = null; 
+	  }
 
-
-      // Add comment form valid
-      $ctPost = new Commentaire();
-      lbPostAction::comment($request, $ctPost, $img);
-
-      $context = new Pluf_Template_Context(array('gallery' => $gallery, 
-                                                 'pages'   => $pages,
-                                                 'cFile'   => $gallery->getDefault(),
-                                                 'cfg'     => $GLOBALS['_PX_config']));
+      $context = new Pluf_Template_Context(array('gallery'  => $gallery, 
+                                                 'pages'    => $pages,
+                                                 'ctPost'   => $ctPost,
+                                                 'cFile'    => $cFile,
+                                                 'cfg'      => $GLOBALS['_PX_config']));
       
       
       $tmpl = new Pluf_Template('gallery.html');

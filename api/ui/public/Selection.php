@@ -1,5 +1,19 @@
 <?php
-class ui_public_Selection {
+
+/**
+ * @package ui
+ */
+class ui_public_Selection extends ui_CommonView  {
+   
+   /**
+    * Check access list
+    * 
+    * @return boolean
+    */
+   function checkACL() {
+      return Pluf::f('show_selection');
+   }
+   
    /**
     *
     * @param Pluf_HTTP_Request $request
@@ -8,6 +22,9 @@ class ui_public_Selection {
    function select($request, $match) {
       $dir = files::addTailSlash($match[1]);
       $file = $match[2];
+      
+      // Check if the gallery is private
+      $this->checkPrivate($dir);
 
       $selection = Selection::getInstance();
       $selection->addFile($dir, $file);
@@ -25,6 +42,9 @@ class ui_public_Selection {
    function unselect($request, $match) {
       $dir = files::addTailSlash($match[1]);
       $file = $match[2];
+      
+      // Check if the gallery is private
+      $this->checkPrivate($dir);
 
       $selection = Selection::getInstance();
       $selection->removeFile($dir, $file);
@@ -73,17 +93,15 @@ class ui_public_Selection {
       }
 
       // Generation the zip archive
-      $archive = $zip->file();
-
-      // HTTP Headers
-      header('Pragma: no-cache');
-      header('Content-Type: application/x-zip');
+      $content = $zip->file();
       
-      // Force download
-      header('Content-Disposition: inline; filename=archive.zip');
-
-      // Send data to the browser
-      echo $archive;
+      $response = new Pluf_HTTP_Response_Binary();
+      $response->content = $content;
+      $response->mimeType = 'application/x-zip';
+      $response->fileName = 'archive.zip';
+      $response->doDownload = true;
+      
+      return $response;
    }
 }
 

@@ -3,7 +3,9 @@
 /**
  * @package ui
  */
-class ui_public_Display {
+class ui_public_Display extends ui_CommonView {
+   
+
    /**
     *
     * @param Pluf_HTTP_Request $request
@@ -14,9 +16,7 @@ class ui_public_Display {
       $file = $match[2];
 
       // Check if the gallery is private
-      if (PrivateManager::isLockedStatic($dir)) {
-         return PrivateView::action($match);
-      }
+      $this->checkPrivate($dir);
 
       verif::photo($dir, $file);
 
@@ -26,19 +26,29 @@ class ui_public_Display {
 
       if (files::isPhotoFile($dir, $file)) {
 	      $cFile = new luxBumImage($dir, $file);
-	      $cFile->metaInit();
-	      $metas = $cFile->getMeta();
+	      if (!Pluf::f('show_meta')) {
+	         $metas = null;
+	      }
+	      else {
+		      $cFile->metaInit();
+		      $metas = $cFile->getMeta();
+	      }
       }
       else if (files::isFlvFile($dir, $file)) {
          $cFile = new LuxbumFlv($dir, $file);
          $metas = null;
       }
-      
-      // Add comment form valid
-      $ctPost = new Commentaire();
-      $ctPost = lbPostAction::comment($request, $ctPost, $cFile);
-
-      $comments = $cFile->lazyLoadComments();
+            
+	  if (Pluf::f('show_comment')) {
+	     // Add comment form valid
+	     $ctPost = new Commentaire();
+	     $ctPost = lbPostAction::comment($request, $ctPost, $cFile);
+	     $comments = $cFile->lazyLoadComments();
+	  }
+	  else {
+	     $ctPost = null; 
+	     $comments = null;
+	  }
 
       $context = new Pluf_Template_Context(array('gallery'  => $gallery,
 											     'metas'    => $metas,

@@ -1,5 +1,18 @@
 <?php
-class ui_public_FileDownload {
+
+/**
+ * @package ui
+ */
+class ui_public_FileDownload extends ui_CommonView {
+   
+   /**
+    * Check access list
+    * 
+    * @return boolean
+    */
+   function checkACL() {
+      return true;
+   }
    
    /**
     * 
@@ -12,42 +25,53 @@ class ui_public_FileDownload {
       $dir = files::addTailSlash($match[2]);
       $photo = $match[3];
 
+      // Check if the gallery is private
+      $this->checkPrivate($dir);
+      
+      
       verif::isImage($dir, $photo);
 
       $luxAff = new luxBumImage($dir, $photo);
-      if ($type == 'vignette') {
-         $newfile = $luxAff->generateThumb(VIGNETTE_THUMB_W, VIGNETTE_THUMB_H, VIGNETTE_CROP);
+      try {
+	      if ($type == 'vignette') {
+	         $newfile = $luxAff->generateThumb(VIGNETTE_THUMB_W, VIGNETTE_THUMB_H, VIGNETTE_CROP);
+	      }
+	      else if ($type == 'index') {
+	         $newfile = $luxAff->generateThumb(INDEX_THUMB_W, INDEX_THUMB_H, INDEX_CROP);
+	      }
+	      else if ($type == 'full') {
+	         $newfile = $luxAff->getImagePath();
+	      }
+	      else if ($type == 'apercu') {
+	         $newfile = $luxAff->generatePreview(PREVIEW_W, PREVIEW_H, PREVIEW_CROP);
+	      }
+	      else {
+	         throw new Exception("ui_public_FileDownload->image: $type is not valid");
+	      }
       }
-      else if ($type == 'index') {
-         $newfile = $luxAff->generateThumb(INDEX_THUMB_W, INDEX_THUMB_H, INDEX_CROP);
-      }
-      else if ($type == 'full') {
-         $newfile = $luxAff->getImagePath();
-      }
-      else if ($type == 'apercu') {
-         $newfile = $luxAff->generatePreview(PREVIEW_W, PREVIEW_H, PREVIEW_CROP);
-      }
-      else {
-         throw new Exception("ui_public_FileDownload->image: $type is not valid");
+      catch(Pluf_HTTP_ImageGenerationException $e) {
+         if (file_exists(Pluf::f('color_theme_path').'/images/file_error.png')) {
+            $newfile = Pluf::f('color_theme_path').'/images/file_error.png';
+         }
+         else {
+            $newfile = 'templates/common/images/file_error.png';
+         }
       }
 
       if (headers_sent()) {
          die ("fuck header");
       }
-
-      header('Content-Encoding: none');
-      header('Content-Type: '.$luxAff->getTypeMime());
-      header('Cache-Control: maxage=3600');
-      header('Pragma: public');
-      header('Last-Modified: ' + HTTP::getHttpDate(filemtime($newfile)));
-      header('Expires: ' . HTTP::getHttpDate(time() + 3600));
-    
-      if ($fp = fopen($newfile, 'rb')) {
-         while (!feof($fp)) {
-            print fread($fp, 4096);
-         }
-      }
-      @fclose ($fp);
+      
+      $response = new Pluf_HTTP_Response_Binary();
+      $response->fileName = $newfile;
+      $response->mimeType = $luxAff->getTypeMime();
+      $response->addHttpHeader('Content-Encoding', 'none');
+      $response->addHttpHeader('Pragma', 'public');
+      $response->addHttpHeader('Cache-Control', 'maxage=3600');
+      $response->addHttpHeader('Last-Modified',  HTTP::getHttpDate(filemtime($newfile)));
+      $response->addHttpHeader('Expires', HTTP::getHttpDate(time() + 3600));
+      
+      return $response;
    }
    
    /**
@@ -60,9 +84,8 @@ class ui_public_FileDownload {
       $file = $match[2];
 
       // Check if the gallery is private
-      if (PrivateManager::isLockedStatic($dir)) {
-         return PrivateView::action($match);
-      }
+      $this->checkPrivate($dir);
+      
 
       if (headers_sent()) {
          die ("fuck header");
@@ -70,20 +93,16 @@ class ui_public_FileDownload {
 
       $flv = new LuxbumFlv($dir, $file);
       
-      header('Content-Encoding: none');
-      header('Content-Type: '.$flv->getTypeMime());
-      header('Cache-Control: maxage=3600');
-      header('Pragma: public');
-      header('Last-Modified: ' + HTTP::getHttpDate(filemtime(luxbum::getFilePath($dir, $file))));
-      header('Expires: ' . HTTP::getHttpDate(time() + 3600));
+      $response = new Pluf_HTTP_Response_Binary();
+      $response->fileName = luxbum::getFilePath($dir, $file);
+      $response->mimeType = $flv->getTypeMime();
+      $response->addHttpHeader('Content-Encoding', 'none');
+      $response->addHttpHeader('Pragma', 'public');
+      $response->addHttpHeader('Cache-Control', 'maxage=3600');
+      $response->addHttpHeader('Last-Modified',  HTTP::getHttpDate(filemtime($newfile)));
+      $response->addHttpHeader('Expires', HTTP::getHttpDate(time() + 3600));
       
-      
-      if ($fp = fopen(luxbum::getFilePath($dir, $file), 'rb')) {
-         while (!feof($fp)) {
-            print fread($fp, 4096);
-         }
-      }
-      @fclose ($fp);
+      return $response;
    }
 }
 ?>

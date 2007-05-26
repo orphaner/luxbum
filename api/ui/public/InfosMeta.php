@@ -1,7 +1,20 @@
 <?php
 
 
-class ui_public_InfosMeta {
+/**
+ * @package ui
+ */
+class ui_public_InfosMeta extends ui_CommonView {
+   
+   /**
+    * Check access list
+    * 
+    * @return boolean
+    */
+   function checkACL() {
+      return Pluf::f('show_meta');
+   }
+   
    /**
     * 
     * @param Pluf_HTTP_Request $request
@@ -12,9 +25,7 @@ class ui_public_InfosMeta {
       $photo = $match[2];
 
       // Check if the gallery is private
-      if (PrivateManager::isLockedStatic($dir)) {
-         return PrivateView::action($match);
-      }
+      $this->checkPrivate($dir);
 
       verif::photo($dir, $photo);
       $img = new luxBumImage ($dir, $photo);

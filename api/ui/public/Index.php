@@ -1,6 +1,14 @@
 <?php
 
-class ui_public_Index {
+/**
+ * @package ui
+ */
+class ui_public_Index extends ui_CommonView {
+   
+   public function checkPrivate() {
+      return false;
+   }
+   
    /**
     * 
     * @param Pluf_HTTP_Request $request

@@ -3,7 +3,17 @@
 /**
  * @package ui
  */
-class ui_public_SlideShow {
+class ui_public_SlideShow extends ui_CommonView {
+   
+   /**
+    * Check access list
+    * 
+    * @return boolean
+    */
+   function checkACL() {
+      return Pluf::f('show_slideshow');
+   }
+   
    /**
     * 
     * @param Pluf_HTTP_Request $request
@@ -11,11 +21,9 @@ class ui_public_SlideShow {
     */
    function action($request, $match) {
       $dir = $match[1];
-
+      
       // Check if the gallery is private
-      if (PrivateManager::isLockedStatic($dir)) {
-         return PrivateView::action($match);
-      }
+      $this->checkPrivate($dir);
 
       $GLOBALS['LB']['dir'] = $dir;
       $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;

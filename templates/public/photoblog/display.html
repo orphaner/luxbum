@@ -39,7 +39,7 @@
 {/if}
 
 <div id="narrow">
-  {if $cFile->isImage()}
+  {if $cFile->isImage() && $cfg['show_meta']}
   <div id="metaData">
     <h2>{i18n 'Meta data'}</h2>
     {if !$cFile->hasMeta()}
@@ -61,6 +61,8 @@
   </div>
   {/if}
   
+  
+  {if $cfg['show_comment']}
   <div id="commentList">
     <h2>{i18n 'Comments'}</h2>
 
@@ -123,5 +125,6 @@
       </p>
     </form>
   </div>
+  {/if}
 </div>
 {include '_footer.html'}

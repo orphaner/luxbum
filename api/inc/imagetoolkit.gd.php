@@ -9,7 +9,7 @@ class ImageToolkitGD extends ImageToolkit
 {
 
    /**
-    * Crée un handler de l'image suivant son type
+    * Crï¿½e un handler de l'image suivant son type
     * @access private
     * @return Handler
     */
@@ -23,7 +23,7 @@ class ImageToolkitGD extends ImageToolkit
             $imhandler = imageCreateFromJPEG ($this->image);
             break;
          case 3 :
-            // TODO: Trouver une meilleure façon de gérer ça :/
+            // TODO: Trouver une meilleure faï¿½on de gï¿½rer ï¿½a :/
             $imhandler = imageCreateFromPNG ($this->image);
             imageinterlace ($imhandler,0);
             imagePNG ($imhandler, $this->image.'bis');
@@ -38,23 +38,22 @@ class ImageToolkitGD extends ImageToolkit
    }
 
    /**
-    * Ecrit l'image redimensionnée.
+    * Ecrit l'image redimensionnï¿½e.
     * @access private
     */
    function imageWriteFromType ($image, $quality) {
 
       switch ($this->imageType){
          case 1 :
-            imageGIF ($image, $this->imageDest);
+            return @imageGIF($image, $this->imageDest);
             break;
 
          case 2 :
-            imageJPEG ($image, $this->imageDest, $quality);
+            return @imageJPEG($image, $this->imageDest, $quality);
             break;
 
          case 3 :
-            imagePNG ($image, $this->imageDest);
-            files::deleteFile ($this->image.'bis');
+            return @imagePNG ($image, $this->imageDest);
             break;
       }
    }
@@ -88,24 +87,24 @@ class ImageToolkitGD extends ImageToolkit
    }
 
    /**
-    * Crée l'image redimentionnée. Il faut préalablement avoir apellé la méthode
+    * Crï¿½e l'image redimentionnï¿½e. Il faut prï¿½alablement avoir apellï¿½ la mï¿½thode
     * setDestSize(...)
-    * @param String $img_dest Chemin où il faut écrire l'image redimensionnée.
+    * @param String $img_dest Chemin oï¿½ il faut ï¿½crire l'image redimensionnï¿½e.
     */
    function createThumb ($img_dest) {
       $this->imageDest = $img_dest;
 
-      // Créer la vignette ?
+      // Crï¿½er la vignette ?
       if ($this->canResize ()) {
 
-         // Copie dedans l'image initiale redimensionnée
+         // Copie dedans l'image initiale redimensionnï¿½e
          $srcHandler = $this->ImageCreateFromType ($this->image, $this->imageType);
 
 
          /* GD 2 */
          if ($this->gdVersion() == 2) {
 
-            // Crée une image vierge aux bonnes dimensions
+            // Crï¿½e une image vierge aux bonnes dimensions
             $destHandler = ImageCreateTrueColor ($this->imageDestWidth, $this->imageDestHeight);
             ImageCopyResampled ($destHandler, $srcHandler, 0, 0, $this->decalW, $this->decalH, $this->imageDestWidth, $this->imageDestHeight, $this->cropW, $this->cropH);
          }
@@ -113,16 +112,18 @@ class ImageToolkitGD extends ImageToolkit
          /* GD 1 */
          else {
 
-            // Crée une image vierge aux bonnes dimensions
+            // Crï¿½e une image vierge aux bonnes dimensions
             $destHandler = ImageCreate ($this->imageDestWidth, $this->imageDestHeight);
             imagecopyresized ($destHandler, $srcHandler, 0, 0, $this->decalW, $this->decalH, $this->imageDestWidth, $this->imageDestHeight, $this->cropW, $this->cropH);
          }
 
          // Sauve la nouvelle image
-         $this->ImageWriteFromType ($destHandler, 95);
+         if (!$this->ImageWriteFromType ($destHandler, 95)) {
+            throw new Pluf_HTTP_ImageException();
+         }
          @chmod ($this->imageDest, 0777);
 
-         // Détruis les tampons
+         // Dï¿½truis les tampons
          ImageDestroy ($destHandler);
          ImageDestroy ($srcHandler);
       }

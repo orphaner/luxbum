@@ -150,10 +150,10 @@ class luxBumGallery extends CommonGallery
    function getDescriptions () {
       $desc = array ();
 
-      if (is_file ($this->dirPath.DESCRIPTION_FILE)) {
-         $fd = @fopen ($this->dirPath.DESCRIPTION_FILE, 'r+');
+      if (file_exists($this->dirPath.DESCRIPTION_FILE)) { 
+         $fd = @fopen ($this->dirPath.DESCRIPTION_FILE, 'r');
          if ($fd === false) {
-            throw new Exception("Unable to open file: ".$this->dirPath.DESCRIPTION_FILE);
+            throw new Pluf_HTTP_FileSystemException(__("Unable to open file: ").$this->dirPath.DESCRIPTION_FILE);
          }
          while ($line = trim(fgets($fd)))  {
             if ( ereg ('^.*\|.*\|.*$', $line)) {
@@ -173,9 +173,12 @@ class luxBumGallery extends CommonGallery
    function createOrMajDescriptionFile () {
       $desc = array ();
 
-      // Search images who are in the description file
-      if (is_file ($this->dirPath . DESCRIPTION_FILE)) {
-         if ($fd = fopen ($this->dirPath . DESCRIPTION_FILE, 'r')) {
+      // Search images which are in the description file
+      if (file_exists($this->dirPath . DESCRIPTION_FILE)) {
+         if (!($fd = @fopen ($this->dirPath . DESCRIPTION_FILE, 'r')))  {
+            throw new Pluf_HTTP_FileSystemException(__("Unable to read file: ").$this->dirPath.DESCRIPTION_FILE);
+         } 
+         else {
             while ($line = fgets ($fd)) {
                if (ereg ('^.*\|.*\|.*$', $line)) {
                   list($desc[]) = explode ('|', $line, 2);
@@ -186,8 +189,11 @@ class luxBumGallery extends CommonGallery
       }
 
       // On ajoute les images non présentes dans le fichier de description
-      if ($fd = fopen ($this->dirPath . DESCRIPTION_FILE, 'a')) {
-         reset ($this->arrayList);
+	  if (!($fd = @fopen ($this->dirPath . DESCRIPTION_FILE, 'a+'))) { 
+          throw new Pluf_HTTP_FileSystemException(__("Unable to write file: ").$this->dirPath.DESCRIPTION_FILE);
+      } 
+      else {
+         reset($this->arrayList);
          while (list (,$img) = each ($this->arrayList)) {
             $name = $img->getFile();
             if (!in_array ($name, $desc)) {
@@ -199,12 +205,17 @@ class luxBumGallery extends CommonGallery
    }
 
    /**
-    * �crit les nouvelles descriptions/dates dans le fichier de description
+    * Update the description file
     */
    function updateDescriptionFile () {
-      files::deleteFile ($this->dirPath . DESCRIPTION_FILE, 'a');
+      if (!files::deleteFile($this->dirPath . DESCRIPTION_FILE)) {
+         throw new Pluf_HTTP_FileSystemException(__("Unable to delete file: ").$this->dirPath.DESCRIPTION_FILE);
+      }
       
-      if ($fd = fopen ($this->dirPath . DESCRIPTION_FILE, 'a')) {
+      if (!($fd = fopen ($this->dirPath . DESCRIPTION_FILE, 'a'))) {
+         throw new Pluf_HTTP_FileSystemException(__("Unable to delete file: ").$this->dirPath.DESCRIPTION_FILE);
+      }
+      else {
          for ($i = 0 ; $i < $this->getTotalCount () ; $i++) {
             $img = $this->list[$i];
             $name = $img->getFile ();
@@ -272,7 +283,7 @@ class luxBumGallery extends CommonGallery
     * Add all images to the gallery, then sort them.
     * They have all their date / description correctly filled in.
     */
-   function addAllImages () {
+   function addAllImages() {
 
       // Ouverture du dossier des photos
       if ($dir_fd = opendir ($this->dirPath)) {
@@ -380,14 +391,14 @@ class luxBumGallery extends CommonGallery
       }
 
       // Search for an user defined image
-      if (is_file (luxbum::getFilePath($this->dir, DEFAULT_INDEX_FILE))) {
-         $fd = fopen (luxbum::getFilePath($this->dir, DEFAULT_INDEX_FILE), 'r+');
-         $line = fgets ($fd);
+      if (file_exists(luxbum::getFilePath($this->dir, DEFAULT_INDEX_FILE))) {
+         $fd = fopen(luxbum::getFilePath($this->dir, DEFAULT_INDEX_FILE), 'r');
+         $line = fgets($fd);
          
-         if ( files::isFile($this->dir, $line)) {
+         if (files::isFile($this->dir, $line)) {
             $default = $line;
          }
-         fclose ($fd);
+         fclose($fd);
       }
 
       // Search the first image of the gallery
@@ -403,7 +414,7 @@ class luxBumGallery extends CommonGallery
                $trouve = true;
             }
          }
-         closedir ($apercu_fd);
+         closedir($apercu_fd);
       }
 
       $this->preview = $default;

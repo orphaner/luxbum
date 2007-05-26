@@ -141,7 +141,22 @@ class Pluf_HTTP_Response
         foreach ($this->cookies as $cookie => $data) {
             setcookie($cookie, $data, time()+31536000, Pluf::f('app_base'));
         }
-        echo($this->content);
+        
+        $this->doBody();
+    }
+    
+    protected function doBody() {
+        echo $this->content;
+    }
+    
+    /**
+     * add an http header to the response.
+     * will be send during the output of the response
+     * @param string $htype the header type ("Content-Type", "Date-modified"...)
+     * @param string $hcontent value of the header type
+     */
+    public function addHttpHeader($htype, $hcontent){
+       $this->headers[$htype] = $hcontent;
     }
 }
 

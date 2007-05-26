@@ -95,6 +95,14 @@ class Dispatcher
          if (preg_match($ctl['regex'], $req->query, $match)) {
             try {
                $m = new $ctl['plugin']();
+               
+               // Check if the view is allowed by the configuration
+               if (!$m->checkACL()) {
+	               $view = new ui_public_Error(__('Page not allowed.'));
+	               return $view->aclError($req, $match);
+               }
+               
+               // Call the good method on the view
                if (!isset($ctl['params'])) {
                   return $m->$ctl['method']($req, $match);
                }
@@ -102,9 +110,21 @@ class Dispatcher
                   return $m->$ctl['method']($req, $match, $ctl['params']);
                }
             }
+            
+            catch (Pluf_HTTP_FileSystemException $e) {
+               $view = new ui_public_Error($e->getMessage());
+               return $view->fileSystemError($req, $match);
+            }
+            
+            catch (Pluf_HTTP_PrivateException $e) {
+               $view = new ui_public_Private();
+               return $view->action($req, array($match[0], $e->dir));
+            }
+            
             catch (Pluf_HTTP_Error404 $e) {
                return new Pluf_HTTP_Response_NotFound("");
             }
+            
             catch (Exception $e) {
                if ($GLOBALS['debug'] == true) {
                   return new Pluf_HTTP_Response_ServerErrorDebug($e);
@@ -115,7 +135,9 @@ class Dispatcher
             }
          }
       }
-      return new Pluf_HTTP_Response_NotFound("No Matching view");
+      //return new Pluf_HTTP_Response_NotFound("No Matching view");
+      $view = new ui_public_Error("No Matching view");
+      return $view->action($req, $match);
    }
 
 

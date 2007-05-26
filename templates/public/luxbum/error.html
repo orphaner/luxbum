@@ -1,0 +1,31 @@
+{include '_header.html'}
+
+
+<body id="body">  
+  <h1><span>{$cfg['gallery_name']}</span></h1>
+
+  <div id="galleryList">
+    
+    <div id="navigBar">
+      <ol class="tree">
+        <li>&#187; <a href="{$cfg['url_base']}"><strong>{i18n 'Home'}</strong></a></li>
+        <li>{i18n 'An error has occured'}</li>
+      </ol>
+    </div>
+
+    <div id="error">
+      <div id="messageKo">{$error}</div>
+      
+      <ul>
+        <li><a href="javascript:history.back()">{i18n 'Previous page'}</a></li>
+        <li><a href="javascript:location.reload(true);">{i18n 'Refresh page'}</a></li>
+      </ul>
+    </div>
+    <div class="spacer"></div>
+  </div>
+
+  <div id="footerIndex"><a href="http://blog.luxbum.net/"><img src="http://www.luxbum.net/luxbum.png" alt="Powered By LuxBum"/></a><br />
+    Luxbum by <a href="mailto:nico_at_tuxfamily.org">Nico</a> - <a href="#">{i18n 'Admin zone'}</a></div>
+  
+</body>
+{include '_footer.html'}

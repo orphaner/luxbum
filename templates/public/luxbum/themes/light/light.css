@@ -411,9 +411,28 @@ body#body h1 span {
 }
 
 /*===========================================
+   Error view
+   */
+#error {
+  position: relative;
+  left: 50%; 
+  margin-left: -280px;
+  width:560px;
+  font-size: 1.2em;
+}
+#error #messageKo {
+  text-align: left;
+  border-top: 1px solid #A10000;
+  border-bottom: 1px solid #A10000;
+  padding-left:25px;
+  font-size: 1.3em;
+  background-position:7px;
+  color:#c00;
+}
+/*===========================================
    Private Form
    */
-#privateForm #messageOk {
+#privateForm #messageOk{
   text-align: left;
   border-top: 1px solid #9c9;
   border-bottom: 1px solid #9c9;
@@ -428,7 +447,7 @@ body#body h1 span {
   border-top: 1px solid #A10000;
   border-bottom: 1px solid #A10000;
   padding-left:25px;
-  font-size: 0.9em;
+  font-size: 1.3em;
   background-position:7px;
   color:#c00;
 }

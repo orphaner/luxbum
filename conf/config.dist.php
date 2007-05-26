@@ -69,7 +69,7 @@ $cfg['show_meta'] = true;
 
 // Allow comments
 // Choices : true / false
-$cfg['show_commentaire'] = true;
+$cfg['show_comment'] = true;
 
 // Allow slideshow
 // Choices : true / false

@@ -45,7 +45,7 @@
                   {else}
                 <td class="alt1">
                   {/if}
-                  <a href="{$pages.linkVignette}">{$page.text|unsafe}</a>
+                  <a href="{$pages.linkVignette}">{$page.text|unsafe|escxml}</a>
                 </td>
                 {/foreach}
               </tr>
@@ -100,7 +100,7 @@
                 + <a href="javascript:void(0);" onclick="window.open('{$cFile.linkMeta}','Meta','width=350,height=400,scrollbars=yes,resizable=yes');">{i18n 'Meta data'}</a>
                 {/if}
 
-                {if $cfg['show_selection']}
+                {if $cfg['show_comment']}
                 + <a href="javascript:void(0);" onclick="window.open('{$cFile.linkComment}','Comments','width=480,height=540,scrollbars=yes,resizable=yes');">{i18n 'Comments'} 
                   ({$cFile.commentCount})</a>
                 {/if}

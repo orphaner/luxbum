@@ -3,7 +3,17 @@
 /**
  * @package ui
  */
-class ui_public_Private {
+class ui_public_Private extends ui_CommonView {
+   
+   /**
+    * Check access list
+    * 
+    * @return boolean
+    */
+   function checkACL() {
+      return true;
+   }
+   
    /**
     * 
     * @param Pluf_HTTP_Request $request
