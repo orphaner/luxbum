@@ -23,7 +23,9 @@ class ImageToolkitImageMagick extends ImageToolkit {
                            $this->decalW, $this->decalH,
                            escapeshellarg($this->image), 
                            escapeshellarg($img_dest));
-            exec($cmd);
+            if (!system($cmd)) {
+               throw new Pluf_HTTP_ImageException();
+            }
 
             $cmd = 'convert -quality 80 -treedepth 3 -resize %dx%d -geometry %dx%d %s %s';
             $cmd = sprintf($cmd, 
@@ -31,7 +33,10 @@ class ImageToolkitImageMagick extends ImageToolkit {
                            $this->imageDestWidth, $this->imageDestHeight,
                            escapeshellarg($img_dest),
                            escapeshellarg($img_dest));
-            exec($cmd);
+            //exec($cmd);
+            if (!system($cmd)) {
+               throw new Pluf_HTTP_ImageException();
+            }
          }
          // Other methods
          else {
@@ -41,7 +46,10 @@ class ImageToolkitImageMagick extends ImageToolkit {
                            $this->imageDestWidth, $this->imageDestHeight,
                            escapeshellarg($this->image), 
                            escapeshellarg($img_dest));
-            exec($cmd);
+            //exec($cmd);
+            if (!system($cmd)) {
+               throw new Pluf_HTTP_ImageException();
+            }
          }
       }
    }

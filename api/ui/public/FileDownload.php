@@ -49,7 +49,7 @@ class ui_public_FileDownload extends ui_CommonView {
 	         throw new Exception("ui_public_FileDownload->image: $type is not valid");
 	      }
       }
-      catch(Pluf_HTTP_ImageGenerationException $e) {
+      catch(Pluf_HTTP_ImageException $e) {
          if (file_exists(Pluf::f('color_theme_path').'/images/file_error.png')) {
             $newfile = Pluf::f('color_theme_path').'/images/file_error.png';
          }

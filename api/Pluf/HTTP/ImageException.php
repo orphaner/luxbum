@@ -1,6 +1,6 @@
 <?php
 
-class Pluf_HTTP_ImageGenerationException extends Exception
+class Pluf_HTTP_ImageException extends Exception
 {
 }
 
