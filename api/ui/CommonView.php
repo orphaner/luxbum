@@ -49,6 +49,14 @@ abstract class ui_CommonView {
          throw new Pluf_HTTP_FileSystemException(sprintf(__('The file %s doesn\'t exists.'), $dir . $file));
       }
    }
+   
+   /**
+    * Default view contructor useful for basics verifications
+    *
+    */
+   public function __construct() {
+      // TODO: put here some basic verifications: tmp & photos directories exists and writeable ; install.php ; conf OK !
+   }
 }
 
 

@@ -85,8 +85,15 @@ class ui_public_Gallery extends ui_CommonView {
       
       $GLOBALS['isSelection'] = true;
       $gallery = new LuxbumSelectionGallery(Selection::getInstance());
+      
+      if ($gallery->getTotalCount() == 0) {
+         return new Pluf_HTTP_Response_Redirect(Pluf::f('url_base'));
+      }
 
       $imgIndex = $gallery->getImageIndex($defaultImage);
+      if ($imgIndex == -1) {
+         $imgIndex = 0;
+      }
       $gallery->setDefaultIndex($imgIndex);
       $currentPage = (int)($imgIndex / LIMIT_THUMB_PAGE)+1;
       $gallery->setStartOfPage(($currentPage * LIMIT_THUMB_PAGE) - LIMIT_THUMB_PAGE);
@@ -102,6 +109,7 @@ class ui_public_Gallery extends ui_CommonView {
       lbPostAction::comment($request, $ctPost, $img);
 
       $context = new Pluf_Template_Context(array('gallery' => $gallery, 
+                                                 'isSelection' => true,     
                                                  'pages'   => $pages,
                                                  'cFile'   => $gallery->getDefault(),
                                                  'cfg'     => $GLOBALS['_PX_config']));

@@ -13,7 +13,8 @@ class LuxbumSelectionGallery extends CommonGallery {
       $this->name = __('My selection');
 
       $array = $selection->toArray();
-      for ($i = 0 ; $i < $selection->getCount() ; $i++) {
+      $count = count($array);
+      for ($i = 0 ; $i < $count ; $i++) {
          $dir = files::addTailSlash($array[$i]['dir']);
          $file = $array[$i]['file'];
 

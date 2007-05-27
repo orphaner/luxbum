@@ -1,13 +1,13 @@
 <?php
 $GLOBALS['_PX_starttime'] = microtime(true);
 
-if (!is_file('conf/config.php')) {
+if (!file_exists('conf/config.php')) {
    exit('<a href="install.php">please install luxbum</a>');
 }
 
-
 include('common.php');
 $_SESSION['manager'] = false;
+
 
 
 Pluf::loadConfig('conf/config.php');
@@ -60,39 +60,48 @@ class lbPostAction {
    }
 }
 
+// Index views
 $dispatcher->registerController('ui_public_Index', 'index', '#^/$#i');
 $dispatcher->registerController('ui_public_Index', 'index', '#^/folder/(.*)/$#i');
 
+// View files (image & flv)
 $dispatcher->registerController('ui_public_FileDownload', 'image', '#^/image/(vignette|apercu|index|full)/(.+)/(.+)$#i');
 $dispatcher->registerController('ui_public_FileDownload', 'flv', '#^/flvdl/(.+)/(.+\.flv)$#i');
 
-
-
+// Selection
 $dispatcher->registerController('ui_public_Selection', 'select', '#^/select/(.*)/(.*)$#i');
 $dispatcher->registerController('ui_public_Selection', 'unselect', '#^/unselect/(.*)/(.*)$#i');
+$dispatcher->registerController('ui_public_Selection', 'selectall', '#^/selectall/(.*)/$#i');
+$dispatcher->registerController('ui_public_Selection', 'unselectall', '#^/unselectall/(.*)/$#i');
 $dispatcher->registerController('ui_public_Selection', 'deleteSelection', '#^/deleteselection/$#i');
 $dispatcher->registerController('ui_public_Selection', 'downloadSelection', '#^/downloadselection/$#i');
-
 $dispatcher->registerController('ui_public_Gallery', 'selection', '#^/selectiong/(.*)/(.*)$#i');
-//$dispatcher->registerController('SelectionAffichageView', '#^/selectiona/(.*)/(.*)$#i');
 
-
+// Private views
 $dispatcher->registerController('ui_public_Private', 'action', '#^/private/(.*)/$#i');
 $dispatcher->registerController('ui_public_Private', 'action', '#^/private/(.*)/(.*)$#i');
 
-$dispatcher->registerController('ui_public_Gallery', 'view', '#^/album/(.*)/$#i');
-$dispatcher->registerController('ui_public_Gallery', 'view', '#^/album/(.*)/(.*)$#i');
-$dispatcher->registerController('ui_public_Gallery', 'view', '#^/album/(.+)/(.+\.flv)$#i');
+// Gallery views
+$dispatcher->registerController('ui_public_Gallery', 'view', '#^/gallery/(.*)/$#i');
+$dispatcher->registerController('ui_public_Gallery', 'view', '#^/gallery/(.*)/(.*)$#i');
+$dispatcher->registerController('ui_public_Gallery', 'view', '#^/gallery/(.+)/(.+\.flv)$#i');
 
-$dispatcher->registerController('ui_public_Display', 'view', '#^/photo/(.*)/(.*)$#i');
+// File display view
+$dispatcher->registerController('ui_public_Display', 'view', '#^/display/(.*)/(.*)$#i');
 
+// Image meta informations views
 $dispatcher->registerController('ui_public_InfosMeta', 'action', '#^/meta/(.*)/(.*)$#i');
 
+// File comments
 $dispatcher->registerController('ui_public_Commentaire', 'action', '#^/comments/(.*)/(.*)$#i');
 
+// Image gallery slideshow
 $dispatcher->registerController('ui_public_SlideShow', 'action', '#^/slide\-show/(.*)$#i');
 $dispatcher->registerController('ui_public_SlideShow', 'action', '#^/slide\-show/(.*)/([0-9]+)$#i');
 
+
+// Select the correct view and display it
 $dispatcher->Launch($_SERVER['QUERY_STRING']);
+
 
 ?>

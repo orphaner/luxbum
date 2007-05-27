@@ -11,6 +11,9 @@
           <ol class="tree">
             <li>&#187; <a href="{$cfg['url_base']}"><strong>{i18n 'Home'}</strong></a></li>
             {NavigationMenu $gallery, '<li>%s</li>', '&#187;'}
+            {if isSelection} 
+            <li>&#187; {i18n 'My selection'}</li>
+            {/if}
           </ol>
         </div>
 
@@ -93,6 +96,9 @@
                   + <a href="{$cFile.linkUnselect}">{i18n 'Unselect file'}</a>
                   {else}
                   + <a href="{$cFile.linkSelect}">{i18n 'Select file'}</a>
+                  {/if}
+                  {if !$isSelection}
+                  + {i18n 'Select'} <a href="{$gallery.linkSelectAll}">{i18n 'all'}</a> / <a href="{$gallery.linkUnselectAll}">{i18n 'none'}</a>
                   {/if}
                 {/if}
 

@@ -47,6 +47,7 @@ class luxBumGallery extends CommonGallery
 
    /**
     * Return a luxbumGallery instance 
+    * @return luxBumGallery
     */
    function getInstance($dir, $preview='') {
       return new luxBumGallery($dir, $preview);

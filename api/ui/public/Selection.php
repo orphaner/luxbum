@@ -30,9 +30,8 @@ class ui_public_Selection extends ui_CommonView  {
       $selection = Selection::getInstance();
       $selection->addFile($dir, $file);
       Selection::saveSelection($selection);
-
-      $redirect = link::gallery($dir, $file);
-      header('Location: '.$redirect);
+      
+      return new Pluf_HTTP_Response_Redirect($_SERVER['HTTP_REFERER']);
    }
 
    /**
@@ -51,9 +50,64 @@ class ui_public_Selection extends ui_CommonView  {
       $selection = Selection::getInstance();
       $selection->removeFile($dir, $file);
       Selection::saveSelection($selection);
+      
+      return new Pluf_HTTP_Response_Redirect($_SERVER['HTTP_REFERER']);
+   }
+   
+   /**
+    *
+    * @param Pluf_HTTP_Request $request
+    * @param array $match
+    */
+   function selectall($request, $match) {
+      $dir = files::addTailSlash($match[1]);
+      $file = $match[2];
+      
+      // Check if the gallery is private
+	  $this->checkDir($dir);
+      $this->checkPrivate($dir);
 
-      $redirect = link::gallery($dir, $file);
-      header('Location: '.$redirect);
+      $selection = Selection::getInstance();
+      
+      $gallery = luxBumGallery::getInstance($dir);
+      $gallery->moveStart();
+      while (!$gallery->EOF()) {
+         $cFile = $gallery->f();
+         $selection->addFile($dir, $cFile->getFile());
+         $gallery->moveNext();
+      }
+      
+      Selection::saveSelection($selection);
+
+      return new Pluf_HTTP_Response_Redirect($_SERVER['HTTP_REFERER']);
+   }
+   
+   /**
+    *
+    * @param Pluf_HTTP_Request $request
+    * @param array $match
+    */
+   function unselectall($request, $match) {
+      $dir = files::addTailSlash($match[1]);
+      $file = $match[2];
+      
+      // Check if the gallery is private
+	  $this->checkDir($dir);
+      $this->checkPrivate($dir);
+
+      $selection = Selection::getInstance();
+      
+      $gallery = luxBumGallery::getInstance($dir);
+      $gallery->moveStart();
+      while (!$gallery->EOF()) {
+         $cFile = $gallery->f();
+         $selection->removeFile($dir, $cFile->getFile());
+         $gallery->moveNext();
+      }
+      
+      Selection::saveSelection($selection);
+
+      return new Pluf_HTTP_Response_Redirect($_SERVER['HTTP_REFERER']);
    }
 
    /**

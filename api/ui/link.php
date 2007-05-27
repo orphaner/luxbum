@@ -50,7 +50,7 @@ class link {
       }
       $dir = link::encode($dir);
       $file = link::encode($file);
-      return link::prefix().'album/'.$dir.$file;
+      return link::prefix().'gallery/'.$dir.$file;
    }
    
    // Le lien pour les pages de video flv
@@ -93,6 +93,16 @@ class link {
       return link::prefix().'unselect/'.$dir.$file;
    }
     
+   function selectall($dir) {
+      $dir = link::encode($dir);
+      return link::prefix().'selectall/'.$dir;
+   }
+    
+   function unselectall($dir) {
+      $dir = link::encode($dir);
+      return link::prefix().'unselectall/'.$dir;
+   }
+    
    function selection($dir, $file) {
       $dir = link::encode($dir);
       $file = link::encode($file);
@@ -128,7 +138,8 @@ class link {
    function display($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
-      return  link::prefix().'photo/'.$dir.$img;
+      return  link::prefix().'display/'.$dir.$img;
+      
    }
 }
 
