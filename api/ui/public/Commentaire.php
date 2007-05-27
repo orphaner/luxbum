@@ -25,7 +25,7 @@ class ui_public_Commentaire extends ui_CommonView {
 
       // Check if the gallery is private
       $this->checkPrivate($dir);
-	  $this->checkFile($dir);
+	  $this->checkFile($dir, $photo);
 	  
 	  $img = new luxBumImage ($dir, $photo);
       $img->metaInit ();
