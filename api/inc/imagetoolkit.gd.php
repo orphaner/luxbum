@@ -7,13 +7,20 @@
 
 class ImageToolkitGD extends ImageToolkit
 {
+   
+   /**
+    * @return boolean
+    */
+   public static function isAvailable() {
+       return extension_loaded("gd");
+   }
 
    /**
     * Cr�e un handler de l'image suivant son type
     * @access private
     * @return Handler
     */
-   function imageCreateFromType () {
+   private function imageCreateFromType () {
 
       switch ($this->imageType) {
          case 1 :
@@ -38,10 +45,10 @@ class ImageToolkitGD extends ImageToolkit
    }
 
    /**
-    * Ecrit l'image redimensionn�e.
+    * Write the new image
     * @access private
     */
-   function imageWriteFromType ($image, $quality) {
+   private function imageWriteFromType ($image, $quality) {
 
       switch ($this->imageType){
          case 1 :
@@ -59,11 +66,11 @@ class ImageToolkitGD extends ImageToolkit
    }
 
    /**
-    * Remplit les champs principaux de la classe.
+    * Fill in main fields of the class
     * 
     * @access private
     */
-   function setSrcInfos () {
+   protected function setSrcInfos () {
       if ($this->image != "") {         
          // Lit les dimensions de l'image
          $size = GetImageSize ($this->image);
@@ -78,52 +85,47 @@ class ImageToolkitGD extends ImageToolkit
     *
     * @access static
     */
-   function getImageDimensions($path) {
-      if (is_file ($path)) {
-         $size = GetImageSize ($path);
-         return sprintf ('width="%s" height="%s"', $size[0], $size[1]);
+   public function getImageDimensions($path) {
+      if (is_file($path)) {
+         $size = GetImageSize($path);
+         return sprintf('width="%s" height="%s"', $size[0], $size[1]);
       }
       return '';
    }
 
    /**
-    * Cr�e l'image redimentionn�e. Il faut pr�alablement avoir apell� la m�thode
-    * setDestSize(...)
-    * @param String $img_dest Chemin o� il faut �crire l'image redimensionn�e.
+    * Create the resized image. Need to call the function setDestSize()
+    * @param String $img_dest File path to store the resozed image
     */
-   function createThumb ($img_dest) {
+   function createThumb($img_dest) {
       $this->imageDest = $img_dest;
 
-      // Cr�er la vignette ?
+      // Create the resized image ?
       if ($this->canResize ()) {
 
-         // Copie dedans l'image initiale redimensionn�e
-         $srcHandler = $this->ImageCreateFromType ($this->image, $this->imageType);
+         // Loads image from source file
+         $srcHandler = $this->ImageCreateFromType($this->image, $this->imageType);
 
 
          /* GD 2 */
          if ($this->gdVersion() == 2) {
-
-            // Cr�e une image vierge aux bonnes dimensions
             $destHandler = ImageCreateTrueColor ($this->imageDestWidth, $this->imageDestHeight);
             ImageCopyResampled ($destHandler, $srcHandler, 0, 0, $this->decalW, $this->decalH, $this->imageDestWidth, $this->imageDestHeight, $this->cropW, $this->cropH);
          }
 
          /* GD 1 */
          else {
-
-            // Cr�e une image vierge aux bonnes dimensions
             $destHandler = ImageCreate ($this->imageDestWidth, $this->imageDestHeight);
             imagecopyresized ($destHandler, $srcHandler, 0, 0, $this->decalW, $this->decalH, $this->imageDestWidth, $this->imageDestHeight, $this->cropW, $this->cropH);
          }
 
-         // Sauve la nouvelle image
+         // Save the new image
          if (!$this->ImageWriteFromType ($destHandler, 95)) {
             throw new Pluf_HTTP_ImageException();
          }
-         @chmod ($this->imageDest, 0777);
+         @chmod ($this->imageDest, 0775);
 
-         // D�truis les tampons
+         // Destroy image handle
          ImageDestroy ($destHandler);
          ImageDestroy ($srcHandler);
       }
@@ -131,10 +133,10 @@ class ImageToolkitGD extends ImageToolkit
 
 
    /**
-    * Retourne la version exacte de GD
+    * Get the exact GD installed version
     * @return Version exacte de GD
     */
-   function gdVersionExact ()  {
+   public static function gdVersionExact ()  {
       static $gd_version_number = null;
       if ($gd_version_number === null) {
          // Use output buffering to get results from phpinfo()
@@ -161,9 +163,9 @@ class ImageToolkitGD extends ImageToolkit
     * Returns the version (1 or 2) of the GD extension.
     * @return 1 ou 2 pour GD1 ou GD2
     */
-   function gdVersion ($user_ver = 0) {
+   public function gdVersion ($user_ver = 0) {
 
-      if (! extension_loaded('gd')) {
+      if (!extension_loaded('gd')) {
          return;
       }
 

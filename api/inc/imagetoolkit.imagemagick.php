@@ -5,6 +5,22 @@
    */
 class ImageToolkitImageMagick extends ImageToolkit {
    var $forceResizeCmd = false;
+   
+   /**
+    * @return boolean
+    */
+   public static function isAvailable() {
+      if (!defined('IMAGE_TRANSFORM_IM_PATH')) {
+         $path = dirname(System::which('convert')) . DIRECTORY_SEPARATOR;
+         define('IMAGE_TRANSFORM_IM_PATH', $path);
+      }
+      if (System::which(IMAGE_TRANSFORM_IM_PATH . 'convert' . ((OS_WINDOWS) ? '.exe' : ''))) {
+         return true;
+      } 
+      else {
+         return false;
+      }
+   }
 
    /**
     *
@@ -66,7 +82,7 @@ class ImageToolkitImageMagick extends ImageToolkit {
     * 
     * @access private
     */
-   function setSrcInfos () {
+   protected function setSrcInfos () {
       if ($this->image != "") {
          $exit = 0; //TODO: how ugly it is !!
 
@@ -104,6 +120,6 @@ class ImageToolkitImageMagick extends ImageToolkit {
       }
       return '';
    }
-  }
+}
 
 ?>

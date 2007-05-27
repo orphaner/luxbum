@@ -1,29 +1,35 @@
 <?php
 
-ini_set ('memory_limit', '32M'); 
+@ini_set('memory_limit', '32M'); 
 
 /**
  * @package inc
  * @abstract
  */
-class ImageToolkit
+abstract class ImageToolkit
 {
 
    /**-----------------------------------------------------------------------**/
    /** Image generation functions */
    /**-----------------------------------------------------------------------**/
 
-   var $image;
-   var $imageWidth;
-   var $imageHeight;
-   var $imageType;
-   var $typeMime = '';
+   protected $image;
+   protected $imageWidth;
+   protected $imageHeight;
+   protected $imageType;
+   protected $typeMime = '';
 
-   var $imagDest;
-   var $imageDestWidth;
-   var $imageDestHeight;
-   var $mode;
+   protected $imagDest;
+   protected $imageDestWidth;
+   protected $imageDestHeight;
+   protected $mode;
    
+   /**
+    * Factory to create new instances of the right driver
+    * @param string $imagePath image path of the original image
+    * @param string $imageDriver driver to use
+    * @return ImageToolkit
+    */
    static function factory($imagePath, $imageDriver='') {
       if ($imageDriver === '') {
          $imageDriver = Pluf::f('image_generation_driver');
@@ -46,16 +52,16 @@ class ImageToolkit
     * Constructeur par d�faut
     * @param String $image Chemin complet vers l'image
     */
-   function ImageToolkit ($image) {
+   public function __construct($image) {
       $this->image = $image;
-      $this->setSrcInfos ();
+      $this->setSrcInfos();
    }
 
    /**
     * Retourne la largeur finale de l'image redimensionn�e.
     * @return int Largeur finale de l'image redimensionn�e.
     */
-   function getImageDestWidth () {
+   public function getImageDestWidth () {
       return $this->imageDestWidth;
    }
 
@@ -63,26 +69,26 @@ class ImageToolkit
     * Retourne la hauteur finale de l'image redimensionn�e.
     * @return int Hauteur finale de l'image redimensionn�e.
     */
-   function getImageDestHeight () {
+   public function getImageDestHeight () {
       return $this->imageDestHeight;
    }
    
    /**
-    * Retourne le type Mime de l'image
-    * @return String Type mime de l'image
+    * Returns the mime type of the image
+    * @return String Type mime type of the image
     */
-   function getTypeMime () {
+   public function getTypeMime () {
       return $this->typeMime;
    }
 
    /**
-    * Fixe une taille finale maximale de redimensionnement.
+    * Set a maximum resize size
     * @param Int $dst_w Largeur maximale (px ou %)
     * @param int $dst_h Hauteur maximale (px ou %)
     * @param string $mode Crop mode (force, crop, ratio)
     * @param boolean $expand Allow resize of image
    */
-   function setDestSize ($dst_w, $dst_h, $mode='ratio', $expand=true) {
+   public function setDestSize ($dst_w, $dst_h, $mode='ratio', $expand=true) {
       $this->mode = $mode;
 
       $imgWidth = $this->imageWidth;
@@ -170,11 +176,11 @@ class ImageToolkit
    }
 
    /**
-    * Est ce qu'il faut redimentionner une image ?
+    * Does the image need to be resized ?
     * @access private
     * @return boolean
     */
-   function canResize () {
+   protected function canResize () {
 
       // the thumb exists ?
       if (!file_exists ($this->imageDest)) {
@@ -192,6 +198,7 @@ class ImageToolkit
 
    /**
     *
+    * @return boolean
     */
    function destBiggerThanFrom() {
       return ($this->imageDestWidth >= $this->imageWidth &&
@@ -205,7 +212,7 @@ class ImageToolkit
     * @param string $hex color value in hexformat (e.g. 'FF0000')
     * @return array associative array with color values in dezimal format (fields: 0->'red', 1->'green', 2->'blue')
     */
-   function hexToDecColor ($hex) {
+   public static function hexToDecColor ($hex) {
       $length = strlen($hex);
       $color[] = hexdec(substr($hex, $length - 6, 2));
       $color[] = hexdec(substr($hex, $length - 4, 2));
@@ -218,18 +225,23 @@ class ImageToolkit
     * @abstract
     * @access private
     */
-   function setSrcInfos () {
-   }
+   abstract protected function setSrcInfos() ;
+   
    /**
     * @abstract
     */
-   function getImageDimensions($path) {
-   }
+   abstract public function getImageDimensions($path);
+   
    /**
     * @abstract
     */
-   function createThumb ($img_dest) {
-   }
+   abstract public function createThumb ($img_dest) ;
+   
+   /**
+    * @return boolean
+    */
+   abstract public static function isAvailable();
+   
 }
 
 
