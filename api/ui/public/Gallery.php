@@ -35,7 +35,6 @@ class ui_public_Gallery extends ui_CommonView {
 
       $gallery = new luxBumGallery($dir);
       $gallery->createOrMajDescriptionFile();
-      $gallery->getDescriptions();
 
       $imgIndex = $gallery->getImageIndex($defaultImage);
       $gallery->setDefaultIndex($imgIndex);

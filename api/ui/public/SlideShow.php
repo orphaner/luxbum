@@ -20,25 +20,26 @@ class ui_public_SlideShow extends ui_CommonView {
     * @param array $match
     */
    function action($request, $match) {
-      $dir = $match[1];
+      $dir = files::addTailSlash($match[1]);
+      $defaultImage = $match[2];
       
       // Check if the gallery is private
-	  $this->checkDir($dir);
+	  $this->checkFile($dir, $defaultImage);
       $this->checkPrivate($dir);
 
       $GLOBALS['LB']['dir'] = $dir;
       $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
 
-      $GLOBALS['_LB_render']['res'] = new luxBumGallery($dir);
-      $res =& $GLOBALS['_LB_render']['res'];
+      $gallery = new luxBumGallery($dir, TYPE_IMAGE_FILE);
+      $imgIndex = $gallery->getImageIndex($defaultImage);
+      $gallery->setDefaultIndex($imgIndex);
+      
 
-      // Add comment form valid
-      lbPostAction::comment();
-
-      header('Content-Type: text/html; charset=UTF-8');
-      include (TEMPLATE_DIR.TEMPLATE.'/slideshow.php');
-      return 200;
-
+      $context = new Pluf_Template_Context(array('gallery'  => $gallery, 
+                                                 'cfg'      => $GLOBALS['_PX_config']));
+      
+      $tmpl = new Pluf_Template('slideshow.html');
+      return new Pluf_HTTP_Response($tmpl->render($context));
    }
 }
 ?>

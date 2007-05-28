@@ -338,30 +338,14 @@ function slide_img_info_doquery() {
    xmlhttp.send("action=exif&dir="+currentDir+"&file="+photosURL[current_fg_index]);
 }
 
-/* XmlHTTPRequest function to get the next Photo Path */
+/*function to get the next Photo Path */
 function getCurrentPhoto(index, pos) {
-//    var xmlhttp = getHTTPObject('photo');
-//    xmlhttp.open("POST", "slideshow.php", true);
-//    xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-//    xmlhttp.send("action=photo&dir="+currentDir+"&file="+photosURL[index]);
-   
-//    if (xmlhttp) {
-//       /* we define what should be done once the server has answered */
-//       xmlhttp.onreadystatechange=function() {
-//          /* 4 : "complete" */
-//          if (xmlhttp.readyState == 4) {
-//             /* HTTP Code 200 "Ok" */
-//             if (xmlhttp.status == 200) {
-               if (pos == "fg") {
-                  document.getElementById(foreImage).src = photosURL[index];
-               }
-               else if (pos == "bg") {
-                  document.getElementById(backImage).src = photosURL[index];
-               }
-//             }
-//          }
-//       }
-//   }
+   if (pos == "fg") {
+      document.getElementById(foreImage).src = photosURL[index];
+   }
+   else if (pos == "bg") {
+      document.getElementById(backImage).src = photosURL[index];
+   }
 }
 
 

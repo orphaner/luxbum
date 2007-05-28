@@ -1,7 +1,9 @@
 <?php
 
+// 1,2,4,8,16 etc, so can define masks
 define('TYPE_IMAGE_FILE', 1);
 define('TYPE_FLV_FILE', 2);
+
 
 /**
  * 

@@ -30,18 +30,19 @@ class luxBumGallery extends CommonGallery
    /**
     * Default constructor
     * @param String $dir Dossier de la galerie
+    * @param integer $fileType Type de fichiers souhaités dans la galerie
     * @return luxBumGallery
     */
-   function __construct($dir, $preview = '') {
+   function __construct($dir, $fileType = '') {
       parent::__construct();
-      $this->preview = $preview;
+      $this->preview = '';
 
       $this->dir = files::addTailSlash($dir);
       $this->dirPath = files::addTailSlash(luxbum::getFsPath($dir));
       $list = split('/', $dir);
       $this->name = $list[count($list) - 1];
 
-      $this->addAllImages();
+      $this->addAllFiles($fileType);
       $this->_completeInfos ();
       $this->_loadPrivate();
    }
@@ -277,7 +278,11 @@ class luxBumGallery extends CommonGallery
     * Add all images to the gallery, then sort them.
     * They have all their date / description correctly filled in.
     */
-   function addAllImages() {
+   private function addAllFiles($fileType) {
+      
+      if ($fileType == '') {
+         $fileType = TYPE_IMAGE_FILE | TYPE_FLV_FILE;
+      }
 
       // Ouverture du dossier des photos
       if ($dir_fd = opendir ($this->dirPath)) {
@@ -290,7 +295,7 @@ class luxBumGallery extends CommonGallery
          while ($current_file = readdir ($dir_fd)) {
             
             // Add an image file
-            if (files::isPhotoFile ($this->dir, $current_file)) {
+            if (files::isPhotoFile ($this->dir, $current_file) && ($fileType & TYPE_IMAGE_FILE)) {
                $imageTemp = new luxBumImage ($this->dir, $current_file);
                 
                // On affecte les dates / descriptions
@@ -307,7 +312,7 @@ class luxBumGallery extends CommonGallery
             }
             
             // Add a flash video file
-            else if (files::isFlvFile($this->dir, $current_file)) {
+            else if (files::isFlvFile($this->dir, $current_file) && ($fileType & TYPE_FLV_FILE)) {
                $object = new LuxbumFlv($this->dir, $current_file);
                $this->addToList($object);
             }
