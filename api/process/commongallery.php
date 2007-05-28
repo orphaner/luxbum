@@ -264,20 +264,6 @@ class CommonGallery extends inc_SortableRecordset {
    }
    
    /**
-    * @return string the link url to select all images in the current gallery
-    */
-   public function getLinkSelectAll() {
-      return link::selectall($this->dir);
-   }
-   
-   /**
-    * @return string the link url to select all images in the current gallery
-    */
-   public function getLinkUnselectAll() {
-      return link::unselectall($this->dir);
-   }
-   
-   /**
     * Retourne le lien de la vignette de l'image vers le script qui génére
     * l'image
     * @return Lien de la vignette de l'image vers le script de génération

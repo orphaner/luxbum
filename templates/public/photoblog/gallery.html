@@ -5,6 +5,9 @@
 <h2>
   <a href="{$cfg['url_index']}"><strong>{i18n 'Home'}</strong></a> 
   {NavigationMenu $gallery, '%s', ' | '}
+  {if $isSelection}
+  | {i18n 'My selection'}
+  {/if}
 </h2>
 
 

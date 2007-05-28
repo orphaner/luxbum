@@ -76,6 +76,7 @@ $dispatcher->registerController('ui_public_Selection', 'unselectall', '#^/unsele
 $dispatcher->registerController('ui_public_Selection', 'deleteSelection', '#^/deleteselection/$#i');
 $dispatcher->registerController('ui_public_Selection', 'downloadSelection', '#^/downloadselection/$#i');
 $dispatcher->registerController('ui_public_Gallery', 'selection', '#^/selectiong/(.*)/(.*)$#i');
+$dispatcher->registerController('ui_public_Display', 'selection', '#^/selectiond/(.*)/(.*)$#i');
 
 // Private views
 $dispatcher->registerController('ui_public_Private', 'action', '#^/private/(.*)/$#i');

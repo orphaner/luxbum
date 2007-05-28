@@ -56,4 +56,19 @@
 
 </div>
 
+{if $index && $cfg['show_selection'] && $selection.totalCount > 0}
+<h2>
+  {i18n 'My selection'}
+</h2>
+  <div class="album">
+    <a href="{$selection.linkConsult}"><img src="{$selection.defaultImage}" alt=""/></a>
+    <div class="albumdesc">
+      <h3><a href="{$selection.linkConsult}">{i18n 'Consult'}</a></h3>
+      <h3><a href="{$selection.linkDelete}">{i18n 'Delete'}</a></h3>
+      <h3><a href="{$selection.linkDownload}">{i18n 'Download'}</a></h3>
+    </div>
+  </div>
+  <p style="clear:both;"></p>
+{/if}
+
 {include '_footer.html'}

@@ -472,6 +472,21 @@ class luxBumGallery extends CommonGallery
          $img->clearCache ();
       }
    }
+
+   
+   /**
+    * @return string the link url to select all images in the current gallery
+    */
+   public function getLinkSelectAll() {
+      return link::selectall($this->dir);
+   }
+   
+   /**
+    * @return string the link url to select all images in the current gallery
+    */
+   public function getLinkUnselectAll() {
+      return link::unselectall($this->dir);
+   }
    
    function __toString() {
       echo "luxbumgallery::__toString();";

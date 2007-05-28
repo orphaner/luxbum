@@ -138,8 +138,12 @@ class link {
    function display($dir, $img) {
       $dir = link::encode($dir);
       $img = link::encode($img);
-      return  link::prefix().'display/'.$dir.$img;
-      
+      if ($GLOBALS['isSelection']) {
+         return  link::prefix().'selectiond/'.$dir.$img;
+      }
+      else {
+         return  link::prefix().'display/'.$dir.$img;
+      }
    }
 }
 

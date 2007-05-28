@@ -1,0 +1,22 @@
+{include '_header.html'}
+
+<div id="gallerytitle"><h1>{$cfg['gallery_name']}</h1></div>
+
+<h2>
+  <a href="{$cfg['url_index']}"><strong>{i18n 'Home'}</strong></a> 
+        | {i18n 'An error has occured'}</li>
+</h2>
+
+<div id="albums">
+    <div id="error">
+      <div id="messageKo">{$error}</div>
+      
+      <ul>
+        <li><a href="javascript:history.back()">{i18n 'Previous page'}</a></li>
+        <li><a href="javascript:location.reload(true);">{i18n 'Refresh page'}</a></li>
+      </ul>
+    </div>
+</div>
+
+
+{include '_footer.html'}

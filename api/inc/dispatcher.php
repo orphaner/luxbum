@@ -135,7 +135,6 @@ class Dispatcher
             }
          }
       }
-      //return new Pluf_HTTP_Response_NotFound("No Matching view");
       $view = new ui_public_Error("No Matching view");
       return $view->aclError($req, $match);
    }
