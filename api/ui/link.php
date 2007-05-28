@@ -11,7 +11,7 @@ class link {
    }
 
    function prefix() {
-      return (Pluf::f('use_rewrite')) ? Pluf::f('url_base') : Pluf::f('url_base').'?/';
+      return (Pluf::f('use_rewrite')) ? Pluf::f('url_base') : Pluf::f('url_index').'?/';
    }
 
    function thumb($dir, $img) {

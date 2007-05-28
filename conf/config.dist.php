@@ -30,7 +30,10 @@ $cfg = array();
 
 // Set the base url of the installed luxbum.
 // /!\ Warning : the tail / is needed
-$cfg['url_base'] = 'http://nico.beroot.org/trunk/';
+$cfg['url_base'] = '';
+
+// Set the index file so that luxbum can be more easily integrated
+$cfg['index_file'] = 'index.php';
 
 // Set the template to use ;
 // Choices : luxbum / photoblog
@@ -47,7 +50,7 @@ $cfg['template_theme'] = 'light';
 
 // Set the name of the gallery. It will be displayed in 
 // the title of all the pages
-$cfg['gallery_name'] = 'NicoBeroot Trunk';
+$cfg['gallery_name'] = '';
 
 // Use rewrite rules to generate url's. The url looks like
 // to be a path to a real file, but it doesn't.
@@ -120,6 +123,10 @@ $cfg['template_folders'] = array(dirname(__FILE__).'/../'.TEMPLATE_DIR.$cfg['tem
 // It can be overwritten for a given response if needed.
 $cfg['mimetype'] = 'text/html';
 
+// url to index file (not necessary index.php)
+$cfg['url_index'] = $cfg['url_base'] . $cfg['index_file'];
+
+// Middleware to load
 if ($cfg['debug']) {
    $cfg['middleware_classes'] = array('Pluf_Middleware_Debug', 
                                       'Pluf_Middleware_Tidy');
@@ -128,6 +135,7 @@ else {
    $cfg['middleware_classes'] = array();
 }
 
+// Allowed tags
 $cfg['template_tags'] = array(
 	'style'          => 'Pluf_Template_Tag_Style',
 	'NavigationMenu' => 'Pluf_Template_Tag_NavigationMenu'
