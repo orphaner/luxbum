@@ -8,8 +8,6 @@
     <script  type="text/javascript" src="{$cfg['url_base']}templates/common/slideshow/slideshow.js"></script>
 
 	{style}
-	
-  </head>
 
 {literal}
 <style type="text/css">
@@ -147,36 +145,36 @@
 
 
   <div id="slide">
-    <div id="cont_1"><img src="" id="image_slide1" alt="Chargement de l'image en cours..." /></div>
-    <div id="cont_2"><img src="" id="image_slide2" alt="Picture buffer 2" /></div>
+    <div id="cont_1"><img src="#" id="image_slide1" alt="{i18n 'Image is loading'}" /></div>
+    <div id="cont_2"><img src="#" id="image_slide2" alt="Picture buffer 2" /></div>
 
     <div id="controle">
       <div id="s_next"><img src="{$cfg['color_theme_path']}/images/next.png" alt="{i18n next}"/></div>
       <div id="s_prev"><img src="{$cfg['color_theme_path']}/images/previous.png" alt="{i18n previous}"/></div>
-      <div id="s_play">Démarrer</div>
-      <div id="s_pause">Pause</div>
-      <div id="s_info"><img class="myicon" src="slideshow.php?base64=i" alt="Informations about the picture"/></div>
-      <div id="s_options"><img class="myicon" src="slideshow.php?base64=o" alt="Options of the slideshow" /></div>
-      <div id="s_help"><img class="myicon" src="slideshow.php?base64=h" alt="About / Keyboard shortcuts"/></div>
+      <div id="s_play">{i18n 'Start'}</div>
+      <div id="s_pause">{i18n 'Stop'}</div>
+      <div id="s_info"><img class="myicon" src="slideshow.php?base64=i" alt="{i18n 'Image informations'}"/></div>
+      <div id="s_options"><img class="myicon" src="slideshow.php?base64=o" alt="{i18n 'Slideshow options'}" /></div>
+      <div id="s_help"><img class="myicon" src="slideshow.php?base64=h" alt="{i18n 'About / Keyboard shortcuts'}"/></div>
       <br />
     </div>
 
     <div id="s_options_box">
       <h2>Options</h2>
-      <input type="checkbox" id="smoothtrans" checked="checked"/> Activer le fondu<br />
-      <input type="text" id="slide_speed" size="1" maxlength="1" value="4" /> Temps entre chaque photo (en secondes) <br />
+      <input type="checkbox" id="smoothtrans" checked="checked"/> {i18n 'Enable fading'}<br />
+      <input type="text" id="slide_speed" size="1" maxlength="1" value="4" /> {i18n 'Time between each image (sec)'} <br />
     </div>
     <div id="s_exif_info"></div>
     <div id="s_help_box">
-      <h2>A propos</h2>
-      <p><strong>ESS</strong> par <strong>Yann HAMON</strong> adapté pour Luxbum</p>
-      <p id="k_shortcuts">Racourcis clavier</p>
+      <h2>{i18n 'About'}</h2>
+      <p><strong>ESS</strong> {i18n 'by'} <strong>Yann HAMON</strong> {i18n 'adapted for luxbum'}</p>
+      <p id="k_shortcuts">{i18n 'Keyboard shortcuts'}</p>
       <ul>
-        <li><strong>Espace</strong> : Démarre/met en pause le diaporama</li>
-        <li><strong>Flèches gauches et droites</strong> : Photo précédente, suivante</li>
-        <li><strong>i</strong> : Informations EXIF de la photo</li>
-        <li><strong>o</strong> : Options</li>
-        <li><strong>h</strong> : Afficher cette aide</li>
+        <li><strong>{i18n 'Space'}</strong> : {i18n 'Start/pause the slideshow'}</li>
+        <li><strong>{i18n 'Left/right arrows'}</strong> : {i18n 'Previous image, next'}</li>
+        <li><strong>i</strong> : {i18n 'Image Meta Data'}</li>
+        <li><strong>o</strong> : {i18n 'Options'}</li>
+        <li><strong>h</strong> : {i18n 'Show this help'}</li>
       </ul>
     </div>
   </div>

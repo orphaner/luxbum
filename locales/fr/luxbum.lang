@@ -24,24 +24,6 @@ Galerie privée
 ;Meta data
 Informations Méta
 
-;Camera
-Appareil photo
-
-;Exposure
-Exposition
-
-;Aperture
-Ouverture
-
-;Focal length
-Distance focale
-
-;Flash
-Flash
-
-;ISO
-ISO
-
 ;Date
 Date
 
@@ -51,19 +33,22 @@ Fermer la fenêtre
 ;Comments
 Commentaires
 
-;Picture is loading
+;Image is loading
 Chargement de l'image en cours.
 
 ;Start
 Démarrer
 
+;Stop
+Arrêter
+
 ;Pause
 Pause
 
-;Informations about the picture
+;Image informations
 Informations sur la photo
 
-;Options of the slideshow
+;Slideshow options
 Options du diaporama
 
 ;About / Keyboard shortcuts
@@ -72,7 +57,7 @@ A propos / Raccourcis claviers
 ;Enable fading
 Activer le fondu
 
-;Time between each picture (sec)
+;Time between each image (sec)
 Temps entre chaque photo (en secondes)
 
 ;About
@@ -87,8 +72,8 @@ Espace
 ;Left/right arrows
 Flèches gauches et droites
 
-;Exif Data about the picture
-Informations EXIF de la photo
+;Image Meta Data
+Informations Meta de la photo
 
 ;Options
 Options
@@ -96,7 +81,7 @@ Options
 ;Show this help
 Afficher cette aide
 
-;Previous pictures, next
+;Previous image, next
 Photo précédente, suivante
 
 ;Start/pause the slideshow
@@ -113,6 +98,9 @@ Les informations Exif sont désactivées.
 
 ;Date / Description
 Date / Description
+
+;by
+par
 
 ;adapted for luxbum
 adapté pour Luxbum
