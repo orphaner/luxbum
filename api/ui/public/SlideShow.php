@@ -29,7 +29,7 @@ class ui_public_SlideShow extends ui_CommonView {
       $GLOBALS['LB']['dir'] = $dir;
       $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
 
-      $GLOBALS['_LB_render']['res'] = luxBumGallery::getInstance($dir);
+      $GLOBALS['_LB_render']['res'] = new luxBumGallery($dir);
       $res =& $GLOBALS['_LB_render']['res'];
 
       // Add comment form valid

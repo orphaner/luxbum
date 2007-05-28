@@ -30,8 +30,9 @@ class luxBumGallery extends CommonGallery
    /**
     * Default constructor
     * @param String $dir Dossier de la galerie
+    * @return luxBumGallery
     */
-   function luxBumGallery ($dir, $preview = '') {
+   function __construct($dir, $preview = '') {
       parent::__construct();
       $this->preview = $preview;
 
@@ -43,14 +44,6 @@ class luxBumGallery extends CommonGallery
       $this->addAllImages();
       $this->_completeInfos ();
       $this->_loadPrivate();
-   }
-
-   /**
-    * Return a luxbumGallery instance 
-    * @return luxBumGallery
-    */
-   function getInstance($dir, $preview='') {
-      return new luxBumGallery($dir, $preview);
    }
 
    /**

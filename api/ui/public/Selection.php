@@ -69,7 +69,7 @@ class ui_public_Selection extends ui_CommonView  {
 
       $selection = Selection::getInstance();
       
-      $gallery = luxBumGallery::getInstance($dir);
+      $gallery = new luxBumGallery($dir);
       $gallery->moveStart();
       while (!$gallery->EOF()) {
          $cFile = $gallery->f();
@@ -97,7 +97,7 @@ class ui_public_Selection extends ui_CommonView  {
 
       $selection = Selection::getInstance();
       
-      $gallery = luxBumGallery::getInstance($dir);
+      $gallery = new luxBumGallery($dir);
       $gallery->moveStart();
       while (!$gallery->EOF()) {
          $cFile = $gallery->f();

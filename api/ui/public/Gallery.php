@@ -33,7 +33,7 @@ class ui_public_Gallery extends ui_CommonView {
 	  $this->checkFile($dir, $defaultImage);
       $this->checkPrivate($dir);
 
-      $gallery = luxBumGallery::getInstance($dir);
+      $gallery = new luxBumGallery($dir);
       $gallery->createOrMajDescriptionFile();
       $gallery->getDescriptions();
 
