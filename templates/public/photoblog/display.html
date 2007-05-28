@@ -43,16 +43,16 @@
 {/if}
 
 <div id="narrow">
-                {if $cfg['show_selection']}
-                  {if $cFile->isSelected()}
-                  + <a href="{$cFile.linkUnselect}">{i18n 'Unselect file'}</a>
-                  {else}
-                  + <a href="{$cFile.linkSelect}">{i18n 'Select file'}</a>
-                  {/if}
-                  {if !$isSelection}
-                  + {i18n 'Select'} <a href="{$gallery.linkSelectAll}">{i18n 'all'}</a> / <a href="{$gallery.linkUnselectAll}">{i18n 'none'}</a>
-                  {/if}
-                {/if}
+  {if $cfg['show_selection']}
+    {if $cFile->isSelected()}
+    + <a href="{$cFile.linkUnselect}">{i18n 'Unselect file'}</a>
+    {else}
+    + <a href="{$cFile.linkSelect}">{i18n 'Select file'}</a>
+    {/if}
+    {if !$isSelection}
+    + {i18n 'Select'} <a href="{$gallery.linkSelectAll}">{i18n 'all'}</a> / <a href="{$gallery.linkUnselectAll}">{i18n 'none'}</a>
+    {/if}
+  {/if}
   {if $cFile->isImage() && $cfg['show_meta']}
   <div id="metaData">
     <h2>{i18n 'Meta data'}</h2>
