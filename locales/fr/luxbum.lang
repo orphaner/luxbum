@@ -117,7 +117,7 @@ Date / Description
 ;adapted for luxbum
 adapté pour Luxbum
 
-;prev
+;previous
 précédent
 
 ;next
@@ -174,6 +174,9 @@ Mot de passe
 ;Submit
 Valider
 
+;Authentication failed. Please check the form :
+L'identification a échouée. Veuillez vérifier le formulaire :
+
 ;No comments
 Pas de commentaires
 
@@ -186,3 +189,29 @@ Nom
 ;Metadata value
 Valeur
 
+;Select file
+Sélectionner
+
+;Select
+Sélectionner
+
+;Unselect file
+Déselectionner
+
+;all
+tout
+
+;none
+rien
+
+;My selection
+Ma sélection
+
+;Delete
+Supprimer
+
+;Download
+Télécharger
+
+;Admin zone
+Zone d'adminisration
