@@ -15,6 +15,7 @@
   /*background-color: black;*/
   margin-left:auto;
   margin-right: auto;
+  margin-top:15px;
   height:510px;
   width:650px;
   position:relative;
@@ -52,20 +53,26 @@
   bottom:0;
   left:0;
   z-index:1000;
-  width:650px;
+  width:646px;
+  margin-left:2px;
 }
 
-#s_prev, #s_next, #s_play, #s_pause, #s_info, #s_options, #s_help {
+#s_prev, #s_next, #s_play, #s_pause, #s_info, #s_options, #s_help, #s_start, #s_end {
   display:inline;
   padding:0;
   margin:0;
   margin:0 5px;
+  top:3px;
+  padding-top:3px;
   vertical-align:middle;
+}
+
+#s_play, #s_pause {
+  padding-top:10px;
 }
 
 #s_info, #s_options, #s_help {
   position: relative;
-  top:3px;
   margin: 0 0 0 2px;
 }
 
@@ -73,12 +80,16 @@
   margin-left:40px;
 }
 
-#s_prev {
+#s_prev, #s_start {
   float: left;
 }
 
-#s_next {
+#s_next, #s_end {
   float: right;
+}
+
+#s_pause {
+  display:none;
 }
 
 #s_exif_info, #s_options_box, #s_help_box {
@@ -149,13 +160,15 @@
     <div id="cont_2"><img src="#" id="image_slide2" alt="Picture buffer 2" /></div>
 
     <div id="controle">
-      <div id="s_next"><img src="{$cfg['color_theme_path']}/images/next.png" alt="{i18n next}"/></div>
-      <div id="s_prev"><img src="{$cfg['color_theme_path']}/images/previous.png" alt="{i18n previous}"/></div>
-      <div id="s_play">{i18n 'Start'}</div>
-      <div id="s_pause">{i18n 'Stop'}</div>
-      <div id="s_info"><img class="myicon" src="slideshow.php?base64=i" alt="{i18n 'Image informations'}"/></div>
-      <div id="s_options"><img class="myicon" src="slideshow.php?base64=o" alt="{i18n 'Slideshow options'}" /></div>
-      <div id="s_help"><img class="myicon" src="slideshow.php?base64=h" alt="{i18n 'About / Keyboard shortcuts'}"/></div>
+      <div id="s_end"><img src="{$cfg['color_theme_path']}/images/sl_end.png" alt="{i18n end}" title="{i18n end}"/></div>
+      <div id="s_next"><img src="{$cfg['color_theme_path']}/images/sl_next.png" alt="{i18n next}" title="{i18n next}"/></div>
+      <div id="s_start"><img src="{$cfg['color_theme_path']}/images/sl_start.png" alt="{i18n start}" title="{i18n start}"/></div>
+      <div id="s_prev"><img src="{$cfg['color_theme_path']}/images/sl_previous.png" alt="{i18n previous}" title="{i18n previous}"/></div>
+      <div id="s_play"><img src="{$cfg['color_theme_path']}/images/sl_play.png" alt="{i18n 'Start'}" title="{i18n 'Start'}"/></div>
+      <div id="s_pause"><img src="{$cfg['color_theme_path']}/images/sl_pause.png" alt="{i18n 'Stop'}" title="{i18n 'Stop'}"/></div>
+      <div id="s_info"><img src="{$cfg['color_theme_path']}/images/sl_info.png" alt="{i18n 'Image informations'}" title="{i18n 'Image informations'}"/></div>
+      <div id="s_options"><img src="{$cfg['color_theme_path']}/images/sl_options.png" alt="{i18n 'Slideshow options'}" title="{i18n 'Slideshow options'}"/></div>
+      <div id="s_help"><img src="{$cfg['color_theme_path']}/images/sl_help.png" alt="{i18n 'About / Keyboard shortcuts'}" title="{i18n 'About / Keyboard shortcuts'}"/></div>
       <br />
     </div>
 

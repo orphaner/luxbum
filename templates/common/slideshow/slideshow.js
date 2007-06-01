@@ -122,6 +122,8 @@ function slide_play(event) {
       // Starting a new slideshow
       in_slideshow = 1;
       id_slidetimeout = window.setTimeout("slide_play(2)", slide_speed*1000);
+      document.getElementById('s_play').style.display='none';
+      document.getElementById('s_pause').style.display='inline';
    }
    else {
       if (event == 2) {
@@ -138,6 +140,8 @@ function slide_play(event) {
 
 
 function slide_pause() {
+   document.getElementById('s_play').style.display='inline';
+   document.getElementById('s_pause').style.display='none';
    in_slideshow = 0;
    window.clearTimeout(id_slidetimeout);
    document.getElementById("image_slide1").onload = function(){return false;};
