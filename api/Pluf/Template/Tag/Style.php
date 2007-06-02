@@ -43,16 +43,16 @@ class Pluf_Template_Tag_Style extends Pluf_Template_Tag
       }
 
       $result = '';
-      $result .= sprintf('<link rel="stylesheet" href="%s" title="%s" type="text/css"/>',
-      TEMPLATE_DIR. Pluf::f('template').'/themes/'.$default.'/'.$default.'.css', '');
+      //$result .= sprintf('<link rel="stylesheet" href="%s" title="%s" type="text/css"/>'."\n", 
+      //                    TEMPLATE_DIR. Pluf::f('template').'/themes/'.$default.'/'.$default.'.css', '');
       while (list ($theme, $title) = each ($GLOBALS['themes_css'])) {
          if ($theme != $default) {
-            $result .= sprintf('<link rel="alternate stylesheet" href="%s" title="%s" type="text/css"/>',
-            TEMPLATE_DIR. Pluf::f('template').'/themes/'.$theme.'/'.$theme.'.css', $title);
+            $result .= sprintf('<link rel="alternate stylesheet" href="%s" title="%s" type="text/css"/>'."\n",
+                                TEMPLATE_DIR. Pluf::f('template').'/themes/'.$theme.'/'.$theme.'.css', $title);
          }
          else {
-            $result .= sprintf('<link rel="stylesheet" href="%s" title="%s" type="text/css"/>',
-            TEMPLATE_DIR. Pluf::f('template').'/themes/'.$default.'/'.$default.'.css', $title);
+            $result .= sprintf('<link rel="stylesheet" href="%s" title="%s" type="text/css"/>'."\n",
+                                TEMPLATE_DIR. Pluf::f('template').'/themes/'.$default.'/'.$default.'.css', $title);
          }
       }
       echo $result;
