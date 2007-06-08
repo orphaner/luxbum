@@ -194,7 +194,7 @@ class CommonGallery extends inc_SortableRecordset {
     * @return string the link url to consult the gallery as a slideshow
     */
    public function getLinkSlideshow() {
-      return link::slideshow($this->dir);
+      return link::slideshow($this->dir, $this->f()->getFile());
    }
 
    /**

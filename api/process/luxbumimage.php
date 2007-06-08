@@ -262,6 +262,13 @@ class luxBumImage extends CommonFile
    function getLinkFullImage() {
       return link::full($this->dir, $this->file);
    }
+   
+   /**
+    * @return string the link url to consult the gallery as a slideshow
+    */
+   public function getLinkSlideshow() {
+      return link::slideshow($this->dir, $this->file);
+   }
 }
 
 ?>

@@ -110,6 +110,10 @@
                 + <a href="javascript:void(0);" onclick="window.open('{$cFile.linkComment}','Comments','width=480,height=540,scrollbars=yes,resizable=yes');">{i18n 'Comments'} 
                   ({$cFile.commentCount})</a>
                 {/if}
+
+                {if $cFile->isImage() && $cfg['show_slideshow']}
+             	+  <a href="javascript:void(0);" onclick="window.open('{$cFile.linkSlideshow}', '{i18n 'Slideshow'}', 'width=670,height=530');">{i18n 'Slideshow'}</a>
+                {/if}
               </td>
 
               <td width="30">

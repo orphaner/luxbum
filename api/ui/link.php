@@ -66,14 +66,10 @@ class link {
    }
 
    // Le lien pour les pages de slideshow
-   function slideshow($dir, $start='') {
+   function slideshow($dir, $file) {
       $dir = link::encode($dir);
-      if($start == '') {
-         return link::prefix().'slide-show/'.$dir;
-      }
-      else {
-         return link::prefix().'slide-show/'.$dir.$start;
-      }
+      $file = link::encode($file);
+      return link::prefix().'slide-show/'.$dir.$file;
    }
 
    function privateGallery($dir) {

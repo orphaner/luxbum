@@ -97,8 +97,7 @@ $dispatcher->registerController('ui_public_InfosMeta', 'action', '#^/meta/(.*)/(
 $dispatcher->registerController('ui_public_Commentaire', 'action', '#^/comments/(.*)/(.*)$#i');
 
 // Image gallery slideshow
-$dispatcher->registerController('ui_public_SlideShow', 'action', '#^/slide\-show/(.*)$#i');
-$dispatcher->registerController('ui_public_SlideShow', 'action', '#^/slide\-show/(.*)/([0-9]+)$#i');
+$dispatcher->registerController('ui_public_SlideShow', 'action', '#^/slide\-show/(.*)/(.*)$#i');
 
 
 // Select the correct view and display it

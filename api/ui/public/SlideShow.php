@@ -26,16 +26,14 @@ class ui_public_SlideShow extends ui_CommonView {
       // Check if the gallery is private
 	  $this->checkFile($dir, $defaultImage);
       $this->checkPrivate($dir);
-
-      $GLOBALS['LB']['dir'] = $dir;
-      $GLOBALS['LB']['title'] =  ' - '.NOM_GALERIE;
-
+      
       $gallery = new luxBumGallery($dir, TYPE_IMAGE_FILE);
       $imgIndex = $gallery->getImageIndex($defaultImage);
       $gallery->setDefaultIndex($imgIndex);
       
 
       $context = new Pluf_Template_Context(array('gallery'  => $gallery, 
+                                                 'first'    => $imgIndex,
                                                  'cfg'      => $GLOBALS['_PX_config']));
       
       $tmpl = new Pluf_Template('slideshow.html');
