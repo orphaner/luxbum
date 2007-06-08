@@ -60,6 +60,8 @@ function slide_addBinds() {
    document.getElementById("s_next").onclick = function(){slide_changeimage(+1); return true;}
    document.getElementById("cont_1").onclick = function(){slide_changeimage(+1); return true;}
    document.getElementById("cont_2").onclick = function(){slide_changeimage(+1); return true;}
+   document.getElementById("s_start").onclick = function(){slide_changeImageTo(0); return true;}
+   document.getElementById("s_end").onclick = function(){slide_changeImageTo(photosURL.length-1); return true;}
    document.getElementById(backImage).onload = function(){backImageLoaded=true;return false;}
    document.getElementById(foreImage).onload = function(){document.getElementById(backImage).style.visibility="visible";return false;}
    document.getElementById("controle").onmouseover = function(){mayControlsBeHidden=0;}
@@ -75,6 +77,8 @@ function slide_removeBinds() {
    document.getElementById("s_help").onclick = function(){return true;};
    document.getElementById("s_prev").onclick = function(){return true;}
    document.getElementById("s_next").onclick = function(){return true;}
+   document.getElementById("s_start").onclick = function(){return true;}
+   document.getElementById("s_end").onclick = function(){return true;}
    document.getElementById("cont_1").onclick = function(){return true;}
    document.getElementById("cont_2").onclick = function(){return true;}
    document.getElementById("controle").onmouseover = function(){return true;}
@@ -98,6 +102,47 @@ function slide_changeimage(increment) {
       document.getElementById(backImage).onload = function(){backImageLoaded=true;return false;}
       getCurrentPhoto(current_bg_index, "bg");
    }
+
+   if (backImageLoaded == false) {
+      window.setTimeout("slide_changeimage(0)", 500);
+   }
+   else {
+      if (smoothtrans==false) {
+         slide_switchFgBg();
+      }
+      else {
+         slide_fadeFromForeToBack();
+      }
+   }
+}
+
+
+/*
+ *  This function is used to change the picture; if increment=1, then
+ *  the next picture is loaded...
+ */
+function slide_changeImageTo(index) {
+   if (index < 0 || index > photosURL.length-1) {
+      return;
+   }
+   if (index == 0) {
+      current_fg_index = photosURL.length-1;
+      current_bg_index = 0;
+   }
+   else if (index == photosURL.length-1) {
+      current_fg_index = 0;
+      current_bg_index = photosURL.length-1;
+   }
+   else {
+      //current_fg_index = index + 1;
+      // TODO: implement
+   }
+   
+   backImageLoaded = false;
+
+   document.getElementById(foreImage).onload = function(){return false;}
+   document.getElementById(backImage).onload = function(){backImageLoaded=true;return false;}
+   getCurrentPhoto(current_bg_index, "bg");
 
    if (backImageLoaded == false) {
       window.setTimeout("slide_changeimage(0)", 500);
