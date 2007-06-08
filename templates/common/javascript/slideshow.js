@@ -18,7 +18,7 @@ var fade_cursor = 0;
 // Startup script
 window.onload = function () {
    current_fg_index = first;
-   current_bg_index = first + 1;alert(current_fg_index+ ' ' + current_bg_index);
+   current_bg_index = first + 1;
    idshowcontroltimeout = window.setTimeout(slide_hideControl, 4000);
 
    document.getElementById(backImage).style.visibility = 'hidden';
