@@ -28,7 +28,6 @@ class ui_public_InfosMeta extends ui_CommonView {
 	  $this->checkFile($dir, $photo);
       $this->checkPrivate($dir);
 
-      verif::photo($dir, $photo);
       $img = new luxBumImage ($dir, $photo);
       $img->metaInit();
       $metas = $img->getMeta();
