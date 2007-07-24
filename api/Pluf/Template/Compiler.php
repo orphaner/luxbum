@@ -89,7 +89,7 @@ class Pluf_Template_Compiler
                                  'lower' => 'strtolower',
                                  'escxml' => 'htmlspecialchars', 
                                  'strip_tags' => 'strip_tags', 
-                                 'escurl' => 'rawurlencode',
+                                 'escurl' => 'Pluf_Template_escurl',
                                  'capitalize' => 'ucwords',
                                  'debug' => 'var_export',
                                  'count' => 'count',

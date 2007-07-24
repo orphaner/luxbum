@@ -204,4 +204,19 @@ function Pluf_Template_dateFormat($string, $format="%b %e, %Y",
     }
 }
 
+/**
+ * modifier plugin : escape an url
+ *
+ * @param string $string input date string
+ * @param boolean $$replaceSlash replace %2F by / ; or not
+ * @return string|void
+ */
+function Pluf_Template_escurl($string, $replaceSlash = true) {
+   $string = rawurlencode($string);
+   if ($replaceSlash) {
+      return str_replace('%2F', '/', $string);
+   }
+   return $string;
+}
+
 ?>
