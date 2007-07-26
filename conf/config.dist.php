@@ -1,5 +1,4 @@
 <?php
-/* -*- tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 /*
  # ***** BEGIN LICENSE BLOCK *****
  # This file is part of Plume Framework, a simple PHP Application Framework.
@@ -34,6 +33,9 @@ $cfg['url_base'] = '';
 
 // Set the index file so that luxbum can be more easily integrated
 $cfg['index_file'] = 'index.php';
+
+// Set the manager file so that luxbum can be more easily integrated
+$cfg['manager_file'] = 'manager.php';
 
 // Set the template to use ;
 // Choices : luxbum / photoblog
@@ -125,6 +127,9 @@ $cfg['mimetype'] = 'text/html';
 
 // url to index file (not necessary index.php)
 $cfg['url_index'] = $cfg['url_base'] . $cfg['index_file'];
+
+// url to manager file (not necessary manager.php)
+$cfg['url_manager'] = $cfg['url_base'] . $cfg['manager_file'];
 
 // Middleware to load
 if ($cfg['debug']) {
