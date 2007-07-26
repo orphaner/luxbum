@@ -1,4 +1,4 @@
-<?php include ('header.php');?>
+{include 'header.html'}
 <script type="text/javascript">
 function toggleBigImage(id, largepath) {
   var imageobj = document.getElementById(id);
@@ -20,27 +20,27 @@ function toggleBigImage(id, largepath) {
 </script>
 
 <div class="rapid_switch">
-  <fieldset><legend><?php ___('Jump to gallery');?> : </legend>
+  <fieldset><legend>{i18n 'Jump to gallery'} : </legend>
     <form mXattribut="action:action_rapid_switch" method="get">
       <input type="hidden" id="p" name="p" value="galerie" />
       <mx:select id="rapid_switch"/>
       <input type="hidden" id="page" name="page" value="0" />
-      <input type="submit" value="<?php ___('Go');?>" id="go_rapid_switch" class="submit" />
+      <input type="submit" value="{i18n 'Go'}" id="go_rapid_switch" class="submit" />
     </form>
   </fieldset>
 </div>
 
 
-<h1 id="h1_admin"><?php ___('Gallery management');?> : <?php lbm::galleryNiceName(false); ?></h1>
+<h1 id="h1_admin">{i18n 'Gallery management'} : <?php lbm::galleryNiceName(false); ?></h1>
 
 <p class="message"><?php lbm::headerMessage(); ?></p>
 
 <script  type="text/javascript" src="_javascript/add_upload.js"></script>
 
-<h2><?php ___('Add a photo');?></h2>
+<h2>{i18n 'Add a photo'}</h2>
 <form enctype="multipart/form-data" mXattribut="action:action_ajout_photo" method="post" name="upload_form" id="upload_form">
   <input type="hidden" name="MAX_FILE_SIZE" mXattribut="value:max_file_size" />
-  <fieldset><legend><?php ___('Add a photo to the current gallery');?> </legend>
+  <fieldset><legend>{i18n 'Add a photo to the current gallery'} </legend>
     <p>
       <div id="positionFile"></div>
       <noscript>
@@ -50,60 +50,60 @@ function toggleBigImage(id, largepath) {
         <input type="file" name="userfile[]" /><br />
         <input type="file" name="userfile[]" /><br />
       </noscript>
-      <input type="button" value="<?php ___('Add an other picture');?>" id="etrombi" onclick="addPosition('positionFile');" />
+      <input type="button" value="{i18n 'Add an other picture'}" id="etrombi" onclick="addPosition('positionFile');" />
     </p>
-    <p><input class="submit" type="submit" value="<?php ___('Send the photos');?>" /></p>
+    <p><input class="submit" type="submit" value="{i18n 'Send the photos'}" /></p>
   </fieldset>
 </form>
 
 
-<h2><?php ___('Gallery cache');?></h2>
+<h2>{i18n 'Gallery cache'}</h2>
 <ul>
-  <li><a mXattribut="url:action_vider_cache"><?php ___('Delete the cache for this gallery');?></a></li>
-  <li><a mXattribut="url:action_generer_cache"><?php ___('Generate the cache for this gallery');?></a></li>
+  <li><a mXattribut="url:action_vider_cache">{i18n 'Delete the cache for this gallery'}</a></li>
+  <li><a mXattribut="url:action_generer_cache">{i18n 'Generate the cache for this gallery'}</a></li>
 </ul>
 
 
-<h2><?php ___('Set a date for all photos');?></h2>
+<h2>{i18n 'Set a date for all photos'}</h2>
 <form mXattribut="action:action_meme_date" method="post">
-  <fieldset><legend><?php ___('Set a date for all photos');?> </legend>
+  <fieldset><legend>{i18n 'Set a date for all photos'} </legend>
     <p>
-      <?php ___('Choose a date (jj/mm/aaaa)');?>
+      {i18n 'Choose a date (jj/mm/aaaa)'}
       <mx:select id="jour"/><mx:select id="mois"/>
       <input type="text" name="meme_date" id="meme_date" mXattribut="value:val_meme_date" style="width:80px;" />
       <span class="erreur"><mx:text id="err_meme_date"/></span>
     </p>
     <p>
-      <input class="submit" type="submit" value="<?php ___('Submit the date');?>" />
+      <input class="submit" type="submit" value="{i18n 'Submit the date'}" />
     </p>
   </fieldset>
 </form>
 
-<h2><?php ___('Photo sort');?></h2>
-<p><strong><?php ___('Manual sort');?></strong> : <a mXattribut="href:triUrl"><?php ___('Sort manually the gallery');?></a></p>
+<h2>{i18n 'Photo sort'}</h2>
+<p><strong>{i18n 'Manual sort'}</strong> : <a mXattribut="href:triUrl">{i18n 'Sort manually the gallery'}</a></p>
 <form mXattribut="action:action_tri" method="post">
-  <fieldset><legend><?php ___('Choose a sort criteria');?></legend>
+  <fieldset><legend>{i18n 'Choose a sort criteria'}</legend>
     <mx:select id="tri"/>
-    <p><input class="submit" type="submit" value="<?php ___('Submit the sort criteria');?>" /></p>
+    <p><input class="submit" type="submit" value="{i18n 'Submit the sort criteria'}" /></p>
   </fieldset>
 </form>
 
 
-<h2><?php ___('Photo list');?></h2>
+<h2>{i18n 'Photo list'}</h2>
 
 <?php if ($res->EOP()): ?>
-<?php ___('There is no photo to consult.');?>
+{i18n 'There is no photo to consult.'}
 <?php else: ?>
 
-<p><?php ___('Clic on the photo to enlarge');?></p>
+<p>{i18n 'Clic on the photo to enlarge'}</p>
 <div id="liste_photo_div">
   <form mXattribut="action:action_date_desc" method="post">
-    <table id="liste_photo" summary="<?php ___('Gallery photo list');?>">
+    <table id="liste_photo" summary="{i18n 'Gallery photo list'}">
       <tr>
-        <th><?php ___('Photo');?></th>
-        <th><?php ___('Date / Description');?></th>
-        <th><?php ___('Default');?></th>
-        <th><?php ___('Delete');?></th>
+        <th>{i18n 'Photo'}</th>
+        <th>{i18n 'Date / Description'}</th>
+        <th>{i18n 'Default'}</th>
+        <th>{i18n 'Delete'}</th>
       </tr>
       <?php while (!$res->EOP()):?>
       <tr mXattribut="class:class_tr">
@@ -112,12 +112,12 @@ function toggleBigImage(id, largepath) {
           <p class="message"><mx:text id="message_date_desc"/></p>
 
           <p>
-            <label for="description" class="float"><strong><?php ___('Description');?> : </strong></label>
+            <label for="description" class="float"><strong>{i18n 'Description'} : </strong></label>
             <input type="text" name="description" id="description" mXattribut="value:val_description" style="width:340px;"/>
             <span class="erreur"><mx:text id="err_description"/></span>
           </p>
           <p>
-            <label for="date" class="float"><strong><?php ___('Date');?> : </strong></label>
+            <label for="date" class="float"><strong>{i18n 'Date'} : </strong></label>
             <mx:select id="jour"/><mx:select id="mois"/>
             <input type="text" name="date" id="date" mXattribut="value:val_date" style="width:80px;" />
             <span class="erreur"><mx:text id="err_date"/></span>
@@ -125,11 +125,11 @@ function toggleBigImage(id, largepath) {
 
         </td>
         <td class="liste_photo_td">
-          <p><em><?php ___('Default');?>:</em><strong><mx:text id="defaut_oui_non"/></strong></p>
-          <p><a mXattribut="href:defaut"><?php ___('Index image');?></a> <img src="_images/manager/ico_set_as_home.png" alt="defaut" /></p>
+          <p><em>{i18n 'Default'}:</em><strong><mx:text id="defaut_oui_non"/></strong></p>
+          <p><a mXattribut="href:defaut">{i18n 'Index image'}</a> <img src="_images/manager/ico_set_as_home.png" alt="defaut" /></p>
         </td>
         <td class="liste_photo_td">
-          <p><a mXattribut="href:del"><img src="<?php lbm::imgSrc('delete.png');?>" alt="<?php ___('Delete');?>" /></a></p>
+          <p><a mXattribut="href:del"><img src="<?php lbm::imgSrc('delete.png');?>" alt="{i18n 'Delete'}" /></a></p>
         </td>
       </tr>
       <?php $res->moveNext();
@@ -137,17 +137,17 @@ function toggleBigImage(id, largepath) {
     </table>
 
     <p>
-      <input class="submit" type="submit" value="<?php ___('Submit');?>" />
-      <input class="submit" type="reset" value="<?php ___('Clear');?>" />
+      <input class="submit" type="submit" value="{i18n 'Submit'}" />
+      <input class="submit" type="reset" value="{i18n 'Clear'}" />
     <p>
   </form>
 
 </div>
 
 <form method="post" mXattribut="action:actionLimitPage">
-  <label for="limitPage" class="float"><strong><?php ___('Number of photos on the page');?></strong></label>
+  <label for="limitPage" class="float"><strong>{i18n 'Number of photos on the page'}</strong></label>
   <input id="limitPage" name="limitPage" type="text" maxlength="3" style="width:40px;" mXattribut="value:limitPage"/>
-  <input class="submit" type="submit" value="<?php ___(' OK ');?>"/>
+  <input class="submit" type="submit" value="{i18n ' OK '}"/>
 </fieldset>
 </form>
 
@@ -155,9 +155,9 @@ function toggleBigImage(id, largepath) {
   <table class="tborder" cellpadding="3" cellspacing="1" border="0">
     <tr>
       <td class="affpage">
-        <?php ___('Page'); ?>
+        {i18n 'Page'); ?>
         <?php lb::paginatorCurrentPage(); ?>
-        <?php ___('on');?>
+        {i18n 'on'}
         <?php lb::paginatorTotalPages(); ?>
       </td>
       <?php while (!$affpage->EOF()):?>
@@ -170,4 +170,4 @@ function toggleBigImage(id, largepath) {
   </table>
 </div>
 <?php endif;?>
-<?php include ('footer.php');?>
+{include 'footer.html'}

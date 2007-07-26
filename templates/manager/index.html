@@ -1,55 +1,55 @@
-<?php include ('header.php');?>
+{include 'header.html'}
 
-<h1 id="h1_admin"><?php ___('Gallery management'); ?></h1>
+<h1 id="h1_admin">{i18n 'Gallery management'); ?></h1>
 
 
 <p class="message"><?php lbm::headerMessage(); ?></p>
 
-<h2><?php ___('Add a gallery');?></h2>
+<h2>{i18n 'Add a gallery'}</h2>
 <form action="<?php lbm::linkActionIndexAddGallery();?>" method="post">
-  <fieldset><legend><?php ___('Add a new gallery');?> </legend>
-    <p><label for="ajout_galerie" class="float"><?php ___('Choose a name : ');?> </label>
+  <fieldset><legend>{i18n 'Add a new gallery'} </legend>
+    <p><label for="ajout_galerie" class="float">{i18n 'Choose a name : '} </label>
       <input type="text" name="ajout_galerie" id="ajout_galerie" mXattribut="value:val_ajout_galerie" />
       <span class="erreur"><mx:text id="err_ajout_galerie"/></span>
     </p>
     <p>
-      <input class="submit" type="submit" value="<?php ___('Create the gallery');?>"/>
+      <input class="submit" type="submit" value="{i18n 'Create the gallery'}"/>
     </p>
   </fieldset>
 </form>
 
 
-<h2><?php ___('Gallery cache');?></h2>
+<h2>{i18n 'Gallery cache'}</h2>
 <ul>
-  <li><a href="<?php lbm::linkActionIndexPurgecache();?>"><?php ___('Delete the cache for all galleries');?></a></li>
-  <li><a href="<?php lbm::linkActionIndexGencache();?>"><?php ___('Generate the cache for all galleries');?></a></li>
+  <li><a href="<?php lbm::linkActionIndexPurgecache();?>">{i18n 'Delete the cache for all galleries'}</a></li>
+  <li><a href="<?php lbm::linkActionIndexGencache();?>">{i18n 'Generate the cache for all galleries'}</a></li>
 </ul>
 
-<h2><?php ___('Gallery sort');?></h2>
-<p><strong><?php ___('Manual sort');?></strong> : <a mXattribut="href:triUrl"><?php ___('Sort manually the galleries.');?></a></p>
+<h2>{i18n 'Gallery sort'}</h2>
+<p><strong>{i18n 'Manual sort'}</strong> : <a mXattribut="href:triUrl">{i18n 'Sort manually the galleries.'}</a></p>
 <form action="<?php lbm::linkActionIndexSort(); ?>" method="post">
-  <fieldset><legend><?php ___('Choose a sort criteria :');?></legend>
+  <fieldset><legend>{i18n 'Choose a sort criteria :'}</legend>
     <?php lbm::indexSortSelect(); ?>
-    <p><input class="submit" type="submit" value="<?php ___('Submit the sort criteria');?>" /></p>
+    <p><input class="submit" type="submit" value="{i18n 'Submit the sort criteria'}" /></p>
   </fieldset>
 </form>
 
-<h2><?php ___('Gallery list');?></h2>
+<h2>{i18n 'Gallery list'}</h2>
 
 
 
 <?php if ($res->EOF()):?>
-<?php ___('There is no gallery to consult.');?>
+{i18n 'There is no gallery to consult.'}
 
 <?php else: ?>
 <div id="liste_photo_div">
-  <table id="liste_photo" summary="<?php ___('Gallery list');?>">
+  <table id="liste_photo" summary="{i18n 'Gallery list'}">
     <tr>
-      <th><?php ___('Gallery');?></th>
-      <th><?php ___('Manage');?></th>
-      <th><?php ___('Rename');?></th>
-      <th><?php ___('Private');?></th>
-      <th><?php ___('Delete');?></th>
+      <th>{i18n 'Gallery'}</th>
+      <th>{i18n 'Manage'}</th>
+      <th>{i18n 'Rename'}</th>
+      <th>{i18n 'Private'}</th>
+      <th>{i18n 'Delete'}</th>
     </tr>
 
     <?php while (!$res->EOF()):?>
@@ -64,7 +64,7 @@
           <?php if (lbm::hasPhotos()):?>
           <span class="infos">
             <?php lbm::galleryNbPhotos();?>
-            <?php ___(' pictures - ');?>
+            {i18n ' pictures - '}
             <?php lbm::galleryNiceSize();?>.
           </span> 
           <?php endif;?>
@@ -82,30 +82,30 @@
 
         <form action="<?php lbm::linkActionIndexGalleryRename();?>" method="post">
           <p>
-            <label mXattribut="for:for_id" class="float"><strong><?php ___('New name');?> : </strong></label>
+            <label mXattribut="for:for_id" class="float"><strong>{i18n 'New name'} : </strong></label>
             <input type="text" name="modifier_galerie" mXattribut="value:val_modifier_galerie;id:id_id" />
             <span class="erreur"><mx:text id="err_modifier_galerie"/></span>
           </p>
           <p>
-            <input class="submit" type="submit" value="<?php ___('Rename');?>" />
+            <input class="submit" type="submit" value="{i18n 'Rename'}" />
           </p>
         </form>
       </td>
       <td class="liste_photo_td">
-        <p><strong><?php ___('Private');?> : </strong>
+        <p><strong>{i18n 'Private'} : </strong>
           <?php if(lbm::isPrivate()):?>
-             <?php ___('yes');?><br />
+             {i18n 'yes'}<br />
              <?php if(lbm::isPrivateExact()):?>
-          		<a href=""><?php ___('set as public');?></a>
+          		<a href="">{i18n 'set as public'}</a>
              <?php endif;?>
           <?php else:?>
-             <?php ___('no');?><br />
-          	<a href=""><?php ___('set as private');?></a>
+             {i18n 'no'}<br />
+          	<a href="">{i18n 'set as private'}</a>
           <?php endif;?>
           </p>
       </td>
       <td class="liste_photo_td">
-        <p><a href="<?php lbm::linkActionIndexGalleryDelete();?>"><img src="<?php lbm::imgSrc('delete.png');?>" alt="<?php ___('Delete');?>" /></a></p>
+        <p><a href="<?php lbm::linkActionIndexGalleryDelete();?>"><img src="<?php lbm::imgSrc('delete.png');?>" alt="{i18n 'Delete'}" /></a></p>
       </td>
     </tr>
     <?php $res->moveNext();
@@ -119,4 +119,4 @@
 
 
 
-<?php include ('footer.php');?>
+{include 'footer.html'}
