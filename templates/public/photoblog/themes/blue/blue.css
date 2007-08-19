@@ -55,7 +55,7 @@ body {
 }
 #gallerytitledisplay {
   border-bottom: 1px solid #E6E6DF;
-  padding-bottom: 120px;
+  padding-bottom: 50px;
   margin-bottom: 12px;
   margin-top: 40px; /* IE Only */
 }
@@ -236,13 +236,16 @@ ul.pagelist li.next {
 }
 .imgnav {
   float: right;
-  width: 250px;
+  width: 150px;
   text-align: center;
   border: 1px solid #D5E6EE;
   background: #EEF5F9;
   margin-top: 13px;
   margin-top: 8px; /* IE Only */
-  height:150px;
+  height:90px;
+}
+.imgnav img {
+  width:60px;
 }
 .imgnav .imgprevious, .imgnav .imgnext {
   display: block;
