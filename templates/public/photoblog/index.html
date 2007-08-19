@@ -30,10 +30,13 @@
     	<h3><a href="{$gallery.linkPrivate}">{i18n 'Private gallery'}</a></h3>
     {else}
     	{if $gallery.totalCount > 0}
-    		<h3><a href="{$gallery.linkConsult}">{i18n 'Consult'}</a></h3>
+    		<h3><a href="{$gallery.linkConsult}">{$gallery.niceName}</a></h3>
     	{/if}
     	
     	{if $gallery->hasSubGallery()}
+    		{if $gallery.totalCount == 0}
+				<h2>{$gallery.niceName}</h2>
+			{/if}
     	    <h3><a href="{$gallery.linkSubGallery}">{i18n 'Sub galleries'}</a></h3>
     	{/if}
     {/if}
