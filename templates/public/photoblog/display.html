@@ -4,13 +4,20 @@
   {if $gallery->isFirst()}
     <div class="imgprevious">&laquo; {i18n 'prev'}</div>
   {else}
-    <div class="imgprevious"><a href="{$gallery.linkPreviousDisplay}">&laquo; {i18n 'prev'}</a></div>
+    <div class="imgprevious">
+      <a href="{$gallery.linkPreviousDisplay}">
+        <img src="{$gallery.imagePreviousDisplay}"/>
+        &laquo; {i18n 'prev'}</a>
+    </div>
   {/if}
   
   {if $gallery->isLast()}
   <div class="imgnext">{i18n 'next'} &raquo;</div>
   {else}
-  <div class="imgnext"><a href="{$gallery.linkNextDisplay}">{i18n 'next'} &raquo;</a></div>
+  <div class="imgnext">
+    <a href="{$gallery.linkNextDisplay}"><img src="{$gallery.imageNextDisplay}"/>
+      {i18n 'next'} &raquo;</a>
+  </div>
   {/if}
 </div>
 

@@ -262,6 +262,32 @@ class CommonGallery extends inc_SortableRecordset {
       $file = $this->f();
       return link::display($file->getDir(), $file->getFile());
    }
+
+   /**
+    * @return string the link url to consult the previous file in a gallery page
+    */
+   public function getImagePreviousDisplay() {
+      if ($this->isFirst()) {
+         return '';
+      }
+      $this->move($this->getDefaultIndex());
+      $this->movePrev();
+      $file = $this->f();
+      return link::thumb($file->getDir(), $file->getFile());
+   }
+   
+   /**
+    * @return string the link url to consult the next file in a gallery page
+    */
+   public function getImageNextDisplay() {
+      if ($this->isLast()) {
+         return '';
+      }
+      $this->move($this->getDefaultIndex());
+      $this->moveNext();
+      $file = $this->f();
+      return link::thumb($file->getDir(), $file->getFile());
+   }
    
    /**
     * Retourne le lien de la vignette de l'image vers le script qui génére

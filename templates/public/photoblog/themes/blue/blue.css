@@ -49,7 +49,7 @@ body {
 }
 #gallerytitle {
   border-bottom: 1px solid #E6E6DF;
-  padding-bottom: 14px;
+  padding-bottom: 120px;
   margin-bottom: 12px;
   margin-top: 40px; /* IE Only */
 }
@@ -230,13 +230,13 @@ ul.pagelist li.next {
 }
 .imgnav {
   float: right;
-  width: 200px;
+  width: 250px;
   text-align: center;
   border: 1px solid #D5E6EE;
   background: #EEF5F9;
   margin-top: 13px;
   margin-top: 8px; /* IE Only */
-  height:30px;
+  height:150px;
 }
 .imgnav .imgprevious, .imgnav .imgnext {
   display: block;
