@@ -7,7 +7,7 @@
   {NavigationMenu $galleries, '%s', ' | '}
 </h2>
 
-<div id="albums">
+<div class="albums">
 
 {if $galleries.intRowCount == 0}
   {i18n 'There is no picture to consult.'}
@@ -17,20 +17,20 @@
 {foreach $galleries as $gallery}
   <div class="album">
     <div class="photo">
-    {if $gallery->isPrivateAndLocked()}
+      {if $gallery->isPrivateAndLocked()}
         <a href="{$gallery.linkPrivate}">
-    {elseif $gallery.totalCount > 0}
+      {elseif $gallery.totalCount > 0}
         <a href="{$gallery.linkConsult}">
-    {elseif $gallery->hasSubGallery()}
+      {elseif $gallery->hasSubGallery()}
         <a href="{$gallery.linkSubGallery}">
-    {/if}
+      {/if}
     <img src="{$gallery.defaultImage}" alt=""/></a>
     </div>
 	    
     <div class="albumdesc">
-    {if $gallery->isPrivateAndLocked()}
+      {if $gallery->isPrivateAndLocked()}
     	<h3><a href="{$gallery.linkPrivate}">{i18n 'Private gallery'}</a></h3>
-    {else}
+      {else}
     	{if $gallery.totalCount > 0}
           <h3><a href="{$gallery.linkConsult}">{$gallery.niceName}</a></h3>
     	{/if}
@@ -40,19 +40,19 @@
     	    <h3><a href="{$gallery.linkSubGallery}">{$gallery.niceName}</a></h3>
           {/if}
         {/if}
-    {/if}
+      {/if}
     
-    {if $gallery.totalCount > 0 && !$gallery->isPrivateAndLocked()}
-    <span class="infos">
-    	{if $gallery.imageCount > 0}
+      {if $gallery.totalCount > 0 && !$gallery->isPrivateAndLocked()}
+        <span class="infos">
+    	  {if $gallery.imageCount > 0}
     		<strong>{$gallery.imageCount}</strong> {i18n ' pictures'} 
-    	{/if}
-    	{if $gallery.flvCount > 0}
+    	  {/if}
+    	  {if $gallery.flvCount > 0}
         	{if $gallery.imageCount > 0} <br/>{/if}
     		<strong>{$gallery.flvCount}</strong> {i18n ' videos'}
-    	{/if}
-    </span>
-    {/if}
+    	  {/if}
+        </span>
+      {/if}
     </div>
 
     <div class="otherlinks">
@@ -70,17 +70,32 @@
 </div>
 
 {if $index && $cfg['show_selection'] && $selection.totalCount > 0}
-<h2>
-  {i18n 'My selection'}
-</h2>
+<p style="clear:both;"></p>
+<div class="albums">
+<h2>{i18n 'My selection'}</h2>
   <div class="album">
-    <a href="{$selection.linkConsult}"><img src="{$selection.defaultImage}" alt=""/></a>
+    <div class="photo">
+      <a href="{$selection.linkConsult}"><img src="{$selection.defaultImage}" alt=""/></a>
+    </div>
     <div class="albumdesc">
+      <h3><a href="{$selection.linkConsult}">{i18n 'My selection'}</a></h3>
+      <span class="infos">
+    	{if $gallery.imageCount > 0}
+    	<strong>{$selection.imageCount}</strong> {i18n ' pictures'} 
+    	{/if}
+    	{if $gallery.flvCount > 0}
+        {if $gallery.imageCount > 0} <br/>{/if}
+    	<strong>{$selection.flvCount}</strong> {i18n ' videos'}
+    	{/if}
+      </span>
+    </div>
+    <div class="otherlinks">
       <h3><a href="{$selection.linkConsult}">{i18n 'Consult'}</a></h3>
       <h3><a href="{$selection.linkDelete}">{i18n 'Delete'}</a></h3>
       <h3><a href="{$selection.linkDownload}">{i18n 'Download'}</a></h3>
     </div>
   </div>
+</div>
   <p style="clear:both;"></p>
 {/if}
   <p style="clear:both;"></p>

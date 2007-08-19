@@ -174,10 +174,10 @@ ul.pagelist li.next {
 
 /* Album Thumbnails
    */
-#albums {
+.albums {
   width:680px;
 }
-#albums .album {
+.albums .album {
   float:left;
   width:110px;
   margin-right:10px;
@@ -187,34 +187,33 @@ ul.pagelist li.next {
   border: 1px solid #E7F0F5;
   background: #FBFCFD;
 }
-#albums .album .photo {
+.albums .album .photo {
   text-align:center;
 }
-#albums .album h3 {
+.albums .album h3 {
   text-align:center;
   font-size:1.1em;
   padding: 0;
   margin: 0;
 }
-#albums .album .albumdesc h3 a {
+.albums .album .albumdesc h3 a {
   display: inline;
 }
-#albums .album p {
+.albums .album p {
   margin: 0 0 4px 0;
 }
-#albums .album .albumdesc {
-  padding:5px;
+.albums .album .albumdesc {
+  padding:5px 5px 0px 5px;
 }
-#albums .album .albumdesc .infos {
-
+.albums .album .albumdesc .infos {
   color: #8DB8CF;
 }
-#albums .album .otherlinks h3 {
+.albums .album .otherlinks h3 {
   text-align:left;
   font-size:0.9em;
   padding-left:5px;
 }
-#albums .album .otherlinks h3 a{
+.albums .album .otherlinks h3 a{
   text-decoration:none;
 }
 
