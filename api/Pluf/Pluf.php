@@ -174,5 +174,39 @@ class Pluf
         // never found it
         return false;
     }
+    
+
+    /**
+     * Helper to load the default database connection.
+     *
+     * The default database connection is defined in the configuration file
+     * through the following configuration variables:
+     * - db_login : Login to connect to the database
+     * - db_password : Password to the database
+     * - db_server : Name of the server
+     * - db_database : Name of the database
+     * - db_table_prefix : Prefix for the table names
+     * - db_version : Version of the database engine
+     * - db_engine : Engine for exampe 'MySQL', 'SQLite'
+     *
+     * Once the first connection is created the following calls to Pluf::db()
+     * are getting the same connection.
+     */
+    public static function &db()
+    {
+        if (isset($GLOBALS['_PX_db']) 
+            && is_resource($GLOBALS['_PX_db']->con_id)) {
+            return $GLOBALS['_PX_db'];
+        }
+        $GLOBALS['_PX_db'] = Pluf_DB::get(Pluf::f('db_engine'), 
+                                          Pluf::f('db_server'),    
+                                          Pluf::f('db_database'),
+                                          Pluf::f('db_login'), 
+                                          Pluf::f('db_password'),
+                                          Pluf::f('db_table_prefix'), 
+                                          Pluf::f('debug'),
+                                          Pluf::f('db_version'));
+        return $GLOBALS['_PX_db'];
+    }
 }
 ?>
