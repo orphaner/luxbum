@@ -16,7 +16,7 @@ class Pluf
      *
      * @param string Configuration file to use.
      */
-    static function start($config='')
+    public static function start($config='')
     {
         $GLOBALS['_PX_starttime'] = microtime(true);
         if ($config != '') {
@@ -38,13 +38,15 @@ class Pluf
      *
      * @param string Configuration file to load.
      */
-    static function loadConfig($config_file)
+    public static function loadConfig($config_file)
     {
         if (false !== ($file=Pluf::fileExists($config_file))) {
             $GLOBALS['_PX_config'] = require $file;
         } else {
             throw new Exception('Configuration file does not exist: '.$config_file);
         }
+        // Load the base model relations
+        $GLOBALS['_PX_models'] = require 'api/model/relations.php';
     }
 
     /**
@@ -54,7 +56,7 @@ class Pluf
      * @param mixed Possible default value if value is not set ('')
      * @return mixed Configuration variable or default value if not defined.
      */
-    static function f($cfg, $default='')
+    public static function f($cfg, $default='')
     {
         if (isset($GLOBALS['_PX_config'][$cfg])) {
             return $GLOBALS['_PX_config'][$cfg];
