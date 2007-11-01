@@ -307,8 +307,12 @@ class Pluf_Model extends Pluf_Error
      */
     function __get($prop)
     {
-        if (isset($this->$prop)) return $this->$prop;
-        if (isset($this->_data[$prop])) return $this->_data[$prop];
+        if (isset($this->$prop)){
+           return $this->$prop;
+        }
+        if (isset($this->_data[$prop])) {
+            return $this->_data[$prop];
+        }
         else try {
             return $this->__call($prop, array());
         } catch (Exception $e) {
@@ -365,6 +369,34 @@ class Pluf_Model extends Pluf_Error
             $args = array_merge(array($this->_methods_extra[$method][0], $method, $this), $args);
             Pluf::loadFunction($this->_methods_extra[$method][1]);
             return call_user_func_array($this->_methods_extra[$method][1], $args);
+        }
+        
+        // Getter
+        $prop = strtolower(substr($method, 3));
+        if (substr($method, 0, 3) === "get") {
+            if (isset($this->$prop)){
+                 return $this->$prop;
+            }
+            if (isset($this->_data[$prop])) {
+                 return $this->_data[$prop];
+            }
+        }
+        
+        // Setter
+        $val = $args[0];
+        if (substr($method, 0, 3) === "set") {
+            if (isset($this->$prop)) {
+                $this->$prop = $val;
+                return;
+            }
+            elseif (isset($this->_fk[$prop])) {
+                $this->_data[$prop] = $val->id;
+                return;
+            }
+            elseif (isset($this->_cols[$prop])) {
+                $this->_data[$prop] = $val;
+                return;
+            }
         }
         throw new Exception(sprintf('Method "%s" not available', $method));
     }
