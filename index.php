@@ -62,7 +62,7 @@ class lbPostAction {
 
 // Index views
 $dispatcher->registerController('ui_public_Index', 'index', '#^/$#i');
-$dispatcher->registerController('ui_public_Index', 'index', '#^/folder/(.*)/$#i');
+$dispatcher->registerController('ui_public_Index', 'folder', '#^/folder/(.*)/$#i');
 
 // View files (image & flv)
 $dispatcher->registerController('ui_public_FileDownload', 'image', '#^/image/(vignette|apercu|index|full)/(.+)/(.+)$#i');
@@ -80,12 +80,9 @@ $dispatcher->registerController('ui_public_Display', 'selection', '#^/selectiond
 
 // Private views
 $dispatcher->registerController('ui_public_Private', 'action', '#^/private/(.*)/$#i');
-$dispatcher->registerController('ui_public_Private', 'action', '#^/private/(.*)/(.*)$#i');
 
 // Gallery views
-$dispatcher->registerController('ui_public_Gallery', 'view', '#^/gallery/(.*)/$#i');
 $dispatcher->registerController('ui_public_Gallery', 'view', '#^/gallery/(.*)/(.*)$#i');
-$dispatcher->registerController('ui_public_Gallery', 'view', '#^/gallery/(.+)/(.+\.flv)$#i');
 
 // File display view
 $dispatcher->registerController('ui_public_Display', 'view', '#^/display/(.*)/(.*)$#i');
