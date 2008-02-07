@@ -46,7 +46,9 @@ class Pluf
             throw new Exception('Configuration file does not exist: '.$config_file);
         }
         // Load the base model relations
-        $GLOBALS['_PX_models'] = require 'api/model/relations.php';
+		if (file_exists('api/model/relations.php')) {
+           $GLOBALS['_PX_models'] = require 'api/model/relations.php';
+	    }
     }
 
     /**
