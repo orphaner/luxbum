@@ -29,13 +29,7 @@ $cfg = array();
 
 // Set the base url of the installed luxbum.
 // /!\ Warning : the tail / is needed
-$cfg['url_base'] = '';
-
-// Set the index file so that luxbum can be more easily integrated
-$cfg['index_file'] = 'index.php';
-
-// Set the manager file so that luxbum can be more easily integrated
-$cfg['manager_file'] = 'manager.php';
+$cfg['url_base'] = 'http://www.mydomain.com/pâth/to/luxbum/';
 
 // Set the template to use ;
 // Choices : luxbum / photoblog
@@ -44,20 +38,25 @@ $cfg['template'] = 'luxbum';
 // Set the color theme of the selected template
 $cfg['template_theme'] = 'light';
 
+// Set the name of the gallery. It will be displayed in 
+// the title of all the pages
+$cfg['gallery_name'] = 'My gallery name';
+
 
 /******************************************************************
   Base configuration 
   Can be edited
 **/
+// Set the index file so that luxbum can be more easily integrated
+$cfg['index_file'] = 'index.php';
 
-// Set the name of the gallery. It will be displayed in 
-// the title of all the pages
-$cfg['gallery_name'] = '';
+// Set the manager file so that luxbum can be more easily integrated
+$cfg['manager_file'] = 'manager.php';
 
 // Use rewrite rules to generate url's. The url looks like
 // to be a path to a real file, but it doesn't.
 // When disabled, a '?/' is displayed in the url
-$cfg['use_rewrite'] = true;
+$cfg['use_rewrite'] = false;
 
 // Set the date format to display dates in luxbum.
 $cfg['date_format'] = '%A %e %B %Y';
@@ -97,9 +96,7 @@ $cfg['allow_dl_selection'] = false;
 
 // Driver to use to generate thumbs
 // Choices : gd / imagemagick 
-$cfg['image_generation_driver'] = 'imagemagick';
-
-
+$cfg['image_generation_driver'] = 'gd';
 
 
 /******************************************************************
