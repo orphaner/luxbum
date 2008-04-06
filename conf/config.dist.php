@@ -29,7 +29,7 @@ $cfg = array();
 
 // Set the base url of the installed luxbum.
 // /!\ Warning : the tail / is needed
-$cfg['url_base'] = 'http://www.mydomain.com/pâth/to/luxbum/';
+$cfg['url_base'] = 'http://www.mydomain.com/path/to/luxbum/';
 
 // Set the template to use ;
 // Choices : luxbum / photoblog
