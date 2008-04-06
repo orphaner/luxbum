@@ -4,7 +4,6 @@ RewriteRule ^(flv|flvdl|image|gallery|folder|meta|display|comments|slide\-show|p
 
 RewriteRule ^(select|unselect|selectall|unselectall|selectiong|selectiond|deleteselection|downloadselection)/(.*)$ /index.php?/$1/$2
 
-RewriteRule ^(.*)/_javascript/(.*)$ /_javascript/$2 [L]
 RewriteRule ^(.*)/templates/(.*)$ /templates/$2 [L]
 
 
