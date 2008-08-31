@@ -6,8 +6,9 @@
   {else}
     <div class="imgprevious">
       <a href="{$gallery.linkPreviousDisplay}">
+        &laquo; {i18n 'prev'}
         <img src="{$gallery.imagePreviousDisplay}"/>
-        &laquo; {i18n 'prev'}</a>
+      </a>
     </div>
   {/if}
   
@@ -15,8 +16,10 @@
   <div class="imgnext">{i18n 'next'} &raquo;</div>
   {else}
   <div class="imgnext">
-    <a href="{$gallery.linkNextDisplay}"><img src="{$gallery.imageNextDisplay}"/>
-      {i18n 'next'} &raquo;</a>
+    <a href="{$gallery.linkNextDisplay}">
+      {i18n 'next'} &raquo;
+      <img src="{$gallery.imageNextDisplay}"/>
+    </a>
   </div>
   {/if}
 </div>

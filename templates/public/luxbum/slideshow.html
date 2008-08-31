@@ -17,16 +17,19 @@
   <script type="text/javascript">
     <!--
       var photosURL = new Array();
+      var ids = new Array();
 
       {assign $cpt =0}
       {foreach $gallery as $img}
       photosURL[{$cpt}] = "{$img.previewUrl}";
+      ids[{$cpt}] = "{$img.dir|escurl}{$img.file|escurl}";
       {assign $cpt=$cpt+1}
       {/foreach}
 
       var smoothtrans = {$cfg['slideshow_fading']}; // Set this to false to prevent any fading effect
       var slide_speed = {$cfg['slideshow_time']};
       var first = {$first};
+      var urlbase = '{$cfg['url_base']}';
      -->
   </script>
 
